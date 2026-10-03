@@ -1,0 +1,7 @@
+{
+  "rabbitmq_version": "4.3.6",
+  "erlang_version": "27.3.4.10",
+  "product_name": "RabbitMQ",
+  "product_version": "4.3.6",
+  "node": "pawdaym22@localhost"
+}

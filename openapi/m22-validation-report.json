@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "validated_at_utc": "2026-10-03T10:17:16.036356+00:00",
+  "operations": 34,
+  "schemas": 35,
+  "actual_http_responses_validated": 0,
+  "covered_method_path_status_count": 0,
+  "covered_responses": [],
+  "note": "Only captured responses are runtime-verified; OpenAPI validation does not establish runtime coverage for every operation."
+}
