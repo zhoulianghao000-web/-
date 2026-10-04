@@ -1,6 +1,7 @@
 import {createHmac} from 'node:crypto';
 import {test,expect} from '@playwright/test';
 test.skip(!process.env.PAWDAY_REAL_E2E,'Run in the mandatory real-infrastructure CI job');
+test.use({actionTimeout:15000});
 function totp(){
   const secret=process.env.PAWDAY_DEMO_ADMIN_TOTP_BASE64;
   if(!secret)throw new Error('Real admin TOTP fixture must be explicitly configured');
@@ -19,8 +20,8 @@ test('real merchant login, scope, refresh rotation and cross-realm rejection',as
   await page.getByRole('link',{name:'账号与设备'}).click();await expect(page.getByText('当前设备',{exact:true})).toBeVisible();await page.getByRole('button',{name:'注销其他设备',exact:true}).click();await page.getByLabel('再次输入密码').fill(password);await page.getByRole('button',{name:'验证并注销其他设备',exact:true}).click();await expect(page.getByRole('status')).toHaveText('其他设备的会话已注销。');
   await page.getByRole('button',{name:'退出登录'}).click();await expect(page).toHaveURL(/\/login$/);
 });
-test('real administrator TOTP login and audit HTTP response',async({page})=>{
-  test.setTimeout(120000);
+test('real administrator TOTP, catalog publication, merchant correction and review',async({page,browser})=>{
+  test.setTimeout(480000);
   const password=process.env.PAWDAY_DEMO_ADMIN_PASSWORD;if(!password)throw new Error('Real admin fixture required');
   await page.goto('http://127.0.0.1:5174/audit');await page.getByLabel('账号',{exact:true}).fill('local-admin');await page.getByLabel('密码',{exact:true}).fill(password);await page.getByLabel('动态验证码',{exact:true}).fill(totp());await page.getByRole('button',{name:'登录工作台'}).click();
   await expect(page).toHaveURL('http://127.0.0.1:5174/audit');await expect(page.getByRole('table')).toBeVisible();await expect(page.getByRole('alert')).toHaveCount(0);
@@ -34,4 +35,27 @@ test('real administrator TOTP login and audit HTTP response',async({page})=>{
   const taxonomyStep=Math.floor(Date.now()/30000);await expect.poll(()=>Math.floor(Date.now()/30000),{timeout:32000,intervals:[250]}).toBeGreaterThan(taxonomyStep);
   await page.getByLabel('再次输入密码').fill(password);await page.getByLabel('新的动态验证码').fill(totp());await form.getByRole('button',{name:'保存词典项'}).click();await expect(page.getByRole('status')).toHaveText('已保存，操作已记录。');
   await page.getByRole('link',{name:'审计记录'}).click();await expect(page.getByRole('cell',{name:'pet.taxonomy.create',exact:true}).first()).toBeVisible();
+  await page.getByRole('link',{name:'标准商品',exact:true}).click();
+  await expect(page.getByRole('heading',{name:'标准商品与审核'})).toBeVisible();
+  const fresh=async()=>{const step=Math.floor(Date.now()/30000);await expect.poll(()=>Math.floor(Date.now()/30000),{timeout:32000,intervals:[250]}).toBeGreaterThan(step);await page.getByLabel('再次输入密码').fill(password);await page.getByLabel('新的动态验证码').fill(totp());};
+  const saved=async()=>{await expect(page.getByRole('status')).toHaveText('已保存，操作已记录。');await expect(page.getByLabel('再次输入密码')).toHaveValue('');};
+  const label=`CI REAL TEST ${Date.now()}`;
+  await page.getByText('新建品牌、商品与规格',{exact:true}).click();
+  const brandForm=page.locator('form').filter({has:page.getByRole('heading',{name:'品牌',exact:true})});
+  await brandForm.getByLabel('名称',{exact:true}).fill(label);await brandForm.getByLabel('来源依据',{exact:true}).fill('TEST-ONLY generated browser fixture, not real merchandise');await fresh();await brandForm.getByRole('button',{name:'创建品牌'}).click();await saved();
+  const spuForm=page.locator('form').filter({has:page.getByRole('heading',{name:'标准商品',exact:true})});
+  await spuForm.getByRole('combobox',{name:'品牌',exact:true}).selectOption({label},{timeout:10000});await spuForm.getByLabel('商品名称').fill(label);await spuForm.getByLabel('商品类目').fill('DRY_FOOD');await fresh();await spuForm.getByRole('button',{name:'创建商品'}).click();await saved();
+  const skuForm=page.locator('form').filter({has:page.getByRole('heading',{name:'标准规格',exact:true})});
+  await skuForm.getByRole('combobox',{name:'所属商品',exact:true}).selectOption({label},{timeout:10000});await skuForm.getByLabel('规格标识').fill(label);await skuForm.getByLabel('净重（克）').fill('1000');await fresh();await skuForm.getByRole('button',{name:'创建规格'}).click();await saved();
+  await page.locator('article').filter({has:page.getByRole('heading',{name:label,exact:true})}).getByRole('button',{name:'查看标准资料'}).click();
+  const standardForm=page.locator('form').filter({has:page.getByRole('heading',{name:'创建新的资料草稿',exact:true})});
+  await standardForm.getByLabel('配料（每行一项，保留原始顺序）').fill('TEST-ONLY ingredient');await standardForm.getByLabel('来源依据（每行一条）').fill('TEST-ONLY label fixture');await standardForm.getByLabel('来源更新日期').fill('2026-10-01');await fresh();await standardForm.getByRole('button',{name:'保存新草稿'}).click();await saved();
+  await fresh();await page.getByRole('button',{name:'发布此版本'}).click();await saved();await expect(page.getByRole('heading',{name:'版本 1 · PUBLISHED'})).toBeVisible();
+  const context=await browser.newContext(),merchantPage=await context.newPage();
+  await merchantPage.goto('http://127.0.0.1:5173/catalog');await merchantPage.getByLabel('账号',{exact:true}).fill('local-staff-a');await merchantPage.getByLabel('密码',{exact:true}).fill(process.env.PAWDAY_DEMO_MERCHANT_PASSWORD!);await merchantPage.getByRole('button',{name:'登录工作台'}).click();await expect(merchantPage.getByRole('heading',{name:'平台标准商品'})).toBeVisible();
+  await merchantPage.locator('article').filter({has:merchantPage.getByRole('heading',{name:label,exact:true})}).getByRole('button',{name:'查看标准资料'}).click();await expect(merchantPage.getByRole('button',{name:'发布此版本'})).toHaveCount(0);
+  await merchantPage.getByLabel('配料（每行一项，保留原始顺序）').fill('TEST-ONLY corrected ingredient');await merchantPage.getByLabel('纠错原因').fill('TEST-ONLY packaging correction');await merchantPage.getByRole('button',{name:'提交审核',exact:true}).click();await expect(merchantPage.getByRole('status')).toHaveText('已保存，操作已记录。');
+  await page.getByRole('button',{name:'刷新',exact:true}).click();await expect(page.getByText('TEST-ONLY packaging correction',{exact:true})).toBeVisible();await page.getByLabel('审核理由').fill('TEST-ONLY source reviewed');await fresh();await page.getByRole('button',{name:'批准并发布新版本'}).click();await saved();await expect(page.getByRole('heading',{name:'版本 2 · PUBLISHED'})).toBeVisible();
+  await merchantPage.getByRole('button',{name:'刷新',exact:true}).click();await merchantPage.locator('article').filter({has:merchantPage.getByRole('heading',{name:label,exact:true})}).getByRole('button',{name:'查看标准资料'}).click();await expect(merchantPage.getByRole('heading',{name:'版本 2 · PUBLISHED'})).toBeVisible();await expect(merchantPage.getByRole('heading',{name:'版本 1 · RETIRED'})).toHaveCount(0);
+  await page.screenshot({path:'frontend-evidence/m32-real-admin-catalog.png',fullPage:true});await merchantPage.screenshot({path:'frontend-evidence/m32-real-merchant-catalog.png',fullPage:true});await context.close();
 });

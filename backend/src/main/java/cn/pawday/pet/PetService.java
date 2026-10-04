@@ -17,9 +17,9 @@ import tools.jackson.databind.json.JsonMapper;
 @Service
 public class PetService {
  private final JdbcTemplate db; private final TransactionTemplate tx; private final AuditWriter audit;
- private final Crypto crypto; private final Clock clock; private final JsonMapper json=JsonMapper.builder().build();
+ private final cn.pawday.common.IdempotentCommandExecutor commands; private final Clock clock; private final JsonMapper json=JsonMapper.builder().build();
  private static final Set<String> FIELDS=Set.of("name","species_id","breed_id","birth_date","age_estimate_months","sex","neutered_status","allergens","avoidance_notes");
- public PetService(JdbcTemplate db,TransactionTemplate tx,AuditWriter audit,Crypto crypto,Clock clock){this.db=db;this.tx=tx;this.audit=audit;this.crypto=crypto;this.clock=clock;}
+ public PetService(JdbcTemplate db,TransactionTemplate tx,AuditWriter audit,cn.pawday.common.IdempotentCommandExecutor commands,Clock clock){this.db=db;this.tx=tx;this.audit=audit;this.commands=commands;this.clock=clock;}
  static void check(boolean valid){if(!valid)throw new Failure(400,"VALIDATION_ERROR");}
  public static String text(Object value,int max){check(value instanceof String && !((String)value).isBlank() && ((String)value).length()<=max);return ((String)value).trim();}
  public static UUID uuid(Object value){try{return UUID.fromString(String.valueOf(value));}catch(Exception ex){throw new Failure(400,"VALIDATION_ERROR");}}
@@ -28,17 +28,7 @@ public class PetService {
  private LocalDate today(){return LocalDate.now(clock.withZone(ZoneId.of("Asia/Shanghai")));}
  private LocalDate date(Object raw){try{LocalDate d=LocalDate.parse(String.valueOf(raw));check(!d.isAfter(today())&&d.getYear()>=1900);return d;}catch(Failure f){throw f;}catch(Exception ex){throw new Failure(400,"VALIDATION_ERROR");}}
  private void consumer(Actor a){if(a.realm()!=Actor.Realm.CONSUMER||a.userId()==null)throw new Failure(403,"PERMISSION_DENIED");}
- public Map<String,Object> command(Actor actor,String action,String key,Object payload,Supplier<Map<String,Object>> work){
-  if(key==null||key.length()<16||key.length()>128)throw new Failure(400,"IDEMPOTENCY_KEY_REQUIRED");
-  String hash=crypto.hash(json.writeValueAsString(canonical(payload)));
-  return tx.execute(s->{
-   db.queryForList("SELECT pg_advisory_xact_lock(hashtextextended(?,0))",actor.principalId()+":"+action+":"+key);
-   var prior=db.queryForList("SELECT payload_hash,result_json FROM identity_command WHERE principal_id=? AND action=? AND idempotency_key=?",actor.principalId(),action,key);
-   if(!prior.isEmpty()){if(!hash.equals(prior.getFirst().get("payload_hash")))throw new Failure(409,"IDEMPOTENCY_KEY_REUSED_WITH_DIFFERENT_PAYLOAD");return json.readValue(prior.getFirst().get("result_json").toString(),Map.class);}
-   var result=work.get();db.update("INSERT INTO identity_command(principal_id,action,idempotency_key,payload_hash,result_json) VALUES (?,?,?,?,?::jsonb)",actor.principalId(),action,key,hash,json.writeValueAsString(result));return result;
-  });
- }
- private Object canonical(Object value){if(value instanceof Map<?,?> map){Map<String,Object> sorted=new TreeMap<>();map.forEach((k,v)->sorted.put(k.toString(),canonical(v)));return sorted;}if(value instanceof List<?> values)return values.stream().map(this::canonical).toList();return value;}
+ public Map<String,Object> command(Actor actor,String action,String key,Object payload,Supplier<Map<String,Object>> work){return commands.command(actor,action,key,payload,work);}
  public record ResultPage(List<Map<String,Object>> data,String nextCursor,boolean hasMore) {}
  public ResultPage list(Actor a,String cursor,int limit){consumer(a);check(limit>=1&&limit<=100);UUID after=cursor==null?new UUID(0,0):uuid(cursor);return tx.execute(s->{var rows=db.queryForList("SELECT id FROM pets WHERE owner_user_id=? AND status='ACTIVE' AND id>? ORDER BY id LIMIT ?",a.userId(),after,limit+1);boolean more=rows.size()>limit;var data=rows.stream().limit(limit).map(row->get(a,(UUID)row.get("id"))).toList();return new ResultPage(data,more?data.getLast().get("id").toString():null,more);});}
  private Map<String,Object> owned(Actor a,UUID id){consumer(a);var rows=db.queryForList("SELECT * FROM pets WHERE id=? AND owner_user_id=? AND status='ACTIVE' FOR UPDATE",id,a.userId());if(rows.isEmpty())throw new Failure(404,"RESOURCE_NOT_FOUND");return rows.getFirst();}

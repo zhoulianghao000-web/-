@@ -67,6 +67,20 @@ class RabbitOutboxIT {
         db.update("INSERT INTO role(id,scope_type,code,name) VALUES (?,'ADMIN','TEST M22','TEST M22 admin')",role);db.update("INSERT INTO role_permission SELECT ?,id FROM permission WHERE code IN ('outbox.read','outbox.replay','audit.read')",role);db.update("INSERT INTO principal_role VALUES (?,?,'ADMIN')",adminId,role);
     }
     @AfterEach void cleanup() throws Exception {if(channel!=null && channel.isOpen())channel.close();if(connection!=null && connection.isOpen())connection.close();}
+    @Test void catalogStandardFactIsConfirmedAndRetainedInItsDurableQueue() throws Exception {
+        channel.queuePurge(RabbitTopology.CATALOG_STANDARD_QUEUE);
+        UUID sku=UUID.randomUUID(),version=UUID.randomUUID();
+        UUID event=tx.execute(s->writer.append("CATALOG_SKU",sku.toString(),"CatalogStandardPublished",1,Map.of("sku_id",sku.toString(),"standard_version_id",version.toString()),null));
+        assertEquals("PENDING",state(event));assertTrue(publisher.publishOne());assertEquals("PUBLISHED",state(event));
+        var delivery=next(RabbitTopology.CATALOG_STANDARD_QUEUE);var body=json.readTree(delivery.getBody());
+        assertEquals("CatalogStandardPublished",body.get("event_type").asString());
+        assertEquals(version.toString(),body.get("payload").get("standard_version_id").asString());
+        // No consumer/ack: channel failure returns the retained fact to the quorum queue.
+        channel.close();channel=connection.createChannel();var retained=next(RabbitTopology.CATALOG_STANDARD_QUEUE);
+        assertTrue(retained.getEnvelope().isRedeliver());assertEquals(event.toString(),retained.getProps().getMessageId());
+        channel.basicAck(retained.getEnvelope().getDeliveryTag(),false);
+        assertEquals(0,count("sms_delivery"));
+    }
     UUID event(int version) {
         return tx.execute(s->{UUID id=UUID.randomUUID();String code=crypto.otp();db.update("INSERT INTO otp_challenge(id,phone_e164,purpose,code_hash,expires_at,created_at,delivery_secret_ciphertext) VALUES (?,'+8613800000001','LOGIN',?,?,?,?)",id,crypto.otpHash(id.toString(),code),Timestamp.from(clock.instant().plusSeconds(600)),Timestamp.from(clock.instant()),crypto.encrypt(code.getBytes(StandardCharsets.UTF_8)));return writer.append("OTP_CHALLENGE",id.toString(),"otp.sms.requested",version,Map.of("challenge_id",id.toString()),UUID.randomUUID().toString());});
     }

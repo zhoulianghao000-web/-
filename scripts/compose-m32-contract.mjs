@@ -1,0 +1,67 @@
+import fs from 'node:fs/promises';
+import YAML from 'yaml';
+const doc=YAML.parse(await fs.readFile(new URL('../openapi/pawday-m3.1.yaml',import.meta.url),'utf8'));
+doc.info.title='Pawday M3.2 Standard Catalog and Review API';doc.info.version='0.3.2';
+doc.info.description='Implemented infrastructure, pets and sourced platform catalog. Offer, fit and catalog-search projection belong to subsequent milestones.';
+const s=doc.components.schemas;
+s.Reverify.properties.action.enum.push('catalog.standard.write');
+const ref=name=>({$ref:`#/components/schemas/${name}`});
+const str=(max=160)=>({type:'string',minLength:1,maxLength:max});
+const id=()=>({type:'string',format:'uuid'});
+const num=(min=0,max=9007199254740991)=>({type:'integer',minimum:min,maximum:max});
+const nullable=x=>({anyOf:[x,{type:'null'}]});
+const array=(items,max=200)=>({type:'array',items,maxItems:max});
+const obj=(properties,required=Object.keys(properties))=>({type:'object',additionalProperties:false,properties,required});
+const choice=(...values)=>({type:'string',enum:values});
+const timestamp={type:'string',format:'date-time'};
+s.CatalogNutrient=obj({name:str(80),value_milli:num(0,1000000000),unit:choice('PERCENT','MG_PER_KG','G_PER_KG','KCAL_PER_KG'),basis:choice('AS_FED','DRY_MATTER'),qualifier:choice('MIN','MAX','EXACT')});
+s.CatalogStandardInput=obj({ingredients:{...array(str(200)),minItems:1},nutrients:array(ref('CatalogNutrient'),100),allergen_ids:array(id(),100),allergens_known:{type:'boolean'},life_stage_ids:array(id(),30),source_refs:{...array(str(2000),20),minItems:1},source_updated_on:{type:'string',format:'date'}});
+s.CatalogBrandInput=obj({name:str(),source_ref:str(2000)});
+s.CatalogSpuInput=obj({brand_id:id(),name:str(),pet_category:choice('CAT','DOG','AQUATIC','BIRD','SMALL_PET'),category:str(80)});
+s.CatalogSkuInput=obj({spu_id:id(),sku_code:str(80),barcode:nullable(str(80)),weight_g:num(1,100000000),package_unit:str(40)});
+s.CatalogCreated=obj({id:id(),status:choice('ACTIVE')});
+s.CatalogBrand=obj({id:id(),...s.CatalogBrandInput.properties,status:choice('ACTIVE','RETIRED')});
+s.CatalogSpu=obj({id:id(),...s.CatalogSpuInput.properties,status:choice('ACTIVE','RETIRED')});
+s.CatalogSku=obj({id:id(),...s.CatalogSkuInput.properties,status:choice('ACTIVE','RETIRED'),version:num()});
+s.CatalogStandard=obj({id:id(),sku_id:id(),version_no:num(1),status:choice('DRAFT','PUBLISHED','RETIRED'),...s.CatalogStandardInput.properties,created_by:id(),created_at:timestamp,published_at:nullable(timestamp)});
+s.CatalogSkuDetail=obj({...s.CatalogSku.properties,standard_versions:array(ref('CatalogStandard'),10000)});
+s.CatalogDrafted=obj({id:id(),sku_id:id(),version_no:num(1),status:choice('DRAFT'),sku_version:num()});
+s.CatalogPublished=obj({id:id(),sku_id:id(),status:choice('PUBLISHED'),sku_version:num()});
+s.CatalogCorrectionInput=obj({sku_id:id(),base_sku_version:num(),reason:str(2000),standard:ref('CatalogStandardInput')});
+s.CatalogRequestCreated=obj({id:id(),status:choice('PENDING'),version:num()});
+s.CatalogReviewInput=obj({reason:str(2000)});
+s.CatalogReviewed=obj({id:id(),status:choice('APPROVED','REJECTED'),version:num()});
+s.CatalogReview=obj({id:id(),request_id:id(),reviewer_id:id(),decision:choice('APPROVED','REJECTED'),reason:str(2000),created_at:timestamp});
+s.CatalogRequest=obj({id:id(),merchant_id:id(),submitted_by:id(),sku_id:id(),base_sku_version:num(),proposal:ref('CatalogStandardInput'),reason:str(2000),status:choice('PENDING','APPROVED','REJECTED'),version:num(),result_version_id:nullable(id()),created_at:timestamp,reviews:array(ref('CatalogReview'),1)});
+s.CatalogImportInput=obj({format:choice('CSV','XLSX'),content_base64:str(2800000)});
+// Invalid rows retain parse/validation diagnostics and their untrusted input for preview only.
+s.CatalogImportRow=obj({batch_id:id(),row_no:num(1,200),payload:{type:'object',additionalProperties:true},error_codes:array(str(80),20),base_sku_version:nullable(num()),result_version_id:nullable(id())});
+s.CatalogImport=obj({id:id(),created_by:id(),format:choice('CSV','XLSX'),status:choice('PREVIEW','CONFIRMED','CANCELLED'),version:num(),created_at:timestamp,rows:array(ref('CatalogImportRow'),200)});
+s.CatalogImportFinished=obj({id:id(),status:choice('CONFIRMED','CANCELLED'),version:num()});
+function add(path,method,response,{request,realm='admin',list=false,status='200',version=false,proof=false}={}){
+ const params=[...path.matchAll(/\{([^}]+)\}/g)].map(m=>({name:m[1],in:'path',required:true,schema:id()}));
+ if(list)params.push({name:'cursor',in:'query',schema:id()},{name:'limit',in:'query',schema:{...num(1,100),default:50}});
+ if(method==='post')params.push({name:'Idempotency-Key',in:'header',required:true,schema:{...str(128),minLength:16}});
+ if(version)params.push({name:'If-Match',in:'header',required:true,schema:{type:'string',pattern:'^"[0-9]+"$'}});
+ if(proof)params.push({name:'X-Reverify-Token',in:'header',required:true,schema:str(128)});
+ const envelope=response+(list?'List':'')+'Envelope';s[envelope]=obj({data:list?array(ref(response),100):ref(response),...(list?{page:ref('Page')}:{}),meta:ref('Meta')});
+ const responses={[status]:{description:'Success',content:{'application/json':{schema:ref(envelope)}}}};
+ for(const c of ['400','401','403','404','409','422','429','503'])responses[c]={description:'Rejected',content:{'application/json':{schema:ref('ErrorEnvelope')}}};
+ const op={operationId:`${method}_${path.replace(/^\//,'').replaceAll(/[/{\}-]/g,'_').replace(/_+$/,'')}`,summary:`${method.toUpperCase()} ${path}`,tags:[realm],security:[{[`${realm}Bearer`]:[]}],parameters:params,responses,'x-implemented-in':'M3.2'};
+ if(request)op.requestBody={required:true,content:{'application/json':{schema:ref(request)}}};
+ (doc.paths[path]??={})[method]=op;
+}
+for(const [kind,type] of [['brands','Brand'],['spus','Spu'],['skus','Sku']]){add(`/admin/${kind}`,'get',`Catalog${type}`,{list:true});add(`/admin/${kind}`,'post','CatalogCreated',{request:`Catalog${type}Input`,status:'201',proof:true});}
+add('/admin/skus/{id}','get','CatalogSkuDetail');
+add('/merchant/catalog/search','get','CatalogSku',{realm:'merchant',list:true});
+add('/merchant/catalog/skus/{id}','get','CatalogSkuDetail',{realm:'merchant'});
+add('/admin/skus/{id}/standard-versions','post','CatalogDrafted',{request:'CatalogStandardInput',status:'201',version:true,proof:true});
+add('/admin/sku-standard-versions/{id}/publish','post','CatalogPublished',{version:true,proof:true});
+add('/merchant/catalog-requests','post','CatalogRequestCreated',{realm:'merchant',request:'CatalogCorrectionInput',status:'201'});
+for(const prefix of ['/merchant/catalog-requests','/admin/catalog-reviews']){const realm=prefix.includes('merchant')?'merchant':'admin';add(prefix,'get','CatalogRequest',{realm,list:true});add(prefix+'/{id}','get','CatalogRequest',{realm});}
+for(const decision of ['approve','reject'])add(`/admin/catalog-reviews/{id}/${decision}`,'post','CatalogReviewed',{request:'CatalogReviewInput',version:true,proof:true});
+add('/admin/catalog-imports','post','CatalogImport',{request:'CatalogImportInput',status:'201'});
+add('/admin/catalog-imports/{id}','get','CatalogImport');
+for(const action of ['confirm','cancel'])add(`/admin/catalog-imports/{id}/${action}`,'post','CatalogImportFinished',{version:true,proof:true});
+const output=YAML.stringify(doc,{lineWidth:110}),target=new URL('../openapi/pawday-m3.2.yaml',import.meta.url);
+if(process.argv.includes('--check')){if(await fs.readFile(target,'utf8')!==output)throw new Error('M3.2 contract drift');console.log('M3.2 contract composition PASS');}else await fs.writeFile(target,output);
