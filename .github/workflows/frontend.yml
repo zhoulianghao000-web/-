@@ -1,0 +1,136 @@
+name: m24-frontend
+on: [push, pull_request]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: '11.25.0'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm generate:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm exec playwright test e2e/web.spec.ts
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m24-web-evidence
+          path: |
+            playwright-report/
+            test-results/
+            merchant-web/dist/
+            admin-web/dist/
+  flutter:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.6'
+          channel: stable
+          cache: true
+      - run: flutter pub get --enforce-lockfile
+        working-directory: consumer-app/flutter
+      - run: flutter analyze && flutter test --coverage
+        working-directory: consumer-app/flutter
+      - run: flutter build web --release --dart-define=PAWDAY_API_BASE=https://api.pawday.example/api/v1
+        working-directory: consumer-app/flutter
+      - run: flutter build apk --debug
+        working-directory: consumer-app/flutter
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m24-flutter-evidence
+          path: |
+            consumer-app/flutter/coverage/
+            consumer-app/flutter/build/web/
+            consumer-app/flutter/build/app/outputs/flutter-apk/app-debug.apk
+  real-frontend-backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DATASOURCE_URL: jdbc:postgresql://127.0.0.1:5545/pawday_it
+      SPRING_DATASOURCE_USERNAME: pawday_it
+      SPRING_DATASOURCE_PASSWORD: TEST_ONLY_m23_db
+      REDIS_HOST: 127.0.0.1
+      REDIS_PORT: '6385'
+      RABBITMQ_HOST: 127.0.0.1
+      RABBITMQ_PORT: '5675'
+      RABBITMQ_USER: pawday_it
+      RABBITMQ_PASSWORD: TEST_ONLY_m22_broker
+      OPENSEARCH_URL: http://127.0.0.1:9205
+      PAWDAY_AUTH_SECRET: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+      PAWDAY_DEMO_ENABLED: 'true'
+      PAWDAY_DEMO_MERCHANT_PASSWORD: TEST_ONLY_m24_merchant
+      PAWDAY_DEMO_ADMIN_PASSWORD: TEST_ONLY_m24_admin
+      PAWDAY_DEMO_ADMIN_TOTP_BASE64: MTIzNDU2Nzg5MDEyMzQ1Njc4OTA=
+      PAWDAY_LOCAL_SMS_ENABLED: 'true'
+      PAWDAY_REAL_E2E: 'true'
+      PAWDAY_REAL_API_BASE: http://127.0.0.1:8080/api/v1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - uses: pnpm/action-setup@v4
+        with:
+          version: '11.25.0'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: pnpm
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.6'
+          channel: stable
+          cache: true
+      - name: Start real PostgreSQL, Redis, RabbitMQ and OpenSearch
+        run: |
+          sudo sysctl -w vm.max_map_count=262144
+          docker compose -p pawday-m23-it -f compose.integration.yaml up -d --wait --wait-timeout 300
+      - run: mvn -B -ntp -DskipTests package
+        working-directory: backend
+      - name: Start backend and require aggregate health
+        run: |
+          mkdir -p frontend-evidence
+          java -jar backend/target/pawday-backend-0.2.3-SNAPSHOT.jar > frontend-evidence/backend.log 2>&1 &
+          echo "PAWDAY_REAL_SMS_DIRECTORY=$GITHUB_WORKSPACE/.local-sms" >> "$GITHUB_ENV"
+          for attempt in $(seq 1 120); do
+            if curl --fail --silent http://127.0.0.1:8080/actuator/health > frontend-evidence/health.json; then exit 0; fi
+            sleep 1
+          done
+          cat frontend-evidence/backend.log
+          exit 1
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm exec playwright test e2e/real.spec.ts
+      - run: flutter pub get --enforce-lockfile && flutter test test_real/consumer_http_test.dart
+        working-directory: consumer-app/flutter
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m24-real-frontend-evidence
+          path: |
+            frontend-evidence/
+            playwright-report/
+            test-results/
+      - name: Stop isolated integration services
+        if: always()
+        run: docker compose -p pawday-m23-it -f compose.integration.yaml down

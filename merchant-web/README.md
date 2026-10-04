@@ -1,10 +1,16 @@
-# Merchant Web
+# Pawday 商家 Web
 
-V1: Vue 3 + TypeScript.
+Vue 3 + TypeScript 实体工程，使用仓库共享生成 API client 和工作台 shell。
 
-M2 bootstrap task:
-1. `pnpm create vite . --template vue-ts`
-2. add router, request client generated from OpenAPI, auth/RBAC shell.
-3. first pages: login, dashboard shell, access denied, health/API diagnostics.
+从仓库根目录执行：
 
-Do not implement business pages before auth/scope/client foundation is stable.
+```sh
+pnpm install --frozen-lockfile
+pnpm dev:merchant
+```
+
+访问 `http://127.0.0.1:5173`；`/api` 由开发代理转发到后端 `127.0.0.1:8080`。后端先运行根目录本地启动脚本。发布静态构建时配置 SPA history fallback，并将 `/api` 代理到后端以保持同源访问。
+
+商家身份和门店来自服务端授权列表，受 RBAC 路由控制；设备注销需要重新输入密码。
+
+令牌只保存在内存，刷新页面须重新登录。完整命令与验收见 [M2.4 工程说明](../docs/M2.4-前端工程说明.md)与 [M2 总验收](../docs/M2-总验收报告.md)。

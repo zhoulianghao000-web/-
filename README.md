@@ -1,8 +1,6 @@
-# -
+# Pawday M2.4 — 三端前端工程
 
-# Pawday M2.3 — 媒体与搜索基础
-
-M2.3 实现对象存储抽象、真实本地文件适配器、受控媒体上传、OpenSearch V1 索引与可靠同步/重建/对账、Redis 健康门禁。M2.1 身份和 M2.2 Outbox 能力保留。完整 M2 仍需 M2.4 前端工程。
+M2.3 实现对象存储抽象、真实本地文件适配器、受控媒体上传、OpenSearch V1 索引与可靠同步/重建/对账、Redis 健康门禁。M2.1 身份和 M2.2 Outbox 能力保留。M2.4 增加共享生成客户端、Vue 商家/管理员工程及 Flutter 消费者工程。
 
 ## 本地启动
 
@@ -34,4 +32,8 @@ M2.3 实现对象存储抽象、真实本地文件适配器、受控媒体上传
 
 消费者/商家/管理员使用 `/api/v1/media` 申请一次性凭证后 PUT 原始图片；数据库只保存媒体引用。管理员搜索运维路径 `/api/v1/admin/operations/search`，敏感命令需 action/session reverify + audit + Idempotency-Key。M3 通过 CatalogSearchSource 加入业务事务并发布事件；当前没有商品/推荐业务页面或 CRUD 功能。
 
-真实本地验收使用原生服务替代缺失的 Docker，其中 Redis 为社区 Windows 移植的真实服务；CI 固定官方 Linux Redis 镜像。完整 Compose 和远程 GitHub Actions 未在本机执行，其状态与本机原生服务门禁分别记录。
+真实本地验收使用原生服务替代缺失的 Docker，其中 Redis 为社区 Windows 移植的真实服务；CI 固定官方 Linux Redis 镜像。M2.3 的完整 Compose 已由 GitHub Actions 实际验收通过（运行 37127050020）；本机原生服务证据与 CI Docker 证据分别保留。
+
+## 三端前端
+
+启动命令、身份边界和真实联调门禁见 [M2.4 前端工程说明](docs/M2.4-前端工程说明.md)。商家端 5173，管理端 5174；Flutter 提供五 Tab、手机号登录和安全会话恢复。[M2 基础工程技术总验收](docs/M2-总验收报告.md)已通过：167 项测试、305 个实际 HTTP 响应、5 个远程 Job 全部通过。M2.4 PR 待评审合并，尚未开始 M3。
