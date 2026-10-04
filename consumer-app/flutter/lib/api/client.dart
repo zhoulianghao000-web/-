@@ -111,10 +111,10 @@ class ConsumerApi {
     await _persist(() => vault.delete('consumer.session'));
   }
 
-  Future<void> restore() async {
+  Future<Principal?> restore() async {
     final epoch = _epoch;
     final raw = await vault.read('consumer.session');
-    if (epoch != _epoch || raw == null) return;
+    if (epoch != _epoch || raw == null) return null;
     try {
       final data = jsonDecode(raw) as Map<String, dynamic>;
       if (data['realm'] != 'CONSUMER' || data['api'] != base.toString()) {
@@ -123,9 +123,10 @@ class ConsumerApi {
       _tokens = Tokens.fromJson(
         Map<String, dynamic>.from(data['tokens'] as Map),
       );
-      await me();
+      final principal = await me();
       if (epoch != _epoch) throw const ApiFailure(401, 'SESSION_CHANGED');
       expired.value = false;
+      return principal;
     } catch (_) {
       if (epoch == _epoch) await clear();
       rethrow;
@@ -143,9 +144,16 @@ class ConsumerApi {
 
   Future<void> accept(Tokens tokens) async {
     _epoch++;
+    final epoch = _epoch;
     _tokens = tokens;
     expired.value = false;
-    await _save();
+    try {
+      await _save();
+      if (epoch != _epoch) throw const ApiFailure(401, 'SESSION_CHANGED');
+    } catch (_) {
+      if (epoch == _epoch) await clear();
+      rethrow;
+    }
   }
 
   Uri _url(String path) {
@@ -304,7 +312,7 @@ class ConsumerApi {
     );
     if (epoch != _epoch) throw const ApiFailure(401, 'SESSION_CHANGED');
     await accept(result.data);
-    final acceptedEpoch = _epoch;
+    final acceptedEpoch = epoch + 1;
     try {
       final principal = await me();
       if (acceptedEpoch != _epoch) {

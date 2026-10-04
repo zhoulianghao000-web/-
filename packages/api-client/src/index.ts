@@ -69,7 +69,9 @@ export class PawdayClient {
     let response:Response;
     try{response=await send();}catch{throw new ApiError(0,'NETWORK_UNAVAILABLE','',true);}
     if(!publicAuth&&epoch!==this.epoch)throw new ApiError(401,'SESSION_CHANGED','');
-    if(response.status===401&&!publicAuth&&this.tokens&&(input.method==='GET'||input.headers.has('Idempotency-Key'))) {
+    let sessionRejected=response.status===401;
+    if(sessionRejected){try{sessionRejected=(await response.clone().json()).error?.code!=='INVALID_CREDENTIALS';}catch{/* Unknown 401 fails closed. */}}
+    if(sessionRejected&&!publicAuth&&this.tokens&&(input.method==='GET'||input.headers.has('Idempotency-Key'))) {
       // Another concurrent request may already have rotated the same access token.
       if(epoch===this.epoch&&access===this.tokens.access_token)await this.refresh();
       if(!this.tokens)await this.failure(response);
@@ -77,7 +79,7 @@ export class PawdayClient {
       if(epoch!==this.epoch)throw new ApiError(401,'SESSION_CHANGED','');
     }
     if(!response.ok) {
-      if(response.status===401&&!publicAuth&&epoch===this.epoch)this.clearSession();
+      if(sessionRejected&&!publicAuth&&epoch===this.epoch)this.clearSession();
       await this.failure(response);
     }
     return response;

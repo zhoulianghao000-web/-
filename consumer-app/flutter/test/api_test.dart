@@ -48,7 +48,51 @@ ConsumerApi apiWith(
   vault: vault ?? MemoryVault(),
 );
 
+class SlowVault extends MemoryVault {
+  final started = Completer<void>(), resume = Completer<void>();
+  @override
+  Future<void> write(String key, String value) async {
+    if (key == 'consumer.session') {
+      started.complete();
+      await resume.future;
+    }
+    await super.write(key, value);
+  }
+}
+
+class FailingVault extends MemoryVault {
+  @override
+  Future<void> write(String key, String value) async {
+    if (key == 'consumer.session') {
+      throw StateError('Secure storage unavailable');
+    }
+    await super.write(key, value);
+  }
+}
+
 void main() {
+  test('logout is ordered after an in-flight secure storage write', () async {
+    final vault = SlowVault();
+    final api = apiWith((_) async => ok({}), vault: vault);
+    final pending = api.accept(tokens);
+    final assertion = expectLater(pending, throwsA(isA<ApiFailure>()));
+    await vault.started.future;
+    final clearing = api.clear();
+    vault.resume.complete();
+    await Future.wait([assertion, clearing]);
+    expect(api.authenticated, false);
+    expect(vault.values['consumer.session'], isNull);
+    api.dispose();
+  });
+  test(
+    'secure storage failure cannot leave a partially accepted login',
+    () async {
+      final api = apiWith((_) async => ok({}), vault: FailingVault());
+      await expectLater(api.accept(tokens), throwsA(isA<StateError>()));
+      expect(api.authenticated, false);
+      api.dispose();
+    },
+  );
   test('generated required nullable fields survive a JSON round trip', () {
     const value = Tokens(
       access_token: 'a',

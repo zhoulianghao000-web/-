@@ -22,15 +22,7 @@ final consumerApiProvider = Provider<ConsumerApi>((ref) {
 class ConsumerRepository {
   final ConsumerApi api;
   ConsumerRepository(this.api);
-  Future<Principal?> restore() async {
-    try {
-      await api.restore();
-      return api.authenticated ? await api.me() : null;
-    } catch (_) {
-      await api.clear();
-      rethrow;
-    }
-  }
+  Future<Principal?> restore() => api.restore();
 
   Future<void> requestCode(String phone) => api.requestCode(phone);
   Future<Principal> login(String phone, String code) => api.login(phone, code);

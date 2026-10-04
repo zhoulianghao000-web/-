@@ -25,7 +25,7 @@ export class StaffSession {
 }
 export function explainError(error:unknown):string {
   if(error instanceof ApiError){
-    const reason=error.versionConflict?'内容已更新，请重新读取后确认。':error.forbidden?'当前账号没有此操作权限。':error.status===401?'会话已失效，请重新登录。':error.status===0?'网络连接失败，请检查连接后重试。':`请求失败（${error.code}）`;
+    const reason=error.versionConflict?'内容已更新，请重新读取后确认。':error.forbidden?'当前账号没有此操作权限。':error.code==='INVALID_CREDENTIALS'?'验证未通过，请检查密码和验证码。':error.status===401?'会话已失效，请重新登录。':error.status===0?'网络连接失败，请检查连接后重试。':`请求失败（${error.code}）`;
     return reason+(error.requestId?` 请求编号：${error.requestId}`:'');
   }
   return '操作失败，请稍后重试。';

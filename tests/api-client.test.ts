@@ -7,6 +7,9 @@ const principal={id:meta.request_id,realm:'MERCHANT' as const,merchant_id:meta.r
 const json=(data:unknown,status=200)=>new Response(JSON.stringify({data,meta}),{status,headers:{'Content-Type':'application/json'}});
 const denied=(status:number,code:string)=>new Response(JSON.stringify({error:{code,message:code,retryable:false,details:{}},meta}),{status,headers:{'Content-Type':'application/json'}});
 describe('realm-bound generated API transport',()=>{
+  it('wrong reverify credentials do not rotate or discard a valid session',async()=>{
+    const network=vi.fn<typeof fetch>(async()=>denied(401,'INVALID_CREDENTIALS'));const client=new PawdayClient('admin','http://localhost/api/v1',network);client.setSession(tokens);await expect(client.reverify({action:'session.revoke-others',password:'wrong',totp_code:'123456'})).rejects.toMatchObject({code:'INVALID_CREDENTIALS'});expect(network).toHaveBeenCalledTimes(1);expect(client.authenticated).toBe(true);
+  });
   it('discards a late successful principal after logout',async()=>{
     let resolve:((r:Response)=>void)|undefined;const client=new PawdayClient('merchant','http://localhost/api/v1',async()=>new Promise(r=>{resolve=r;}));client.setSession(tokens);const pending=client.me();client.clearSession();resolve?.(json(principal));await expect(pending).rejects.toMatchObject({code:'SESSION_CHANGED'});expect(client.authenticated).toBe(false);
   });

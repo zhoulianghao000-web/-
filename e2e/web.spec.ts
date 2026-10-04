@@ -11,7 +11,7 @@ async function fixture(page:Page,realm:'merchant'|'admin',permissions:string[]){
     else if(path.endsWith('/me'))data=principal;
     else if(path.endsWith('/stores'))data=[{id:'store-a',merchant_id:meta.request_id,name:'南山店'},{id:'store-b',merchant_id:meta.request_id,name:'海岸店'}];
     else if(path.endsWith('/sessions'))data=[{id:meta.request_id,device_id:'Browser',created_at:new Date().toISOString(),expires_at:new Date().toISOString(),revoked_at:null}];
-    else if(path.endsWith('/reverify')){expect(JSON.parse(request.postData()??'{}').action).toBe('session.revoke-others');data={reverify_token:'one-use-proof',action:'session.revoke-others',expires_at:new Date().toISOString()};}
+    else if(path.endsWith('/reverify')){const body=JSON.parse(request.postData()??'{}');expect(body.action).toBe('session.revoke-others');expect(body.password).toBe('TEST_ONLY_password');if(realm==='admin')expect(body.totp_code).toBe('654321');data={reverify_token:'one-use-proof',action:'session.revoke-others',expires_at:new Date().toISOString()};}
     else if(path.endsWith('/revoke-others'))expect(request.headers()['x-reverify-token']).toBe('one-use-proof');
     else if(path.endsWith('/audit'))data=[{id:'audit',actor_type:'ADMIN',actor_id:meta.request_id,action:'session.revoke-others',object_type:'SESSION',object_id:meta.request_id,before_json:null,after_json:null,request_id:meta.request_id,correlation_id:meta.correlation_id,created_at:'2026-10-04T00:00:00Z'}];
     if(!path.endsWith('/login'))expect(request.headers()['authorization']).toBe('Bearer access');
@@ -41,7 +41,7 @@ test('admin requires TOTP and loads audit only after authenticated RBAC guard',a
 for(const realm of ['merchant','admin'] as const)test(`${realm} sensitive device action obtains and immediately consumes action-bound proof`,async({page})=>{
   const seen=await fixture(page,realm,realm==='merchant'?['store.read']:['audit.read']);await page.goto(`http://127.0.0.1:${realm==='merchant'?5173:5174}/sessions`);await login(page,realm);await expect(page.getByText('当前设备',{exact:true})).toBeVisible();
   await page.getByRole('button',{name:'注销其他设备',exact:true}).click();expect(seen.some(p=>p.endsWith('/reverify'))).toBe(false);
-  await page.getByLabel(realm==='merchant'?'再次输入密码':'新的动态验证码').fill(realm==='merchant'?'TEST_ONLY_password':'654321');await page.getByRole('button',{name:'验证并注销其他设备',exact:true}).click();await expect(page.getByRole('status')).toHaveText('其他设备的会话已注销。');
+  await page.getByLabel('再次输入密码').fill('TEST_ONLY_password');if(realm==='admin')await page.getByLabel('新的动态验证码').fill('654321');await page.getByRole('button',{name:'验证并注销其他设备',exact:true}).click();await expect(page.getByRole('status')).toHaveText('其他设备的会话已注销。');
   expect(seen.findIndex(p=>p.endsWith('/reverify'))).toBeLessThan(seen.findIndex(p=>p.endsWith('/revoke-others')));expect(await page.evaluate(()=>JSON.stringify(localStorage))).not.toContain('proof');
 });
 test('login error shows request ID without accepting a session',async({page})=>{
