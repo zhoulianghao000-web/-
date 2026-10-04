@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:pawday_consumer/api/client.dart';
 import 'package:pawday_consumer/pet_repository.dart';
+import 'package:pawday_consumer/catalog_repository.dart';
 
 // Explicit CI entry point. Missing infrastructure fails; this test never uses a mock transport.
 void main() {
@@ -99,6 +100,20 @@ void main() {
       newPetCommandKey(),
     );
     expect((await pets.weights(updated)).first.weight_g, 4000);
+    final catalog = CatalogRepository(restored);
+    final page = await catalog.browse(category: 'CAT');
+    expect(
+      page.data,
+      isNotEmpty,
+      reason: 'Real admin/merchant browser flow must publish an active stocked offer first',
+    );
+    final sku = page.data.first.id;
+    expect((await catalog.standard(sku)).source_refs, isNotEmpty);
+    expect((await catalog.offers(sku)).any((o) => o.in_stock), true);
+    final fit = await catalog.fit(sku, pet.id);
+    expect(fit.result, 'INSUFFICIENT_DATA');
+    expect(fit.uncertainties, isNotEmpty);
+    expect(fit.fit_rule_version, 'pawday-fit-1');
     final latest = (await pets.list()).firstWhere((p) => p.id == pet.id);
     await pets.delete(latest, newPetCommandKey());
     expect((await pets.list()).any((p) => p.id == pet.id), false);

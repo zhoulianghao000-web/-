@@ -6,6 +6,7 @@ import 'repositories.dart';
 import 'api/client.dart';
 import 'api/generated/dto.dart';
 import 'pet_screen.dart';
+import 'catalog_screen.dart';
 
 class TabShell extends StatelessWidget {
   final StatefulNavigationShell shell;
@@ -37,6 +38,7 @@ class TabScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (path == '/pets') return const PetsScreen();
+    if (path == '/categories') return const CatalogScreen();
     final auth = ref.watch(authProvider), pet = ref.watch(currentPetProvider);
     final title = {
       '/home': '爪日 Pawday',

@@ -3,11 +3,11 @@ import {createHash} from 'node:crypto';
 import openapiTS, {astToString} from 'openapi-typescript';
 import YAML from 'yaml';
 import {generateDart} from './dart-codegen.mjs';
-const input = new URL('../openapi/pawday-m3.3.yaml',import.meta.url);
+const input = new URL('../openapi/pawday-m3.4.yaml',import.meta.url);
 const source = (await fs.readFile(input,'utf8')).replaceAll('\r\n','\n');
 const types = astToString(await openapiTS(input));
 const target = new URL('../packages/api-client/src/generated/schema.ts',import.meta.url);
-const output = `// Generated from pawday-m3.3.yaml; SHA256 ${createHash('sha256').update(source).digest('hex')}\n${types}`;
+const output = `// Generated from pawday-m3.4.yaml; SHA256 ${createHash('sha256').update(source).digest('hex')}\n${types}`;
 const dartTarget = new URL('../consumer-app/flutter/lib/api/generated/dto.dart',import.meta.url);
 const dartOutput = generateDart(YAML.parse(source.toString()),createHash('sha256').update(source).digest('hex'));
 if(process.argv.includes('--check')) {
