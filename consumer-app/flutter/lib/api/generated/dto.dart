@@ -1,4 +1,4 @@
-// Generated from pawday-m3.1.yaml; SHA256 6c14b20da07ecb77ad6449cf819dbc9a4fcc2b88bd62ad6036286318812026a1
+// Generated from pawday-m3.1.yaml; SHA256 663be1d7ee67d9101a2aeaf3d5e9dac04d0dd42194fa14bb3cb80282a48962e2
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -2586,6 +2586,389 @@ class InventoryAdjustmentResultEnvelope {
   };
 }
 
+class PublicAllergen {
+  final String id;
+  final String name;
+  const PublicAllergen({required this.id, required this.name});
+  factory PublicAllergen.fromJson(Map<String,dynamic> json) => PublicAllergen(
+    id: json['id'] as String,
+    name: json['name'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'name': name,
+  };
+}
+
+class ConsumerOffer {
+  final String offer_id;
+  final String merchant_id;
+  final String merchant_name;
+  final String? store_id;
+  final int sale_price_fen;
+  final int? member_price_fen;
+  final String fulfillment_sla;
+  final int offer_version;
+  final int available_qty;
+  final int inventory_version;
+  final bool in_stock;
+  const ConsumerOffer({required this.offer_id, required this.merchant_id, required this.merchant_name, required this.store_id, required this.sale_price_fen, required this.member_price_fen, required this.fulfillment_sla, required this.offer_version, required this.available_qty, required this.inventory_version, required this.in_stock});
+  factory ConsumerOffer.fromJson(Map<String,dynamic> json) => ConsumerOffer(
+    offer_id: json['offer_id'] as String,
+    merchant_id: json['merchant_id'] as String,
+    merchant_name: json['merchant_name'] as String,
+    store_id: json['store_id'] == null ? null : json['store_id'] as String,
+    sale_price_fen: (json['sale_price_fen'] as num).toInt(),
+    member_price_fen: json['member_price_fen'] == null ? null : (json['member_price_fen'] as num).toInt(),
+    fulfillment_sla: json['fulfillment_sla'] as String,
+    offer_version: (json['offer_version'] as num).toInt(),
+    available_qty: (json['available_qty'] as num).toInt(),
+    inventory_version: (json['inventory_version'] as num).toInt(),
+    in_stock: json['in_stock'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'offer_id': offer_id,
+    'merchant_id': merchant_id,
+    'merchant_name': merchant_name,
+    'store_id': store_id == null ? null : store_id!,
+    'sale_price_fen': sale_price_fen,
+    'member_price_fen': member_price_fen == null ? null : member_price_fen!,
+    'fulfillment_sla': fulfillment_sla,
+    'offer_version': offer_version,
+    'available_qty': available_qty,
+    'inventory_version': inventory_version,
+    'in_stock': in_stock,
+  };
+}
+
+class ConsumerStandard {
+  final String id;
+  final String spu_id;
+  final String sku_code;
+  final int weight_g;
+  final String package_unit;
+  final String name;
+  final String pet_category;
+  final String category;
+  final String brand;
+  final String catalog_standard_version_id;
+  final List<String> ingredients;
+  final List<CatalogNutrient> nutrients;
+  final bool allergens_known;
+  final List<String> life_stage_ids;
+  final List<String> source_refs;
+  final String source_updated_on;
+  final String published_at;
+  final List<PublicAllergen> allergens;
+  const ConsumerStandard({required this.id, required this.spu_id, required this.sku_code, required this.weight_g, required this.package_unit, required this.name, required this.pet_category, required this.category, required this.brand, required this.catalog_standard_version_id, required this.ingredients, required this.nutrients, required this.allergens_known, required this.life_stage_ids, required this.source_refs, required this.source_updated_on, required this.published_at, required this.allergens});
+  factory ConsumerStandard.fromJson(Map<String,dynamic> json) => ConsumerStandard(
+    id: json['id'] as String,
+    spu_id: json['spu_id'] as String,
+    sku_code: json['sku_code'] as String,
+    weight_g: (json['weight_g'] as num).toInt(),
+    package_unit: json['package_unit'] as String,
+    name: json['name'] as String,
+    pet_category: json['pet_category'] as String,
+    category: json['category'] as String,
+    brand: json['brand'] as String,
+    catalog_standard_version_id: json['catalog_standard_version_id'] as String,
+    ingredients: (json['ingredients'] as List).map((value) => value as String).toList(),
+    nutrients: (json['nutrients'] as List).map((value) => CatalogNutrient.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    allergens_known: json['allergens_known'] as bool,
+    life_stage_ids: (json['life_stage_ids'] as List).map((value) => value as String).toList(),
+    source_refs: (json['source_refs'] as List).map((value) => value as String).toList(),
+    source_updated_on: json['source_updated_on'] as String,
+    published_at: json['published_at'] as String,
+    allergens: (json['allergens'] as List).map((value) => PublicAllergen.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'spu_id': spu_id,
+    'sku_code': sku_code,
+    'weight_g': weight_g,
+    'package_unit': package_unit,
+    'name': name,
+    'pet_category': pet_category,
+    'category': category,
+    'brand': brand,
+    'catalog_standard_version_id': catalog_standard_version_id,
+    'ingredients': ingredients.map((value) => value).toList(),
+    'nutrients': nutrients.map((value) => value.toJson()).toList(),
+    'allergens_known': allergens_known,
+    'life_stage_ids': life_stage_ids.map((value) => value).toList(),
+    'source_refs': source_refs.map((value) => value).toList(),
+    'source_updated_on': source_updated_on,
+    'published_at': published_at,
+    'allergens': allergens.map((value) => value.toJson()).toList(),
+  };
+}
+
+class ConsumerProduct {
+  final String id;
+  final String spu_id;
+  final String sku_code;
+  final int weight_g;
+  final String package_unit;
+  final String name;
+  final String pet_category;
+  final String category;
+  final String brand;
+  final String catalog_standard_version_id;
+  final List<String> ingredients;
+  final List<CatalogNutrient> nutrients;
+  final bool allergens_known;
+  final List<String> life_stage_ids;
+  final List<String> source_refs;
+  final String source_updated_on;
+  final String published_at;
+  final List<PublicAllergen> allergens;
+  final List<ConsumerOffer> offers;
+  const ConsumerProduct({required this.id, required this.spu_id, required this.sku_code, required this.weight_g, required this.package_unit, required this.name, required this.pet_category, required this.category, required this.brand, required this.catalog_standard_version_id, required this.ingredients, required this.nutrients, required this.allergens_known, required this.life_stage_ids, required this.source_refs, required this.source_updated_on, required this.published_at, required this.allergens, required this.offers});
+  factory ConsumerProduct.fromJson(Map<String,dynamic> json) => ConsumerProduct(
+    id: json['id'] as String,
+    spu_id: json['spu_id'] as String,
+    sku_code: json['sku_code'] as String,
+    weight_g: (json['weight_g'] as num).toInt(),
+    package_unit: json['package_unit'] as String,
+    name: json['name'] as String,
+    pet_category: json['pet_category'] as String,
+    category: json['category'] as String,
+    brand: json['brand'] as String,
+    catalog_standard_version_id: json['catalog_standard_version_id'] as String,
+    ingredients: (json['ingredients'] as List).map((value) => value as String).toList(),
+    nutrients: (json['nutrients'] as List).map((value) => CatalogNutrient.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    allergens_known: json['allergens_known'] as bool,
+    life_stage_ids: (json['life_stage_ids'] as List).map((value) => value as String).toList(),
+    source_refs: (json['source_refs'] as List).map((value) => value as String).toList(),
+    source_updated_on: json['source_updated_on'] as String,
+    published_at: json['published_at'] as String,
+    allergens: (json['allergens'] as List).map((value) => PublicAllergen.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    offers: (json['offers'] as List).map((value) => ConsumerOffer.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'spu_id': spu_id,
+    'sku_code': sku_code,
+    'weight_g': weight_g,
+    'package_unit': package_unit,
+    'name': name,
+    'pet_category': pet_category,
+    'category': category,
+    'brand': brand,
+    'catalog_standard_version_id': catalog_standard_version_id,
+    'ingredients': ingredients.map((value) => value).toList(),
+    'nutrients': nutrients.map((value) => value.toJson()).toList(),
+    'allergens_known': allergens_known,
+    'life_stage_ids': life_stage_ids.map((value) => value).toList(),
+    'source_refs': source_refs.map((value) => value).toList(),
+    'source_updated_on': source_updated_on,
+    'published_at': published_at,
+    'allergens': allergens.map((value) => value.toJson()).toList(),
+    'offers': offers.map((value) => value.toJson()).toList(),
+  };
+}
+
+class ConsumerSpu {
+  final String spu_id;
+  final List<ConsumerStandard> skus;
+  const ConsumerSpu({required this.spu_id, required this.skus});
+  factory ConsumerSpu.fromJson(Map<String,dynamic> json) => ConsumerSpu(
+    spu_id: json['spu_id'] as String,
+    skus: (json['skus'] as List).map((value) => ConsumerStandard.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'spu_id': spu_id,
+    'skus': skus.map((value) => value.toJson()).toList(),
+  };
+}
+
+class FitConflict {
+  final String type;
+  final String? allergen_id;
+  final String message;
+  const FitConflict({required this.type, this.allergen_id, required this.message});
+  factory FitConflict.fromJson(Map<String,dynamic> json) => FitConflict(
+    type: json['type'] as String,
+    allergen_id: json['allergen_id'] == null ? null : json['allergen_id'] as String,
+    message: json['message'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'type': type,
+    if (allergen_id != null) 'allergen_id': allergen_id == null ? null : allergen_id!,
+    'message': message,
+  };
+}
+
+class ProductFit {
+  final String sku_id;
+  final String pet_id;
+  final int pet_version;
+  final String result;
+  final String display_label;
+  final List<FitConflict> hard_conflicts;
+  final List<String> uncertainties;
+  final String catalog_standard_version_id;
+  final String fit_rule_version;
+  final String? life_stage_id;
+  const ProductFit({required this.sku_id, required this.pet_id, required this.pet_version, required this.result, required this.display_label, required this.hard_conflicts, required this.uncertainties, required this.catalog_standard_version_id, required this.fit_rule_version, required this.life_stage_id});
+  factory ProductFit.fromJson(Map<String,dynamic> json) => ProductFit(
+    sku_id: json['sku_id'] as String,
+    pet_id: json['pet_id'] as String,
+    pet_version: (json['pet_version'] as num).toInt(),
+    result: json['result'] as String,
+    display_label: json['display_label'] as String,
+    hard_conflicts: (json['hard_conflicts'] as List).map((value) => FitConflict.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    uncertainties: (json['uncertainties'] as List).map((value) => value as String).toList(),
+    catalog_standard_version_id: json['catalog_standard_version_id'] as String,
+    fit_rule_version: json['fit_rule_version'] as String,
+    life_stage_id: json['life_stage_id'] == null ? null : json['life_stage_id'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'sku_id': sku_id,
+    'pet_id': pet_id,
+    'pet_version': pet_version,
+    'result': result,
+    'display_label': display_label,
+    'hard_conflicts': hard_conflicts.map((value) => value.toJson()).toList(),
+    'uncertainties': uncertainties.map((value) => value).toList(),
+    'catalog_standard_version_id': catalog_standard_version_id,
+    'fit_rule_version': fit_rule_version,
+    'life_stage_id': life_stage_id == null ? null : life_stage_id!,
+  };
+}
+
+class CompareInput {
+  final List<String> sku_ids;
+  final String? pet_id;
+  const CompareInput({required this.sku_ids, this.pet_id});
+  factory CompareInput.fromJson(Map<String,dynamic> json) => CompareInput(
+    sku_ids: (json['sku_ids'] as List).map((value) => value as String).toList(),
+    pet_id: json['pet_id'] == null ? null : json['pet_id'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'sku_ids': sku_ids.map((value) => value).toList(),
+    if (pet_id != null) 'pet_id': pet_id == null ? null : pet_id!,
+  };
+}
+
+class CompareItem {
+  final ConsumerStandard standard;
+  final List<ConsumerOffer> offers;
+  final ProductFit? fit;
+  const CompareItem({required this.standard, required this.offers, required this.fit});
+  factory CompareItem.fromJson(Map<String,dynamic> json) => CompareItem(
+    standard: ConsumerStandard.fromJson(Map<String,dynamic>.from(json['standard'] as Map)),
+    offers: (json['offers'] as List).map((value) => ConsumerOffer.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    fit: json['fit'] == null ? null : ProductFit.fromJson(Map<String,dynamic>.from(json['fit'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'standard': standard.toJson(),
+    'offers': offers.map((value) => value.toJson()).toList(),
+    'fit': fit == null ? null : fit!.toJson(),
+  };
+}
+
+class ProductComparison {
+  final List<CompareItem> items;
+  const ProductComparison({required this.items});
+  factory ProductComparison.fromJson(Map<String,dynamic> json) => ProductComparison(
+    items: (json['items'] as List).map((value) => CompareItem.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'items': items.map((value) => value.toJson()).toList(),
+  };
+}
+
+class ConsumerSpuEnvelope {
+  final ConsumerSpu data;
+  final Meta meta;
+  const ConsumerSpuEnvelope({required this.data, required this.meta});
+  factory ConsumerSpuEnvelope.fromJson(Map<String,dynamic> json) => ConsumerSpuEnvelope(
+    data: ConsumerSpu.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ConsumerStandardEnvelope {
+  final ConsumerStandard data;
+  final Meta meta;
+  const ConsumerStandardEnvelope({required this.data, required this.meta});
+  factory ConsumerStandardEnvelope.fromJson(Map<String,dynamic> json) => ConsumerStandardEnvelope(
+    data: ConsumerStandard.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ConsumerOfferListEnvelope {
+  final List<ConsumerOffer> data;
+  final Page page;
+  final Meta meta;
+  const ConsumerOfferListEnvelope({required this.data, required this.page, required this.meta});
+  factory ConsumerOfferListEnvelope.fromJson(Map<String,dynamic> json) => ConsumerOfferListEnvelope(
+    data: (json['data'] as List).map((value) => ConsumerOffer.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ConsumerProductListEnvelope {
+  final List<ConsumerProduct> data;
+  final Page page;
+  final Meta meta;
+  const ConsumerProductListEnvelope({required this.data, required this.page, required this.meta});
+  factory ConsumerProductListEnvelope.fromJson(Map<String,dynamic> json) => ConsumerProductListEnvelope(
+    data: (json['data'] as List).map((value) => ConsumerProduct.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ProductFitEnvelope {
+  final ProductFit data;
+  final Meta meta;
+  const ProductFitEnvelope({required this.data, required this.meta});
+  factory ProductFitEnvelope.fromJson(Map<String,dynamic> json) => ProductFitEnvelope(
+    data: ProductFit.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ProductComparisonEnvelope {
+  final ProductComparison data;
+  final Meta meta;
+  const ProductComparisonEnvelope({required this.data, required this.meta});
+  factory ProductComparisonEnvelope.fromJson(Map<String,dynamic> json) => ProductComparisonEnvelope(
+    data: ProductComparison.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -2685,4 +3068,14 @@ class ApiRoutes {
   static const post_admin_offers__id__freeze = '/admin/offers/{id}/freeze';
   static const post_admin_offers__id__unfreeze = '/admin/offers/{id}/unfreeze';
   static const post_admin_offers__id__delist = '/admin/offers/{id}/delist';
+  static const get_public_spus__id = '/public/spus/{id}';
+  static const get_public_skus__id = '/public/skus/{id}';
+  static const get_public_skus__id__offers = '/public/skus/{id}/offers';
+  static const get_public_products = '/public/products';
+  static const get_consumer_spus__id = '/consumer/spus/{id}';
+  static const get_consumer_skus__id = '/consumer/skus/{id}';
+  static const get_consumer_skus__id__offers = '/consumer/skus/{id}/offers';
+  static const get_consumer_products = '/consumer/products';
+  static const get_consumer_skus__id__fit = '/consumer/skus/{id}/fit';
+  static const post_consumer_products_compare = '/consumer/products/compare';
 }

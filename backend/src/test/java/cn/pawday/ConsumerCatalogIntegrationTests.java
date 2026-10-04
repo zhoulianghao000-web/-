@@ -1,0 +1,75 @@
+package cn.pawday;
+import cn.pawday.identity.*;
+import cn.pawday.catalog.CatalogImportParser;
+import io.zonky.test.db.postgres.embedded.EmbeddedPostgres;
+import java.net.URI;
+import java.net.http.*;
+import java.nio.file.*;
+import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
+import java.time.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.io.*;
+import java.util.zip.*;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.*;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
+
+@SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
+class ConsumerCatalogIntegrationTests {
+ static final EmbeddedPostgres PG;
+ static {try{PG=EmbeddedPostgres.builder().setPort(0).start();}catch(Exception e){throw new ExceptionInInitializerError(e);}}
+ @DynamicPropertySource static void properties(DynamicPropertyRegistry r){r.add("spring.datasource.url",()->PG.getJdbcUrl("postgres","postgres"));r.add("spring.datasource.username",()->"postgres");r.add("spring.datasource.password",()->"postgres");r.add("pawday.auth.secret-key",()->"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=");r.add("management.health.redis.enabled",()->false);r.add("management.health.rabbit.enabled",()->false);r.add("pawday.outbox.workers-enabled",()->false);r.add("pawday.outbox.consumer-enabled",()->false);r.add("pawday.search.enabled",()->false);r.add("pawday.storage.cleanup-enabled",()->false);}
+ @Autowired JdbcTemplate db;@Autowired Crypto crypto;@Autowired Clock clock;@LocalServerPort int port;
+ final JsonMapper json=JsonMapper.builder().build();final HttpClient http=HttpClient.newHttpClient();
+ static final List<Map<String,Object>> SAMPLES=new CopyOnWriteArrayList<>();
+ String admin,merchant,foreign,reader,colleague;UUID adminPrincipal,adminSession,merchantId,store,otherStore,principal;String sku;
+ record Response(int status,JsonNode body){JsonNode data(){return body.get("data");}String id(){return data().get("id").asString();}}
+
+ String key(){return UUID.randomUUID().toString();}
+ String identity(String realm,UUID m,List<String> permissions){UUID p=UUID.randomUUID(),role=UUID.randomUUID();if(realm.equals("CONSUMER")){UUID u=UUID.randomUUID();db.update("INSERT INTO app_user(id,status) VALUES (?,'ACTIVE')",u);db.update("INSERT INTO identity_principal(id,realm,user_id) VALUES (?,'CONSUMER',?)",p,u);}else db.update("INSERT INTO identity_principal(id,realm,merchant_id,login_name,password_hash,mfa_secret_ciphertext) VALUES (?,?,?,?,?,?)",p,realm,m,key(),"TEST-ONLY",realm.equals("ADMIN")?crypto.encrypt(new byte[20]):null);
+  db.update("INSERT INTO role(id,scope_type,code,name) VALUES (?,?,?,'Offer test')",role,realm,key());for(String permission:permissions)db.update("INSERT INTO role_permission SELECT ?,id FROM permission WHERE code=?",role,permission);db.update("INSERT INTO principal_role VALUES (?,?,?)",p,role,realm);UUID session=UUID.randomUUID();String t=crypto.token();db.update("INSERT INTO auth_session(id,principal_id,access_token_hash,device_id,expires_at,refresh_expires_at,created_at) VALUES (?,?,?,'OFFER-IT',?,?,?)",session,p,crypto.hash(t),Timestamp.from(clock.instant().plusSeconds(900)),Timestamp.from(clock.instant().plusSeconds(2592000)),Timestamp.from(clock.instant()));if(realm.equals("ADMIN")&&permissions.contains("offer.admin.manage")){adminSession=session;adminPrincipal=p;}if(realm.equals("MERCHANT")){principal=p;db.update("INSERT INTO principal_store_scope VALUES (?,?,?)",p,m,store);}return t;
+ }
+ @BeforeEach void setup(){merchantId=UUID.randomUUID();store=UUID.randomUUID();otherStore=UUID.randomUUID();db.update("INSERT INTO merchant(id,name,status) VALUES (?,?,'ACTIVE')",merchantId,key());db.update("INSERT INTO merchant_store(id,merchant_id,name) VALUES (?,?,'TEST scope'),(?,?,'TEST hidden')",store,merchantId,otherStore,merchantId);
+  admin=identity("ADMIN",null,List.of("offer.admin.read","offer.admin.manage"));reader=identity("ADMIN",null,List.of("offer.admin.read"));merchant=identity("MERCHANT",merchantId,List.of("offer.read","offer.write","inventory.adjust","offer.default-scope"));colleague=identity("MERCHANT",merchantId,List.of("offer.read","offer.write","inventory.adjust"));UUID m=UUID.randomUUID();db.update("INSERT INTO merchant VALUES (?,'TEST foreign','ACTIVE')",m);UUID saved=store;store=UUID.randomUUID();db.update("INSERT INTO merchant_store(id,merchant_id,name) VALUES (?,?,'TEST foreign store')",store,m);foreign=identity("MERCHANT",m,List.of("offer.read","offer.write","inventory.adjust"));store=saved;
+  UUID brand=UUID.randomUUID(),spu=UUID.randomUUID(),k=UUID.randomUUID();sku=k.toString();db.update("INSERT INTO brands(id,name,source_ref) VALUES (?,?,'TEST-ONLY')",brand,key());db.update("INSERT INTO spus(id,brand_id,name,pet_category,category) VALUES (?,?,'TEST-ONLY','CAT','DRY_FOOD')",spu,brand);db.update("INSERT INTO skus(id,spu_id,sku_code,weight_g,package_unit) VALUES (?,?,?,1000,'BAG')",k,spu,key());db.update("INSERT INTO sku_standard_versions(id,sku_id,version_no,status,ingredients,nutrients,allergens_known,life_stage_ids,source_refs,source_updated_on,created_by,published_at) VALUES (?,?,1,'PUBLISHED','[\"TEST-ONLY\"]','[]',false,'[]','[\"TEST-ONLY source\"]','2026-10-01',?,clock_timestamp())",UUID.randomUUID(),k,adminPrincipal);
+ }
+ Response req(String method,String path,Object payload,String token,Map<String,String> headers){try{var b=HttpRequest.newBuilder(URI.create("http://127.0.0.1:"+port+"/api/v1"+path)).timeout(Duration.ofSeconds(20));if(token!=null)b.header("Authorization","Bearer "+token);headers.forEach(b::header);if(payload==null)b.method(method,HttpRequest.BodyPublishers.noBody());else b.header("Content-Type","application/json").method(method,HttpRequest.BodyPublishers.ofString(json.writeValueAsString(payload)));var response=http.send(b.build(),HttpResponse.BodyHandlers.ofString());var body=json.readTree(response.body());SAMPLES.add(Map.of("method",method.toLowerCase(),"path",path,"status",response.statusCode(),"response",body));return new Response(response.statusCode(),body);}catch(Exception e){throw new AssertionError(e);}}
+ Response read(String path,String token){return req("GET",path,null,token,Map.of());}
+ Map<String,Object> createBody(UUID scope){var b=new LinkedHashMap<String,Object>(Map.of("sku_id",sku,"sale_price_fen",1000,"member_price_fen",900,"fulfillment_sla","TEST-ONLY 48h"));b.put("store_id",scope==null?null:scope.toString());return b;}
+ String create(){var r=req("POST","/merchant/offers",createBody(store),merchant,Map.of("Idempotency-Key",key()));assertEquals(201,r.status(),r.body().toString());return r.id();}
+ Response patch(String offer,Map<String,Object>b,int version){return req("PATCH","/merchant/offers/"+offer,b,merchant,Map.of("Idempotency-Key",key(),"If-Match","\""+version+"\""));}
+ Response adjust(String offer,int delta,int version,String k,String who){return req("POST","/merchant/offers/"+offer+"/inventory-adjustments",Map.of("delta_qty",delta,"reason_code","COUNT_CORRECTION","expected_version",version),who,Map.of("Idempotency-Key",k));}
+ String proof(){String p=crypto.token();db.update("INSERT INTO reverify_grant(token_hash,session_id,action,expires_at,created_at) VALUES (?,?,'offer.admin.manage',?,?)",crypto.hash(p),adminSession,Timestamp.from(clock.instant().plusSeconds(120)),Timestamp.from(clock.instant()));return p;}
+ Response state(String offer,String action,int version,String who,String p,String k){var h=new HashMap<String,String>(Map.of("Idempotency-Key",k,"If-Match","\""+version+"\""));if(p!=null)h.put("X-Reverify-Token",p);return req("POST","/"+(who.equals(admin)||who.equals(reader)?"admin":"merchant")+"/offers/"+offer+"/"+action,Map.of("reason","TEST-ONLY lifecycle"),who,h);}
+ long balance(String offer){return db.queryForObject("SELECT on_hand_qty FROM inventory_balances WHERE offer_id=?",Long.class,UUID.fromString(offer));}
+ @AfterAll static void close()throws Exception{Files.writeString(Path.of("target/m34-contract-samples.json"),JsonMapper.builder().build().writeValueAsString(SAMPLES));PG.close();}
+
+ String consumer(){return identity("CONSUMER",null,List.of());}
+ UUID user(String token){return db.queryForObject("SELECT p.user_id FROM identity_principal p JOIN auth_session s ON s.principal_id=p.id WHERE s.access_token_hash=?",UUID.class,crypto.hash(token));}
+ UUID pet(String token,String category){UUID id=UUID.randomUUID();UUID species=db.queryForObject("SELECT id FROM pet_species WHERE category=? AND parent_id IS NULL",UUID.class,category);db.update("INSERT INTO pets(id,owner_user_id,name,species_id,sex,neutered_status,birth_date) VALUES (?,?,'TEST pet',?,'UNKNOWN','UNKNOWN','2025-01-01')",id,user(token),species);return id;}
+ Response fit(String token,UUID pet){return read("/consumer/skus/"+sku+"/fit?pet_id="+pet,token);}
+ UUID allergen(){UUID a=UUID.randomUUID();db.update("INSERT INTO allergens(id,name) VALUES (?,?)",a,key());return a;}
+ void assessed(UUID pet,UUID a,String status){db.update("INSERT INTO pet_allergens VALUES (?,?,?,'OWNER_OBSERVATION',NULL)",pet,a,status);}
+ UUID publish(boolean known,UUID allergy,UUID stage){UUID v=UUID.randomUUID();db.update("UPDATE sku_standard_versions SET status='RETIRED' WHERE sku_id=? AND status='PUBLISHED'",UUID.fromString(sku));db.update("INSERT INTO sku_standard_versions(id,sku_id,version_no,ingredients,nutrients,allergens_known,life_stage_ids,source_refs,source_updated_on,created_by) VALUES (?,?,2,'[\"TEST-only ingredient\"]','[]',?,?::jsonb,'[\"TEST-only source\"]','2026-10-01',?)",v,UUID.fromString(sku),known,stage==null?"[]":json.writeValueAsString(List.of(stage)),adminPrincipal);if(allergy!=null)db.update("INSERT INTO sku_allergens VALUES (?,?)",v,allergy);db.update("UPDATE sku_standard_versions SET status='PUBLISHED',published_at=clock_timestamp() WHERE id=?",v);return v;}
+ UUID adultRule(){UUID species=db.queryForObject("SELECT id FROM pet_species WHERE category='CAT' AND parent_id IS NULL",UUID.class);db.update("UPDATE pet_life_stage_rule_versions SET status='RETIRED' WHERE species_id=? AND status='PUBLISHED'",species);UUID v=UUID.randomUUID(),d=UUID.randomUUID();db.update("INSERT INTO pet_life_stage_rule_versions VALUES (?,?,(SELECT coalesce(max(version_no),0)+1 FROM pet_life_stage_rule_versions WHERE species_id='10000000-0000-4000-8000-000000000001'),'DRAFT','[\"TEST rule source\"]',NULL)",v,species);db.update("INSERT INTO pet_life_stage_definitions VALUES (?,?,'ADULT','TEST adult',0,NULL,'MONTH',false)",d,v);db.update("UPDATE pet_life_stage_rule_versions SET status='PUBLISHED',published_at=clock_timestamp() WHERE id=?",v);return d;}
+ @Test void guestGetsOnlyPublishedStandard(){assertEquals(200,read("/public/skus/"+sku,null).status());db.update("UPDATE sku_standard_versions SET status='RETIRED' WHERE sku_id=?",UUID.fromString(sku));assertEquals(404,read("/public/skus/"+sku,null).status());}
+ @Test void consumerRequiresRealmAndPetOwnership(){String c=consumer(),other=consumer();UUID p=pet(c,"CAT");assertEquals(401,fit(null,p).status());assertEquals(403,fit(merchant,p).status());assertEquals(404,fit(other,p).status());assertEquals(200,fit(c,p).status());}
+ @Test void emptyAllergiesAndUnknownAgeDoNotBecomeSuitable(){String c=consumer();UUID p=pet(c,"CAT");var f=fit(c,p).data();assertEquals("INSUFFICIENT_DATA",f.get("result").asString());assertTrue(f.get("uncertainties").toString().contains("PET_ALLERGIES_UNKNOWN"));assertTrue(f.get("uncertainties").toString().contains("LIFE_STAGE_INSUFFICIENT"));}
+ @Test void allergenConflictDominatesAllUncertainties(){String c=consumer();UUID p=pet(c,"CAT"),a=allergen();assessed(p,a,"YES");publish(false,a,null);var f=fit(c,p).data();assertEquals("NOT_RECOMMENDED",f.get("result").asString());assertEquals("ALLERGEN_CONFLICT",f.get("hard_conflicts").get(0).get("type").asString());assertEquals("pawday-fit-1",f.get("fit_rule_version").asString());}
+ @Test void categoryMismatchIsNotRecommendation(){String c=consumer();UUID p=pet(c,"DOG");assertEquals("NOT_RECOMMENDED",fit(c,p).data().get("result").asString());}
+ @Test void completeSourcedAssessmentCanBeSuitable(){String c=consumer();UUID p=pet(c,"CAT"),a=allergen(),d=adultRule();assessed(p,a,"NO");UUID v=publish(true,a,d);var f=fit(c,p).data();assertEquals("SUITABLE",f.get("result").asString());assertEquals(v.toString(),f.get("catalog_standard_version_id").asString());}
+ @Test void unassessedProductAllergenRemainsInsufficient(){String c=consumer();UUID p=pet(c,"CAT"),a=allergen(),other=allergen();assessed(p,other,"NO");publish(true,a,adultRule());assertEquals("INSUFFICIENT_DATA",fit(c,p).data().get("result").asString());}
+ @Test void freeTextAvoidanceIsNotSilentlyInterpreted(){String c=consumer();UUID p=pet(c,"CAT"),a=allergen();assessed(p,a,"NO");publish(true,a,adultRule());db.update("UPDATE pets SET avoidance_notes='[\"TEST diet restriction\"]' WHERE id=?",p);assertEquals("INSUFFICIENT_DATA",fit(c,p).data().get("result").asString());}
+ @Test void retiredRulesDoNotSilentlyRemapProductEvidence(){String c=consumer();UUID p=pet(c,"CAT"),a=allergen(),old=adultRule();assessed(p,a,"NO");publish(true,a,old);UUID species=db.queryForObject("SELECT species_id FROM pets WHERE id=?",UUID.class,p);db.update("UPDATE pet_life_stage_rule_versions SET status='RETIRED' WHERE species_id=? AND status='PUBLISHED'",species);assertEquals("INSUFFICIENT_DATA",fit(c,p).data().get("result").asString());}
+ @Test void offersHideDraftFrozenAndSuspendedMerchant(){String o=create();assertEquals(0,read("/public/skus/"+sku+"/offers",null).data().size());assertEquals(200,state(o,"activate",0,merchant,null,key()).status());assertEquals(1,read("/public/skus/"+sku+"/offers",null).data().size());assertEquals(200,state(o,"freeze",1,admin,proof(),key()).status());assertEquals(0,read("/public/skus/"+sku+"/offers",null).data().size());db.update("UPDATE offers SET sale_status='ACTIVE' WHERE id=?",UUID.fromString(o));db.update("UPDATE merchant SET status='SUSPENDED' WHERE id=?",merchantId);assertEquals(0,read("/public/skus/"+sku+"/offers",null).data().size());}
+ @Test void exhaustedInventoryIsExplicit(){String o=create();state(o,"activate",0,merchant,null,key());var item=read("/public/skus/"+sku+"/offers",null).data().get(0);assertFalse(item.get("in_stock").asBoolean());assertEquals(0,item.get("available_qty").asLong());}
+ @Test void compareRejectsDuplicatesAndCrossUserPets(){String c=consumer(),other=consumer();UUID p=pet(other,"CAT");assertEquals(400,req("POST","/consumer/products/compare",Map.of("sku_ids",List.of(sku,sku)),c,Map.of()).status());assertEquals(400,req("POST","/consumer/products/compare",Map.of("sku_ids",List.of(sku)),c,Map.of()).status());}
+}

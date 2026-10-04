@@ -16,7 +16,7 @@ public class CatalogSearchSource {
         List<String> allergens,long price_min_fen,boolean in_stock,int merchant_count,Instant published_at) {
         public Product {
             if(spu_id==null || sku_id==null || published_at==null || price_min_fen<0 || merchant_count<0 || allergens==null || allergens.size()>50)throw new IllegalArgumentException("Invalid source document");
-            for(String value:List.of(brand,pet_category,life_stage,food_type))if(value.isBlank() || value.length()>120)throw new IllegalArgumentException("Invalid source keyword");
+            for(String value:List.of(brand,pet_category,life_stage,food_type))if(value.isBlank() || value.length()>160)throw new IllegalArgumentException("Invalid source keyword");
             for(String allergen:allergens)if(allergen==null || allergen.isBlank() || allergen.length()>120)throw new IllegalArgumentException("Invalid allergen");
             allergens=List.copyOf(allergens);
         }

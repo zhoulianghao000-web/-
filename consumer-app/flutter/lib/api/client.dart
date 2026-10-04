@@ -157,10 +157,13 @@ class ConsumerApi {
   }
 
   Uri _url(String path) {
+    final route = Uri.parse(path).path;
     final publicTaxonomy =
         path == '/public/pet-taxonomy' ||
         path == '/public/allergens' ||
-        RegExp(r'^/public/pet-species/[0-9a-f-]{36}/breeds$').hasMatch(path);
+        RegExp(r'^/public/pet-species/[0-9a-f-]{36}/breeds$').hasMatch(path) ||
+        route == '/public/products' ||
+        RegExp(r'^/public/(skus|spus)/[0-9a-f-]{36}(/offers)?$').hasMatch(route);
     if ((!path.startsWith('/consumer/') && !publicTaxonomy) ||
         path.contains('..') ||
         path.contains('\\')) {
