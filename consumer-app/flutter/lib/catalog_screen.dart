@@ -78,42 +78,62 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
           pet?.id != ref.read(currentPetProvider)?.id) {
         return;
       }
+      setState(() => loading = false);
       await showDialog<void>(
         context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('标准与适配对比'),
-          content: SizedBox(
-            width: 600,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  for (final item in result.items) ...[
-                    Text(
-                      '${item.standard.name} · ${item.standard.sku_code}',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text('配料：${item.standard.ingredients.join('、')}'),
-                    Text('来源：${item.standard.source_refs.join('；')}'),
-                    Text('适配：${item.fit?.display_label ?? '未选择宠物，不生成适配结论'}'),
-                    if (item.fit != null)
-                      Text(
-                        item.fit!.hard_conflicts
-                            .map((x) => x.message)
-                            .join('；'),
-                      ),
-                    const Divider(),
-                  ],
+        builder: (context) => Consumer(
+          builder: (context, ref, child) {
+            if (ref.watch(authProvider).principal?.user_id != user ||
+                ref.watch(currentPetProvider) != pet) {
+              return AlertDialog(
+                title: const Text('登录或宠物已变化'),
+                content: const Text('请关闭后重新比较'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('关闭'),
+                  ),
                 ],
+              );
+            }
+            return AlertDialog(
+              title: const Text('标准与适配对比'),
+              content: SizedBox(
+                width: 600,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      for (final item in result.items) ...[
+                        Text(
+                          '${item.standard.name} · ${item.standard.sku_code}',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text('配料：${item.standard.ingredients.join('、')}'),
+                        Text('来源：${item.standard.source_refs.join('；')}'),
+                        Text(
+                          '适配：${item.fit?.display_label ?? '未选择宠物，不生成适配结论'}',
+                        ),
+                        if (item.fit != null)
+                          Text(
+                            item.fit!.hard_conflicts
+                                .map((x) => x.message)
+                                .join('；'),
+                          ),
+                        const Divider(),
+                      ],
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('关闭'),
-            ),
-          ],
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('关闭'),
+                ),
+              ],
+            );
+          },
         ),
       );
     } catch (e) {
