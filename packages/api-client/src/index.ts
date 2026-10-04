@@ -22,7 +22,7 @@ export function safeReturnTo(value:unknown, fallback='/dashboard'):string {
   return value;
 }
 export const mutationHeaders=(key:string,proof?:string,version?:number)=>({
-  'Idempotency-Key':key,...(proof?{'X-Reverify-Token':proof}:{}),...(version!==undefined?{'If-Match':String(version)}:{}),
+  'Idempotency-Key':key,...(proof?{'X-Reverify-Token':proof}:{}),...(version!==undefined?{'If-Match':`"${version}"`}:{}),
 });
 export function unwrap<T>(result:{data?:T;error?:unknown;response:Response}):T {
   if(result.data===undefined)throw new ApiError(result.response.status,'EMPTY_RESPONSE',result.response.headers.get('X-Request-ID')??'');

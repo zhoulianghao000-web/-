@@ -68,7 +68,7 @@ describe('realm-bound generated API transport',()=>{
 describe('scope, intent and mutation handling',()=>{
   it.each(['https://bad.example','//bad.example','/\\bad','/%2f%2fbad','/%5cbad','/login','/auth/login','/%ZZ'])('rejects unsafe returnTo %s',value=>{expect(safeReturnTo(value)).toBe('/dashboard');});
   it('preserves internal returnTo and its query',()=>{expect(safeReturnTo('/audit?limit=20')).toBe('/audit?limit=20');});
-  it('keeps the exact caller-owned idempotency key and version',()=>{expect(mutationHeaders('stable-key','one-use-proof',4)).toEqual({'Idempotency-Key':'stable-key','X-Reverify-Token':'one-use-proof','If-Match':'4'});});
+  it('keeps the exact caller-owned idempotency key and version',()=>{expect(mutationHeaders('stable-key','one-use-proof',4)).toEqual({'Idempotency-Key':'stable-key','X-Reverify-Token':'one-use-proof','If-Match':'"4"'});});
   it('rejects a store belonging to another merchant and clears session',async()=>{
     const network:typeof fetch=async input=>{const path=(input as Request).url;return path.endsWith('/login')?json(tokens):path.endsWith('/me')?json(principal):json([{id:meta.request_id,name:'wrong store',merchant_id:meta.correlation_id}]);};
     const client=new PawdayClient('merchant','http://localhost/api/v1',network);const session=new StaffSession(client);await expect(session.login('x','x','','device')).rejects.toMatchObject({code:'STORE_SCOPE_MISMATCH'});expect(session.state.principal).toBeNull();expect(client.authenticated).toBe(false);

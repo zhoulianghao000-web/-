@@ -46,7 +46,7 @@ public final class Api {
         ResponseEntity<ErrorEnvelope> searchUnavailable(cn.pawday.search.OpenSearchClient.Unavailable unavailable,HttpServletRequest r){return ResponseEntity.status(503).body(error(unavailable.code,r));}
         @ExceptionHandler(org.springframework.dao.DataAccessException.class)
         ResponseEntity<ErrorEnvelope> persistence(Exception ignored,HttpServletRequest r){return ResponseEntity.status(503).body(error("PERSISTENCE_UNAVAILABLE",r));}
-        @ExceptionHandler({MethodArgumentNotValidException.class,HttpMessageNotReadableException.class})
+        @ExceptionHandler({MethodArgumentNotValidException.class,HttpMessageNotReadableException.class,org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class})
         ResponseEntity<ErrorEnvelope> invalid(Exception ignored,HttpServletRequest r) {
             return ResponseEntity.badRequest().body(error("VALIDATION_ERROR",r));
         }

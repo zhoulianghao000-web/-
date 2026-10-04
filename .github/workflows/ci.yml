@@ -43,6 +43,7 @@ jobs:
           python openapi/validate_m23_contract.py --samples backend/target/m22-contract-samples.json --report openapi/delivery-response-report.json
           python openapi/validate_m23_contract.py --samples backend/target/m23-storage-contract-samples.json --report openapi/storage-response-report.json
           python openapi/validate_m23_contract.py --samples backend/target/m23-search-contract-samples.json --report openapi/search-response-report.json
+          python openapi/validate_m31_contract.py --samples backend/target/m31-contract-samples.json --report openapi/pet-response-report.json
       - name: Real infrastructure diagnostics
         if: always()
         run: |
@@ -80,5 +81,7 @@ jobs:
           python -m pip install -r openapi/requirements-validation-lock.txt
           python openapi/validate_contract.py
           python openapi/validate_m23_contract.py
+          python openapi/validate_m31_contract.py
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-v1.yaml openapi/pawday-m2.1.yaml openapi/pawday-m2.2.yaml openapi/pawday-m2.3.yaml
-          npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m2.3.yaml --output openapi/pawday-m2.3.redocly.bundle.json
+          npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m3.1.yaml
+          npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m3.1.yaml --output openapi/pawday-m3.1.redocly.bundle.json

@@ -157,7 +157,11 @@ class ConsumerApi {
   }
 
   Uri _url(String path) {
-    if (!path.startsWith('/consumer/') ||
+    final publicTaxonomy =
+        path == '/public/pet-taxonomy' ||
+        path == '/public/allergens' ||
+        RegExp(r'^/public/pet-species/[0-9a-f-]{36}/breeds$').hasMatch(path);
+    if ((!path.startsWith('/consumer/') && !publicTaxonomy) ||
         path.contains('..') ||
         path.contains('\\')) {
       throw const ApiFailure(403, 'REALM_MISMATCH');
@@ -171,6 +175,7 @@ class ConsumerApi {
     Map<String, dynamic>? body,
     bool anonymous = false,
     String? idempotencyKey,
+    int? version,
   }) async {
     final epoch = _epoch, access = _tokens?.access_token;
     Future<http.Response> send() async {
@@ -182,6 +187,7 @@ class ConsumerApi {
       if (idempotencyKey != null) {
         request.headers['Idempotency-Key'] = idempotencyKey;
       }
+      if (version != null) request.headers['If-Match'] = '"$version"';
       if (body != null) {
         request.headers['Content-Type'] = 'application/json';
         request.body = jsonEncode(body);

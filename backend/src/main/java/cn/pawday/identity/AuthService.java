@@ -169,7 +169,7 @@ public class AuthService {
         if(result==null) throw new Failure(401,"INVALID_REFRESH_TOKEN");return result;
     }
     public Proof reverify(Actor actor,String action,String password,String otp,String totp,HttpServletRequest r) {
-        if(!Set.of("access.role.write","session.revoke-others","outbox.replay","search.rebuild","search.reconcile","search.retry").contains(action)) throw new Failure(422,"REVERIFY_ACTION_NOT_ALLOWED");
+        if(!Set.of("access.role.write","session.revoke-others","outbox.replay","search.rebuild","search.reconcile","search.retry","pet.taxonomy.write").contains(action)) throw new Failure(422,"REVERIFY_ACTION_NOT_ALLOWED");
         if(!action.equals("session.revoke-others") && !actor.permissions().contains(action.startsWith("search.")?"search.manage":action)) throw new Failure(403,"PERMISSION_DENIED");
         rateLimit("reverify:"+actor.principalId());
         Proof result=tx.execute(s-> {

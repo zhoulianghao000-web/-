@@ -1,4 +1,4 @@
-// Generated from pawday-m2.3.yaml; SHA256 d599a3d470802332e2fcbd6f0b565b055b917b596cc51cd231a6bbd219b7d12b
+// Generated from pawday-m3.1.yaml; SHA256 efc62b21ef6075e30c8da45949e5c664a648cd5ec001fe54c6f32bc4c7f68966
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -908,6 +908,608 @@ class SearchCommandReceiptEnvelope {
   };
 }
 
+class LifeStage {
+  final String id;
+  final String species_id;
+  final String stage_code;
+  final String display_name;
+  final String rule_version_id;
+  final int? min_age_value;
+  final int? max_age_value;
+  final String age_unit;
+  final bool is_unknown;
+  const LifeStage({required this.id, required this.species_id, required this.stage_code, required this.display_name, required this.rule_version_id, required this.min_age_value, required this.max_age_value, required this.age_unit, required this.is_unknown});
+  factory LifeStage.fromJson(Map<String,dynamic> json) => LifeStage(
+    id: json['id'] as String,
+    species_id: json['species_id'] as String,
+    stage_code: json['stage_code'] as String,
+    display_name: json['display_name'] as String,
+    rule_version_id: json['rule_version_id'] as String,
+    min_age_value: json['min_age_value'] == null ? null : (json['min_age_value'] as num).toInt(),
+    max_age_value: json['max_age_value'] == null ? null : (json['max_age_value'] as num).toInt(),
+    age_unit: json['age_unit'] as String,
+    is_unknown: json['is_unknown'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'species_id': species_id,
+    'stage_code': stage_code,
+    'display_name': display_name,
+    'rule_version_id': rule_version_id,
+    'min_age_value': min_age_value == null ? null : min_age_value!,
+    'max_age_value': max_age_value == null ? null : max_age_value!,
+    'age_unit': age_unit,
+    'is_unknown': is_unknown,
+  };
+}
+
+class Species {
+  final String id;
+  final String? parent_id;
+  final String name;
+  final String category;
+  final List<LifeStage> life_stages;
+  const Species({required this.id, required this.parent_id, required this.name, required this.category, required this.life_stages});
+  factory Species.fromJson(Map<String,dynamic> json) => Species(
+    id: json['id'] as String,
+    parent_id: json['parent_id'] == null ? null : json['parent_id'] as String,
+    name: json['name'] as String,
+    category: json['category'] as String,
+    life_stages: (json['life_stages'] as List).map((value) => LifeStage.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'parent_id': parent_id == null ? null : parent_id!,
+    'name': name,
+    'category': category,
+    'life_stages': life_stages.map((value) => value.toJson()).toList(),
+  };
+}
+
+class AllergenEntry {
+  final String allergen_id;
+  final String status;
+  final String source;
+  final String? note;
+  const AllergenEntry({required this.allergen_id, required this.status, required this.source, this.note});
+  factory AllergenEntry.fromJson(Map<String,dynamic> json) => AllergenEntry(
+    allergen_id: json['allergen_id'] as String,
+    status: json['status'] as String,
+    source: json['source'] as String,
+    note: json['note'] == null ? null : json['note'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'allergen_id': allergen_id,
+    'status': status,
+    'source': source,
+    if (note != null) 'note': note == null ? null : note!,
+  };
+}
+
+class PetRequest {
+  final String name;
+  final String species_id;
+  final String? breed_id;
+  final String? birth_date;
+  final int? age_estimate_months;
+  final String sex;
+  final String neutered_status;
+  final List<AllergenEntry> allergens;
+  final List<String> avoidance_notes;
+  const PetRequest({required this.name, required this.species_id, this.breed_id, this.birth_date, this.age_estimate_months, required this.sex, required this.neutered_status, required this.allergens, required this.avoidance_notes});
+  factory PetRequest.fromJson(Map<String,dynamic> json) => PetRequest(
+    name: json['name'] as String,
+    species_id: json['species_id'] as String,
+    breed_id: json['breed_id'] == null ? null : json['breed_id'] as String,
+    birth_date: json['birth_date'] == null ? null : json['birth_date'] as String,
+    age_estimate_months: json['age_estimate_months'] == null ? null : (json['age_estimate_months'] as num).toInt(),
+    sex: json['sex'] as String,
+    neutered_status: json['neutered_status'] as String,
+    allergens: (json['allergens'] as List).map((value) => AllergenEntry.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    avoidance_notes: (json['avoidance_notes'] as List).map((value) => value as String).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'name': name,
+    'species_id': species_id,
+    if (breed_id != null) 'breed_id': breed_id == null ? null : breed_id!,
+    if (birth_date != null) 'birth_date': birth_date == null ? null : birth_date!,
+    if (age_estimate_months != null) 'age_estimate_months': age_estimate_months == null ? null : age_estimate_months!,
+    'sex': sex,
+    'neutered_status': neutered_status,
+    'allergens': allergens.map((value) => value.toJson()).toList(),
+    'avoidance_notes': avoidance_notes.map((value) => value).toList(),
+  };
+}
+
+class PetPatch {
+  final String? name;
+  final String? species_id;
+  final String? breed_id;
+  final String? birth_date;
+  final int? age_estimate_months;
+  final String? sex;
+  final String? neutered_status;
+  final List<AllergenEntry>? allergens;
+  final List<String>? avoidance_notes;
+  const PetPatch({this.name, this.species_id, this.breed_id, this.birth_date, this.age_estimate_months, this.sex, this.neutered_status, this.allergens, this.avoidance_notes});
+  factory PetPatch.fromJson(Map<String,dynamic> json) => PetPatch(
+    name: json['name'] == null ? null : json['name'] as String,
+    species_id: json['species_id'] == null ? null : json['species_id'] as String,
+    breed_id: json['breed_id'] == null ? null : json['breed_id'] as String,
+    birth_date: json['birth_date'] == null ? null : json['birth_date'] as String,
+    age_estimate_months: json['age_estimate_months'] == null ? null : (json['age_estimate_months'] as num).toInt(),
+    sex: json['sex'] == null ? null : json['sex'] as String,
+    neutered_status: json['neutered_status'] == null ? null : json['neutered_status'] as String,
+    allergens: json['allergens'] == null ? null : (json['allergens'] as List).map((value) => AllergenEntry.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    avoidance_notes: json['avoidance_notes'] == null ? null : (json['avoidance_notes'] as List).map((value) => value as String).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    if (name != null) 'name': name == null ? null : name!,
+    if (species_id != null) 'species_id': species_id == null ? null : species_id!,
+    if (breed_id != null) 'breed_id': breed_id == null ? null : breed_id!,
+    if (birth_date != null) 'birth_date': birth_date == null ? null : birth_date!,
+    if (age_estimate_months != null) 'age_estimate_months': age_estimate_months == null ? null : age_estimate_months!,
+    if (sex != null) 'sex': sex == null ? null : sex!,
+    if (neutered_status != null) 'neutered_status': neutered_status == null ? null : neutered_status!,
+    if (allergens != null) 'allergens': allergens == null ? null : allergens!.map((value) => value.toJson()).toList(),
+    if (avoidance_notes != null) 'avoidance_notes': avoidance_notes == null ? null : avoidance_notes!.map((value) => value).toList(),
+  };
+}
+
+class Pet {
+  final String name;
+  final String species_id;
+  final String? breed_id;
+  final String? birth_date;
+  final int? age_estimate_months;
+  final String sex;
+  final String neutered_status;
+  final List<AllergenEntry>? allergens;
+  final List<String>? avoidance_notes;
+  final String id;
+  final int version;
+  final String? life_stage_id;
+  final bool life_stage_unknown;
+  const Pet({required this.name, required this.species_id, this.breed_id, this.birth_date, this.age_estimate_months, required this.sex, required this.neutered_status, this.allergens, this.avoidance_notes, required this.id, required this.version, this.life_stage_id, required this.life_stage_unknown});
+  factory Pet.fromJson(Map<String,dynamic> json) => Pet(
+    name: json['name'] as String,
+    species_id: json['species_id'] as String,
+    breed_id: json['breed_id'] == null ? null : json['breed_id'] as String,
+    birth_date: json['birth_date'] == null ? null : json['birth_date'] as String,
+    age_estimate_months: json['age_estimate_months'] == null ? null : (json['age_estimate_months'] as num).toInt(),
+    sex: json['sex'] as String,
+    neutered_status: json['neutered_status'] as String,
+    allergens: json['allergens'] == null ? null : (json['allergens'] as List).map((value) => AllergenEntry.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    avoidance_notes: json['avoidance_notes'] == null ? null : (json['avoidance_notes'] as List).map((value) => value as String).toList(),
+    id: json['id'] as String,
+    version: (json['version'] as num).toInt(),
+    life_stage_id: json['life_stage_id'] == null ? null : json['life_stage_id'] as String,
+    life_stage_unknown: json['life_stage_unknown'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'name': name,
+    'species_id': species_id,
+    if (breed_id != null) 'breed_id': breed_id == null ? null : breed_id!,
+    if (birth_date != null) 'birth_date': birth_date == null ? null : birth_date!,
+    if (age_estimate_months != null) 'age_estimate_months': age_estimate_months == null ? null : age_estimate_months!,
+    'sex': sex,
+    'neutered_status': neutered_status,
+    if (allergens != null) 'allergens': allergens == null ? null : allergens!.map((value) => value.toJson()).toList(),
+    if (avoidance_notes != null) 'avoidance_notes': avoidance_notes == null ? null : avoidance_notes!.map((value) => value).toList(),
+    'id': id,
+    'version': version,
+    if (life_stage_id != null) 'life_stage_id': life_stage_id == null ? null : life_stage_id!,
+    'life_stage_unknown': life_stage_unknown,
+  };
+}
+
+class Breed {
+  final String id;
+  final String species_id;
+  final String name;
+  const Breed({required this.id, required this.species_id, required this.name});
+  factory Breed.fromJson(Map<String,dynamic> json) => Breed(
+    id: json['id'] as String,
+    species_id: json['species_id'] as String,
+    name: json['name'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'species_id': species_id,
+    'name': name,
+  };
+}
+
+class Allergen {
+  final String id;
+  final String name;
+  const Allergen({required this.id, required this.name});
+  factory Allergen.fromJson(Map<String,dynamic> json) => Allergen(
+    id: json['id'] as String,
+    name: json['name'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'name': name,
+  };
+}
+
+class Weight {
+  final String id;
+  final int weight_g;
+  final String recorded_on;
+  final String source;
+  const Weight({required this.id, required this.weight_g, required this.recorded_on, required this.source});
+  factory Weight.fromJson(Map<String,dynamic> json) => Weight(
+    id: json['id'] as String,
+    weight_g: (json['weight_g'] as num).toInt(),
+    recorded_on: json['recorded_on'] as String,
+    source: json['source'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'weight_g': weight_g,
+    'recorded_on': recorded_on,
+    'source': source,
+  };
+}
+
+class WeightRequest {
+  final int weight_g;
+  final String recorded_on;
+  final String source;
+  const WeightRequest({required this.weight_g, required this.recorded_on, required this.source});
+  factory WeightRequest.fromJson(Map<String,dynamic> json) => WeightRequest(
+    weight_g: (json['weight_g'] as num).toInt(),
+    recorded_on: json['recorded_on'] as String,
+    source: json['source'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'weight_g': weight_g,
+    'recorded_on': recorded_on,
+    'source': source,
+  };
+}
+
+class WeightCreated {
+  final String id;
+  final int weight_g;
+  final String recorded_on;
+  final String source;
+  final int pet_version;
+  const WeightCreated({required this.id, required this.weight_g, required this.recorded_on, required this.source, required this.pet_version});
+  factory WeightCreated.fromJson(Map<String,dynamic> json) => WeightCreated(
+    id: json['id'] as String,
+    weight_g: (json['weight_g'] as num).toInt(),
+    recorded_on: json['recorded_on'] as String,
+    source: json['source'] as String,
+    pet_version: (json['pet_version'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'weight_g': weight_g,
+    'recorded_on': recorded_on,
+    'source': source,
+    'pet_version': pet_version,
+  };
+}
+
+class PetDeleted {
+  final String id;
+  final int version;
+  final String status;
+  const PetDeleted({required this.id, required this.version, required this.status});
+  factory PetDeleted.fromJson(Map<String,dynamic> json) => PetDeleted(
+    id: json['id'] as String,
+    version: (json['version'] as num).toInt(),
+    status: json['status'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'version': version,
+    'status': status,
+  };
+}
+
+class TaxonomyCreated {
+  final String id;
+  final String name;
+  const TaxonomyCreated({required this.id, required this.name});
+  factory TaxonomyCreated.fromJson(Map<String,dynamic> json) => TaxonomyCreated(
+    id: json['id'] as String,
+    name: json['name'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'name': name,
+  };
+}
+
+class TaxonomyRetired {
+  final String id;
+  final String status;
+  const TaxonomyRetired({required this.id, required this.status});
+  factory TaxonomyRetired.fromJson(Map<String,dynamic> json) => TaxonomyRetired(
+    id: json['id'] as String,
+    status: json['status'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'status': status,
+  };
+}
+
+class RulePublished {
+  final String id;
+  final String species_id;
+  final int version_no;
+  final String status;
+  const RulePublished({required this.id, required this.species_id, required this.version_no, required this.status});
+  factory RulePublished.fromJson(Map<String,dynamic> json) => RulePublished(
+    id: json['id'] as String,
+    species_id: json['species_id'] as String,
+    version_no: (json['version_no'] as num).toInt(),
+    status: json['status'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'species_id': species_id,
+    'version_no': version_no,
+    'status': status,
+  };
+}
+
+class SpeciesCreate {
+  final String name;
+  final String parent_id;
+  const SpeciesCreate({required this.name, required this.parent_id});
+  factory SpeciesCreate.fromJson(Map<String,dynamic> json) => SpeciesCreate(
+    name: json['name'] as String,
+    parent_id: json['parent_id'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'name': name,
+    'parent_id': parent_id,
+  };
+}
+
+class BreedCreate {
+  final String name;
+  final String species_id;
+  const BreedCreate({required this.name, required this.species_id});
+  factory BreedCreate.fromJson(Map<String,dynamic> json) => BreedCreate(
+    name: json['name'] as String,
+    species_id: json['species_id'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'name': name,
+    'species_id': species_id,
+  };
+}
+
+class AllergenCreate {
+  final String name;
+  const AllergenCreate({required this.name});
+  factory AllergenCreate.fromJson(Map<String,dynamic> json) => AllergenCreate(
+    name: json['name'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'name': name,
+  };
+}
+
+class StageDefinition {
+  final String stage_code;
+  final String display_name;
+  final int? min_age_value;
+  final int? max_age_value;
+  final String age_unit;
+  final bool is_unknown;
+  const StageDefinition({required this.stage_code, required this.display_name, required this.min_age_value, required this.max_age_value, required this.age_unit, required this.is_unknown});
+  factory StageDefinition.fromJson(Map<String,dynamic> json) => StageDefinition(
+    stage_code: json['stage_code'] as String,
+    display_name: json['display_name'] as String,
+    min_age_value: json['min_age_value'] == null ? null : (json['min_age_value'] as num).toInt(),
+    max_age_value: json['max_age_value'] == null ? null : (json['max_age_value'] as num).toInt(),
+    age_unit: json['age_unit'] as String,
+    is_unknown: json['is_unknown'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'stage_code': stage_code,
+    'display_name': display_name,
+    'min_age_value': min_age_value == null ? null : min_age_value!,
+    'max_age_value': max_age_value == null ? null : max_age_value!,
+    'age_unit': age_unit,
+    'is_unknown': is_unknown,
+  };
+}
+
+class RulePublish {
+  final String species_id;
+  final List<String> source_refs;
+  final List<StageDefinition> stages;
+  const RulePublish({required this.species_id, required this.source_refs, required this.stages});
+  factory RulePublish.fromJson(Map<String,dynamic> json) => RulePublish(
+    species_id: json['species_id'] as String,
+    source_refs: (json['source_refs'] as List).map((value) => value as String).toList(),
+    stages: (json['stages'] as List).map((value) => StageDefinition.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'species_id': species_id,
+    'source_refs': source_refs.map((value) => value).toList(),
+    'stages': stages.map((value) => value.toJson()).toList(),
+  };
+}
+
+class SpeciesListEnvelope {
+  final List<Species> data;
+  final Page page;
+  final Meta meta;
+  const SpeciesListEnvelope({required this.data, required this.page, required this.meta});
+  factory SpeciesListEnvelope.fromJson(Map<String,dynamic> json) => SpeciesListEnvelope(
+    data: (json['data'] as List).map((value) => Species.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class BreedListEnvelope {
+  final List<Breed> data;
+  final Page page;
+  final Meta meta;
+  const BreedListEnvelope({required this.data, required this.page, required this.meta});
+  factory BreedListEnvelope.fromJson(Map<String,dynamic> json) => BreedListEnvelope(
+    data: (json['data'] as List).map((value) => Breed.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AllergenListEnvelope {
+  final List<Allergen> data;
+  final Page page;
+  final Meta meta;
+  const AllergenListEnvelope({required this.data, required this.page, required this.meta});
+  factory AllergenListEnvelope.fromJson(Map<String,dynamic> json) => AllergenListEnvelope(
+    data: (json['data'] as List).map((value) => Allergen.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class PetListEnvelope {
+  final List<Pet> data;
+  final Page page;
+  final Meta meta;
+  const PetListEnvelope({required this.data, required this.page, required this.meta});
+  factory PetListEnvelope.fromJson(Map<String,dynamic> json) => PetListEnvelope(
+    data: (json['data'] as List).map((value) => Pet.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class PetEnvelope {
+  final Pet data;
+  final Meta meta;
+  const PetEnvelope({required this.data, required this.meta});
+  factory PetEnvelope.fromJson(Map<String,dynamic> json) => PetEnvelope(
+    data: Pet.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class PetDeletedEnvelope {
+  final PetDeleted data;
+  final Meta meta;
+  const PetDeletedEnvelope({required this.data, required this.meta});
+  factory PetDeletedEnvelope.fromJson(Map<String,dynamic> json) => PetDeletedEnvelope(
+    data: PetDeleted.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class WeightListEnvelope {
+  final List<Weight> data;
+  final Page page;
+  final Meta meta;
+  const WeightListEnvelope({required this.data, required this.page, required this.meta});
+  factory WeightListEnvelope.fromJson(Map<String,dynamic> json) => WeightListEnvelope(
+    data: (json['data'] as List).map((value) => Weight.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class WeightCreatedEnvelope {
+  final WeightCreated data;
+  final Meta meta;
+  const WeightCreatedEnvelope({required this.data, required this.meta});
+  factory WeightCreatedEnvelope.fromJson(Map<String,dynamic> json) => WeightCreatedEnvelope(
+    data: WeightCreated.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class TaxonomyCreatedEnvelope {
+  final TaxonomyCreated data;
+  final Meta meta;
+  const TaxonomyCreatedEnvelope({required this.data, required this.meta});
+  factory TaxonomyCreatedEnvelope.fromJson(Map<String,dynamic> json) => TaxonomyCreatedEnvelope(
+    data: TaxonomyCreated.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class RulePublishedEnvelope {
+  final RulePublished data;
+  final Meta meta;
+  const RulePublishedEnvelope({required this.data, required this.meta});
+  factory RulePublishedEnvelope.fromJson(Map<String,dynamic> json) => RulePublishedEnvelope(
+    data: RulePublished.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class TaxonomyRetiredEnvelope {
+  final TaxonomyRetired data;
+  final Meta meta;
+  const TaxonomyRetiredEnvelope({required this.data, required this.meta});
+  factory TaxonomyRetiredEnvelope.fromJson(Map<String,dynamic> json) => TaxonomyRetiredEnvelope(
+    data: TaxonomyRetired.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -952,4 +1554,22 @@ class ApiRoutes {
   static const search_rebuild = '/admin/operations/search/rebuild';
   static const search_reconcile = '/admin/operations/search/reconcile';
   static const search_retry = '/admin/operations/search/retry';
+  static const get_public_pet_taxonomy = '/public/pet-taxonomy';
+  static const get_public_pet_species__species_id__breeds = '/public/pet-species/{species_id}/breeds';
+  static const get_public_allergens = '/public/allergens';
+  static const get_consumer_pets = '/consumer/pets';
+  static const post_consumer_pets = '/consumer/pets';
+  static const get_consumer_pets__pet_id = '/consumer/pets/{pet_id}';
+  static const patch_consumer_pets__pet_id = '/consumer/pets/{pet_id}';
+  static const delete_consumer_pets__pet_id = '/consumer/pets/{pet_id}';
+  static const get_consumer_pets__pet_id__weight_records = '/consumer/pets/{pet_id}/weight-records';
+  static const post_consumer_pets__pet_id__weight_records = '/consumer/pets/{pet_id}/weight-records';
+  static const get_admin_pet_taxonomy = '/admin/pet-taxonomy';
+  static const post_admin_pet_taxonomy_species = '/admin/pet-taxonomy/species';
+  static const post_admin_pet_taxonomy_breeds = '/admin/pet-taxonomy/breeds';
+  static const post_admin_pet_taxonomy_allergens = '/admin/pet-taxonomy/allergens';
+  static const post_admin_pet_taxonomy_life_stage_rules = '/admin/pet-taxonomy/life-stage-rules';
+  static const post_admin_pet_taxonomy_species__id__retire = '/admin/pet-taxonomy/species/{id}/retire';
+  static const post_admin_pet_taxonomy_breeds__id__retire = '/admin/pet-taxonomy/breeds/{id}/retire';
+  static const post_admin_pet_taxonomy_allergens__id__retire = '/admin/pet-taxonomy/allergens/{id}/retire';
 }
