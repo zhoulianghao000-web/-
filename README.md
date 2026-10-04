@@ -32,10 +32,10 @@ M2.4 PR #2 已合并。M3.1 从合并后的主分支增加宠物分类/品种/�
 - [验收报告](docs/M2.3-验收报告.md)：实际门禁与环境限制。
 - [M2 检查清单](M2-CHECKLIST.md)。
 
-消费者/商家/管理员使用 `/api/v1/media` 申请一次性凭证后 PUT 原始图片；数据库只保存媒体引用。管理员搜索运维路径 `/api/v1/admin/operations/search`，敏感命令需 action/session reverify + audit + Idempotency-Key。M3 通过 CatalogSearchSource 加入业务事务并发布事件；当前没有商品/推荐业务页面或 CRUD 功能。
+消费者/商家/管理员使用 `/api/v1/media` 申请一次性凭证后 PUT 原始图片；数据库只保存媒体引用。管理员搜索运维路径 `/api/v1/admin/operations/search`，敏感命令需 action/session reverify + audit + Idempotency-Key。M3 通过 CatalogSearchSource 加入业务事务并发布事件；M3.2 已实现平台标准商品维护和商家纠错页面；消费者商品查询、Offer 与推荐/适配按后续阶段接入。
 
 真实本地验收使用原生服务替代缺失的 Docker，其中 Redis 为社区 Windows 移植的真实服务；CI 固定官方 Linux Redis 镜像。M2.3 的完整 Compose 已由 GitHub Actions 实际验收通过（运行 37127050020）；本机原生服务证据与 CI Docker 证据分别保留。
 
 ## 三端前端
 
-启动命令、身份边界和真实联调门禁见 [M2.4 前端工程说明](docs/M2.4-前端工程说明.md)。商家端 5173，管理端 5174；Flutter 提供五 Tab、手机号登录和安全会话恢复。[M2 基础工程技术总验收](docs/M2-总验收报告.md)已通过：167 项测试、305 个实际 HTTP 响应、5 个远程 Job 全部通过。M2.4 PR 待评审合并，尚未开始 M3。
+启动命令、身份边界和真实联调门禁见 [M2.4 前端工程说明](docs/M2.4-前端工程说明.md)。商家端 5173，管理端 5174；Flutter 提供五 Tab、手机号登录和安全会话恢复。[M2 基础工程技术总验收](docs/M2-总验收报告.md)已通过：167 项测试、305 个实际 HTTP 响应、5 个远程 Job 全部通过。M2.4 PR #2、M3.1 PR #3 已合并；M3.2 已通过技术验收，PR #4 待评审合并。详见 [M3.2 验收报告](docs/M3.2-验收报告.md)。
