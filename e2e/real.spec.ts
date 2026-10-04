@@ -28,5 +28,5 @@ test('real administrator TOTP login and audit HTTP response',async({page})=>{
   // A login TOTP is single-use. Wait for the next real step before reverify.
   const currentStep=Math.floor(Date.now()/30000);await expect.poll(()=>Math.floor(Date.now()/30000),{timeout:32000,intervals:[250]}).toBeGreaterThan(currentStep);
   await page.getByLabel('再次输入密码').fill(password);await page.getByLabel('新的动态验证码').fill(totp());await page.getByRole('button',{name:'验证并注销其他设备',exact:true}).click();await expect(page.getByRole('status')).toHaveText('其他设备的会话已注销。');
-  await page.getByRole('link',{name:'审计记录'}).click();await expect(page.getByRole('cell',{name:'session.revoke-others',exact:true}).first()).toBeVisible();
+  await page.getByRole('link',{name:'审计记录'}).click();await expect(page.getByRole('cell',{name:'auth.sessions.revoked-others',exact:true}).first()).toBeVisible();
 });

@@ -13,7 +13,7 @@ async function fixture(page:Page,realm:'merchant'|'admin',permissions:string[]){
     else if(path.endsWith('/sessions'))data=[{id:meta.request_id,device_id:'Browser',created_at:new Date().toISOString(),expires_at:new Date().toISOString(),revoked_at:null}];
     else if(path.endsWith('/reverify')){const body=JSON.parse(request.postData()??'{}');expect(body.action).toBe('session.revoke-others');expect(body.password).toBe('TEST_ONLY_password');if(realm==='admin')expect(body.totp_code).toBe('654321');data={reverify_token:'one-use-proof',action:'session.revoke-others',expires_at:new Date().toISOString()};}
     else if(path.endsWith('/revoke-others'))expect(request.headers()['x-reverify-token']).toBe('one-use-proof');
-    else if(path.endsWith('/audit'))data=[{id:'audit',actor_type:'ADMIN',actor_id:meta.request_id,action:'session.revoke-others',object_type:'SESSION',object_id:meta.request_id,before_json:null,after_json:null,request_id:meta.request_id,correlation_id:meta.correlation_id,created_at:'2026-10-04T00:00:00Z'}];
+    else if(path.endsWith('/audit'))data=[{id:'audit',actor_type:'ADMIN',actor_id:meta.request_id,action:'auth.sessions.revoked-others',object_type:'SESSION',object_id:meta.request_id,before_json:null,after_json:null,request_id:meta.request_id,correlation_id:meta.correlation_id,created_at:'2026-10-04T00:00:00Z'}];
     if(!path.endsWith('/login'))expect(request.headers()['authorization']).toBe('Bearer access');
     expect(request.headers()['x-request-id']).toBeTruthy();
     await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({data,meta})});
@@ -36,7 +36,7 @@ test('merchant direct unauthorized route is denied using current server permissi
 test('admin requires TOTP and loads audit only after authenticated RBAC guard',async({page})=>{
   const seen=await fixture(page,'admin',['audit.read']);await page.goto('http://127.0.0.1:5174/audit');
   await page.getByLabel('账号',{exact:true}).fill('admin');await page.getByLabel('密码',{exact:true}).fill('TEST_ONLY_password');await page.getByRole('button',{name:'登录工作台'}).click();expect(seen.some(p=>p.endsWith('/login'))).toBe(false);
-  await page.getByLabel('动态验证码',{exact:true}).fill('123456');await page.getByRole('button',{name:'登录工作台'}).click();await expect(page).toHaveURL('http://127.0.0.1:5174/audit');await expect(page.getByRole('cell',{name:'session.revoke-others',exact:true})).toBeVisible();await page.screenshot({path:'test-results/admin-audit.png',fullPage:true});
+  await page.getByLabel('动态验证码',{exact:true}).fill('123456');await page.getByRole('button',{name:'登录工作台'}).click();await expect(page).toHaveURL('http://127.0.0.1:5174/audit');await expect(page.getByRole('cell',{name:'auth.sessions.revoked-others',exact:true})).toBeVisible();await page.screenshot({path:'test-results/admin-audit.png',fullPage:true});
 });
 for(const realm of ['merchant','admin'] as const)test(`${realm} sensitive device action obtains and immediately consumes action-bound proof`,async({page})=>{
   const seen=await fixture(page,realm,realm==='merchant'?['store.read']:['audit.read']);await page.goto(`http://127.0.0.1:${realm==='merchant'?5173:5174}/sessions`);await login(page,realm);await expect(page.getByText('当前设备',{exact:true})).toBeVisible();
