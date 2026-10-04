@@ -96,9 +96,9 @@ class IdentitySecurityIntegrationTests {
     Map<String,String> writeHeaders(String proof,String key){return proof==null?Map.of("Idempotency-Key",key):Map.of("X-Reverify-Token",proof,"Idempotency-Key",key);}
     @BeforeEach void fixture(){
         clock.current=Instant.parse("2026-10-03T00:00:00Z");inbox.codes.clear();
-        db.execute("ALTER TABLE audit_event DISABLE TRIGGER audit_event_no_truncate");
+        db.execute("ALTER TABLE audit_event DISABLE TRIGGER audit_event_no_truncate");db.execute("ALTER TABLE inventory_adjustments DISABLE TRIGGER inventory_adjustment_no_truncate");
         try {db.execute("TRUNCATE outbox_replay_command,processed_event,sms_delivery,outbox_event,identity_command,reverify_grant,auth_refresh_token,auth_session,otp_challenge,auth_rate_bucket,principal_store_scope,principal_role,identity_principal,merchant_store,merchant,app_user,role_permission,role,audit_event CASCADE");}
-        finally {db.execute("ALTER TABLE audit_event ENABLE TRIGGER audit_event_no_truncate");}
+        finally {db.execute("ALTER TABLE audit_event ENABLE TRIGGER audit_event_no_truncate");db.execute("ALTER TABLE inventory_adjustments ENABLE TRIGGER inventory_adjustment_no_truncate");}
         if(fixtureHash==null) fixtureHash=passwords.encode(PASSWORD);
         merchantA=UUID.randomUUID();merchantB=UUID.randomUUID();storeA=UUID.randomUUID();storeAOther=UUID.randomUUID();storeB=UUID.randomUUID();staffA=UUID.randomUUID();staffB=UUID.randomUUID();admin=UUID.randomUUID();reader=UUID.randomUUID();merchantRole=UUID.randomUUID();adminRole=UUID.randomUUID();
         db.update("INSERT INTO merchant(id,name,status) VALUES (?,'TEST merchant A','ACTIVE'),(?,'TEST merchant B','ACTIVE')",merchantA,merchantB);
@@ -112,7 +112,7 @@ class IdentitySecurityIntegrationTests {
         db.update("INSERT INTO principal_store_scope(principal_id,merchant_id,store_id) VALUES (?,?,?),(?,?,?)",staffA,merchantA,storeA,staffB,merchantB,storeB);
     }
     @Test void migrationsAndHealthAreReal() throws Exception {
-        assertEquals(7,db.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success",Integer.class));
+        assertEquals(8,db.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success",Integer.class));
         var r=client.send(HttpRequest.newBuilder(URI.create("http://127.0.0.1:"+port+"/actuator/health")).GET().build(),HttpResponse.BodyHandlers.ofString());assertEquals(200,r.statusCode());assertEquals("UP",json.readTree(r.body()).get("status").asString());
     }
     @Test void anonymousCannotUseAnyPrivateRealm(){for(String realm:List.of("consumer","merchant","admin"))assertEquals(401,call("GET","/"+realm+"/me",null,null).status());}
