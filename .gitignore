@@ -20,3 +20,6 @@ release/*.jar
 
 
 .local-media/
+playwright-report/
+test-results/
+consumer-app/flutter/coverage/

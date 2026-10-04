@@ -1,0 +1,101 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import 'repositories.dart';
+import 'screens.dart';
+
+String safeReturnTo(String? value) {
+  const allowed = [
+    '/home',
+    '/categories',
+    '/pets',
+    '/nearby',
+    '/me',
+    '/sessions',
+  ];
+  if (value == null ||
+      !value.startsWith('/') ||
+      value.startsWith('//') ||
+      value.contains('\\')) {
+    return '/home';
+  }
+  try {
+    final uri = Uri.parse(value);
+    final decoded = Uri.decodeComponent(value);
+    if (uri.hasScheme ||
+        uri.hasAuthority ||
+        decoded.startsWith('//') ||
+        decoded.contains('\\') ||
+        RegExp(r'[\x00-\x1f]').hasMatch(decoded) ||
+        !allowed.contains(uri.path)) {
+      return '/home';
+    }
+    return value;
+  } catch (_) {
+    return '/home';
+  }
+}
+
+final routerProvider = Provider<GoRouter>((ref) {
+  final refresh = ValueNotifier(0);
+  ref.listen(authProvider, (_, next) {
+    refresh.value++;
+  });
+  final router = GoRouter(
+    initialLocation: '/home',
+    refreshListenable: refresh,
+    redirect: (context, state) {
+      final auth = ref.read(authProvider);
+      if (auth.restoring) return state.uri.path == '/launch' ? null : '/launch';
+      if (state.uri.path == '/launch') return '/home';
+      if (auth.principal == null &&
+          ['/pets', '/sessions'].contains(state.uri.path)) {
+        return Uri(
+          path: '/auth/login',
+          queryParameters: {'returnTo': state.uri.toString()},
+        ).toString();
+      }
+      return null;
+    },
+    routes: [
+      GoRoute(
+        path: '/launch',
+        builder: (_, _) =>
+            const Scaffold(body: Center(child: CircularProgressIndicator())),
+      ),
+      GoRoute(
+        path: '/auth/login',
+        builder: (_, state) => LoginScreen(
+          returnTo: safeReturnTo(state.uri.queryParameters['returnTo']),
+        ),
+      ),
+      GoRoute(path: '/sessions', builder: (_, _) => const SessionsScreen()),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, shell) => TabShell(shell: shell),
+        branches: [
+          for (final path in [
+            '/home',
+            '/categories',
+            '/pets',
+            '/nearby',
+            '/me',
+          ])
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: path,
+                  builder: (_, _) => TabScreen(path: path),
+                ),
+              ],
+            ),
+        ],
+      ),
+    ],
+  );
+  ref.onDispose(() {
+    router.dispose();
+    refresh.dispose();
+  });
+  return router;
+});
