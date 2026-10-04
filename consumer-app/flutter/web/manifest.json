@@ -1,11 +1,11 @@
 {
-    "name": "pawday_consumer",
-    "short_name": "pawday_consumer",
+    "name": "Pawday",
+    "short_name": "Pawday",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#245d4d",
+    "theme_color": "#245d4d",
+    "description": "爪日消费者 App 开发预览",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

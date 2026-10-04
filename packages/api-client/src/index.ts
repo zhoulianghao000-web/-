@@ -68,11 +68,13 @@ export class PawdayClient {
     const epoch=this.epoch;const access=this.tokens?.access_token;
     let response:Response;
     try{response=await send();}catch{throw new ApiError(0,'NETWORK_UNAVAILABLE','',true);}
+    if(!publicAuth&&epoch!==this.epoch)throw new ApiError(401,'SESSION_CHANGED','');
     if(response.status===401&&!publicAuth&&this.tokens&&(input.method==='GET'||input.headers.has('Idempotency-Key'))) {
       // Another concurrent request may already have rotated the same access token.
       if(epoch===this.epoch&&access===this.tokens.access_token)await this.refresh();
       if(!this.tokens)await this.failure(response);
-      response=await send();
+      try{response=await send();}catch{throw new ApiError(0,'NETWORK_UNAVAILABLE','',true);}
+      if(epoch!==this.epoch)throw new ApiError(401,'SESSION_CHANGED','');
     }
     if(!response.ok) {
       if(response.status===401&&!publicAuth&&epoch===this.epoch)this.clearSession();

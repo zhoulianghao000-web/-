@@ -7,6 +7,16 @@ const principal={id:meta.request_id,realm:'MERCHANT' as const,merchant_id:meta.r
 const json=(data:unknown,status=200)=>new Response(JSON.stringify({data,meta}),{status,headers:{'Content-Type':'application/json'}});
 const denied=(status:number,code:string)=>new Response(JSON.stringify({error:{code,message:code,retryable:false,details:{}},meta}),{status,headers:{'Content-Type':'application/json'}});
 describe('realm-bound generated API transport',()=>{
+  it('discards a late successful principal after logout',async()=>{
+    let resolve:((r:Response)=>void)|undefined;const client=new PawdayClient('merchant','http://localhost/api/v1',async()=>new Promise(r=>{resolve=r;}));client.setSession(tokens);const pending=client.me();client.clearSession();resolve?.(json(principal));await expect(pending).rejects.toMatchObject({code:'SESSION_CHANGED'});expect(client.authenticated).toBe(false);
+  });
+  it('discards a late login after the session generation changes',async()=>{
+    let resolve:((r:Response)=>void)|undefined;const client=new PawdayClient('merchant','http://localhost/api/v1',async()=>new Promise(r=>{resolve=r;}));const pending=client.staffLogin({login_name:'staff',password:'secret',device_id:'device'});client.clearSession();resolve?.(json(tokens));await expect(pending).rejects.toMatchObject({code:'SESSION_CHANGED'});expect(client.authenticated).toBe(false);
+  });
+  it('includes bearer for reverify OTP but omits it for anonymous login OTP',async()=>{
+    const captured:Request[]=[];const client=new PawdayClient('consumer','http://localhost/api/v1',async input=>{captured.push(input as Request);return json({id:meta.request_id,version:1,accepted_at:'2026-10-04T00:00:00Z'});});client.setSession(tokens);
+    await client.api.POST('/consumer/auth/phone/request-code',{body:{phone_e164:'+8613800000000',purpose:'REVERIFY'}});await client.api.POST('/consumer/auth/phone/request-code',{body:{phone_e164:'+8613800000000',purpose:'LOGIN'}});expect(captured[0]?.headers.get('Authorization')).toBe(`Bearer ${tokens.access_token}`);expect(captured[1]?.headers.get('Authorization')).toBeNull();
+  });
   it('rejects another realm before sending credentials',async()=>{
     const network=vi.fn<typeof fetch>();const client=new PawdayClient('merchant','http://localhost/api/v1',network);client.setSession(tokens);
     await expect(client.api.GET('/admin/me')).rejects.toMatchObject({code:'REALM_MISMATCH'});expect(network).not.toHaveBeenCalled();

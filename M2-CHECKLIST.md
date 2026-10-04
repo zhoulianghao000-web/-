@@ -22,15 +22,20 @@
 - [x] 真实 Redis 读写/TTL/健康及不可用恢复
 - [x] PostgreSQL / RabbitMQ / Redis / OpenSearch 同时健康的实际证据
 - [x] CI 配置固定四服务与 storage/search/infrastructure-it 硬门禁
-- [ ] 远程 GitHub Actions 实际执行（本地同一 profile 已通过）
-- [ ] Docker Compose 引擎实跑（本机无 Docker；本地四服务原生实跑已通过）
+- [x] 远程 GitHub Actions 实际执行（M2.3 运行 37127050020 通过）
+- [x] Docker Compose 引擎实跑（GitHub Actions 官方 Linux 四服务）
 - [ ] 正式云存储适配器与商品/评价/文章发布后的资源读取策略
 
 ## M2.4 / 总门禁
 
-- [ ] Merchant/Admin Vue 工程
-- [ ] 共享 TypeScript API 客户端
-- [ ] Flutter 五 Tab 启动壳
+- [x] Merchant/Admin Vue 工程：真实身份、门店 scope、RBAC、MFA/reverify/审计
+- [x] 共享 TypeScript API 客户端：生成 DTO、错误、refresh、request ID、幂等/冲突
+- [x] Flutter 五 Tab：游客、手机号登录、session/refresh、returnTo、current pet context
 - [x] 后端、真实数据库迁移与全部基础设施门禁
 - [x] OpenAPI lint/bundle 与实际响应验证
 - [ ] M2.4 完成后关闭整体 M2
+
+- [x] 本地 Web lint/typecheck/test/build 与 Chromium 页面回归
+- [x] 本地 Flutter analyze/test/Web release build
+- [x] TypeScript/Dart OpenAPI 生成一致性检查
+- [ ] M2.4 远程 Web/Flutter/APK/真实前后端联调全部执行通过

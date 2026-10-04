@@ -190,12 +190,18 @@ class ConsumerApi {
     }
 
     var response = await send();
+    if (!anonymous && epoch != _epoch) {
+      throw const ApiFailure(401, 'SESSION_CHANGED');
+    }
     if (response.statusCode == 401 &&
         !anonymous &&
         _tokens != null &&
         (method == 'GET' || idempotencyKey != null)) {
       if (epoch == _epoch && access == _tokens?.access_token) await refresh();
       if (_tokens != null) response = await send();
+      if (epoch != _epoch) {
+        throw const ApiFailure(401, 'SESSION_CHANGED');
+      }
     }
     if (response.statusCode < 200 || response.statusCode >= 300) {
       if (response.statusCode == 401 && !anonymous && epoch == _epoch) {

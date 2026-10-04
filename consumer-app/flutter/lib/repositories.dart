@@ -23,8 +23,13 @@ class ConsumerRepository {
   final ConsumerApi api;
   ConsumerRepository(this.api);
   Future<Principal?> restore() async {
-    await api.restore();
-    return api.authenticated ? await api.me() : null;
+    try {
+      await api.restore();
+      return api.authenticated ? await api.me() : null;
+    } catch (_) {
+      await api.clear();
+      rethrow;
+    }
   }
 
   Future<void> requestCode(String phone) => api.requestCode(phone);
@@ -49,11 +54,15 @@ final authProvider = NotifierProvider<AuthNotifier, AuthState>(
 );
 
 class AuthNotifier extends Notifier<AuthState> {
+  int _generation = 0;
   @override
   AuthState build() {
     final api = ref.read(consumerApiProvider);
     void expired() {
-      if (api.expired.value) state = const AuthState();
+      if (api.expired.value) {
+        _generation++;
+        state = const AuthState();
+      }
     }
 
     api.expired.addListener(expired);
@@ -62,22 +71,31 @@ class AuthNotifier extends Notifier<AuthState> {
   }
 
   Future<void> restore() async {
+    final generation = ++_generation;
     try {
-      state = AuthState(
-        principal: await ref.read(consumerRepositoryProvider).restore(),
-      );
+      final principal = await ref.read(consumerRepositoryProvider).restore();
+      if (generation == _generation) state = AuthState(principal: principal);
     } catch (_) {
-      state = const AuthState(error: '会话恢复失败，请重新登录。');
+      if (generation == _generation) {
+        state = const AuthState(error: '会话恢复失败，请重新登录。');
+      }
     }
   }
 
   Future<void> login(String phone, String code) async {
-    state = AuthState(
-      principal: await ref.read(consumerRepositoryProvider).login(phone, code),
-    );
+    final generation = ++_generation;
+    final principal = await ref
+        .read(consumerRepositoryProvider)
+        .login(phone, code);
+    if (generation != _generation) {
+      throw const ApiFailure(401, 'SESSION_CHANGED');
+    }
+    state = AuthState(principal: principal);
   }
 
   Future<void> logout() async {
+    ++_generation;
+    state = const AuthState();
     try {
       await ref.read(consumerRepositoryProvider).logout();
     } finally {
@@ -112,9 +130,13 @@ class CurrentPetNotifier extends Notifier<PetContext?> {
     final userId = ref.read(authProvider).principal?.user_id;
     if (userId == null ||
         pet.ownerUserId != userId ||
-        !serverOwnedPets.any((p) => p.id == pet.id && p.ownerUserId == userId)) {
+        !serverOwnedPets.any(
+          (p) => p.id == pet.id && p.ownerUserId == userId,
+        )) {
       throw const ApiFailure(403, 'PET_SCOPE_MISMATCH');
     }
-    state = pet;
+    state = serverOwnedPets.firstWhere(
+      (p) => p.id == pet.id && p.ownerUserId == userId,
+    );
   }
 }

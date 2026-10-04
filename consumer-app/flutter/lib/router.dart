@@ -39,6 +39,7 @@ String safeReturnTo(String? value) {
 
 final routerProvider = Provider<GoRouter>((ref) {
   final refresh = ValueNotifier(0);
+  String pendingLocation = '/home';
   ref.listen(authProvider, (_, next) {
     refresh.value++;
   });
@@ -47,8 +48,21 @@ final routerProvider = Provider<GoRouter>((ref) {
     refreshListenable: refresh,
     redirect: (context, state) {
       final auth = ref.read(authProvider);
-      if (auth.restoring) return state.uri.path == '/launch' ? null : '/launch';
-      if (state.uri.path == '/launch') return '/home';
+      if (auth.restoring) {
+        if (state.uri.path == '/launch') return null;
+        pendingLocation = state.uri.path == '/auth/login'
+            ? Uri(
+                path: '/auth/login',
+                queryParameters: {
+                  'returnTo': safeReturnTo(
+                    state.uri.queryParameters['returnTo'],
+                  ),
+                },
+              ).toString()
+            : safeReturnTo(state.uri.toString());
+        return '/launch';
+      }
+      if (state.uri.path == '/launch') return pendingLocation;
       if (auth.principal == null &&
           ['/pets', '/sessions'].contains(state.uri.path)) {
         return Uri(
