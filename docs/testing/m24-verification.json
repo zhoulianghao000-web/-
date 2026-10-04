@@ -1,0 +1,710 @@
+{
+  "implementation": "145cdefb0ce65aa2d093002962968059663903a4",
+  "runs": {
+    "workflow_runs": [
+      {
+        "id": 37170722383,
+        "name": "ci",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 16,
+        "jobs_url": "https://api.github.com/repos/zhoulianghao000-web/-/actions/runs/37170722383/jobs",
+        "logs_url": "https://api.github.com/repos/zhoulianghao000-web/-/actions/runs/37170722383/logs",
+        "workflow_id": 373931570
+      },
+      {
+        "id": 37170722407,
+        "name": "m24-frontend",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 12,
+        "jobs_url": "https://api.github.com/repos/zhoulianghao000-web/-/actions/runs/37170722407/jobs",
+        "logs_url": "https://api.github.com/repos/zhoulianghao000-web/-/actions/runs/37170722407/logs",
+        "workflow_id": 374304824
+      }
+    ]
+  },
+  "jobs": [
+    {
+      "id": 111342961383,
+      "name": "web",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37170722407,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run pnpm/action-setup@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run pnpm install --frozen-lockfile",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run pnpm generate:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Run pnpm exec playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Run pnpm exec playwright test e2e/web.spec.ts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Post Run pnpm/action-setup@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        }
+      ]
+    },
+    {
+      "id": 111342961491,
+      "name": "real-frontend-backend",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37170722407,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run pnpm/action-setup@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run subosito/flutter-action@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Start real PostgreSQL, Redis, RabbitMQ and OpenSearch",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Run mvn -B -ntp -DskipTests package",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Start backend and require aggregate health",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Run pnpm install --frozen-lockfile",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Run pnpm exec playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Run pnpm exec playwright test e2e/real.spec.ts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Run flutter pub get --enforce-lockfile && flutter test test_real/consumer_http_test.dart",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Stop isolated integration services",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Run subosito/flutter-action@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 26
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 27
+        },
+        {
+          "name": "Post Run pnpm/action-setup@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 28
+        },
+        {
+          "name": "Post Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 30
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 31
+        }
+      ]
+    },
+    {
+      "id": 111342961521,
+      "name": "flutter",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37170722407,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run subosito/flutter-action@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run flutter pub get --enforce-lockfile",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run flutter analyze && flutter test --coverage",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Run flutter build web --release --dart-define=PAWDAY_API_BASE=https://api.pawday.example/api/v1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Run flutter build apk --debug",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Post Run subosito/flutter-action@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Post Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        }
+      ]
+    },
+    {
+      "id": 111342961157,
+      "name": "openapi",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37170722383,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Validate and bundle contracts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        }
+      ]
+    },
+    {
+      "id": 111342961320,
+      "name": "storage-search-and-real-infrastructure",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37170722383,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Start all four real services with health checks",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Mandatory storage, search, Redis and RabbitMQ gate",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Validate contracts and actual HTTP responses",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Real infrastructure diagnostics",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Stop only isolated integration services",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18
+        },
+        {
+          "name": "Post Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 11291516374,
+      "name": "m24-web-evidence",
+      "size_in_bytes": 404171,
+      "url": "https://api.github.com/repos/zhoulianghao000-web/-/actions/artifacts/11291516374",
+      "archive_download_url": "https://api.github.com/repos/zhoulianghao000-web/-/actions/artifacts/11291516374/zip",
+      "expired": false,
+      "created_at": "2026-10-04T02:21:00Z",
+      "expires_at": "2027-01-02T02:19:52Z",
+      "updated_at": "2026-10-04T02:21:00Z",
+      "digest": "sha256:3c6e3ec4ff42f672e6dc26035a369f0fcbe6022b61d96338735bb36fcac334ac",
+      "workflow_run": {
+        "id": 37170722407,
+        "repository_id": 1403171917,
+        "head_repository_id": 1403171917,
+        "head_branch": "codex/pawday-m2.4",
+        "head_sha": "145cdefb0ce65aa2d093002962968059663903a4"
+      },
+      "local_sha256": "3c6e3ec4ff42f672e6dc26035a369f0fcbe6022b61d96338735bb36fcac334ac"
+    },
+    {
+      "id": 11291182297,
+      "name": "m24-real-frontend-evidence",
+      "size_in_bytes": 224076,
+      "url": "https://api.github.com/repos/zhoulianghao000-web/-/actions/artifacts/11291182297",
+      "archive_download_url": "https://api.github.com/repos/zhoulianghao000-web/-/actions/artifacts/11291182297/zip",
+      "expired": false,
+      "created_at": "2026-10-04T02:23:13Z",
+      "expires_at": "2027-01-02T02:19:52Z",
+      "updated_at": "2026-10-04T02:23:13Z",
+      "digest": "sha256:d266792d6142954c6c753dc4879bb1f6806d80ff7930e5ab875ddf2aed9f4e8b",
+      "workflow_run": {
+        "id": 37170722407,
+        "repository_id": 1403171917,
+        "head_repository_id": 1403171917,
+        "head_branch": "codex/pawday-m2.4",
+        "head_sha": "145cdefb0ce65aa2d093002962968059663903a4"
+      },
+      "local_sha256": "d266792d6142954c6c753dc4879bb1f6806d80ff7930e5ab875ddf2aed9f4e8b"
+    },
+    {
+      "id": 11290923437,
+      "name": "m24-flutter-evidence",
+      "size_in_bytes": 104010977,
+      "url": "https://api.github.com/repos/zhoulianghao000-web/-/actions/artifacts/11290923437",
+      "archive_download_url": "https://api.github.com/repos/zhoulianghao000-web/-/actions/artifacts/11290923437/zip",
+      "expired": false,
+      "created_at": "2026-10-04T02:25:57Z",
+      "expires_at": "2027-01-02T02:19:52Z",
+      "updated_at": "2026-10-04T02:25:57Z",
+      "digest": "sha256:4bd0371962d7ad15a85a32e6aae291db88cf8e0e219ef796bea7ce20dc434e18",
+      "workflow_run": {
+        "id": 37170722407,
+        "repository_id": 1403171917,
+        "head_repository_id": 1403171917,
+        "head_branch": "codex/pawday-m2.4",
+        "head_sha": "145cdefb0ce65aa2d093002962968059663903a4"
+      },
+      "local_sha256": "4bd0371962d7ad15a85a32e6aae291db88cf8e0e219ef796bea7ce20dc434e18"
+    },
+    {
+      "id": 11291811076,
+      "name": "m23-test-evidence",
+      "size_in_bytes": 97643,
+      "url": "https://api.github.com/repos/zhoulianghao000-web/-/actions/artifacts/11291811076",
+      "archive_download_url": "https://api.github.com/repos/zhoulianghao000-web/-/actions/artifacts/11291811076/zip",
+      "expired": false,
+      "created_at": "2026-10-04T02:23:11Z",
+      "expires_at": "2027-01-02T02:19:52Z",
+      "updated_at": "2026-10-04T02:23:11Z",
+      "digest": "sha256:d54dad833f76838eb01de2164a7ad773ddc40a1440420e90e993c4627ab80649",
+      "workflow_run": {
+        "id": 37170722383,
+        "repository_id": 1403171917,
+        "head_repository_id": 1403171917,
+        "head_branch": "codex/pawday-m2.4",
+        "head_sha": "145cdefb0ce65aa2d093002962968059663903a4"
+      },
+      "local_sha256": "d54dad833f76838eb01de2164a7ad773ddc40a1440420e90e993c4627ab80649"
+    }
+  ],
+  "infrastructure": [
+    {
+      "case": "redis-ttl",
+      "result": "PASS",
+      "real_endpoint": "127.0.0.1:6385"
+    },
+    {
+      "case": "redis-real-network-outage-recovery",
+      "up_http_status": 200,
+      "down_http_status": 503
+    },
+    {
+      "case": "all-four-real-services-health",
+      "response": {
+        "components": {
+          "db": {
+            "details": {
+              "database": "PostgreSQL",
+              "validationQuery": "isValid()"
+            },
+            "status": "UP"
+          },
+          "diskSpace": {
+            "details": {
+              "total": 154894188544,
+              "free": 89611149312,
+              "threshold": 10485760,
+              "path": "/home/runner/work/-/-/backend/.",
+              "exists": true
+            },
+            "status": "UP"
+          },
+          "livenessState": {
+            "status": "UP"
+          },
+          "ping": {
+            "status": "UP"
+          },
+          "rabbit": {
+            "details": {
+              "version": "4.3.6"
+            },
+            "status": "UP"
+          },
+          "readinessState": {
+            "status": "UP"
+          },
+          "redis": {
+            "details": {
+              "version": "8.2.10"
+            },
+            "status": "UP"
+          },
+          "search": {
+            "details": {
+              "cluster_status": "green",
+              "schema_version": 1,
+              "active_index": "pawday-product-v1-000001"
+            },
+            "status": "UP"
+          },
+          "ssl": {
+            "details": {
+              "expiringChains": [],
+              "invalidChains": [],
+              "validChains": []
+            },
+            "status": "UP"
+          }
+        },
+        "groups": [
+          "liveness",
+          "readiness"
+        ],
+        "status": "UP"
+      }
+    }
+  ],
+  "backend_suites": [
+    {
+      "suite": "cn.pawday.RedisInfrastructureIT",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "cn.pawday.RabbitOutboxIT",
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "cn.pawday.SearchInfrastructureIT",
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "cn.pawday.IdentitySecurityIntegrationTests",
+      "tests": 40,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "cn.pawday.StorageMediaIntegrationTests",
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "backend_totals": {
+    "tests": 107,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "real_backend_health": {
+    "groups": [
+      "liveness",
+      "readiness"
+    ],
+    "status": "UP"
+  },
+  "apk_sha256": "80c01a70431630f751c044ebc30117c7d1c97647c963a334e7b423d3f052c043"
+}

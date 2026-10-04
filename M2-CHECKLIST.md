@@ -33,9 +33,9 @@
 - [x] Flutter 五 Tab：游客、手机号登录、session/refresh、returnTo、current pet context
 - [x] 后端、真实数据库迁移与全部基础设施门禁
 - [x] OpenAPI lint/bundle 与实际响应验证
-- [ ] M2.4 完成后关闭整体 M2
+- [x] M2 基础工程技术总验收通过（[总验收报告](docs/M2-总验收报告.md)）；M2.4 PR 待评审合并
 
 - [x] 本地 Web lint/typecheck/test/build 与 Chromium 页面回归
 - [x] 本地 Flutter analyze/test/Web release build
 - [x] TypeScript/Dart OpenAPI 生成一致性检查
-- [ ] M2.4 远程 Web/Flutter/APK/真实前后端联调全部执行通过
+- [x] M2.4 远程 Web/Flutter/APK/真实前后端联调全部执行通过（167 tests、305 实际响应）
