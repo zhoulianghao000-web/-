@@ -1,0 +1,81 @@
+name: ci
+on:
+  push:
+  pull_request:
+jobs:
+  storage-search-and-real-infrastructure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PAWDAY_IT_RABBIT_HOST: 127.0.0.1
+      PAWDAY_IT_RABBIT_PORT: "5675"
+      PAWDAY_IT_RABBIT_USER: pawday_it
+      PAWDAY_IT_RABBIT_PASSWORD: TEST_ONLY_m22_broker
+      PAWDAY_IT_RABBIT_CONTAINER: pawday-m23-it-rabbitmq-1
+      PAWDAY_IT_REDIS_HOST: 127.0.0.1
+      PAWDAY_IT_REDIS_PORT: "6385"
+      PAWDAY_IT_OPENSEARCH_URL: http://127.0.0.1:9205
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Start all four real services with health checks
+        run: |
+          sudo sysctl -w vm.max_map_count=262144
+          docker compose -p pawday-m23-it -f compose.integration.yaml up -d --wait --wait-timeout 300
+      - name: Mandatory storage, search, Redis and RabbitMQ gate
+        working-directory: backend
+        run: mvn -B -ntp -Pinfrastructure-it verify
+      - name: Validate contracts and actual HTTP responses
+        run: |
+          python -m pip install -r openapi/requirements-validation-lock.txt
+          python openapi/validate_contract.py
+          python openapi/validate_m23_contract.py --samples backend/target/contract-samples.json --report openapi/identity-response-report.json
+          python openapi/validate_m23_contract.py --samples backend/target/m22-contract-samples.json --report openapi/delivery-response-report.json
+          python openapi/validate_m23_contract.py --samples backend/target/m23-storage-contract-samples.json --report openapi/storage-response-report.json
+          python openapi/validate_m23_contract.py --samples backend/target/m23-search-contract-samples.json --report openapi/search-response-report.json
+      - name: Real infrastructure diagnostics
+        if: always()
+        run: |
+          mkdir -p backend/target/infrastructure-evidence
+          docker compose -p pawday-m23-it -f compose.integration.yaml logs --no-color > backend/target/infrastructure-evidence/services.log 2>&1 || true
+          docker compose -p pawday-m23-it -f compose.integration.yaml ps --format json > backend/target/infrastructure-evidence/containers.json || true
+          curl --fail --silent http://127.0.0.1:9205/_cluster/health > backend/target/infrastructure-evidence/opensearch-health.json || true
+          docker exec pawday-m23-it-redis-1 redis-cli INFO server > backend/target/infrastructure-evidence/redis-server.txt || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m23-test-evidence
+          path: |
+            backend/target/surefire-reports/
+            backend/target/failsafe-reports/
+            backend/target/*contract-samples.json
+            backend/target/m23-infrastructure-evidence.json
+            backend/target/infrastructure-evidence/
+            openapi/*response-report.json
+      - name: Stop only isolated integration services
+        if: always()
+        run: docker compose -p pawday-m23-it -f compose.integration.yaml down
+  openapi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate and bundle contracts
+        run: |
+          python -m pip install -r openapi/requirements-validation-lock.txt
+          python openapi/validate_contract.py
+          python openapi/validate_m23_contract.py
+          npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-v1.yaml openapi/pawday-m2.1.yaml openapi/pawday-m2.2.yaml openapi/pawday-m2.3.yaml
+          npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m2.3.yaml --output openapi/pawday-m2.3.redocly.bundle.json

@@ -1,0 +1,348 @@
+{
+  "image": "library/postgres:17.9-alpine",
+  "status": 200,
+  "digest": "sha256:c7526c0f6c3f30260a563d7bcf8ad778effac59a44f8ffa86678c35418338609",
+  "platforms": [
+    {
+      "architecture": "amd64",
+      "os": "linux"
+    },
+    {
+      "architecture": "unknown",
+      "os": "unknown"
+    },
+    {
+      "architecture": "arm",
+      "os": "linux",
+      "variant": "v6"
+    },
+    {
+      "architecture": "unknown",
+      "os": "unknown"
+    },
+    {
+      "architecture": "arm",
+      "os": "linux",
+      "variant": "v7"
+    },
+    {
+      "architecture": "unknown",
+      "os": "unknown"
+    },
+    {
+      "architecture": "arm64",
+      "os": "linux",
+      "variant": "v8"
+    },
+    {
+      "architecture": "unknown",
+      "os": "unknown"
+    },
+    {
+      "architecture": "386",
+      "os": "linux"
+    },
+    {
+      "architecture": "unknown",
+      "os": "unknown"
+    },
+    {
+      "architecture": "ppc64le",
+      "os": "linux"
+    },
+    {
+      "architecture": "unknown",
+      "os": "unknown"
+    },
+    {
+      "architecture": "riscv64",
+      "os": "linux"
+    },
+    {
+      "architecture": "unknown",
+      "os": "unknown"
+    },
+    {
+      "architecture": "s390x",
+      "os": "linux"
+    },
+    {
+      "architecture": "unknown",
+      "os": "unknown"
+    }
+  ],
+  "source": "Docker Hub registry API",
+  "manifest": {
+    "manifests": [
+      {
+        "annotations": {
+          "com.docker.official-images.bashbrew.arch": "amd64",
+          "org.opencontainers.image.base.digest": "sha256:4d889c14e7d5a73929ab00be2ef8ff22437e7cbc545931e52554a7b00e123d8b",
+          "org.opencontainers.image.base.name": "alpine:3.23",
+          "org.opencontainers.image.created": "2026-04-21T23:06:58Z",
+          "org.opencontainers.image.revision": "3b6b5fca9ca40c84b77540fc605ea8e8353b13b2",
+          "org.opencontainers.image.source": "https://github.com/docker-library/postgres.git#3b6b5fca9ca40c84b77540fc605ea8e8353b13b2:17/alpine3.23",
+          "org.opencontainers.image.url": "https://hub.docker.com/_/postgres",
+          "org.opencontainers.image.version": "17.9-alpine3.23"
+        },
+        "digest": "sha256:e19c5d72436d4d2f54d00c789775095d02a5dfb1c0f7ea5a243230b1bb46c2bb",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "platform": {
+          "architecture": "amd64",
+          "os": "linux"
+        },
+        "size": 2865
+      },
+      {
+        "annotations": {
+          "com.docker.official-images.bashbrew.arch": "amd64",
+          "vnd.docker.reference.digest": "sha256:e19c5d72436d4d2f54d00c789775095d02a5dfb1c0f7ea5a243230b1bb46c2bb",
+          "vnd.docker.reference.type": "attestation-manifest"
+        },
+        "digest": "sha256:cbf14b5c81294613d68450784bc3bb877ce766717a520b10a7ccf3bbde8dc711",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "platform": {
+          "architecture": "unknown",
+          "os": "unknown"
+        },
+        "size": 840
+      },
+      {
+        "annotations": {
+          "com.docker.official-images.bashbrew.arch": "arm32v6",
+          "org.opencontainers.image.base.digest": "sha256:9f806c580b6a59b5f64bce6cefc061709a910008d527659d8293ef67bae44270",
+          "org.opencontainers.image.base.name": "alpine:3.23",
+          "org.opencontainers.image.created": "2026-04-21T23:12:15Z",
+          "org.opencontainers.image.revision": "3b6b5fca9ca40c84b77540fc605ea8e8353b13b2",
+          "org.opencontainers.image.source": "https://github.com/docker-library/postgres.git#3b6b5fca9ca40c84b77540fc605ea8e8353b13b2:17/alpine3.23",
+          "org.opencontainers.image.url": "https://hub.docker.com/_/postgres",
+          "org.opencontainers.image.version": "17.9-alpine3.23"
+        },
+        "digest": "sha256:b461b3ce3fe6b6eea80b23c59cb4f1b96d58d5f082234f944c81ff05279c8f88",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "platform": {
+          "architecture": "arm",
+          "os": "linux",
+          "variant": "v6"
+        },
+        "size": 2866
+      },
+      {
+        "annotations": {
+          "com.docker.official-images.bashbrew.arch": "arm32v6",
+          "vnd.docker.reference.digest": "sha256:b461b3ce3fe6b6eea80b23c59cb4f1b96d58d5f082234f944c81ff05279c8f88",
+          "vnd.docker.reference.type": "attestation-manifest"
+        },
+        "digest": "sha256:3fbfd12f7d44143d11400eeb1aa46c60b2026a1a04e80430bcf9aa92c74abfe8",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "platform": {
+          "architecture": "unknown",
+          "os": "unknown"
+        },
+        "size": 567
+      },
+      {
+        "annotations": {
+          "com.docker.official-images.bashbrew.arch": "arm32v7",
+          "org.opencontainers.image.base.digest": "sha256:0be3c29c7b8d475f38f71ac3d25eb5eb673c68cc673576996cb2afd7a536829a",
+          "org.opencontainers.image.base.name": "alpine:3.23",
+          "org.opencontainers.image.created": "2026-04-21T23:30:07Z",
+          "org.opencontainers.image.revision": "3b6b5fca9ca40c84b77540fc605ea8e8353b13b2",
+          "org.opencontainers.image.source": "https://github.com/docker-library/postgres.git#3b6b5fca9ca40c84b77540fc605ea8e8353b13b2:17/alpine3.23",
+          "org.opencontainers.image.url": "https://hub.docker.com/_/postgres",
+          "org.opencontainers.image.version": "17.9-alpine3.23"
+        },
+        "digest": "sha256:2e49f87c67100ca8b2b23e3087546e696c5d1e053f361210561dc6dbd43f792a",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "platform": {
+          "architecture": "arm",
+          "os": "linux",
+          "variant": "v7"
+        },
+        "size": 2866
+      },
+      {
+        "annotations": {
+          "com.docker.official-images.bashbrew.arch": "arm32v7",
+          "vnd.docker.reference.digest": "sha256:2e49f87c67100ca8b2b23e3087546e696c5d1e053f361210561dc6dbd43f792a",
+          "vnd.docker.reference.type": "attestation-manifest"
+        },
+        "digest": "sha256:bccc31f9f07a2ebf8a44ca63f535e688f8b2d20eff142b09d913a2c3d5b127a8",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "platform": {
+          "architecture": "unknown",
+          "os": "unknown"
+        },
+        "size": 840
+      },
+      {
+        "annotations": {
+          "com.docker.official-images.bashbrew.arch": "arm64v8",
+          "org.opencontainers.image.base.digest": "sha256:378c4c5418f7493bd500ad21ffb43818d0689daaad43e3261859fb417d1481a0",
+          "org.opencontainers.image.base.name": "alpine:3.23",
+          "org.opencontainers.image.created": "2026-04-21T23:08:08Z",
+          "org.opencontainers.image.revision": "3b6b5fca9ca40c84b77540fc605ea8e8353b13b2",
+          "org.opencontainers.image.source": "https://github.com/docker-library/postgres.git#3b6b5fca9ca40c84b77540fc605ea8e8353b13b2:17/alpine3.23",
+          "org.opencontainers.image.url": "https://hub.docker.com/_/postgres",
+          "org.opencontainers.image.version": "17.9-alpine3.23"
+        },
+        "digest": "sha256:faf1338f88c8da3c81a87ebea9d49455e27523f867fee461b9cc1325af200ef3",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "platform": {
+          "architecture": "arm64",
+          "os": "linux",
+          "variant": "v8"
+        },
+        "size": 2867
+      },
+      {
+        "annotations": {
+          "com.docker.official-images.bashbrew.arch": "arm64v8",
+          "vnd.docker.reference.digest": "sha256:faf1338f88c8da3c81a87ebea9d49455e27523f867fee461b9cc1325af200ef3",
+          "vnd.docker.reference.type": "attestation-manifest"
+        },
+        "digest": "sha256:27a98cdce7814e15df025c950b9919321204e4367fb1eb92dbe1f97c2180ab0a",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "platform": {
+          "architecture": "unknown",
+          "os": "unknown"
+        },
+        "size": 840
+      },
+      {
+        "annotations": {
+          "com.docker.official-images.bashbrew.arch": "i386",
+          "org.opencontainers.image.base.digest": "sha256:9b9ebaba5ccb78ee301bec0b365d4d014973b05bd77a7bf59cb18f8b160a09c4",
+          "org.opencontainers.image.base.name": "alpine:3.23",
+          "org.opencontainers.image.created": "2026-04-21T23:11:46Z",
+          "org.opencontainers.image.revision": "3b6b5fca9ca40c84b77540fc605ea8e8353b13b2",
+          "org.opencontainers.image.source": "https://github.com/docker-library/postgres.git#3b6b5fca9ca40c84b77540fc605ea8e8353b13b2:17/alpine3.23",
+          "org.opencontainers.image.url": "https://hub.docker.com/_/postgres",
+          "org.opencontainers.image.version": "17.9-alpine3.23"
+        },
+        "digest": "sha256:6846159e2fb85832790f8f01594a7f79d8308d78e61b5d9b9406b08f59e82679",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "platform": {
+          "architecture": "386",
+          "os": "linux"
+        },
+        "size": 2864
+      },
+      {
+        "annotations": {
+          "com.docker.official-images.bashbrew.arch": "i386",
+          "vnd.docker.reference.digest": "sha256:6846159e2fb85832790f8f01594a7f79d8308d78e61b5d9b9406b08f59e82679",
+          "vnd.docker.reference.type": "attestation-manifest"
+        },
+        "digest": "sha256:8bf03c4d6f4cc8ec214171102aac6d7ba8db1ba6bc788b00975c47723b98ec45",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "platform": {
+          "architecture": "unknown",
+          "os": "unknown"
+        },
+        "size": 840
+      },
+      {
+        "annotations": {
+          "com.docker.official-images.bashbrew.arch": "ppc64le",
+          "org.opencontainers.image.base.digest": "sha256:721eb42dc505c68b5a5a4823b9faace5db351f04f688fb95c8be33c61680608d",
+          "org.opencontainers.image.base.name": "alpine:3.23",
+          "org.opencontainers.image.created": "2026-04-21T23:45:21Z",
+          "org.opencontainers.image.revision": "3b6b5fca9ca40c84b77540fc605ea8e8353b13b2",
+          "org.opencontainers.image.source": "https://github.com/docker-library/postgres.git#3b6b5fca9ca40c84b77540fc605ea8e8353b13b2:17/alpine3.23",
+          "org.opencontainers.image.url": "https://hub.docker.com/_/postgres",
+          "org.opencontainers.image.version": "17.9-alpine3.23"
+        },
+        "digest": "sha256:fbd2c3e93132bc265e1537af1a1050c4ce59a4f8b3b78468d23e310636f8b0bc",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "platform": {
+          "architecture": "ppc64le",
+          "os": "linux"
+        },
+        "size": 2866
+      },
+      {
+        "annotations": {
+          "com.docker.official-images.bashbrew.arch": "ppc64le",
+          "vnd.docker.reference.digest": "sha256:fbd2c3e93132bc265e1537af1a1050c4ce59a4f8b3b78468d23e310636f8b0bc",
+          "vnd.docker.reference.type": "attestation-manifest"
+        },
+        "digest": "sha256:595f95c366d33b24b4dbe2c8b94c59c256e174729d901feadffdc5430a46802c",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "platform": {
+          "architecture": "unknown",
+          "os": "unknown"
+        },
+        "size": 840
+      },
+      {
+        "annotations": {
+          "com.docker.official-images.bashbrew.arch": "riscv64",
+          "org.opencontainers.image.base.digest": "sha256:667d07bf2f6239f094f64b5682c8ffbe24c9f3139b1fb854f85caf931a3d7439",
+          "org.opencontainers.image.base.name": "alpine:3.23",
+          "org.opencontainers.image.created": "2026-04-22T02:38:10Z",
+          "org.opencontainers.image.revision": "3b6b5fca9ca40c84b77540fc605ea8e8353b13b2",
+          "org.opencontainers.image.source": "https://github.com/docker-library/postgres.git#3b6b5fca9ca40c84b77540fc605ea8e8353b13b2:17/alpine3.23",
+          "org.opencontainers.image.url": "https://hub.docker.com/_/postgres",
+          "org.opencontainers.image.version": "17.9-alpine3.23"
+        },
+        "digest": "sha256:e594c639b4e681dcf535ecd89bf02b8a6a9bfb72ff69ffb9b81f6b3065800dee",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "platform": {
+          "architecture": "riscv64",
+          "os": "linux"
+        },
+        "size": 2867
+      },
+      {
+        "annotations": {
+          "com.docker.official-images.bashbrew.arch": "riscv64",
+          "vnd.docker.reference.digest": "sha256:e594c639b4e681dcf535ecd89bf02b8a6a9bfb72ff69ffb9b81f6b3065800dee",
+          "vnd.docker.reference.type": "attestation-manifest"
+        },
+        "digest": "sha256:a74456f6d13ff69e715213d68a1fffa79b41d5e732d7a96745df3b82f4128d1c",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "platform": {
+          "architecture": "unknown",
+          "os": "unknown"
+        },
+        "size": 840
+      },
+      {
+        "annotations": {
+          "com.docker.official-images.bashbrew.arch": "s390x",
+          "org.opencontainers.image.base.digest": "sha256:0791b04ae8a9ddcb3d5ffa6740f0b12574a101a086eb747dd78bf6d9063ded87",
+          "org.opencontainers.image.base.name": "alpine:3.23",
+          "org.opencontainers.image.created": "2026-04-21T23:22:06Z",
+          "org.opencontainers.image.revision": "3b6b5fca9ca40c84b77540fc605ea8e8353b13b2",
+          "org.opencontainers.image.source": "https://github.com/docker-library/postgres.git#3b6b5fca9ca40c84b77540fc605ea8e8353b13b2:17/alpine3.23",
+          "org.opencontainers.image.url": "https://hub.docker.com/_/postgres",
+          "org.opencontainers.image.version": "17.9-alpine3.23"
+        },
+        "digest": "sha256:5c498ad1cecda420ba8765306b6f3d97b88bb6192adee6b1d42033bf8bc2e5cc",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "platform": {
+          "architecture": "s390x",
+          "os": "linux"
+        },
+        "size": 2865
+      },
+      {
+        "annotations": {
+          "com.docker.official-images.bashbrew.arch": "s390x",
+          "vnd.docker.reference.digest": "sha256:5c498ad1cecda420ba8765306b6f3d97b88bb6192adee6b1d42033bf8bc2e5cc",
+          "vnd.docker.reference.type": "attestation-manifest"
+        },
+        "digest": "sha256:44bb7dd6e59764fc3bb115a8a6ae23cdb5ad3b310d6dc463839d3123708c8ba8",
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "platform": {
+          "architecture": "unknown",
+          "os": "unknown"
+        },
+        "size": 840
+      }
+    ],
+    "mediaType": "application/vnd.oci.image.index.v1+json",
+    "schemaVersion": 2
+  }
+}
