@@ -60,8 +60,8 @@ class RabbitOutboxIT {
     @BeforeEach void setup() throws Exception {
         // No assumption/skip and no mock: a missing real broker fails this mandatory profile.
         var factory=new com.rabbitmq.client.ConnectionFactory();factory.setHost(HOST);factory.setPort(PORT);factory.setUsername(USER);factory.setPassword(PASSWORD);factory.setConnectionTimeout(3000);connection=factory.newConnection();channel=connection.createChannel();admin.initialize();channel.queuePurge(RabbitTopology.QUEUE);channel.queuePurge(RabbitTopology.DLQ);
-        db.execute("ALTER TABLE audit_event DISABLE TRIGGER audit_event_no_truncate");
-        try {db.execute("TRUNCATE outbox_replay_command,processed_event,sms_delivery,outbox_event,identity_command,reverify_grant,auth_refresh_token,auth_session,otp_challenge,auth_rate_bucket,principal_store_scope,principal_role,identity_principal,merchant_store,merchant,app_user,role_permission,role,audit_event CASCADE");}finally{db.execute("ALTER TABLE audit_event ENABLE TRIGGER audit_event_no_truncate");}
+        db.execute("ALTER TABLE audit_event DISABLE TRIGGER audit_event_no_truncate");db.execute("ALTER TABLE inventory_adjustments DISABLE TRIGGER inventory_adjustment_no_truncate");
+        try {db.execute("TRUNCATE outbox_replay_command,processed_event,sms_delivery,outbox_event,identity_command,reverify_grant,auth_refresh_token,auth_session,otp_challenge,auth_rate_bucket,principal_store_scope,principal_role,identity_principal,merchant_store,merchant,app_user,role_permission,role,audit_event CASCADE");}finally{db.execute("ALTER TABLE audit_event ENABLE TRIGGER audit_event_no_truncate");db.execute("ALTER TABLE inventory_adjustments ENABLE TRIGGER inventory_adjustment_no_truncate");}
         provider.reset();clock.time=Instant.now();adminId=UUID.randomUUID();UUID role=UUID.randomUUID();if(passwordHash==null)passwordHash=passwords.encode(STAFF_PASSWORD);
         db.update("INSERT INTO identity_principal(id,realm,login_name,password_hash,mfa_secret_ciphertext) VALUES (?,'ADMIN','test-m22-admin',?,?)",adminId,passwordHash,crypto.encrypt(MFA));
         db.update("INSERT INTO role(id,scope_type,code,name) VALUES (?,'ADMIN','TEST M22','TEST M22 admin')",role);db.update("INSERT INTO role_permission SELECT ?,id FROM permission WHERE code IN ('outbox.read','outbox.replay','audit.read')",role);db.update("INSERT INTO principal_role VALUES (?,?,'ADMIN')",adminId,role);
@@ -79,6 +79,17 @@ class RabbitOutboxIT {
         channel.close();channel=connection.createChannel();var retained=next(RabbitTopology.CATALOG_STANDARD_QUEUE);
         assertTrue(retained.getEnvelope().isRedeliver());assertEquals(event.toString(),retained.getProps().getMessageId());
         channel.basicAck(retained.getEnvelope().getDeliveryTag(),false);
+        assertEquals(0,count("sms_delivery"));
+    }
+    @Test void offerAndInventoryFactsAreConfirmedAndDurablyRetained() throws Exception {
+        channel.queuePurge(RabbitTopology.OFFER_FACT_QUEUE);
+        UUID offer=UUID.randomUUID(),sku=UUID.randomUUID();
+        for(String type:List.of("OfferStateChanged","InventoryAdjusted")) {
+            UUID event=tx.execute(s->writer.append("OFFER",offer.toString(),type,1,Map.of("offer_id",offer.toString(),"sku_id",sku.toString()),null));
+            assertEquals("PENDING",state(event));assertTrue(publisher.publishOne());assertEquals("PUBLISHED",state(event));
+            var delivery=next(RabbitTopology.OFFER_FACT_QUEUE);assertEquals(type,json.readTree(delivery.getBody()).get("event_type").asString());
+            channel.close();channel=connection.createChannel();var retained=next(RabbitTopology.OFFER_FACT_QUEUE);assertTrue(retained.getEnvelope().isRedeliver());assertEquals(event.toString(),retained.getProps().getMessageId());channel.basicAck(retained.getEnvelope().getDeliveryTag(),false);
+        }
         assertEquals(0,count("sms_delivery"));
     }
     UUID event(int version) {

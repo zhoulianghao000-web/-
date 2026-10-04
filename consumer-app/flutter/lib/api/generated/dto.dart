@@ -1,4 +1,4 @@
-// Generated from pawday-m3.1.yaml; SHA256 f93a0b0f6f09982e77f7d53cb8286366892c9ca6c3e35d74fc1552e690ba1db0
+// Generated from pawday-m3.1.yaml; SHA256 6c14b20da07ecb77ad6449cf819dbc9a4fcc2b88bd62ad6036286318812026a1
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -2254,6 +2254,338 @@ class CatalogImportFinishedEnvelope {
   };
 }
 
+class OfferPriceChanges {
+  final int? sale_price_fen;
+  final int? member_price_fen;
+  final String? fulfillment_sla;
+  const OfferPriceChanges({this.sale_price_fen, this.member_price_fen, this.fulfillment_sla});
+  factory OfferPriceChanges.fromJson(Map<String,dynamic> json) => OfferPriceChanges(
+    sale_price_fen: json['sale_price_fen'] == null ? null : (json['sale_price_fen'] as num).toInt(),
+    member_price_fen: json['member_price_fen'] == null ? null : (json['member_price_fen'] as num).toInt(),
+    fulfillment_sla: json['fulfillment_sla'] == null ? null : json['fulfillment_sla'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    if (sale_price_fen != null) 'sale_price_fen': sale_price_fen == null ? null : sale_price_fen!,
+    if (member_price_fen != null) 'member_price_fen': member_price_fen == null ? null : member_price_fen!,
+    if (fulfillment_sla != null) 'fulfillment_sla': fulfillment_sla == null ? null : fulfillment_sla!,
+  };
+}
+
+class OfferCreateInput {
+  final String? store_id;
+  final String sku_id;
+  final int sale_price_fen;
+  final int? member_price_fen;
+  final String fulfillment_sla;
+  const OfferCreateInput({required this.store_id, required this.sku_id, required this.sale_price_fen, required this.member_price_fen, required this.fulfillment_sla});
+  factory OfferCreateInput.fromJson(Map<String,dynamic> json) => OfferCreateInput(
+    store_id: json['store_id'] == null ? null : json['store_id'] as String,
+    sku_id: json['sku_id'] as String,
+    sale_price_fen: (json['sale_price_fen'] as num).toInt(),
+    member_price_fen: json['member_price_fen'] == null ? null : (json['member_price_fen'] as num).toInt(),
+    fulfillment_sla: json['fulfillment_sla'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'store_id': store_id == null ? null : store_id!,
+    'sku_id': sku_id,
+    'sale_price_fen': sale_price_fen,
+    'member_price_fen': member_price_fen == null ? null : member_price_fen!,
+    'fulfillment_sla': fulfillment_sla,
+  };
+}
+
+class OfferInventory {
+  final String offer_id;
+  final int on_hand_qty;
+  final int reserved_qty;
+  final int available_qty;
+  final int version;
+  final String updated_at;
+  const OfferInventory({required this.offer_id, required this.on_hand_qty, required this.reserved_qty, required this.available_qty, required this.version, required this.updated_at});
+  factory OfferInventory.fromJson(Map<String,dynamic> json) => OfferInventory(
+    offer_id: json['offer_id'] as String,
+    on_hand_qty: (json['on_hand_qty'] as num).toInt(),
+    reserved_qty: (json['reserved_qty'] as num).toInt(),
+    available_qty: (json['available_qty'] as num).toInt(),
+    version: (json['version'] as num).toInt(),
+    updated_at: json['updated_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'offer_id': offer_id,
+    'on_hand_qty': on_hand_qty,
+    'reserved_qty': reserved_qty,
+    'available_qty': available_qty,
+    'version': version,
+    'updated_at': updated_at,
+  };
+}
+
+class ManagedOffer {
+  final String id;
+  final String merchant_id;
+  final String? store_id;
+  final String sku_id;
+  final int sale_price_fen;
+  final int? member_price_fen;
+  final String fulfillment_sla;
+  final String sku_code;
+  final String merchant_name;
+  final String? store_name;
+  final String sale_status;
+  final int version;
+  final String created_at;
+  final String updated_at;
+  final OfferInventory inventory;
+  const ManagedOffer({required this.id, required this.merchant_id, required this.store_id, required this.sku_id, required this.sale_price_fen, required this.member_price_fen, required this.fulfillment_sla, required this.sku_code, required this.merchant_name, required this.store_name, required this.sale_status, required this.version, required this.created_at, required this.updated_at, required this.inventory});
+  factory ManagedOffer.fromJson(Map<String,dynamic> json) => ManagedOffer(
+    id: json['id'] as String,
+    merchant_id: json['merchant_id'] as String,
+    store_id: json['store_id'] == null ? null : json['store_id'] as String,
+    sku_id: json['sku_id'] as String,
+    sale_price_fen: (json['sale_price_fen'] as num).toInt(),
+    member_price_fen: json['member_price_fen'] == null ? null : (json['member_price_fen'] as num).toInt(),
+    fulfillment_sla: json['fulfillment_sla'] as String,
+    sku_code: json['sku_code'] as String,
+    merchant_name: json['merchant_name'] as String,
+    store_name: json['store_name'] == null ? null : json['store_name'] as String,
+    sale_status: json['sale_status'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+    updated_at: json['updated_at'] as String,
+    inventory: OfferInventory.fromJson(Map<String,dynamic>.from(json['inventory'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'merchant_id': merchant_id,
+    'store_id': store_id == null ? null : store_id!,
+    'sku_id': sku_id,
+    'sale_price_fen': sale_price_fen,
+    'member_price_fen': member_price_fen == null ? null : member_price_fen!,
+    'fulfillment_sla': fulfillment_sla,
+    'sku_code': sku_code,
+    'merchant_name': merchant_name,
+    'store_name': store_name == null ? null : store_name!,
+    'sale_status': sale_status,
+    'version': version,
+    'created_at': created_at,
+    'updated_at': updated_at,
+    'inventory': inventory.toJson(),
+  };
+}
+
+class OfferStateInput {
+  final String reason;
+  const OfferStateInput({required this.reason});
+  factory OfferStateInput.fromJson(Map<String,dynamic> json) => OfferStateInput(
+    reason: json['reason'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'reason': reason,
+  };
+}
+
+class InventoryAdjustmentInput {
+  final int delta_qty;
+  final String reason_code;
+  final int expected_version;
+  const InventoryAdjustmentInput({required this.delta_qty, required this.reason_code, required this.expected_version});
+  factory InventoryAdjustmentInput.fromJson(Map<String,dynamic> json) => InventoryAdjustmentInput(
+    delta_qty: (json['delta_qty'] as num).toInt(),
+    reason_code: json['reason_code'] as String,
+    expected_version: (json['expected_version'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'delta_qty': delta_qty,
+    'reason_code': reason_code,
+    'expected_version': expected_version,
+  };
+}
+
+class InventoryAdjustmentResult {
+  final String adjustment_id;
+  final String offer_id;
+  final int delta_qty;
+  final int resulting_on_hand_qty;
+  final int resulting_reserved_qty;
+  final int resulting_available_qty;
+  final int version;
+  const InventoryAdjustmentResult({required this.adjustment_id, required this.offer_id, required this.delta_qty, required this.resulting_on_hand_qty, required this.resulting_reserved_qty, required this.resulting_available_qty, required this.version});
+  factory InventoryAdjustmentResult.fromJson(Map<String,dynamic> json) => InventoryAdjustmentResult(
+    adjustment_id: json['adjustment_id'] as String,
+    offer_id: json['offer_id'] as String,
+    delta_qty: (json['delta_qty'] as num).toInt(),
+    resulting_on_hand_qty: (json['resulting_on_hand_qty'] as num).toInt(),
+    resulting_reserved_qty: (json['resulting_reserved_qty'] as num).toInt(),
+    resulting_available_qty: (json['resulting_available_qty'] as num).toInt(),
+    version: (json['version'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'adjustment_id': adjustment_id,
+    'offer_id': offer_id,
+    'delta_qty': delta_qty,
+    'resulting_on_hand_qty': resulting_on_hand_qty,
+    'resulting_reserved_qty': resulting_reserved_qty,
+    'resulting_available_qty': resulting_available_qty,
+    'version': version,
+  };
+}
+
+class InventoryAdjustmentRecord {
+  final String id;
+  final String offer_id;
+  final int delta_qty;
+  final String reason_code;
+  final int expected_version;
+  final int before_on_hand_qty;
+  final int resulting_on_hand_qty;
+  final int resulting_reserved_qty;
+  final int resulting_version;
+  final String actor_id;
+  final String created_at;
+  const InventoryAdjustmentRecord({required this.id, required this.offer_id, required this.delta_qty, required this.reason_code, required this.expected_version, required this.before_on_hand_qty, required this.resulting_on_hand_qty, required this.resulting_reserved_qty, required this.resulting_version, required this.actor_id, required this.created_at});
+  factory InventoryAdjustmentRecord.fromJson(Map<String,dynamic> json) => InventoryAdjustmentRecord(
+    id: json['id'] as String,
+    offer_id: json['offer_id'] as String,
+    delta_qty: (json['delta_qty'] as num).toInt(),
+    reason_code: json['reason_code'] as String,
+    expected_version: (json['expected_version'] as num).toInt(),
+    before_on_hand_qty: (json['before_on_hand_qty'] as num).toInt(),
+    resulting_on_hand_qty: (json['resulting_on_hand_qty'] as num).toInt(),
+    resulting_reserved_qty: (json['resulting_reserved_qty'] as num).toInt(),
+    resulting_version: (json['resulting_version'] as num).toInt(),
+    actor_id: json['actor_id'] as String,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'offer_id': offer_id,
+    'delta_qty': delta_qty,
+    'reason_code': reason_code,
+    'expected_version': expected_version,
+    'before_on_hand_qty': before_on_hand_qty,
+    'resulting_on_hand_qty': resulting_on_hand_qty,
+    'resulting_reserved_qty': resulting_reserved_qty,
+    'resulting_version': resulting_version,
+    'actor_id': actor_id,
+    'created_at': created_at,
+  };
+}
+
+class OfferBatchItem {
+  final String offer_id;
+  final int expected_version;
+  final OfferPriceChanges changes;
+  const OfferBatchItem({required this.offer_id, required this.expected_version, required this.changes});
+  factory OfferBatchItem.fromJson(Map<String,dynamic> json) => OfferBatchItem(
+    offer_id: json['offer_id'] as String,
+    expected_version: (json['expected_version'] as num).toInt(),
+    changes: OfferPriceChanges.fromJson(Map<String,dynamic>.from(json['changes'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'offer_id': offer_id,
+    'expected_version': expected_version,
+    'changes': changes.toJson(),
+  };
+}
+
+class OfferBatchInput {
+  final List<OfferBatchItem> items;
+  const OfferBatchInput({required this.items});
+  factory OfferBatchInput.fromJson(Map<String,dynamic> json) => OfferBatchInput(
+    items: (json['items'] as List).map((value) => OfferBatchItem.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'items': items.map((value) => value.toJson()).toList(),
+  };
+}
+
+class OfferBatchResult {
+  final List<ManagedOffer> items;
+  const OfferBatchResult({required this.items});
+  factory OfferBatchResult.fromJson(Map<String,dynamic> json) => OfferBatchResult(
+    items: (json['items'] as List).map((value) => ManagedOffer.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'items': items.map((value) => value.toJson()).toList(),
+  };
+}
+
+class ManagedOfferListEnvelope {
+  final List<ManagedOffer> data;
+  final Page page;
+  final Meta meta;
+  const ManagedOfferListEnvelope({required this.data, required this.page, required this.meta});
+  factory ManagedOfferListEnvelope.fromJson(Map<String,dynamic> json) => ManagedOfferListEnvelope(
+    data: (json['data'] as List).map((value) => ManagedOffer.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ManagedOfferEnvelope {
+  final ManagedOffer data;
+  final Meta meta;
+  const ManagedOfferEnvelope({required this.data, required this.meta});
+  factory ManagedOfferEnvelope.fromJson(Map<String,dynamic> json) => ManagedOfferEnvelope(
+    data: ManagedOffer.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class InventoryAdjustmentRecordListEnvelope {
+  final List<InventoryAdjustmentRecord> data;
+  final Page page;
+  final Meta meta;
+  const InventoryAdjustmentRecordListEnvelope({required this.data, required this.page, required this.meta});
+  factory InventoryAdjustmentRecordListEnvelope.fromJson(Map<String,dynamic> json) => InventoryAdjustmentRecordListEnvelope(
+    data: (json['data'] as List).map((value) => InventoryAdjustmentRecord.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class OfferBatchResultEnvelope {
+  final OfferBatchResult data;
+  final Meta meta;
+  const OfferBatchResultEnvelope({required this.data, required this.meta});
+  factory OfferBatchResultEnvelope.fromJson(Map<String,dynamic> json) => OfferBatchResultEnvelope(
+    data: OfferBatchResult.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class InventoryAdjustmentResultEnvelope {
+  final InventoryAdjustmentResult data;
+  final Meta meta;
+  const InventoryAdjustmentResultEnvelope({required this.data, required this.meta});
+  factory InventoryAdjustmentResultEnvelope.fromJson(Map<String,dynamic> json) => InventoryAdjustmentResultEnvelope(
+    data: InventoryAdjustmentResult.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -2338,4 +2670,19 @@ class ApiRoutes {
   static const get_admin_catalog_imports__id = '/admin/catalog-imports/{id}';
   static const post_admin_catalog_imports__id__confirm = '/admin/catalog-imports/{id}/confirm';
   static const post_admin_catalog_imports__id__cancel = '/admin/catalog-imports/{id}/cancel';
+  static const get_merchant_offers = '/merchant/offers';
+  static const post_merchant_offers = '/merchant/offers';
+  static const get_merchant_offers__id = '/merchant/offers/{id}';
+  static const patch_merchant_offers__id = '/merchant/offers/{id}';
+  static const get_merchant_offers__id__inventory_adjustments = '/merchant/offers/{id}/inventory-adjustments';
+  static const post_merchant_offers__id__inventory_adjustments = '/merchant/offers/{id}/inventory-adjustments';
+  static const get_admin_offers = '/admin/offers';
+  static const get_admin_offers__id = '/admin/offers/{id}';
+  static const get_admin_offers__id__inventory_adjustments = '/admin/offers/{id}/inventory-adjustments';
+  static const post_merchant_offers_batch = '/merchant/offers/batch';
+  static const post_merchant_offers__id__activate = '/merchant/offers/{id}/activate';
+  static const post_merchant_offers__id__pause = '/merchant/offers/{id}/pause';
+  static const post_admin_offers__id__freeze = '/admin/offers/{id}/freeze';
+  static const post_admin_offers__id__unfreeze = '/admin/offers/{id}/unfreeze';
+  static const post_admin_offers__id__delist = '/admin/offers/{id}/delist';
 }

@@ -12,6 +12,7 @@ export function bootstrap(realm:Exclude<Realm,'consumer'>){
     {path:'/',redirect:'/dashboard'},
     ...['login','dashboard','denied','sessions'].map(page=>({path:`/${page}`,component:{template:'<span />'},meta:{page}})),
     ...(realm==='merchant'?[{path:'/stores',component:{template:'<span />'},meta:{page:'stores',permission:'store.read'}}]:[{path:'/audit',component:{template:'<span />'},meta:{page:'audit',permission:'audit.read'}},{path:'/pet-taxonomy',component:{template:'<span />'},meta:{page:'pet-taxonomy',permission:'pet.taxonomy.read'}}]),
+    {path:'/offers',component:{template:'<span />'},meta:{page:'offers',permission:realm==='merchant'?'offer.read':'offer.admin.read'}},
     {path:'/catalog',component:{template:'<span />'},meta:{page:'catalog',permission:'catalog.standard.read'}},
     {path:'/:pathMatch(.*)*',redirect:'/dashboard'},
   ];

@@ -75,3 +75,23 @@ test('brand creation refreshes the accessible SPU selector and clears credential
  const brand=page.locator('form').filter({has:page.getByRole('heading',{name:'品牌',exact:true})});await brand.getByLabel('名称',{exact:true}).fill('TEST ONLY brand');await brand.getByLabel('来源依据',{exact:true}).fill('TEST ONLY source');await page.getByLabel('再次输入密码').fill('TEST_ONLY_password');await page.getByLabel('新的动态验证码').fill('654321');await brand.getByRole('button',{name:'创建品牌'}).click();await expect(page.getByRole('status')).toHaveText('已保存，操作已记录。');await expect(page.getByLabel('再次输入密码')).toHaveValue('');
  const spu=page.locator('form').filter({has:page.getByRole('heading',{name:'标准商品',exact:true})});await spu.getByRole('combobox',{name:'品牌',exact:true}).selectOption({label:'TEST ONLY brand'},{timeout:10000});await expect(spu.getByRole('combobox',{name:'品牌',exact:true})).toHaveValue(meta.request_id);
 });
+
+test('offers route requires current server permission',async({page})=>{
+ const seen=await fixture(page,'merchant',[]);await page.goto('http://127.0.0.1:5173/offers');await login(page,'merchant');await expect(page).toHaveURL(/\/denied$/);expect(seen.some(x=>x.endsWith('/offers'))).toBe(false);
+});
+
+test('merchant inventory command uses delta and version and preserves its key on retry',async({page})=>{
+ await fixture(page,'merchant',['store.read','offer.read','inventory.adjust']);
+ const offer={id:meta.request_id,merchant_id:meta.request_id,store_id:'store-a',sku_id:meta.correlation_id,sku_code:'TEST-ONLY product',merchant_name:'TEST ONLY merchant',store_name:'TEST ONLY store',sale_price_fen:1000,member_price_fen:null,fulfillment_sla:'TEST ONLY SLA',sale_status:'ACTIVE',version:4,created_at:'2026-10-04T00:00:00Z',updated_at:'2026-10-04T00:00:00Z',inventory:{offer_id:meta.request_id,on_hand_qty:3,reserved_qty:1,available_qty:2,version:7,updated_at:'2026-10-04T00:00:00Z'}};
+ const keys:string[]=[];
+ await page.route('**/api/v1/merchant/offers**',async route=>{const r=route.request(),path=new URL(r.url()).pathname;let data:unknown;
+  if(r.method()==='POST'){expect(r.postDataJSON()).toEqual({delta_qty:2,reason_code:'RESTOCK',expected_version:7});keys.push(r.headers()['idempotency-key']!);if(keys.length===1){await route.fulfill({status:503,contentType:'application/json',body:JSON.stringify({error:{code:'PERSISTENCE_UNAVAILABLE',message:'TEST ONLY',retryable:false,details:{}},meta})});return;}offer.inventory.on_hand_qty=5;offer.inventory.available_qty=4;offer.inventory.version=8;data={adjustment_id:meta.correlation_id,offer_id:offer.id,delta_qty:2,resulting_on_hand_qty:5,resulting_reserved_qty:1,resulting_available_qty:4,version:8};}
+  else data=path.endsWith('/inventory-adjustments')?[]:path.endsWith('/offers')?[offer]:offer;
+  await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({data,page:{next_cursor:null,has_more:false},meta})});
+ });
+ await page.goto('http://127.0.0.1:5173/offers');await login(page,'merchant');await page.getByRole('button',{name:'查看报价与流水'}).click();await expect(page.getByRole('heading',{name:'修改报价'})).toHaveCount(0);await page.getByLabel('增减数量').fill('2');await page.getByRole('button',{name:'提交库存调整'}).click();await expect(page.getByRole('alert')).toContainText('PERSISTENCE_UNAVAILABLE');await page.getByRole('button',{name:'提交库存调整'}).click();await expect(page.getByText('实物 5 · 预占 1 · 可用 4',{exact:true})).toBeVisible();expect(keys).toHaveLength(2);expect(keys[0]).toBe(keys[1]);
+});
+
+test('read-only admin can inspect offers but cannot manage their state',async({page})=>{
+ await fixture(page,'admin',['offer.admin.read']);await page.route('**/api/v1/admin/offers',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({data:[],page:{next_cursor:null,has_more:false},meta})}));await page.goto('http://127.0.0.1:5174/offers');await login(page,'admin');await expect(page.getByRole('heading',{name:'报价风控',exact:true})).toBeVisible();await expect(page.getByLabel('再次输入密码')).toHaveCount(0);await expect(page.getByRole('heading',{name:'创建报价'})).toHaveCount(0);
+});

@@ -12,7 +12,7 @@ Push-Location $taskRoot
 try {
     & docker compose up -d --wait --wait-timeout 300
     if($LASTEXITCODE -ne 0) { throw 'Infrastructure startup failed' }
-    $jarPath=Join-Path $taskRoot 'release/pawday-backend-0.3.2.jar'
+    $jarPath=Join-Path $taskRoot 'release/pawday-backend-0.3.3.jar'
     if(Test-Path -LiteralPath $jarPath) { & java -jar $jarPath }
     else { & mvn -f backend/pom.xml spring-boot:run }
     if($LASTEXITCODE -ne 0) { throw 'Backend startup failed' }
