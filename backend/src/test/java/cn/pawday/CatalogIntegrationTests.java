@@ -94,4 +94,10 @@ class CatalogIntegrationTests {
   String stage=db.queryForObject("SELECT d.id FROM pet_life_stage_definitions d JOIN pet_life_stage_rule_versions v ON v.id=d.rule_version_id JOIN pet_species p ON p.id=v.species_id WHERE p.category='DOG' LIMIT 1",UUID.class).toString();
   b=standard();b.put("life_stage_ids",List.of(stage));assertEquals(422,write("/admin/skus/"+sku+"/standard-versions",b,"0").status());
  }
+ @Test void skuWithoutBarcodeCanBeCreatedAndCodeStillUnique(){
+  String spu=db.queryForObject("SELECT spu_id FROM skus WHERE id=?",UUID.class,UUID.fromString(sku)).toString();
+  var b=new LinkedHashMap<String,Object>(Map.of("spu_id",spu,"sku_code",key(),"weight_g",1000,"package_unit","BAG"));b.put("barcode",null);
+  assertEquals(201,write("/admin/skus",b,null).status());assertEquals(409,write("/admin/skus",b,null).status());
+  b.put("sku_code",key());assertEquals(201,write("/admin/skus",b,null).status());
+ }
 }
