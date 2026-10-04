@@ -63,4 +63,35 @@ class CatalogIntegrationTests {
  @Test void xlsxInlineTemplateAcceptedAndFormulaRejected()throws Exception{String escaped=json.writeValueAsString(standard()).replace("&","&amp;").replace("<","&lt;");String xml="<worksheet><sheetData><row><c r='A1' t='inlineStr'><is><t>sku_code</t></is></c><c r='B1' t='inlineStr'><is><t>standard_json</t></is></c></row><row><c r='A2' t='inlineStr'><is><t>"+code+"</t></is></c><c r='B2' t='inlineStr'><is><t>"+escaped+"</t></is></c></row></sheetData></worksheet>";String content=zip(xml);assertEquals(201,req("POST","/admin/catalog-imports",Map.of("format","XLSX","content_base64",content),admin,Map.of("Idempotency-Key",key())).status());assertThrows(cn.pawday.common.Api.Failure.class,()->CatalogImportParser.parse("XLSX",zip(xml.replace("<is><t>"+code,"<f>1+1</f><is><t>"+code))));}
  String zip(String xml){try{var bytes=new ByteArrayOutputStream();try(var z=new ZipOutputStream(bytes)){z.putNextEntry(new ZipEntry("xl/worksheets/sheet1.xml"));z.write(xml.getBytes(StandardCharsets.UTF_8));z.closeEntry();}return Base64.getEncoder().encodeToString(bytes.toByteArray());}catch(Exception e){throw new AssertionError(e);}}
  @Test void oversizedAndMalformedFilesRejected(){assertThrows(cn.pawday.common.Api.Failure.class,()->CatalogImportParser.parse("CSV",Base64.getEncoder().encodeToString(new byte[2000001])));assertThrows(cn.pawday.common.Api.Failure.class,()->CatalogImportParser.parse("CSV","broken"));assertThrows(cn.pawday.common.Api.Failure.class,()->CatalogImportParser.parse("XLSX",zip("<!DOCTYPE root [<!ENTITY x SYSTEM 'file:///etc/passwd'>]><worksheet>&x;</worksheet>")));}
+ @Test void staleSecondRowRollsBackFirstRowAndCanBeCancelled(){
+  var current=db.queryForMap("SELECT spu_id FROM skus WHERE id=?",UUID.fromString(sku));String secondCode=code+"z";
+  String second=write("/admin/skus",new LinkedHashMap<>(Map.of("spu_id",current.get("spu_id").toString(),"sku_code",secondCode,"barcode",key(),"weight_g",1000,"package_unit","BAG")),null).id();
+  String batch=preview(List.of(code,secondCode)).id();db.update("UPDATE skus SET version=version+1 WHERE id=?",UUID.fromString(second));
+  assertEquals(409,write("/admin/catalog-imports/"+batch+"/confirm",null,"0").status());
+  assertEquals(0,db.queryForObject("SELECT count(*) FROM sku_standard_versions WHERE sku_id IN (?,?)",Integer.class,UUID.fromString(sku),UUID.fromString(second)));
+  assertEquals(0L,db.queryForObject("SELECT version FROM skus WHERE id=?",Long.class,UUID.fromString(sku)));
+  assertEquals(0,db.queryForObject("SELECT count(*) FROM outbox_event WHERE aggregate_id=?",Integer.class,sku));
+  assertEquals(200,write("/admin/catalog-imports/"+batch+"/cancel",null,"0").status());
+ }
+ @Test void eventFailureRollsBackPublicationAndRestoresProofForRetry(){
+  String id=draft().id(),p=proof(),k=key();var h=Map.of("Idempotency-Key",k,"If-Match","\"1\"","X-Reverify-Token",p);
+  db.execute("CREATE FUNCTION fail_catalog_outbox() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN IF NEW.event_type='CatalogStandardPublished' THEN RAISE EXCEPTION 'TEST_ONLY'; END IF; RETURN NEW; END $$");
+  db.execute("CREATE TRIGGER test_catalog_outbox BEFORE INSERT ON outbox_event FOR EACH ROW EXECUTE FUNCTION fail_catalog_outbox()");
+  try{assertEquals(503,req("POST","/admin/sku-standard-versions/"+id+"/publish",null,admin,h).status());assertEquals("DRAFT",db.queryForObject("SELECT status FROM sku_standard_versions WHERE id=?",String.class,UUID.fromString(id)));assertEquals(0,db.queryForObject("SELECT count(*) FROM identity_command WHERE idempotency_key=?",Integer.class,k));}
+  finally{db.execute("DROP TRIGGER test_catalog_outbox ON outbox_event");db.execute("DROP FUNCTION fail_catalog_outbox()");}
+  assertEquals(200,req("POST","/admin/sku-standard-versions/"+id+"/publish",null,admin,h).status());
+ }
+ @Test void publishedAllergenCannotBeChangedOrMoved(){
+  UUID allergen=UUID.randomUUID();db.update("INSERT INTO allergens(id,name) VALUES (?,?)",allergen,key());var b=standard();b.put("allergens_known",true);b.put("allergen_ids",List.of(allergen.toString()));String id=write("/admin/skus/"+sku+"/standard-versions",b,"0").id();write("/admin/sku-standard-versions/"+id+"/publish",null,"1");
+  String next=write("/admin/skus/"+sku+"/standard-versions",b,"2").id();
+  assertThrows(org.springframework.dao.DataAccessException.class,()->db.update("DELETE FROM sku_allergens WHERE standard_version_id=?",UUID.fromString(id)));
+  assertThrows(org.springframework.dao.DataAccessException.class,()->db.update("UPDATE sku_allergens SET standard_version_id=? WHERE standard_version_id=?",UUID.fromString(next),UUID.fromString(id)));
+ }
+ @Test void everyCatalogueReadRouteIsMapped(){assertEquals(200,read("/admin/brands",admin).status());assertEquals(200,read("/admin/spus",admin).status());assertEquals(200,read("/admin/catalog-reviews",admin).status());assertEquals(200,read("/admin/skus/"+sku,admin).status());}
+ @Test void unknownAllergyAndWrongSpeciesStageAreRejected(){
+  var b=standard();b.put("allergen_ids",List.of(key()));assertEquals(400,write("/admin/skus/"+sku+"/standard-versions",b,"0").status());
+  b=standard();b.put("allergens_known",true);b.put("allergen_ids",List.of(key()));assertEquals(422,write("/admin/skus/"+sku+"/standard-versions",b,"0").status());
+  String stage=db.queryForObject("SELECT d.id FROM pet_life_stage_definitions d JOIN pet_life_stage_rule_versions v ON v.id=d.rule_version_id JOIN pet_species p ON p.id=v.species_id WHERE p.category='DOG' LIMIT 1",UUID.class).toString();
+  b=standard();b.put("life_stage_ids",List.of(stage));assertEquals(422,write("/admin/skus/"+sku+"/standard-versions",b,"0").status());
+ }
 }

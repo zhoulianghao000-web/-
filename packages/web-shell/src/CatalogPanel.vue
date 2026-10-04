@@ -43,7 +43,7 @@ async function finish(confirm:boolean){const b=batch.value;if(!b)return;const pa
 onMounted(load);
 </script>
 <template>
- <div>
+ <div :inert="busy" :aria-busy="busy">
 <div class="page-heading"><div><p class="eyebrow">STANDARD CATALOG</p><h1>{{ realm==='admin'?'标准商品与审核':'平台标准商品' }}</h1><p class="muted">配料、营养与来源按版本保留。商家可提交纠错申请，由平台审核。</p></div><button class="secondary" :disabled="busy" @click="load">刷新</button></div>
  <p v-if="error" class="error" role="alert">{{ error }}</p><p v-if="notice" class="notice" role="status">{{ notice }}</p>
  <div class="cards"><article v-for="item in skus" :key="item.id"><h2>{{ item.sku_code }}</h2><p>{{ item.weight_g }} 克 · {{ item.package_unit }}</p><button class="secondary" :disabled="busy" @click="selectSku(item.id)">查看标准资料</button></article></div><p v-if="!skus.length">尚无标准商品。</p>

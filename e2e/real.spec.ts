@@ -1,6 +1,7 @@
 import {createHmac} from 'node:crypto';
 import {test,expect} from '@playwright/test';
 test.skip(!process.env.PAWDAY_REAL_E2E,'Run in the mandatory real-infrastructure CI job');
+test.use({actionTimeout:15000});
 function totp(){
   const secret=process.env.PAWDAY_DEMO_ADMIN_TOTP_BASE64;
   if(!secret)throw new Error('Real admin TOTP fixture must be explicitly configured');
@@ -43,9 +44,9 @@ test('real administrator TOTP, catalog publication, merchant correction and revi
   const brandForm=page.locator('form').filter({has:page.getByRole('heading',{name:'品牌',exact:true})});
   await brandForm.getByLabel('名称',{exact:true}).fill(label);await brandForm.getByLabel('来源依据',{exact:true}).fill('TEST-ONLY generated browser fixture, not real merchandise');await fresh();await brandForm.getByRole('button',{name:'创建品牌'}).click();await saved();
   const spuForm=page.locator('form').filter({has:page.getByRole('heading',{name:'标准商品',exact:true})});
-  await spuForm.getByLabel('品牌',{exact:true}).selectOption({label});await spuForm.getByLabel('商品名称').fill(label);await spuForm.getByLabel('商品类目').fill('DRY_FOOD');await fresh();await spuForm.getByRole('button',{name:'创建商品'}).click();await saved();
+  await spuForm.getByRole('combobox',{name:'品牌',exact:true}).selectOption({label},{timeout:10000});await spuForm.getByLabel('商品名称').fill(label);await spuForm.getByLabel('商品类目').fill('DRY_FOOD');await fresh();await spuForm.getByRole('button',{name:'创建商品'}).click();await saved();
   const skuForm=page.locator('form').filter({has:page.getByRole('heading',{name:'标准规格',exact:true})});
-  await skuForm.getByLabel('所属商品').selectOption({label});await skuForm.getByLabel('规格标识').fill(label);await skuForm.getByLabel('净重（克）').fill('1000');await fresh();await skuForm.getByRole('button',{name:'创建规格'}).click();await saved();
+  await skuForm.getByRole('combobox',{name:'所属商品',exact:true}).selectOption({label},{timeout:10000});await skuForm.getByLabel('规格标识').fill(label);await skuForm.getByLabel('净重（克）').fill('1000');await fresh();await skuForm.getByRole('button',{name:'创建规格'}).click();await saved();
   await page.locator('article').filter({has:page.getByRole('heading',{name:label,exact:true})}).getByRole('button',{name:'查看标准资料'}).click();
   const standardForm=page.locator('form').filter({has:page.getByRole('heading',{name:'创建新的资料草稿',exact:true})});
   await standardForm.getByLabel('配料（每行一项，保留原始顺序）').fill('TEST-ONLY ingredient');await standardForm.getByLabel('来源依据（每行一条）').fill('TEST-ONLY label fixture');await standardForm.getByLabel('来源更新日期').fill('2026-10-01');await fresh();await standardForm.getByRole('button',{name:'保存新草稿'}).click();await saved();
