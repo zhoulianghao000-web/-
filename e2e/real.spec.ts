@@ -10,9 +10,9 @@ function totp(){
 }
 test('real merchant login, scope, refresh rotation and cross-realm rejection',async({page,request})=>{
   const password=process.env.PAWDAY_DEMO_MERCHANT_PASSWORD;if(!password)throw new Error('Real merchant fixture required');
-  await page.goto('http://127.0.0.1:5173/stores');await page.getByLabel('账号',{exact:true}).fill('local-staff-A');await page.getByLabel('密码',{exact:true}).fill(password);await page.getByRole('button',{name:'登录工作台'}).click();
-  await expect(page).toHaveURL(/\/stores$/);await expect(page.getByRole('heading',{name:'LOCAL DEMO Store A'})).toBeVisible();await expect(page.getByText('LOCAL DEMO Store B',{exact:true})).toHaveCount(0);
-  const login=await request.post('http://127.0.0.1:8080/api/v1/merchant/auth/login',{data:{login_name:'local-staff-B',password,device_id:'ci-real-client'}});expect(login.ok()).toBe(true);const tokens=(await login.json()).data;
+  await page.goto('http://127.0.0.1:5173/stores');await page.getByLabel('账号',{exact:true}).fill('local-staff-a');await page.getByLabel('密码',{exact:true}).fill(password);await page.getByRole('button',{name:'登录工作台'}).click();
+  await expect(page).toHaveURL('http://127.0.0.1:5173/stores');await expect(page.getByRole('heading',{name:'LOCAL DEMO Store a'})).toBeVisible();await expect(page.getByText('LOCAL DEMO Store b',{exact:true})).toHaveCount(0);
+  const login=await request.post('http://127.0.0.1:8080/api/v1/merchant/auth/login',{data:{login_name:'local-staff-b',password,device_id:'ci-real-client'}});expect(login.ok()).toBe(true);const tokens=(await login.json()).data;
   const badRealm=await request.get('http://127.0.0.1:8080/api/v1/admin/me',{headers:{Authorization:`Bearer ${tokens.access_token}`}});expect(badRealm.status()).toBe(403);
   const refresh=await request.post('http://127.0.0.1:8080/api/v1/merchant/auth/refresh',{data:{refresh_token:tokens.refresh_token}});expect(refresh.ok()).toBe(true);const rotated=(await refresh.json()).data;expect(rotated.refresh_token).not.toBe(tokens.refresh_token);
   const me=await request.get('http://127.0.0.1:8080/api/v1/merchant/me',{headers:{Authorization:`Bearer ${rotated.access_token}`}});expect(me.ok()).toBe(true);expect((await me.json()).data.realm).toBe('MERCHANT');
@@ -23,7 +23,7 @@ test('real administrator TOTP login and audit HTTP response',async({page})=>{
   test.setTimeout(60000);
   const password=process.env.PAWDAY_DEMO_ADMIN_PASSWORD;if(!password)throw new Error('Real admin fixture required');
   await page.goto('http://127.0.0.1:5174/audit');await page.getByLabel('账号',{exact:true}).fill('local-admin');await page.getByLabel('密码',{exact:true}).fill(password);await page.getByLabel('动态验证码',{exact:true}).fill(totp());await page.getByRole('button',{name:'登录工作台'}).click();
-  await expect(page).toHaveURL(/\/audit$/);await expect(page.getByRole('table')).toBeVisible();await expect(page.getByRole('alert')).toHaveCount(0);
+  await expect(page).toHaveURL('http://127.0.0.1:5174/audit');await expect(page.getByRole('table')).toBeVisible();await expect(page.getByRole('alert')).toHaveCount(0);
   await page.getByRole('link',{name:'账号与设备'}).click();await expect(page.getByText('当前设备',{exact:true})).toBeVisible();await page.getByRole('button',{name:'注销其他设备',exact:true}).click();
   // A login TOTP is single-use. Wait for the next real step before reverify.
   const currentStep=Math.floor(Date.now()/30000);await expect.poll(()=>Math.floor(Date.now()/30000),{timeout:32000,intervals:[250]}).toBeGreaterThan(currentStep);

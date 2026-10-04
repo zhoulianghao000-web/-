@@ -25,7 +25,7 @@ async function login(page:Page,realm:'merchant'|'admin'){
   await page.getByRole('button',{name:'登录工作台'}).click();
 }
 test('merchant login returns to requested route and preserves authorized store selection',async({page})=>{
-  await fixture(page,'merchant',['store.read']);await page.goto('http://127.0.0.1:5173/stores');await expect(page).toHaveURL(/login\?returnTo/);await login(page,'merchant');await expect(page).toHaveURL(/\/stores$/);
+  await fixture(page,'merchant',['store.read']);await page.goto('http://127.0.0.1:5173/stores');await expect(page).toHaveURL(/login\?returnTo/);await login(page,'merchant');await expect(page).toHaveURL('http://127.0.0.1:5173/stores');
   await page.getByLabel('当前门店').selectOption('store-b');await page.getByRole('link',{name:'工作台',exact:true}).click();await expect(page.getByLabel('当前门店')).toHaveValue('store-b');
   expect(await page.evaluate(()=>Object.keys(localStorage))).toEqual(['pawday.merchant.device']);await page.screenshot({path:'test-results/merchant-dashboard.png',fullPage:true});
   await page.reload();await expect(page).toHaveURL(/\/login/);
@@ -36,7 +36,7 @@ test('merchant direct unauthorized route is denied using current server permissi
 test('admin requires TOTP and loads audit only after authenticated RBAC guard',async({page})=>{
   const seen=await fixture(page,'admin',['audit.read']);await page.goto('http://127.0.0.1:5174/audit');
   await page.getByLabel('账号',{exact:true}).fill('admin');await page.getByLabel('密码',{exact:true}).fill('TEST_ONLY_password');await page.getByRole('button',{name:'登录工作台'}).click();expect(seen.some(p=>p.endsWith('/login'))).toBe(false);
-  await page.getByLabel('动态验证码',{exact:true}).fill('123456');await page.getByRole('button',{name:'登录工作台'}).click();await expect(page).toHaveURL(/\/audit$/);await expect(page.getByRole('cell',{name:'session.revoke-others',exact:true})).toBeVisible();await page.screenshot({path:'test-results/admin-audit.png',fullPage:true});
+  await page.getByLabel('动态验证码',{exact:true}).fill('123456');await page.getByRole('button',{name:'登录工作台'}).click();await expect(page).toHaveURL('http://127.0.0.1:5174/audit');await expect(page.getByRole('cell',{name:'session.revoke-others',exact:true})).toBeVisible();await page.screenshot({path:'test-results/admin-audit.png',fullPage:true});
 });
 for(const realm of ['merchant','admin'] as const)test(`${realm} sensitive device action obtains and immediately consumes action-bound proof`,async({page})=>{
   const seen=await fixture(page,realm,realm==='merchant'?['store.read']:['audit.read']);await page.goto(`http://127.0.0.1:${realm==='merchant'?5173:5174}/sessions`);await login(page,realm);await expect(page.getByText('当前设备',{exact:true})).toBeVisible();
