@@ -52,7 +52,7 @@ jobs:
         run: |
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m4.1.yaml
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m4.1.yaml -o /tmp/pawday-m41-bundled.yaml
-          python openapi/validate_m41_contract.py --samples backend/target/m41-contract-samples.json --report backend/target/checkout-response-report.json
+          python openapi/validate_m41_contract.py --samples backend/target/m41-contract-samples.json --report openapi/checkout-response-report.json
       - name: Real infrastructure diagnostics
         if: always()
         run: |
