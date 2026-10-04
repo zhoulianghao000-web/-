@@ -372,7 +372,9 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
 
 String uncertaintyLabel(String code) =>
     const {
-      'PRODUCT_ALLERGENS_UNKNOWN': '商品过敏原资料未知',
+      'PRODUCT_NUTRIENTS_MISSING':'商品营养资料尚未补齐',
+  'PRODUCT_INGREDIENTS_MISSING':'商品配料资料尚未补齐',
+  'PRODUCT_ALLERGENS_UNKNOWN': '商品过敏原资料未知',
       'PET_ALLERGIES_UNKNOWN': '宠物过敏情况尚未完成评估',
       'PET_ALLERGEN_ASSESSMENT_INCOMPLETE': '部分商品过敏原尚未评估',
       'LIFE_STAGE_INSUFFICIENT': '缺少可靠年龄或商品适用阶段资料',

@@ -10,7 +10,7 @@ export function generateDart(doc,hash) {
     if(!type)throw new Error(`Unsupported Dart schema ${JSON.stringify(schema)}`);
     return {type,read:x=>kind==='integer'?`(${x} as num).toInt()`:kind==='number'?`(${x} as num).toDouble()`:kind==='object'?`Map<String,dynamic>.from(${x} as Map)`:`${x} as ${type}`,write:x=>x};
   }
-  let output=`// Generated from pawday-m3.1.yaml; SHA256 ${hash}\n// ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators\n\n`;
+  let output=`// Generated from Pawday runtime OpenAPI; SHA256 ${hash}\n// ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators\n\n`;
   for(const [name,schema] of Object.entries(schemas)){
     if(schema.type!=='object'||!schema.properties)throw new Error(`Unsupported root schema ${name}`);
     const fields=Object.entries(schema.properties).map(([key,s])=>({key,...info(s),required:(schema.required??[]).includes(key),nullable:!(schema.required??[]).includes(key)||(Array.isArray(s.type)&&s.type.includes('null'))||s.anyOf?.some(x=>x.type==='null')}));

@@ -1,4 +1,4 @@
-// Generated from pawday-m3.1.yaml; SHA256 663be1d7ee67d9101a2aeaf3d5e9dac04d0dd42194fa14bb3cb80282a48962e2
+// Generated from Pawday runtime OpenAPI; SHA256 663be1d7ee67d9101a2aeaf3d5e9dac04d0dd42194fa14bb3cb80282a48962e2
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {

@@ -26,12 +26,12 @@ public class BusinessFactConsumer {
             int attempt=((Number)row.get("attempt_count")).intValue()+1;
             if(event.delivery_attempt()!=attempt || event.generation()!=((Number)row.get("generation")).intValue())return;
             Object savepoint=status.createSavepoint();String code=null;
-            try{handle(event);}catch(Exception e){status.rollbackToSavepoint(savepoint);code=e instanceof InvalidEvent failure?failure.code:"SEARCH_INBOX_FAILURE";}finally{status.releaseSavepoint(savepoint);}
+            try{handle(event);}catch(Exception e){status.rollbackToSavepoint(savepoint);code=e instanceof InvalidEvent failure?failure.code:"BUSINESS_FACT_INBOX_FAILURE";}finally{status.releaseSavepoint(savepoint);}
             if(code==null)db.update("UPDATE processed_event SET status='PROCESSED',attempt_count=?,completed_at=clock_timestamp(),next_attempt_at=NULL,last_error_code=NULL,updated_at=clock_timestamp() WHERE consumer=? AND event_id=?",attempt,CONSUMER,event.event_id());
             else {
                 boolean dead=attempt>=policy.maxAttempts;
                 db.update("UPDATE processed_event SET status=?,attempt_count=?,last_error_code=?,next_attempt_at=CASE WHEN ? THEN NULL ELSE clock_timestamp()+(?*interval '1 millisecond') END,updated_at=clock_timestamp() WHERE consumer=? AND event_id=?",dead?"DEAD":"FAILED_RETRYABLE",attempt,code,dead,policy.backoff(attempt),CONSUMER,event.event_id());
-                if(dead)writer.deadLetter(event.event_id(),"SEARCH_INBOX",code,event.generation());
+                if(dead)writer.deadLetter(event.event_id(),"BUSINESS_FACT_INBOX",code,event.generation());
                 else writer.insert(UUID.randomUUID(),event.event_id(),"RETRY",event.aggregate_type(),event.aggregate_id(),event.event_type(),event.event_version(),event.payload(),event.correlation_id(),attempt+1,event.generation(),policy.backoff(attempt));
             }
         });

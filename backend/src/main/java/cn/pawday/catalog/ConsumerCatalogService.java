@@ -34,6 +34,8 @@ public class ConsumerCatalogService {
   if(!species.get("category").equals(product.get("pet_category")))conflicts.add(Map.of("type","PET_CATEGORY_MISMATCH","message","商品宠物分类与档案不符"));
   var pa=(List<?>)pet.get("allergens");var sa=(List<?>)product.get("allergens");
   for(Object raw:pa){var allergy=(Map<?,?>)raw;if("YES".equals(allergy.get("status")) && sa.stream().anyMatch(x->String.valueOf(((Map<?,?>)x).get("id")).equals(String.valueOf(allergy.get("allergen_id")))))conflicts.add(Map.of("type","ALLERGEN_CONFLICT","allergen_id",allergy.get("allergen_id"),"message","商品过敏原与宠物档案冲突"));}
+  if(((List<?>)product.get("nutrients")).isEmpty())uncertainties.add("PRODUCT_NUTRIENTS_MISSING");
+  if(((List<?>)product.get("ingredients")).isEmpty())uncertainties.add("PRODUCT_INGREDIENTS_MISSING");
   if(!Boolean.TRUE.equals(product.get("allergens_known")))uncertainties.add("PRODUCT_ALLERGENS_UNKNOWN");
   // An empty allergy list is unassessed, not a declaration of no allergies.
   if(pa.isEmpty() || pa.stream().anyMatch(x->"UNKNOWN".equals(((Map<?,?>)x).get("status"))))uncertainties.add("PET_ALLERGIES_UNKNOWN");
