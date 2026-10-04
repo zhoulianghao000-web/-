@@ -1,6 +1,8 @@
-# Pawday M2.4 — 三端前端工程
+# Pawday M3.1 — 宠物分类与档案
 
 M2.3 实现对象存储抽象、真实本地文件适配器、受控媒体上传、OpenSearch V1 索引与可靠同步/重建/对账、Redis 健康门禁。M2.1 身份和 M2.2 Outbox 能力保留。M2.4 增加共享生成客户端、Vue 商家/管理员工程及 Flutter 消费者工程。
+
+M2.4 PR #2 已合并。M3.1 从合并后的主分支增加宠物分类/品种/过敏原、版本化年龄规则、消费者档案和体重记录、Flutter 宠物页及管理员分类维护页。实现范围及验收边界见 [M3.1 说明](docs/M3.1-宠物分类与档案.md)；当前运行时契约为 [pawday-m3.1.yaml](openapi/pawday-m3.1.yaml)，共享 DTO/client 从此生成。
 
 ## 本地启动
 
@@ -19,7 +21,7 @@ M2.3 实现对象存储抽象、真实本地文件适配器、受控媒体上传
 ./scripts/test-infrastructure.ps1
 ```
 
-脚本创建独立四服务项目，然后执行 `mvn -B -ntp -Pinfrastructure-it verify`。没有 broker/Redis/OpenSearch 时失败，不能使用 mock 或 skip。普通 `mvn verify` 只运行身份/媒体测试，不等价于 M2.3 验收；`rabbit-it` 保留单独 M2.2 broker 回归。
+脚本创建独立四服务项目，然后执行 `mvn -B -ntp -Pinfrastructure-it verify`。没有 broker/Redis/OpenSearch 时失败，不能使用 mock 或 skip。普通 `mvn verify` 运行身份/媒体/宠物测试，不等价于完整基础设施验收；`rabbit-it` 保留单独 M2.2 broker 回归。
 
 已有真实服务时使用 [test-existing-infrastructure.ps1](scripts/test-existing-infrastructure.ps1)，传入隔离端口、测试 Rabbit 凭据、原生 rabbitmqctl 或测试容器名称；OpenSearch cluster.name 必须是 `pawday-m23-it`，测试会修改其 Pawday 索引。无需安装系统服务，独立临时 PostgreSQL 由测试自动启动。
 

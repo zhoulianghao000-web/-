@@ -20,7 +20,7 @@ test('real merchant login, scope, refresh rotation and cross-realm rejection',as
   await page.getByRole('button',{name:'退出登录'}).click();await expect(page).toHaveURL(/\/login$/);
 });
 test('real administrator TOTP login and audit HTTP response',async({page})=>{
-  test.setTimeout(60000);
+  test.setTimeout(120000);
   const password=process.env.PAWDAY_DEMO_ADMIN_PASSWORD;if(!password)throw new Error('Real admin fixture required');
   await page.goto('http://127.0.0.1:5174/audit');await page.getByLabel('账号',{exact:true}).fill('local-admin');await page.getByLabel('密码',{exact:true}).fill(password);await page.getByLabel('动态验证码',{exact:true}).fill(totp());await page.getByRole('button',{name:'登录工作台'}).click();
   await expect(page).toHaveURL('http://127.0.0.1:5174/audit');await expect(page.getByRole('table')).toBeVisible();await expect(page.getByRole('alert')).toHaveCount(0);
@@ -29,4 +29,9 @@ test('real administrator TOTP login and audit HTTP response',async({page})=>{
   const currentStep=Math.floor(Date.now()/30000);await expect.poll(()=>Math.floor(Date.now()/30000),{timeout:32000,intervals:[250]}).toBeGreaterThan(currentStep);
   await page.getByLabel('再次输入密码').fill(password);await page.getByLabel('新的动态验证码').fill(totp());await page.getByRole('button',{name:'验证并注销其他设备',exact:true}).click();await expect(page.getByRole('status')).toHaveText('其他设备的会话已注销。');
   await page.getByRole('link',{name:'审计记录'}).click();await expect(page.getByRole('cell',{name:'auth.sessions.revoked-others',exact:true}).first()).toBeVisible();
+  await page.getByRole('link',{name:'宠物分类',exact:true}).click();await expect(page.getByRole('heading',{name:'宠物分类与年龄规则'})).toBeVisible();
+  const form=page.locator('form').filter({has:page.getByRole('heading',{name:'维护分类词典'})});await form.getByLabel('类型').selectOption('allergens');await form.getByLabel('名称',{exact:true}).fill(`CI REAL TEST allergen ${Date.now()}`);
+  const taxonomyStep=Math.floor(Date.now()/30000);await expect.poll(()=>Math.floor(Date.now()/30000),{timeout:32000,intervals:[250]}).toBeGreaterThan(taxonomyStep);
+  await page.getByLabel('再次输入密码').fill(password);await page.getByLabel('新的动态验证码').fill(totp());await form.getByRole('button',{name:'保存词典项'}).click();await expect(page.getByRole('status')).toHaveText('已保存，操作已记录。');
+  await page.getByRole('link',{name:'审计记录'}).click();await expect(page.getByRole('cell',{name:'pet.taxonomy.create',exact:true}).first()).toBeVisible();
 });

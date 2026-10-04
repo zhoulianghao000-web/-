@@ -1,7 +1,7 @@
 import {test,expect,type Page} from '@playwright/test';
 const meta={request_id:'00000000-0000-0000-0000-000000000001',correlation_id:'00000000-0000-0000-0000-000000000002'};
 const tokens={access_token:'access',refresh_token:'refresh',expires_in:900,session_id:meta.request_id,user_id:null};
-async function fixture(page:Page,realm:'merchant'|'admin',permissions:string[]){
+async function fixture(page:Page,realm:'merchant'|'admin',permissions:string[],reverifyAction='session.revoke-others'){
   const principal={id:meta.request_id,realm:realm.toUpperCase(),merchant_id:realm==='merchant'?meta.request_id:null,user_id:null,session_id:meta.request_id,permissions};
   const seen:string[]=[];
   await page.route('**/api/v1/**',async route=>{
@@ -11,7 +11,9 @@ async function fixture(page:Page,realm:'merchant'|'admin',permissions:string[]){
     else if(path.endsWith('/me'))data=principal;
     else if(path.endsWith('/stores'))data=[{id:'store-a',merchant_id:meta.request_id,name:'南山店'},{id:'store-b',merchant_id:meta.request_id,name:'海岸店'}];
     else if(path.endsWith('/sessions'))data=[{id:meta.request_id,device_id:'Browser',created_at:new Date().toISOString(),expires_at:new Date().toISOString(),revoked_at:null}];
-    else if(path.endsWith('/reverify')){const body=JSON.parse(request.postData()??'{}');expect(body.action).toBe('session.revoke-others');expect(body.password).toBe('TEST_ONLY_password');if(realm==='admin')expect(body.totp_code).toBe('654321');data={reverify_token:'one-use-proof',action:'session.revoke-others',expires_at:new Date().toISOString()};}
+    else if(path.endsWith('/reverify')){const body=JSON.parse(request.postData()??'{}');expect(body.action).toBe(reverifyAction);expect(body.password).toBe('TEST_ONLY_password');if(realm==='admin')expect(body.totp_code).toBe('654321');data={reverify_token:'one-use-proof',action:reverifyAction,expires_at:new Date().toISOString()};}
+    else if(path.endsWith('/pet-taxonomy'))data=[{id:'cat-root',parent_id:null,name:'猫',category:'CAT',life_stages:[]}];
+    else if(path.endsWith('/pet-taxonomy/species')){expect(request.headers()['x-reverify-token']).toBe('one-use-proof');expect(request.headers()['idempotency-key']).toBeTruthy();expect(request.postDataJSON()).toEqual({name:'布偶猫',parent_id:'cat-root'});data={id:'new-species',name:'布偶猫'};}
     else if(path.endsWith('/revoke-others'))expect(request.headers()['x-reverify-token']).toBe('one-use-proof');
     else if(path.endsWith('/audit'))data=[{id:'audit',actor_type:'ADMIN',actor_id:meta.request_id,action:'auth.sessions.revoked-others',object_type:'SESSION',object_id:meta.request_id,before_json:null,after_json:null,request_id:meta.request_id,correlation_id:meta.correlation_id,created_at:'2026-10-04T00:00:00Z'}];
     if(!path.endsWith('/login'))expect(request.headers()['authorization']).toBe('Bearer access');
@@ -46,4 +48,14 @@ for(const realm of ['merchant','admin'] as const)test(`${realm} sensitive device
 });
 test('login error shows request ID without accepting a session',async({page})=>{
   await page.route('**/api/v1/**',route=>route.fulfill({status:401,contentType:'application/json',body:JSON.stringify({error:{code:'LOGIN_FAILED',message:'failed',retryable:false,details:{}},meta})}));await page.goto('http://127.0.0.1:5173/login');await login(page,'merchant');await expect(page.getByRole('alert')).toContainText(meta.request_id);await expect(page).toHaveURL(/\/login$/);
+});
+
+test('admin taxonomy route requires permission',async({page})=>{
+  await fixture(page,'admin',[]);await page.goto('http://127.0.0.1:5174/pet-taxonomy');await login(page,'admin');await expect(page).toHaveURL(/\/denied$/);await expect(page.getByRole('link',{name:'宠物分类',exact:true})).toHaveCount(0);
+});
+test('taxonomy command requires fresh reverify and clears credentials',async({page})=>{
+  const seen=await fixture(page,'admin',['pet.taxonomy.read','pet.taxonomy.write'],'pet.taxonomy.write');await page.goto('http://127.0.0.1:5174/pet-taxonomy');await login(page,'admin');await expect(page.getByRole('heading',{name:'宠物分类与年龄规则'})).toBeVisible();
+  const form=page.locator('form').filter({has:page.getByRole('heading',{name:'维护分类词典'})});await form.getByLabel('名称',{exact:true}).fill('布偶猫');await form.getByLabel('所属父分类').selectOption('cat-root');await expect(form.getByRole('button',{name:'保存词典项'})).toBeDisabled();
+  await page.getByLabel('再次输入密码').fill('TEST_ONLY_password');await page.getByLabel('新的动态验证码').fill('654321');await form.getByRole('button',{name:'保存词典项'}).click();await expect(page.getByRole('status')).toHaveText('已保存，操作已记录。');await expect(page.getByLabel('再次输入密码')).toHaveValue('');await expect(page.getByLabel('新的动态验证码')).toHaveValue('');expect(seen.findIndex(p=>p.endsWith('/reverify'))).toBeLessThan(seen.findIndex(p=>p.endsWith('/pet-taxonomy/species')));
+  await page.screenshot({path:'test-results/m31-admin-taxonomy.png',fullPage:true});
 });

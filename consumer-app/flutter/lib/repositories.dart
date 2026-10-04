@@ -110,6 +110,7 @@ final currentPetProvider = NotifierProvider<CurrentPetNotifier, PetContext?>(
 );
 
 class CurrentPetNotifier extends Notifier<PetContext?> {
+  void clear() => state = null;
   @override
   PetContext? build() {
     ref.listen(authProvider, (previous, next) {
