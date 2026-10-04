@@ -1,0 +1,71 @@
+{
+  "result": "PASS",
+  "validated_at_utc": "2026-10-03T10:36:48.658225+00:00",
+  "operations": 34,
+  "schemas": 35,
+  "actual_http_responses_validated": 37,
+  "covered_method_path_status_count": 12,
+  "covered_responses": [
+    [
+      "get",
+      "/admin/operations/outbox",
+      "200"
+    ],
+    [
+      "get",
+      "/admin/operations/outbox/stats",
+      "200"
+    ],
+    [
+      "get",
+      "/admin/operations/outbox/stats",
+      "401"
+    ],
+    [
+      "get",
+      "/admin/operations/outbox/stats",
+      "403"
+    ],
+    [
+      "post",
+      "/admin/auth/login",
+      "200"
+    ],
+    [
+      "post",
+      "/admin/auth/reverify",
+      "200"
+    ],
+    [
+      "post",
+      "/admin/operations/outbox/{event_id}/replay",
+      "200"
+    ],
+    [
+      "post",
+      "/admin/operations/outbox/{event_id}/replay",
+      "400"
+    ],
+    [
+      "post",
+      "/admin/operations/outbox/{event_id}/replay",
+      "403"
+    ],
+    [
+      "post",
+      "/admin/operations/outbox/{event_id}/replay",
+      "409"
+    ],
+    [
+      "post",
+      "/admin/operations/outbox/{event_id}/replay",
+      "503"
+    ],
+    [
+      "post",
+      "/consumer/auth/phone/request-code",
+      "503"
+    ]
+  ],
+  "note": "Only captured responses are runtime-verified; OpenAPI validation does not establish runtime coverage for every operation."
+}

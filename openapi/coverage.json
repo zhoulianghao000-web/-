@@ -1,0 +1,1210 @@
+{
+  "scope": "M1 core; remaining non-core DTOs must be specified before M2 implementation of those modules",
+  "operations": 126,
+  "schemas": 108,
+  "documented_http_operations": 297,
+  "pending_non_core_operations": [
+    {
+      "method": "DELETE",
+      "path": "/consumer/addresses/{address_id}"
+    },
+    {
+      "method": "DELETE",
+      "path": "/consumer/ai/conversations/{conversation_id}"
+    },
+    {
+      "method": "DELETE",
+      "path": "/consumer/auth/sessions/{session_id}"
+    },
+    {
+      "method": "DELETE",
+      "path": "/consumer/pets/{pet_id}"
+    },
+    {
+      "method": "DELETE",
+      "path": "/consumer/pets/{pet_id}/current-food"
+    },
+    {
+      "method": "DELETE",
+      "path": "/consumer/shops/{merchant_id}/favorite"
+    },
+    {
+      "method": "DELETE",
+      "path": "/consumer/spus/{spu_id}/favorite"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/access/staff"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/aftersales"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/ai/evaluations"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/ai/rules"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/audit"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/audit/{event_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/brands"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/catalog-imports/{batch_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/catalog-reviews"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/finance/settlements"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/merchant-reviews"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/merchant-reviews/{review_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/merchants"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/merchants/{merchant_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/offers"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/offers/{offer_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/orders"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/payments"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/points/ledger"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/privacy/requests"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/recommendations/config"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/risk/cases"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/risk/cases/{case_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/risk/rules"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/search/health"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/search/product-requests"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/search/reindex/{job_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/skus"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/spus"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/store-claims"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/system/backups"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/system/health"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/users"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/users/{user_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/addresses/{address_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/auth/sessions"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/conversations"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/conversations/{conversation_id}/messages"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/me"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/messages"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/pets/current"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/pets/{pet_id}/current-food"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/pets/{pet_id}/food-history"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/pets/{pet_id}/observations"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/pets/{pet_id}/weights"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/points/ledger"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/points/redemption-options"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/settings/notifications"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/settings/privacy"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/shops/{merchant_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/skus/{sku_id}/offers"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/spus/{spu_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/spus/{spu_id}/reviews"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/campaigns"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/catalog-requests/{request_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/catalog/search"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/catalog/skus/{sku_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/coupons"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/finance/statements"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/finance/statements/{statement_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/finance/summary"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/invoices"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/invoices/{request_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/marketing/subscriptions"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/me"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/offers/{offer_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/onboarding"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/onboarding/status"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/roles"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/staff"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/store-claims/{claim_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/stores"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/stores/{store_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/public/allergens"
+    },
+    {
+      "method": "GET",
+      "path": "/public/brands"
+    },
+    {
+      "method": "GET",
+      "path": "/public/brands/{brand_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/public/content"
+    },
+    {
+      "method": "GET",
+      "path": "/public/content/{article_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/public/home"
+    },
+    {
+      "method": "GET",
+      "path": "/public/nearby/places"
+    },
+    {
+      "method": "GET",
+      "path": "/public/nearby/places/{place_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/public/search"
+    },
+    {
+      "method": "PATCH",
+      "path": "/consumer/me"
+    },
+    {
+      "method": "PATCH",
+      "path": "/consumer/reviews/{review_id}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/merchant/coupons/{coupon_id}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/merchant/roles/{role_id}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/merchant/staff/{staff_id}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/merchant/stores/{store_id}"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/access/staff"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/ai/evaluations/runs"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/ai/rules/versions"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/ai/rules/{version_id}/activate"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/ai/rules/{version_id}/validate"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/brands"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/catalog-imports"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/catalog-imports/{batch_id}/cancel"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/catalog-imports/{batch_id}/confirm"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/catalog-reviews/{request_id}/approve"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/catalog-reviews/{request_id}/reject"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/media/uploads"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/merchant-reviews/{review_id}/approve"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/merchant-reviews/{review_id}/reject"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/merchant-reviews/{review_id}/request-more-info"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/offers/{offer_id}/delist"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/offers/{offer_id}/freeze"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/offers/{offer_id}/unfreeze"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/privacy/requests/{id}/execute"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/recommendations/config/versions"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/recommendations/config/{version_id}/publish"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/risk/cases/{case_id}/actions"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/risk/rules/versions"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/search/reconcile"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/search/reindex"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/skus"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/spus"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/store-claims/{claim_id}/approve"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/store-claims/{claim_id}/reject"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/account-deletion-requests"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/addresses/{address_id}/set-default"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/aftersales/{aftersale_id}/return-shipment"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/auth/logout"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/auth/refresh"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/auth/reverify"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/auth/sessions/revoke-others"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/auth/wechat/bind"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/auth/wechat/login"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/cart/merge-guest-intent"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/conversations"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/conversations/{conversation_id}/messages"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/media/uploads"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/messages/{message_id}/read"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/nearby/navigation-intents"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/pets/{pet_id}/current-food/calibrate"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/pets/{pet_id}/observations"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/pets/{pet_id}/select-current"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/pets/{pet_id}/weights"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/shops/{merchant_id}/favorite"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/spus/{spu_id}/favorite"
+    },
+    {
+      "method": "POST",
+      "path": "/internal/jobs/orders/expire"
+    },
+    {
+      "method": "POST",
+      "path": "/internal/jobs/outbox/publish"
+    },
+    {
+      "method": "POST",
+      "path": "/internal/jobs/payments/requery"
+    },
+    {
+      "method": "POST",
+      "path": "/internal/jobs/refunds/retry"
+    },
+    {
+      "method": "POST",
+      "path": "/internal/jobs/search/reconcile"
+    },
+    {
+      "method": "POST",
+      "path": "/internal/jobs/settlements/evaluate"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/auth/login"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/auth/refresh"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/auth/reverify"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/campaigns/{campaign_id}/apply"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/catalog-requests"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/coupons"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/coupons/{coupon_id}/publish"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/coupons/{coupon_id}/stop"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/invoices/{request_id}/complete"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/media/uploads"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/offers/batch"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/onboarding/submit"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/roles"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/staff/invitations"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/staff/{staff_id}/disable"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/store-claims"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/stores"
+    },
+    {
+      "method": "POST",
+      "path": "/public/search/parse"
+    },
+    {
+      "method": "PUT",
+      "path": "/consumer/pets/{pet_id}/allergens"
+    },
+    {
+      "method": "PUT",
+      "path": "/consumer/pets/{pet_id}/current-food"
+    },
+    {
+      "method": "PUT",
+      "path": "/consumer/settings/notifications"
+    },
+    {
+      "method": "PUT",
+      "path": "/consumer/settings/privacy"
+    },
+    {
+      "method": "PUT",
+      "path": "/merchant/onboarding"
+    }
+  ],
+  "formal_operations": [
+    {
+      "method": "DELETE",
+      "path": "/consumer/cart/items/{cart_item_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/access/roles"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/aftersales/{aftersale_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/ai/policies"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/ai/prompts"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/coupons"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/finance/commission-policies"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/finance/ledger"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/finance/reconciliation"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/finance/settlement-policies"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/finance/settlements/{settlement_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/membership/plans"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/orders/{order_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/payments/{payment_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/points/rules"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/pricing/rule-versions/{rule_version_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/refunds"
+    },
+    {
+      "method": "GET",
+      "path": "/admin/refunds/{refund_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/addresses"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/aftersales"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/aftersales/{aftersale_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/ai/conversations"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/ai/conversations/{conversation_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/ai/profile-proposals/{proposal_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/cancellations/{cancellation_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/cart"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/checkout/quotes/{quote_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/coupons"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/coupons/{user_coupon_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/membership"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/membership/orders/{membership_order_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/membership/plans"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/orders"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/orders/{order_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/payments/{payment_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/payments/{payment_id}/status"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/pets"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/pets/{pet_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/points"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/shipments/{shipment_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/skus/{sku_id}/fit"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/suborders/{suborder_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/consumer/suborders/{suborder_id}/shipments"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/aftersales"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/aftersales/{aftersale_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/finance/ledger"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/finance/settlements"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/finance/settlements/{settlement_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/offers"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/orders"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/orders/{suborder_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/merchant/orders/{suborder_id}/shipments"
+    },
+    {
+      "method": "GET",
+      "path": "/public/pet-taxonomy"
+    },
+    {
+      "method": "GET",
+      "path": "/public/skus/{sku_id}/offers"
+    },
+    {
+      "method": "GET",
+      "path": "/public/spus/{spu_id}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/admin/access/roles/{role_id}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/consumer/addresses/{address_id}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/consumer/cart/items/{cart_item_id}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/consumer/pets/{pet_id}"
+    },
+    {
+      "method": "PATCH",
+      "path": "/merchant/offers/{offer_id}"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/access/roles"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/aftersales/{aftersale_id}/decisions"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/ai/policies/versions"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/ai/prompts/versions"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/ai/prompts/{version_id}/activate"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/ai/prompts/{version_id}/rollback"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/ai/prompts/{version_id}/stage"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/ai/prompts/{version_id}/validate"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/coupons"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/coupons/{id}/publish"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/coupons/{id}/stop"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/finance/commission-policies"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/finance/commission-policies/{id}/publish"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/finance/ledger/adjustments"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/finance/reconciliation/jobs"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/finance/settlement-policies"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/finance/settlements/{settlement_id}/retry"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/membership/plan-versions/{id}/publish"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/membership/plans/versions"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/payments/{payment_id}/requery"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/points/rule-versions/{id}/publish"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/points/rules/versions"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/refunds/{refund_id}/retry"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/sku-standard-versions/{version_id}/publish"
+    },
+    {
+      "method": "POST",
+      "path": "/admin/skus/{sku_id}/standard-versions"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/addresses"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/aftersales"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/aftersales/{aftersale_id}/cancel"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/aftersales/{aftersale_id}/escalate"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/aftersales/{aftersale_id}/evidence"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/ai/conversations"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/ai/conversations/{conversation_id}/messages"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/ai/profile-proposals/{proposal_id}/accept"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/ai/profile-proposals/{proposal_id}/reject"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/auth/phone/request-code"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/auth/phone/verify"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/cart/items"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/checkins"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/checkout/quotes"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/coupons/{coupon_definition_id}/claim"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/membership/orders"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/membership/orders/{membership_order_id}/payment-attempts"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/membership/subscriptions/{subscription_id}/refund-requests"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/order-items/{order_item_id}/reviews"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/orders"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/orders/{order_id}/cancel"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/payments/{payment_id}/attempts"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/pets"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/points/redemptions"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/products/compare"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/suborders/{suborder_id}/cancel"
+    },
+    {
+      "method": "POST",
+      "path": "/consumer/suborders/{suborder_id}/confirm-receipt"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/aftersales/{aftersale_id}/approve-refund"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/aftersales/{aftersale_id}/approve-return"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/aftersales/{aftersale_id}/inspection"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/aftersales/{aftersale_id}/reject"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/offers"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/offers/{offer_id}/activate"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/offers/{offer_id}/inventory-adjustments"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/offers/{offer_id}/pause"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/orders/{suborder_id}/shipments"
+    },
+    {
+      "method": "POST",
+      "path": "/merchant/shipments/{shipment_id}/tracking-correction"
+    },
+    {
+      "method": "POST",
+      "path": "/webhooks/payments/alipay"
+    },
+    {
+      "method": "POST",
+      "path": "/webhooks/payments/wechat"
+    },
+    {
+      "method": "POST",
+      "path": "/webhooks/refunds/alipay"
+    },
+    {
+      "method": "POST",
+      "path": "/webhooks/refunds/wechat"
+    }
+  ]
+}
