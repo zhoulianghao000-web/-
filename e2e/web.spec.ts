@@ -13,12 +13,13 @@ async function fixture(page:Page,realm:'merchant'|'admin',permissions:string[],r
     else if(path.endsWith('/sessions'))data=[{id:meta.request_id,device_id:'Browser',created_at:new Date().toISOString(),expires_at:new Date().toISOString(),revoked_at:null}];
     else if(path.endsWith('/reverify')){const body=JSON.parse(request.postData()??'{}');expect(body.action).toBe(reverifyAction);expect(body.password).toBe('TEST_ONLY_password');if(realm==='admin')expect(body.totp_code).toBe('654321');data={reverify_token:'one-use-proof',action:reverifyAction,expires_at:new Date().toISOString()};}
     else if(path.endsWith('/pet-taxonomy'))data=[{id:'cat-root',parent_id:null,name:'猫',category:'CAT',life_stages:[]}];
+    else if(['/skus','/spus','/brands','/catalog/search','/catalog-reviews','/catalog-requests','/allergens'].some(p=>path.endsWith(p)))data=[];
     else if(path.endsWith('/pet-taxonomy/species')){expect(request.headers()['x-reverify-token']).toBe('one-use-proof');expect(request.headers()['idempotency-key']).toBeTruthy();expect(request.postDataJSON()).toEqual({name:'布偶猫',parent_id:'cat-root'});data={id:'new-species',name:'布偶猫'};}
     else if(path.endsWith('/revoke-others'))expect(request.headers()['x-reverify-token']).toBe('one-use-proof');
     else if(path.endsWith('/audit'))data=[{id:'audit',actor_type:'ADMIN',actor_id:meta.request_id,action:'auth.sessions.revoked-others',object_type:'SESSION',object_id:meta.request_id,before_json:null,after_json:null,request_id:meta.request_id,correlation_id:meta.correlation_id,created_at:'2026-10-04T00:00:00Z'}];
     if(!path.endsWith('/login'))expect(request.headers()['authorization']).toBe('Bearer access');
     expect(request.headers()['x-request-id']).toBeTruthy();
-    await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({data,meta})});
+    await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({data,meta,page:{next_cursor:null,has_more:false}})});
   });return seen;
 }
 async function login(page:Page,realm:'merchant'|'admin'){
@@ -58,4 +59,11 @@ test('taxonomy command requires fresh reverify and clears credentials',async({pa
   const form=page.locator('form').filter({has:page.getByRole('heading',{name:'维护分类词典'})});await form.getByLabel('名称',{exact:true}).fill('布偶猫');await form.getByLabel('所属父分类').selectOption('cat-root');await expect(form.getByRole('button',{name:'保存词典项'})).toBeDisabled();
   await page.getByLabel('再次输入密码').fill('TEST_ONLY_password');await page.getByLabel('新的动态验证码').fill('654321');await form.getByRole('button',{name:'保存词典项'}).click();await expect(page.getByRole('status')).toHaveText('已保存，操作已记录。');await expect(page.getByLabel('再次输入密码')).toHaveValue('');await expect(page.getByLabel('新的动态验证码')).toHaveValue('');expect(seen.findIndex(p=>p.endsWith('/reverify'))).toBeLessThan(seen.findIndex(p=>p.endsWith('/pet-taxonomy/species')));
   await page.screenshot({path:'test-results/m31-admin-taxonomy.png',fullPage:true});
+});
+
+test('catalog route denies missing permission and does not call catalog API',async({page})=>{
+ const seen=await fixture(page,'merchant',[]);await page.goto('http://127.0.0.1:5173/catalog');await login(page,'merchant');await expect(page).toHaveURL(/\/denied$/);expect(seen.some(x=>x.endsWith('/catalog/search'))).toBe(false);
+});
+test('read-only catalog staff cannot see mutation or reverify controls',async({page})=>{
+ await fixture(page,'admin',['catalog.standard.read']);await page.goto('http://127.0.0.1:5174/catalog');await login(page,'admin');await expect(page.getByRole('heading',{name:'标准商品与审核'})).toBeVisible();await expect(page.getByText('尚无标准商品。')).toBeVisible();await expect(page.getByLabel('再次输入密码')).toHaveCount(0);await expect(page.getByText('新建品牌、商品与规格',{exact:true})).toHaveCount(0);await expect(page.locator('input[type=file]')).toHaveCount(0);
 });

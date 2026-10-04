@@ -1,4 +1,4 @@
-// Generated from pawday-m3.1.yaml; SHA256 efc62b21ef6075e30c8da45949e5c664a648cd5ec001fe54c6f32bc4c7f68966
+// Generated from pawday-m3.1.yaml; SHA256 f93a0b0f6f09982e77f7d53cb8286366892c9ca6c3e35d74fc1552e690ba1db0
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -1510,6 +1510,750 @@ class TaxonomyRetiredEnvelope {
   };
 }
 
+class CatalogNutrient {
+  final String name;
+  final int value_milli;
+  final String unit;
+  final String basis;
+  final String qualifier;
+  const CatalogNutrient({required this.name, required this.value_milli, required this.unit, required this.basis, required this.qualifier});
+  factory CatalogNutrient.fromJson(Map<String,dynamic> json) => CatalogNutrient(
+    name: json['name'] as String,
+    value_milli: (json['value_milli'] as num).toInt(),
+    unit: json['unit'] as String,
+    basis: json['basis'] as String,
+    qualifier: json['qualifier'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'name': name,
+    'value_milli': value_milli,
+    'unit': unit,
+    'basis': basis,
+    'qualifier': qualifier,
+  };
+}
+
+class CatalogStandardInput {
+  final List<String> ingredients;
+  final List<CatalogNutrient> nutrients;
+  final List<String> allergen_ids;
+  final bool allergens_known;
+  final List<String> life_stage_ids;
+  final List<String> source_refs;
+  final String source_updated_on;
+  const CatalogStandardInput({required this.ingredients, required this.nutrients, required this.allergen_ids, required this.allergens_known, required this.life_stage_ids, required this.source_refs, required this.source_updated_on});
+  factory CatalogStandardInput.fromJson(Map<String,dynamic> json) => CatalogStandardInput(
+    ingredients: (json['ingredients'] as List).map((value) => value as String).toList(),
+    nutrients: (json['nutrients'] as List).map((value) => CatalogNutrient.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    allergen_ids: (json['allergen_ids'] as List).map((value) => value as String).toList(),
+    allergens_known: json['allergens_known'] as bool,
+    life_stage_ids: (json['life_stage_ids'] as List).map((value) => value as String).toList(),
+    source_refs: (json['source_refs'] as List).map((value) => value as String).toList(),
+    source_updated_on: json['source_updated_on'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'ingredients': ingredients.map((value) => value).toList(),
+    'nutrients': nutrients.map((value) => value.toJson()).toList(),
+    'allergen_ids': allergen_ids.map((value) => value).toList(),
+    'allergens_known': allergens_known,
+    'life_stage_ids': life_stage_ids.map((value) => value).toList(),
+    'source_refs': source_refs.map((value) => value).toList(),
+    'source_updated_on': source_updated_on,
+  };
+}
+
+class CatalogBrandInput {
+  final String name;
+  final String source_ref;
+  const CatalogBrandInput({required this.name, required this.source_ref});
+  factory CatalogBrandInput.fromJson(Map<String,dynamic> json) => CatalogBrandInput(
+    name: json['name'] as String,
+    source_ref: json['source_ref'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'name': name,
+    'source_ref': source_ref,
+  };
+}
+
+class CatalogSpuInput {
+  final String brand_id;
+  final String name;
+  final String pet_category;
+  final String category;
+  const CatalogSpuInput({required this.brand_id, required this.name, required this.pet_category, required this.category});
+  factory CatalogSpuInput.fromJson(Map<String,dynamic> json) => CatalogSpuInput(
+    brand_id: json['brand_id'] as String,
+    name: json['name'] as String,
+    pet_category: json['pet_category'] as String,
+    category: json['category'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'brand_id': brand_id,
+    'name': name,
+    'pet_category': pet_category,
+    'category': category,
+  };
+}
+
+class CatalogSkuInput {
+  final String spu_id;
+  final String sku_code;
+  final String? barcode;
+  final int weight_g;
+  final String package_unit;
+  const CatalogSkuInput({required this.spu_id, required this.sku_code, required this.barcode, required this.weight_g, required this.package_unit});
+  factory CatalogSkuInput.fromJson(Map<String,dynamic> json) => CatalogSkuInput(
+    spu_id: json['spu_id'] as String,
+    sku_code: json['sku_code'] as String,
+    barcode: json['barcode'] == null ? null : json['barcode'] as String,
+    weight_g: (json['weight_g'] as num).toInt(),
+    package_unit: json['package_unit'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'spu_id': spu_id,
+    'sku_code': sku_code,
+    'barcode': barcode == null ? null : barcode!,
+    'weight_g': weight_g,
+    'package_unit': package_unit,
+  };
+}
+
+class CatalogCreated {
+  final String id;
+  final String status;
+  const CatalogCreated({required this.id, required this.status});
+  factory CatalogCreated.fromJson(Map<String,dynamic> json) => CatalogCreated(
+    id: json['id'] as String,
+    status: json['status'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'status': status,
+  };
+}
+
+class CatalogBrand {
+  final String id;
+  final String name;
+  final String source_ref;
+  final String status;
+  const CatalogBrand({required this.id, required this.name, required this.source_ref, required this.status});
+  factory CatalogBrand.fromJson(Map<String,dynamic> json) => CatalogBrand(
+    id: json['id'] as String,
+    name: json['name'] as String,
+    source_ref: json['source_ref'] as String,
+    status: json['status'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'source_ref': source_ref,
+    'status': status,
+  };
+}
+
+class CatalogSpu {
+  final String id;
+  final String brand_id;
+  final String name;
+  final String pet_category;
+  final String category;
+  final String status;
+  const CatalogSpu({required this.id, required this.brand_id, required this.name, required this.pet_category, required this.category, required this.status});
+  factory CatalogSpu.fromJson(Map<String,dynamic> json) => CatalogSpu(
+    id: json['id'] as String,
+    brand_id: json['brand_id'] as String,
+    name: json['name'] as String,
+    pet_category: json['pet_category'] as String,
+    category: json['category'] as String,
+    status: json['status'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'brand_id': brand_id,
+    'name': name,
+    'pet_category': pet_category,
+    'category': category,
+    'status': status,
+  };
+}
+
+class CatalogSku {
+  final String id;
+  final String spu_id;
+  final String sku_code;
+  final String? barcode;
+  final int weight_g;
+  final String package_unit;
+  final String status;
+  final int version;
+  const CatalogSku({required this.id, required this.spu_id, required this.sku_code, required this.barcode, required this.weight_g, required this.package_unit, required this.status, required this.version});
+  factory CatalogSku.fromJson(Map<String,dynamic> json) => CatalogSku(
+    id: json['id'] as String,
+    spu_id: json['spu_id'] as String,
+    sku_code: json['sku_code'] as String,
+    barcode: json['barcode'] == null ? null : json['barcode'] as String,
+    weight_g: (json['weight_g'] as num).toInt(),
+    package_unit: json['package_unit'] as String,
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'spu_id': spu_id,
+    'sku_code': sku_code,
+    'barcode': barcode == null ? null : barcode!,
+    'weight_g': weight_g,
+    'package_unit': package_unit,
+    'status': status,
+    'version': version,
+  };
+}
+
+class CatalogStandard {
+  final String id;
+  final String sku_id;
+  final int version_no;
+  final String status;
+  final List<String> ingredients;
+  final List<CatalogNutrient> nutrients;
+  final List<String> allergen_ids;
+  final bool allergens_known;
+  final List<String> life_stage_ids;
+  final List<String> source_refs;
+  final String source_updated_on;
+  final String created_by;
+  final String created_at;
+  final String? published_at;
+  const CatalogStandard({required this.id, required this.sku_id, required this.version_no, required this.status, required this.ingredients, required this.nutrients, required this.allergen_ids, required this.allergens_known, required this.life_stage_ids, required this.source_refs, required this.source_updated_on, required this.created_by, required this.created_at, required this.published_at});
+  factory CatalogStandard.fromJson(Map<String,dynamic> json) => CatalogStandard(
+    id: json['id'] as String,
+    sku_id: json['sku_id'] as String,
+    version_no: (json['version_no'] as num).toInt(),
+    status: json['status'] as String,
+    ingredients: (json['ingredients'] as List).map((value) => value as String).toList(),
+    nutrients: (json['nutrients'] as List).map((value) => CatalogNutrient.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    allergen_ids: (json['allergen_ids'] as List).map((value) => value as String).toList(),
+    allergens_known: json['allergens_known'] as bool,
+    life_stage_ids: (json['life_stage_ids'] as List).map((value) => value as String).toList(),
+    source_refs: (json['source_refs'] as List).map((value) => value as String).toList(),
+    source_updated_on: json['source_updated_on'] as String,
+    created_by: json['created_by'] as String,
+    created_at: json['created_at'] as String,
+    published_at: json['published_at'] == null ? null : json['published_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'sku_id': sku_id,
+    'version_no': version_no,
+    'status': status,
+    'ingredients': ingredients.map((value) => value).toList(),
+    'nutrients': nutrients.map((value) => value.toJson()).toList(),
+    'allergen_ids': allergen_ids.map((value) => value).toList(),
+    'allergens_known': allergens_known,
+    'life_stage_ids': life_stage_ids.map((value) => value).toList(),
+    'source_refs': source_refs.map((value) => value).toList(),
+    'source_updated_on': source_updated_on,
+    'created_by': created_by,
+    'created_at': created_at,
+    'published_at': published_at == null ? null : published_at!,
+  };
+}
+
+class CatalogSkuDetail {
+  final String id;
+  final String spu_id;
+  final String sku_code;
+  final String? barcode;
+  final int weight_g;
+  final String package_unit;
+  final String status;
+  final int version;
+  final List<CatalogStandard> standard_versions;
+  const CatalogSkuDetail({required this.id, required this.spu_id, required this.sku_code, required this.barcode, required this.weight_g, required this.package_unit, required this.status, required this.version, required this.standard_versions});
+  factory CatalogSkuDetail.fromJson(Map<String,dynamic> json) => CatalogSkuDetail(
+    id: json['id'] as String,
+    spu_id: json['spu_id'] as String,
+    sku_code: json['sku_code'] as String,
+    barcode: json['barcode'] == null ? null : json['barcode'] as String,
+    weight_g: (json['weight_g'] as num).toInt(),
+    package_unit: json['package_unit'] as String,
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+    standard_versions: (json['standard_versions'] as List).map((value) => CatalogStandard.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'spu_id': spu_id,
+    'sku_code': sku_code,
+    'barcode': barcode == null ? null : barcode!,
+    'weight_g': weight_g,
+    'package_unit': package_unit,
+    'status': status,
+    'version': version,
+    'standard_versions': standard_versions.map((value) => value.toJson()).toList(),
+  };
+}
+
+class CatalogDrafted {
+  final String id;
+  final String sku_id;
+  final int version_no;
+  final String status;
+  final int sku_version;
+  const CatalogDrafted({required this.id, required this.sku_id, required this.version_no, required this.status, required this.sku_version});
+  factory CatalogDrafted.fromJson(Map<String,dynamic> json) => CatalogDrafted(
+    id: json['id'] as String,
+    sku_id: json['sku_id'] as String,
+    version_no: (json['version_no'] as num).toInt(),
+    status: json['status'] as String,
+    sku_version: (json['sku_version'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'sku_id': sku_id,
+    'version_no': version_no,
+    'status': status,
+    'sku_version': sku_version,
+  };
+}
+
+class CatalogPublished {
+  final String id;
+  final String sku_id;
+  final String status;
+  final int sku_version;
+  const CatalogPublished({required this.id, required this.sku_id, required this.status, required this.sku_version});
+  factory CatalogPublished.fromJson(Map<String,dynamic> json) => CatalogPublished(
+    id: json['id'] as String,
+    sku_id: json['sku_id'] as String,
+    status: json['status'] as String,
+    sku_version: (json['sku_version'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'sku_id': sku_id,
+    'status': status,
+    'sku_version': sku_version,
+  };
+}
+
+class CatalogCorrectionInput {
+  final String sku_id;
+  final int base_sku_version;
+  final String reason;
+  final CatalogStandardInput standard;
+  const CatalogCorrectionInput({required this.sku_id, required this.base_sku_version, required this.reason, required this.standard});
+  factory CatalogCorrectionInput.fromJson(Map<String,dynamic> json) => CatalogCorrectionInput(
+    sku_id: json['sku_id'] as String,
+    base_sku_version: (json['base_sku_version'] as num).toInt(),
+    reason: json['reason'] as String,
+    standard: CatalogStandardInput.fromJson(Map<String,dynamic>.from(json['standard'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'sku_id': sku_id,
+    'base_sku_version': base_sku_version,
+    'reason': reason,
+    'standard': standard.toJson(),
+  };
+}
+
+class CatalogRequestCreated {
+  final String id;
+  final String status;
+  final int version;
+  const CatalogRequestCreated({required this.id, required this.status, required this.version});
+  factory CatalogRequestCreated.fromJson(Map<String,dynamic> json) => CatalogRequestCreated(
+    id: json['id'] as String,
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'status': status,
+    'version': version,
+  };
+}
+
+class CatalogReviewInput {
+  final String reason;
+  const CatalogReviewInput({required this.reason});
+  factory CatalogReviewInput.fromJson(Map<String,dynamic> json) => CatalogReviewInput(
+    reason: json['reason'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'reason': reason,
+  };
+}
+
+class CatalogReviewed {
+  final String id;
+  final String status;
+  final int version;
+  const CatalogReviewed({required this.id, required this.status, required this.version});
+  factory CatalogReviewed.fromJson(Map<String,dynamic> json) => CatalogReviewed(
+    id: json['id'] as String,
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'status': status,
+    'version': version,
+  };
+}
+
+class CatalogReview {
+  final String id;
+  final String request_id;
+  final String reviewer_id;
+  final String decision;
+  final String reason;
+  final String created_at;
+  const CatalogReview({required this.id, required this.request_id, required this.reviewer_id, required this.decision, required this.reason, required this.created_at});
+  factory CatalogReview.fromJson(Map<String,dynamic> json) => CatalogReview(
+    id: json['id'] as String,
+    request_id: json['request_id'] as String,
+    reviewer_id: json['reviewer_id'] as String,
+    decision: json['decision'] as String,
+    reason: json['reason'] as String,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'request_id': request_id,
+    'reviewer_id': reviewer_id,
+    'decision': decision,
+    'reason': reason,
+    'created_at': created_at,
+  };
+}
+
+class CatalogRequest {
+  final String id;
+  final String merchant_id;
+  final String submitted_by;
+  final String sku_id;
+  final int base_sku_version;
+  final CatalogStandardInput proposal;
+  final String reason;
+  final String status;
+  final int version;
+  final String? result_version_id;
+  final String created_at;
+  final List<CatalogReview> reviews;
+  const CatalogRequest({required this.id, required this.merchant_id, required this.submitted_by, required this.sku_id, required this.base_sku_version, required this.proposal, required this.reason, required this.status, required this.version, required this.result_version_id, required this.created_at, required this.reviews});
+  factory CatalogRequest.fromJson(Map<String,dynamic> json) => CatalogRequest(
+    id: json['id'] as String,
+    merchant_id: json['merchant_id'] as String,
+    submitted_by: json['submitted_by'] as String,
+    sku_id: json['sku_id'] as String,
+    base_sku_version: (json['base_sku_version'] as num).toInt(),
+    proposal: CatalogStandardInput.fromJson(Map<String,dynamic>.from(json['proposal'] as Map)),
+    reason: json['reason'] as String,
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+    result_version_id: json['result_version_id'] == null ? null : json['result_version_id'] as String,
+    created_at: json['created_at'] as String,
+    reviews: (json['reviews'] as List).map((value) => CatalogReview.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'merchant_id': merchant_id,
+    'submitted_by': submitted_by,
+    'sku_id': sku_id,
+    'base_sku_version': base_sku_version,
+    'proposal': proposal.toJson(),
+    'reason': reason,
+    'status': status,
+    'version': version,
+    'result_version_id': result_version_id == null ? null : result_version_id!,
+    'created_at': created_at,
+    'reviews': reviews.map((value) => value.toJson()).toList(),
+  };
+}
+
+class CatalogImportInput {
+  final String format;
+  final String content_base64;
+  const CatalogImportInput({required this.format, required this.content_base64});
+  factory CatalogImportInput.fromJson(Map<String,dynamic> json) => CatalogImportInput(
+    format: json['format'] as String,
+    content_base64: json['content_base64'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'format': format,
+    'content_base64': content_base64,
+  };
+}
+
+class CatalogImportRow {
+  final String batch_id;
+  final int row_no;
+  final Map<String,dynamic> payload;
+  final List<String> error_codes;
+  final int? base_sku_version;
+  final String? result_version_id;
+  const CatalogImportRow({required this.batch_id, required this.row_no, required this.payload, required this.error_codes, required this.base_sku_version, required this.result_version_id});
+  factory CatalogImportRow.fromJson(Map<String,dynamic> json) => CatalogImportRow(
+    batch_id: json['batch_id'] as String,
+    row_no: (json['row_no'] as num).toInt(),
+    payload: Map<String,dynamic>.from(json['payload'] as Map),
+    error_codes: (json['error_codes'] as List).map((value) => value as String).toList(),
+    base_sku_version: json['base_sku_version'] == null ? null : (json['base_sku_version'] as num).toInt(),
+    result_version_id: json['result_version_id'] == null ? null : json['result_version_id'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'batch_id': batch_id,
+    'row_no': row_no,
+    'payload': payload,
+    'error_codes': error_codes.map((value) => value).toList(),
+    'base_sku_version': base_sku_version == null ? null : base_sku_version!,
+    'result_version_id': result_version_id == null ? null : result_version_id!,
+  };
+}
+
+class CatalogImport {
+  final String id;
+  final String created_by;
+  final String format;
+  final String status;
+  final int version;
+  final String created_at;
+  final List<CatalogImportRow> rows;
+  const CatalogImport({required this.id, required this.created_by, required this.format, required this.status, required this.version, required this.created_at, required this.rows});
+  factory CatalogImport.fromJson(Map<String,dynamic> json) => CatalogImport(
+    id: json['id'] as String,
+    created_by: json['created_by'] as String,
+    format: json['format'] as String,
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+    rows: (json['rows'] as List).map((value) => CatalogImportRow.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'created_by': created_by,
+    'format': format,
+    'status': status,
+    'version': version,
+    'created_at': created_at,
+    'rows': rows.map((value) => value.toJson()).toList(),
+  };
+}
+
+class CatalogImportFinished {
+  final String id;
+  final String status;
+  final int version;
+  const CatalogImportFinished({required this.id, required this.status, required this.version});
+  factory CatalogImportFinished.fromJson(Map<String,dynamic> json) => CatalogImportFinished(
+    id: json['id'] as String,
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'status': status,
+    'version': version,
+  };
+}
+
+class CatalogBrandListEnvelope {
+  final List<CatalogBrand> data;
+  final Page page;
+  final Meta meta;
+  const CatalogBrandListEnvelope({required this.data, required this.page, required this.meta});
+  factory CatalogBrandListEnvelope.fromJson(Map<String,dynamic> json) => CatalogBrandListEnvelope(
+    data: (json['data'] as List).map((value) => CatalogBrand.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class CatalogCreatedEnvelope {
+  final CatalogCreated data;
+  final Meta meta;
+  const CatalogCreatedEnvelope({required this.data, required this.meta});
+  factory CatalogCreatedEnvelope.fromJson(Map<String,dynamic> json) => CatalogCreatedEnvelope(
+    data: CatalogCreated.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class CatalogSpuListEnvelope {
+  final List<CatalogSpu> data;
+  final Page page;
+  final Meta meta;
+  const CatalogSpuListEnvelope({required this.data, required this.page, required this.meta});
+  factory CatalogSpuListEnvelope.fromJson(Map<String,dynamic> json) => CatalogSpuListEnvelope(
+    data: (json['data'] as List).map((value) => CatalogSpu.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class CatalogSkuListEnvelope {
+  final List<CatalogSku> data;
+  final Page page;
+  final Meta meta;
+  const CatalogSkuListEnvelope({required this.data, required this.page, required this.meta});
+  factory CatalogSkuListEnvelope.fromJson(Map<String,dynamic> json) => CatalogSkuListEnvelope(
+    data: (json['data'] as List).map((value) => CatalogSku.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class CatalogSkuDetailEnvelope {
+  final CatalogSkuDetail data;
+  final Meta meta;
+  const CatalogSkuDetailEnvelope({required this.data, required this.meta});
+  factory CatalogSkuDetailEnvelope.fromJson(Map<String,dynamic> json) => CatalogSkuDetailEnvelope(
+    data: CatalogSkuDetail.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class CatalogDraftedEnvelope {
+  final CatalogDrafted data;
+  final Meta meta;
+  const CatalogDraftedEnvelope({required this.data, required this.meta});
+  factory CatalogDraftedEnvelope.fromJson(Map<String,dynamic> json) => CatalogDraftedEnvelope(
+    data: CatalogDrafted.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class CatalogPublishedEnvelope {
+  final CatalogPublished data;
+  final Meta meta;
+  const CatalogPublishedEnvelope({required this.data, required this.meta});
+  factory CatalogPublishedEnvelope.fromJson(Map<String,dynamic> json) => CatalogPublishedEnvelope(
+    data: CatalogPublished.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class CatalogRequestCreatedEnvelope {
+  final CatalogRequestCreated data;
+  final Meta meta;
+  const CatalogRequestCreatedEnvelope({required this.data, required this.meta});
+  factory CatalogRequestCreatedEnvelope.fromJson(Map<String,dynamic> json) => CatalogRequestCreatedEnvelope(
+    data: CatalogRequestCreated.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class CatalogRequestListEnvelope {
+  final List<CatalogRequest> data;
+  final Page page;
+  final Meta meta;
+  const CatalogRequestListEnvelope({required this.data, required this.page, required this.meta});
+  factory CatalogRequestListEnvelope.fromJson(Map<String,dynamic> json) => CatalogRequestListEnvelope(
+    data: (json['data'] as List).map((value) => CatalogRequest.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class CatalogRequestEnvelope {
+  final CatalogRequest data;
+  final Meta meta;
+  const CatalogRequestEnvelope({required this.data, required this.meta});
+  factory CatalogRequestEnvelope.fromJson(Map<String,dynamic> json) => CatalogRequestEnvelope(
+    data: CatalogRequest.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class CatalogReviewedEnvelope {
+  final CatalogReviewed data;
+  final Meta meta;
+  const CatalogReviewedEnvelope({required this.data, required this.meta});
+  factory CatalogReviewedEnvelope.fromJson(Map<String,dynamic> json) => CatalogReviewedEnvelope(
+    data: CatalogReviewed.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class CatalogImportEnvelope {
+  final CatalogImport data;
+  final Meta meta;
+  const CatalogImportEnvelope({required this.data, required this.meta});
+  factory CatalogImportEnvelope.fromJson(Map<String,dynamic> json) => CatalogImportEnvelope(
+    data: CatalogImport.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class CatalogImportFinishedEnvelope {
+  final CatalogImportFinished data;
+  final Meta meta;
+  const CatalogImportFinishedEnvelope({required this.data, required this.meta});
+  factory CatalogImportFinishedEnvelope.fromJson(Map<String,dynamic> json) => CatalogImportFinishedEnvelope(
+    data: CatalogImportFinished.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -1572,4 +2316,26 @@ class ApiRoutes {
   static const post_admin_pet_taxonomy_species__id__retire = '/admin/pet-taxonomy/species/{id}/retire';
   static const post_admin_pet_taxonomy_breeds__id__retire = '/admin/pet-taxonomy/breeds/{id}/retire';
   static const post_admin_pet_taxonomy_allergens__id__retire = '/admin/pet-taxonomy/allergens/{id}/retire';
+  static const get_admin_brands = '/admin/brands';
+  static const post_admin_brands = '/admin/brands';
+  static const get_admin_spus = '/admin/spus';
+  static const post_admin_spus = '/admin/spus';
+  static const get_admin_skus = '/admin/skus';
+  static const post_admin_skus = '/admin/skus';
+  static const get_admin_skus__id = '/admin/skus/{id}';
+  static const get_merchant_catalog_search = '/merchant/catalog/search';
+  static const get_merchant_catalog_skus__id = '/merchant/catalog/skus/{id}';
+  static const post_admin_skus__id__standard_versions = '/admin/skus/{id}/standard-versions';
+  static const post_admin_sku_standard_versions__id__publish = '/admin/sku-standard-versions/{id}/publish';
+  static const post_merchant_catalog_requests = '/merchant/catalog-requests';
+  static const get_merchant_catalog_requests = '/merchant/catalog-requests';
+  static const get_merchant_catalog_requests__id = '/merchant/catalog-requests/{id}';
+  static const get_admin_catalog_reviews = '/admin/catalog-reviews';
+  static const get_admin_catalog_reviews__id = '/admin/catalog-reviews/{id}';
+  static const post_admin_catalog_reviews__id__approve = '/admin/catalog-reviews/{id}/approve';
+  static const post_admin_catalog_reviews__id__reject = '/admin/catalog-reviews/{id}/reject';
+  static const post_admin_catalog_imports = '/admin/catalog-imports';
+  static const get_admin_catalog_imports__id = '/admin/catalog-imports/{id}';
+  static const post_admin_catalog_imports__id__confirm = '/admin/catalog-imports/{id}/confirm';
+  static const post_admin_catalog_imports__id__cancel = '/admin/catalog-imports/{id}/cancel';
 }

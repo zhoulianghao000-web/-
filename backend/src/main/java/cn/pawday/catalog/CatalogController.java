@@ -1,0 +1,24 @@
+package cn.pawday.catalog;
+import cn.pawday.common.Api;
+import cn.pawday.identity.AccessGuard;
+import jakarta.servlet.http.HttpServletRequest;
+import java.util.Map;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+@RestController
+public class CatalogController {
+ private final CatalogService service;private final AccessGuard guard;
+ public CatalogController(CatalogService service,AccessGuard guard){this.service=service;this.guard=guard;}
+ @GetMapping({"/api/v1/admin/brands","/api/v1/admin/spus","/api/v1/admin/skus","/api/v1/merchant/catalog/search"}) Object list(@RequestParam(required=false) String cursor,@RequestParam(defaultValue="50") int limit,HttpServletRequest r){String kind=r.getRequestURI().endsWith("search")?"skus":r.getRequestURI().substring(r.getRequestURI().lastIndexOf('/')+1);var page=service.list(guard.actor(),kind,cursor,limit);return new Api.ListEnvelope<>(page.data(),new Api.Page(page.nextCursor(),page.hasMore()),Api.meta(r));}
+ @PostMapping({"/api/v1/admin/brands","/api/v1/admin/spus","/api/v1/admin/skus"}) Object create(@RequestBody Map<String,Object>b,@RequestHeader(value="X-Reverify-Token",required=false) String proof,@RequestHeader(value="Idempotency-Key",required=false) String key,HttpServletRequest r){String kind=r.getRequestURI().substring(r.getRequestURI().lastIndexOf('/')+1);return ResponseEntity.status(201).body(Api.ok(service.create(guard.actor(),kind,b,proof,key,r),r));}
+ @GetMapping({"/api/v1/admin/skus/{id}","/api/v1/merchant/catalog/skus/{id}"}) Object sku(@PathVariable String id,HttpServletRequest r){return Api.ok(service.getSku(guard.actor(),guard.id(id)),r);}
+ @PostMapping("/api/v1/admin/skus/{id}/standard-versions") Object draft(@PathVariable String id,@RequestBody Map<String,Object>b,@RequestHeader(value="If-Match",required=false) String match,@RequestHeader(value="X-Reverify-Token",required=false) String proof,@RequestHeader(value="Idempotency-Key",required=false) String key,HttpServletRequest r){return ResponseEntity.status(201).body(Api.ok(service.draft(guard.actor(),guard.id(id),b,match,proof,key,r),r));}
+ @PostMapping("/api/v1/admin/sku-standard-versions/{id}/publish") Object publish(@PathVariable String id,@RequestHeader(value="If-Match",required=false) String match,@RequestHeader(value="X-Reverify-Token",required=false) String proof,@RequestHeader(value="Idempotency-Key",required=false) String key,HttpServletRequest r){return Api.ok(service.publish(guard.actor(),guard.id(id),match,proof,key,r),r);}
+ @PostMapping("/api/v1/merchant/catalog-requests") Object correction(@RequestBody Map<String,Object>b,@RequestHeader(value="Idempotency-Key",required=false) String key,HttpServletRequest r){return ResponseEntity.status(201).body(Api.ok(service.correction(guard.actor(),b,key,r),r));}
+ @GetMapping({"/api/v1/merchant/catalog-requests/{id}","/api/v1/admin/catalog-reviews/{id}"}) Object request(@PathVariable String id,HttpServletRequest r){return Api.ok(service.requestView(guard.actor(),guard.id(id)),r);}
+ @GetMapping({"/api/v1/admin/catalog-reviews","/api/v1/merchant/catalog-requests"}) Object requests(@RequestParam(required=false)String cursor,@RequestParam(defaultValue="50")int limit,HttpServletRequest r){var p=service.requests(guard.actor(),cursor,limit);return new Api.ListEnvelope<>(p.data(),new Api.Page(p.nextCursor(),p.hasMore()),Api.meta(r));}
+ @PostMapping({"/api/v1/admin/catalog-reviews/{id}/approve","/api/v1/admin/catalog-reviews/{id}/reject"}) Object review(@PathVariable String id,@RequestBody Map<String,Object>b,@RequestHeader(value="If-Match",required=false) String match,@RequestHeader(value="X-Reverify-Token",required=false) String proof,@RequestHeader(value="Idempotency-Key",required=false) String key,HttpServletRequest r){return Api.ok(service.review(guard.actor(),guard.id(id),r.getRequestURI().endsWith("approve"),b,match,proof,key,r),r);}
+ @PostMapping("/api/v1/admin/catalog-imports") Object preview(@RequestBody Map<String,Object>b,@RequestHeader(value="Idempotency-Key",required=false) String key,HttpServletRequest r){return ResponseEntity.status(201).body(Api.ok(service.preview(guard.actor(),b,key,r),r));}
+ @GetMapping("/api/v1/admin/catalog-imports/{id}") Object batch(@PathVariable String id,HttpServletRequest r){return Api.ok(service.batch(guard.actor(),guard.id(id)),r);}
+ @PostMapping({"/api/v1/admin/catalog-imports/{id}/confirm","/api/v1/admin/catalog-imports/{id}/cancel"}) Object finish(@PathVariable String id,@RequestHeader(value="If-Match",required=false) String match,@RequestHeader(value="X-Reverify-Token",required=false) String proof,@RequestHeader(value="Idempotency-Key",required=false) String key,HttpServletRequest r){return Api.ok(service.finishBatch(guard.actor(),guard.id(id),r.getRequestURI().endsWith("confirm"),match,proof,key,r),r);}
+}
