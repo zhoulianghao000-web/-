@@ -30,7 +30,7 @@ public class LocalDemoInitializer implements ApplicationRunner {
         tx.executeWithoutResult(status->{
             db.queryForList("SELECT pg_advisory_xact_lock(hashtextextended('pawday-local-demo',0))");
             UUID merchantRole=role("MERCHANT","LOCAL_STORE_READER",List.of("store.read","catalog.standard.read","catalog.request.write","offer.read","offer.write","inventory.adjust","order.read"));
-            UUID adminRole=role("ADMIN","LOCAL_PLATFORM_ADMIN",List.of("store.read","access.role.read","access.role.write","audit.read","outbox.read","outbox.replay","search.read","search.manage","pet.taxonomy.read","pet.taxonomy.write","catalog.standard.read","catalog.standard.write","offer.admin.read","offer.admin.manage","pricing.shipping.manage","order.admin.read","order.policy.manage"));
+            UUID adminRole=role("ADMIN","LOCAL_PLATFORM_ADMIN",List.of("store.read","access.role.read","access.role.write","audit.read","outbox.read","outbox.replay","search.read","search.manage","pet.taxonomy.read","pet.taxonomy.write","catalog.standard.read","catalog.standard.write","offer.admin.read","offer.admin.manage","pricing.shipping.manage","order.admin.read","order.policy.manage","payment.read","payment.requery"));
             for(String label:List.of("a","b")) {
                 UUID merchant=id("merchant-"+label),store=id("store-"+label),principal=id("staff-"+label);
                 db.update("INSERT INTO merchant(id,name,status) VALUES (?,?,'ACTIVE') ON CONFLICT(id) DO NOTHING",merchant,"LOCAL DEMO Merchant "+label);

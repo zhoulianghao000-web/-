@@ -1,3 +1,5 @@
+import 'package:pawday_consumer/payment_repository.dart';
+
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -172,6 +174,55 @@ void main() {
     expect(cancelled.reservations.single.status, 'RELEASED');
     expect(cancelled.suborders.single.items.single.cancelled_qty, 2);
 
+    final paidItem = await checkout.add(
+      offer.offer_id,
+      1,
+      pet.id,
+      checkoutCommandKey(),
+    );
+    final paidQuote = await checkout.quote(
+      [paidItem.id],
+      address.id,
+      checkoutCommandKey(),
+    );
+    final paidOrder = await ordering.create(
+      paidQuote.quote_id,
+      checkoutCommandKey(),
+    );
+    final payments = PaymentRepository(restored),
+        attemptKey = checkoutCommandKey();
+    final pending = await payments.attempt(
+      paidOrder.payment.id,
+      'WECHAT',
+      attemptKey,
+    );
+    expect(pending.status, 'PROCESSING');
+    expect(
+      (await payments.attempt(
+        paidOrder.payment.id,
+        'WECHAT',
+        attemptKey,
+      )).attempts.single.id,
+      pending.attempts.single.id,
+    );
+    final confirmed = await payments.simulate(
+      paidOrder.payment.id,
+      pending.attempts.single.id,
+      'SUCCEEDED',
+    );
+    expect(confirmed.status, 'SUCCEEDED');
+    expect(confirmed.final_channel, 'WECHAT');
+    expect(
+      (await payments.requery(paidOrder.payment.id)).successful_attempt_id,
+      pending.attempts.single.id,
+    );
+    final fulfilling = await ordering.get(paidOrder.id);
+    expect(fulfilling.status, 'FULFILLING');
+    expect(
+      fulfilling.suborders.single.fulfillment_status,
+      'PAID_WAITING_FULFILLMENT',
+    );
+    expect(fulfilling.reservations.single.status, 'CONSUMED');
     await checkout.removeAddress(address, checkoutCommandKey());
     expect((await checkout.cart()).items.isEmpty, true);
     final latest = (await pets.list()).firstWhere((p) => p.id == pet.id);

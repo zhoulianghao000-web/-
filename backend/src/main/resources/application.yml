@@ -82,3 +82,12 @@ pawday:
     reverify-seconds: 300
     local-sms-enabled: ${PAWDAY_LOCAL_SMS_ENABLED:false}
     local-sms-directory: .local-sms
+
+---
+spring:
+  config:
+    activate:
+      on-profile: "local & !production"
+pawday:
+  payment:
+    simulation-enabled: true
