@@ -1,4 +1,4 @@
-// Generated from pawday-m4.1.yaml; SHA256 69d64dff4e9773825a3fdee4fb77ca0c9a26ba0d55e52b118e08eb442af24b4f
+// Generated from pawday-m4.2.yaml; SHA256 a280011cba8c5f09a0b613edc1306bba12accc0012df0ece3296c7aa159e7fee
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -1915,6 +1915,144 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/consumer/orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** GET /consumer/orders */
+        get: operations["get_consumer_orders"];
+        put?: never;
+        /** POST /consumer/orders */
+        post: operations["post_consumer_orders"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/orders/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** GET /consumer/orders/{id} */
+        get: operations["get_consumer_orders__id"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/orders/{id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** POST /consumer/orders/{id}/cancel */
+        post: operations["post_consumer_orders__id__cancel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/suborders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** GET /merchant/suborders */
+        get: operations["get_merchant_suborders"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/suborders/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** GET /merchant/suborders/{id} */
+        get: operations["get_merchant_suborders__id"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** GET /admin/orders */
+        get: operations["get_admin_orders"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/orders/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** GET /admin/orders/{id} */
+        get: operations["get_admin_orders__id"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/order-policies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** GET /admin/order-policies */
+        get: operations["get_admin_order_policies"];
+        put?: never;
+        /** POST /admin/order-policies */
+        post: operations["post_admin_order_policies"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1957,7 +2095,7 @@ export interface components {
         Proof: {
             reverify_token: string;
             /** @enum {string} */
-            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage";
+            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage";
             /** Format: date-time */
             expires_at: string;
         };
@@ -2043,7 +2181,7 @@ export interface components {
         };
         Reverify: {
             /** @enum {string} */
-            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage";
+            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage";
             password?: string;
             otp_code?: string;
             totp_code?: string;
@@ -3228,6 +3366,208 @@ export interface components {
         };
         ShippingRuleEnvelope: {
             data: components["schemas"]["ShippingRule"];
+            meta: components["schemas"]["Meta"];
+        };
+        OrderInput: {
+            /** Format: uuid */
+            quote_id: string;
+        };
+        OrderCancelInput: {
+            /** @constant */
+            reason_code: "CONSUMER_CANCELLED";
+        };
+        OrderPolicyInput: {
+            version_code: string;
+            reservation_ttl_seconds: number;
+        };
+        OrderPolicy: {
+            /** Format: uuid */
+            id: string;
+            version_no: number;
+            version_code: string;
+            reservation_ttl_seconds: number;
+            /** Format: date-time */
+            created_at: string;
+        };
+        OrderSummary: {
+            /** Format: uuid */
+            id: string;
+            order_no: string;
+            /** Format: uuid */
+            quote_id: string;
+            /** @constant */
+            currency: "CNY";
+            goods_amount_fen: number;
+            shipping_amount_fen: number;
+            discount_amount_fen: number;
+            payable_amount_fen: number;
+            /** Format: uuid */
+            policy_version_id: string;
+            /** Format: date-time */
+            reservation_expires_at: string;
+            /** @enum {string} */
+            status: "PENDING_PAYMENT" | "CANCELLED";
+            version: number;
+            /** Format: date-time */
+            created_at: string;
+        };
+        OrderProductSnapshot: {
+            store_id: string | null;
+            fulfillment_sla: string;
+            offer_version: number;
+            sku_code: string;
+            weight_g: number;
+            package_unit: string;
+            name: string;
+            brand: string;
+            /** Format: uuid */
+            standard_version_id: string;
+            standard_snapshot: {
+                [key: string]: unknown;
+            };
+            pet_id: string | null;
+            member_price_used: boolean;
+        };
+        OrderItem: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            suborder_id: string;
+            allocation_key: string;
+            /** Format: uuid */
+            offer_id: string;
+            /** Format: uuid */
+            sku_id: string;
+            /** Format: uuid */
+            merchant_id: string;
+            store_id: string | null;
+            quantity: number;
+            cancelled_qty: number;
+            unit_price_fen: number;
+            goods_amount_fen: number;
+            discount_amount_fen: number;
+            payable_amount_fen: number;
+            product_snapshot: components["schemas"]["OrderProductSnapshot"];
+        };
+        Suborder: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            order_id: string;
+            /** Format: uuid */
+            merchant_id: string;
+            suborder_no: string;
+            merchant_name: string;
+            /** @enum {string} */
+            fulfillment_status: "PENDING_PAYMENT" | "CANCELLED";
+            goods_amount_fen: number;
+            shipping_amount_fen: number;
+            discount_amount_fen: number;
+            payable_amount_fen: number;
+            shipping_snapshot: components["schemas"]["QuoteMerchantGroup"];
+            version: number;
+            /** Format: date-time */
+            created_at: string;
+            items: components["schemas"]["OrderItem"][];
+        };
+        PaymentIntent: {
+            /** Format: uuid */
+            id: string;
+            payment_no: string;
+            /** Format: uuid */
+            order_id: string;
+            amount_fen: number;
+            /** @constant */
+            currency: "CNY";
+            /** @enum {string} */
+            status: "PENDING" | "CLOSED";
+            /** Format: date-time */
+            expires_at: string;
+            version: number;
+            /** Format: date-time */
+            created_at: string;
+        };
+        InventoryReservation: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            order_id: string;
+            /** Format: uuid */
+            offer_id: string;
+            quantity: number;
+            /** @enum {string} */
+            status: "ACTIVE" | "CONSUMED" | "RELEASED" | "EXPIRED";
+            /** @constant */
+            reservation_generation: 1;
+            /** Format: date-time */
+            expires_at: string;
+            version: number;
+            /** Format: date-time */
+            created_at: string;
+        };
+        UnpaidCancellation: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            order_id: string;
+            /** @enum {string} */
+            actor_type: "CONSUMER" | "SYSTEM";
+            actor_id: string | null;
+            /** @enum {string} */
+            reason_code: "CONSUMER_CANCELLED" | "PAYMENT_WINDOW_EXPIRED";
+            /** @constant */
+            status: "COMPLETED";
+            /** Format: date-time */
+            created_at: string;
+        };
+        Order: {
+            /** Format: uuid */
+            id: string;
+            order_no: string;
+            /** Format: uuid */
+            quote_id: string;
+            /** @constant */
+            currency: "CNY";
+            goods_amount_fen: number;
+            shipping_amount_fen: number;
+            discount_amount_fen: number;
+            payable_amount_fen: number;
+            /** Format: uuid */
+            policy_version_id: string;
+            /** Format: date-time */
+            reservation_expires_at: string;
+            /** @enum {string} */
+            status: "PENDING_PAYMENT" | "CANCELLED";
+            version: number;
+            /** Format: date-time */
+            created_at: string;
+            payment: components["schemas"]["PaymentIntent"];
+            address_snapshot: components["schemas"]["CheckoutAddress"];
+            pricing_snapshot: components["schemas"]["PricingQuote"];
+            suborders: components["schemas"]["Suborder"][];
+            reservations: components["schemas"]["InventoryReservation"][];
+            cancellation: components["schemas"]["UnpaidCancellation"] | null;
+        };
+        OrderEnvelope: {
+            data: components["schemas"]["Order"];
+            meta: components["schemas"]["Meta"];
+        };
+        OrderSummaryListEnvelope: {
+            data: components["schemas"]["OrderSummary"][];
+            page: components["schemas"]["Page"];
+            meta: components["schemas"]["Meta"];
+        };
+        SuborderListEnvelope: {
+            data: components["schemas"]["Suborder"][];
+            page: components["schemas"]["Page"];
+            meta: components["schemas"]["Meta"];
+        };
+        SuborderEnvelope: {
+            data: components["schemas"]["Suborder"];
+            meta: components["schemas"]["Meta"];
+        };
+        OrderPolicyEnvelope: {
+            data: components["schemas"]["OrderPolicy"];
             meta: components["schemas"]["Meta"];
         };
     };
@@ -14810,6 +15150,1053 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ShippingRuleEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_consumer_orders: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Persisted result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderSummaryListEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    post_consumer_orders: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OrderInput"];
+            };
+        };
+        responses: {
+            /** @description Persisted result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_consumer_orders__id: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Persisted result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    post_consumer_orders__id__cancel: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OrderCancelInput"];
+            };
+        };
+        responses: {
+            /** @description Persisted result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_merchant_suborders: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Persisted result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SuborderListEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_merchant_suborders__id: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Persisted result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SuborderEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_admin_orders: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Persisted result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderSummaryListEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_admin_orders__id: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Persisted result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_admin_order_policies: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Persisted result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderPolicyEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    post_admin_order_policies: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "X-Reverify-Token": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OrderPolicyInput"];
+            };
+        };
+        responses: {
+            /** @description Persisted result */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderPolicyEnvelope"];
                 };
             };
             /** @description Rejected */

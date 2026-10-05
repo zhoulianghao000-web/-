@@ -1,6 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:go_router/go_router.dart';
+
+import 'order_repository.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -44,6 +48,58 @@ class _CartScreenState extends ConsumerState<CartScreen> {
 
   String key(Object payload) =>
       keys.putIfAbsent(jsonEncode(payload), checkoutCommandKey);
+  Future<void> submitOrder() async {
+    final q = quote, owner = user;
+    if (q == null || q.status != 'ACTIVE' || busy || owner == null) return;
+    final accepted = await showDialog<bool>(
+      context: context,
+      builder: (c) => AlertDialog(
+        title: const Text('确认创建订单'),
+        content: Text(
+          '应付 ${money(q.payable_amount_fen)}，包含 ${q.merchant_groups.length} 个商家。提交后预占库存与优惠券，付款期限以订单为准。',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(c, false),
+            child: const Text('返回检查'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(c, true),
+            child: const Text('确认下单'),
+          ),
+        ],
+      ),
+    );
+    if (accepted != true ||
+        !mounted ||
+        owner != user ||
+        quote?.quote_id != q.quote_id) {
+      return;
+    }
+    final epoch = ++generation;
+    setState(() {
+      busy = true;
+      error = null;
+    });
+    bool valid() => mounted && epoch == generation && owner == user;
+    try {
+      final order = await ref
+          .read(orderRepositoryProvider)
+          .create(q.quote_id, key(['order', q.quote_id]));
+      if (valid()) {
+        expiry?.cancel();
+        setState(() => quote = null);
+        if (mounted) {
+          context.go('/orders?id=${order.id}');
+        }
+      }
+    } catch (e) {
+      if (valid()) setState(() => error = checkoutError(e));
+    } finally {
+      if (valid()) setState(() => busy = false);
+    }
+  }
+
   Future<void> load() async {
     final epoch = ++generation, owner = user;
     if (owner == null) return;
@@ -564,6 +620,11 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                             onPressed: busy ? null : verifyQuote,
                             child: const Text('核对试算有效性'),
                           ),
+                          if (q.status == 'ACTIVE')
+                            FilledButton(
+                              onPressed: busy ? null : submitOrder,
+                              child: const Text('确认并创建订单'),
+                            ),
                         ],
                       ),
                     ),

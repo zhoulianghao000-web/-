@@ -23,3 +23,5 @@ release/*.jar
 playwright-report/
 test-results/
 consumer-app/flutter/coverage/
+
+/openapi/m42-validation-report.json

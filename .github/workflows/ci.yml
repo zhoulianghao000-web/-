@@ -53,6 +53,11 @@ jobs:
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m4.1.yaml
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m4.1.yaml -o /tmp/pawday-m41-bundled.yaml
           python openapi/validate_m41_contract.py --samples backend/target/m41-contract-samples.json --report openapi/checkout-response-report.json
+      - name: M4.2 orders runtime and actual HTTP contract
+        run: |
+          npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m4.2.yaml
+          npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m4.2.yaml -o /tmp/pawday-m42-bundled.yaml
+          python openapi/validate_m42_contract.py --samples backend/target/m42-contract-samples.json --report openapi/order-response-report.json
       - name: Real infrastructure diagnostics
         if: always()
         run: |
@@ -105,5 +110,8 @@ jobs:
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m3.4.yaml
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m3.4.yaml --output openapi/pawday-m3.4.redocly.bundle.json
           python openapi/validate_m41_contract.py
+          python openapi/validate_m42_contract.py
+          npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m4.2.yaml
+          npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m4.2.yaml --output openapi/pawday-m4.2.redocly.bundle.json
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m4.1.yaml
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m4.1.yaml --output openapi/pawday-m4.1.redocly.bundle.json

@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 69d64dff4e9773825a3fdee4fb77ca0c9a26ba0d55e52b118e08eb442af24b4f
+// Generated from Pawday runtime OpenAPI; SHA256 a280011cba8c5f09a0b613edc1306bba12accc0012df0ece3296c7aa159e7fee
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -3579,6 +3579,496 @@ class ShippingRuleEnvelope {
   };
 }
 
+class OrderInput {
+  final String quote_id;
+  const OrderInput({required this.quote_id});
+  factory OrderInput.fromJson(Map<String,dynamic> json) => OrderInput(
+    quote_id: json['quote_id'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'quote_id': quote_id,
+  };
+}
+
+class OrderCancelInput {
+  final String reason_code;
+  const OrderCancelInput({required this.reason_code});
+  factory OrderCancelInput.fromJson(Map<String,dynamic> json) => OrderCancelInput(
+    reason_code: json['reason_code'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'reason_code': reason_code,
+  };
+}
+
+class OrderPolicyInput {
+  final String version_code;
+  final int reservation_ttl_seconds;
+  const OrderPolicyInput({required this.version_code, required this.reservation_ttl_seconds});
+  factory OrderPolicyInput.fromJson(Map<String,dynamic> json) => OrderPolicyInput(
+    version_code: json['version_code'] as String,
+    reservation_ttl_seconds: (json['reservation_ttl_seconds'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'version_code': version_code,
+    'reservation_ttl_seconds': reservation_ttl_seconds,
+  };
+}
+
+class OrderPolicy {
+  final String id;
+  final int version_no;
+  final String version_code;
+  final int reservation_ttl_seconds;
+  final String created_at;
+  const OrderPolicy({required this.id, required this.version_no, required this.version_code, required this.reservation_ttl_seconds, required this.created_at});
+  factory OrderPolicy.fromJson(Map<String,dynamic> json) => OrderPolicy(
+    id: json['id'] as String,
+    version_no: (json['version_no'] as num).toInt(),
+    version_code: json['version_code'] as String,
+    reservation_ttl_seconds: (json['reservation_ttl_seconds'] as num).toInt(),
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'version_no': version_no,
+    'version_code': version_code,
+    'reservation_ttl_seconds': reservation_ttl_seconds,
+    'created_at': created_at,
+  };
+}
+
+class OrderSummary {
+  final String id;
+  final String order_no;
+  final String quote_id;
+  final String currency;
+  final int goods_amount_fen;
+  final int shipping_amount_fen;
+  final int discount_amount_fen;
+  final int payable_amount_fen;
+  final String policy_version_id;
+  final String reservation_expires_at;
+  final String status;
+  final int version;
+  final String created_at;
+  const OrderSummary({required this.id, required this.order_no, required this.quote_id, required this.currency, required this.goods_amount_fen, required this.shipping_amount_fen, required this.discount_amount_fen, required this.payable_amount_fen, required this.policy_version_id, required this.reservation_expires_at, required this.status, required this.version, required this.created_at});
+  factory OrderSummary.fromJson(Map<String,dynamic> json) => OrderSummary(
+    id: json['id'] as String,
+    order_no: json['order_no'] as String,
+    quote_id: json['quote_id'] as String,
+    currency: json['currency'] as String,
+    goods_amount_fen: (json['goods_amount_fen'] as num).toInt(),
+    shipping_amount_fen: (json['shipping_amount_fen'] as num).toInt(),
+    discount_amount_fen: (json['discount_amount_fen'] as num).toInt(),
+    payable_amount_fen: (json['payable_amount_fen'] as num).toInt(),
+    policy_version_id: json['policy_version_id'] as String,
+    reservation_expires_at: json['reservation_expires_at'] as String,
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'order_no': order_no,
+    'quote_id': quote_id,
+    'currency': currency,
+    'goods_amount_fen': goods_amount_fen,
+    'shipping_amount_fen': shipping_amount_fen,
+    'discount_amount_fen': discount_amount_fen,
+    'payable_amount_fen': payable_amount_fen,
+    'policy_version_id': policy_version_id,
+    'reservation_expires_at': reservation_expires_at,
+    'status': status,
+    'version': version,
+    'created_at': created_at,
+  };
+}
+
+class OrderProductSnapshot {
+  final String? store_id;
+  final String fulfillment_sla;
+  final int offer_version;
+  final String sku_code;
+  final int weight_g;
+  final String package_unit;
+  final String name;
+  final String brand;
+  final String standard_version_id;
+  final Map<String,dynamic> standard_snapshot;
+  final String? pet_id;
+  final bool member_price_used;
+  const OrderProductSnapshot({required this.store_id, required this.fulfillment_sla, required this.offer_version, required this.sku_code, required this.weight_g, required this.package_unit, required this.name, required this.brand, required this.standard_version_id, required this.standard_snapshot, required this.pet_id, required this.member_price_used});
+  factory OrderProductSnapshot.fromJson(Map<String,dynamic> json) => OrderProductSnapshot(
+    store_id: json['store_id'] == null ? null : json['store_id'] as String,
+    fulfillment_sla: json['fulfillment_sla'] as String,
+    offer_version: (json['offer_version'] as num).toInt(),
+    sku_code: json['sku_code'] as String,
+    weight_g: (json['weight_g'] as num).toInt(),
+    package_unit: json['package_unit'] as String,
+    name: json['name'] as String,
+    brand: json['brand'] as String,
+    standard_version_id: json['standard_version_id'] as String,
+    standard_snapshot: Map<String,dynamic>.from(json['standard_snapshot'] as Map),
+    pet_id: json['pet_id'] == null ? null : json['pet_id'] as String,
+    member_price_used: json['member_price_used'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'store_id': store_id == null ? null : store_id!,
+    'fulfillment_sla': fulfillment_sla,
+    'offer_version': offer_version,
+    'sku_code': sku_code,
+    'weight_g': weight_g,
+    'package_unit': package_unit,
+    'name': name,
+    'brand': brand,
+    'standard_version_id': standard_version_id,
+    'standard_snapshot': standard_snapshot,
+    'pet_id': pet_id == null ? null : pet_id!,
+    'member_price_used': member_price_used,
+  };
+}
+
+class OrderItem {
+  final String id;
+  final String suborder_id;
+  final String allocation_key;
+  final String offer_id;
+  final String sku_id;
+  final String merchant_id;
+  final String? store_id;
+  final int quantity;
+  final int cancelled_qty;
+  final int unit_price_fen;
+  final int goods_amount_fen;
+  final int discount_amount_fen;
+  final int payable_amount_fen;
+  final OrderProductSnapshot product_snapshot;
+  const OrderItem({required this.id, required this.suborder_id, required this.allocation_key, required this.offer_id, required this.sku_id, required this.merchant_id, required this.store_id, required this.quantity, required this.cancelled_qty, required this.unit_price_fen, required this.goods_amount_fen, required this.discount_amount_fen, required this.payable_amount_fen, required this.product_snapshot});
+  factory OrderItem.fromJson(Map<String,dynamic> json) => OrderItem(
+    id: json['id'] as String,
+    suborder_id: json['suborder_id'] as String,
+    allocation_key: json['allocation_key'] as String,
+    offer_id: json['offer_id'] as String,
+    sku_id: json['sku_id'] as String,
+    merchant_id: json['merchant_id'] as String,
+    store_id: json['store_id'] == null ? null : json['store_id'] as String,
+    quantity: (json['quantity'] as num).toInt(),
+    cancelled_qty: (json['cancelled_qty'] as num).toInt(),
+    unit_price_fen: (json['unit_price_fen'] as num).toInt(),
+    goods_amount_fen: (json['goods_amount_fen'] as num).toInt(),
+    discount_amount_fen: (json['discount_amount_fen'] as num).toInt(),
+    payable_amount_fen: (json['payable_amount_fen'] as num).toInt(),
+    product_snapshot: OrderProductSnapshot.fromJson(Map<String,dynamic>.from(json['product_snapshot'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'suborder_id': suborder_id,
+    'allocation_key': allocation_key,
+    'offer_id': offer_id,
+    'sku_id': sku_id,
+    'merchant_id': merchant_id,
+    'store_id': store_id == null ? null : store_id!,
+    'quantity': quantity,
+    'cancelled_qty': cancelled_qty,
+    'unit_price_fen': unit_price_fen,
+    'goods_amount_fen': goods_amount_fen,
+    'discount_amount_fen': discount_amount_fen,
+    'payable_amount_fen': payable_amount_fen,
+    'product_snapshot': product_snapshot.toJson(),
+  };
+}
+
+class Suborder {
+  final String id;
+  final String order_id;
+  final String merchant_id;
+  final String suborder_no;
+  final String merchant_name;
+  final String fulfillment_status;
+  final int goods_amount_fen;
+  final int shipping_amount_fen;
+  final int discount_amount_fen;
+  final int payable_amount_fen;
+  final QuoteMerchantGroup shipping_snapshot;
+  final int version;
+  final String created_at;
+  final List<OrderItem> items;
+  const Suborder({required this.id, required this.order_id, required this.merchant_id, required this.suborder_no, required this.merchant_name, required this.fulfillment_status, required this.goods_amount_fen, required this.shipping_amount_fen, required this.discount_amount_fen, required this.payable_amount_fen, required this.shipping_snapshot, required this.version, required this.created_at, required this.items});
+  factory Suborder.fromJson(Map<String,dynamic> json) => Suborder(
+    id: json['id'] as String,
+    order_id: json['order_id'] as String,
+    merchant_id: json['merchant_id'] as String,
+    suborder_no: json['suborder_no'] as String,
+    merchant_name: json['merchant_name'] as String,
+    fulfillment_status: json['fulfillment_status'] as String,
+    goods_amount_fen: (json['goods_amount_fen'] as num).toInt(),
+    shipping_amount_fen: (json['shipping_amount_fen'] as num).toInt(),
+    discount_amount_fen: (json['discount_amount_fen'] as num).toInt(),
+    payable_amount_fen: (json['payable_amount_fen'] as num).toInt(),
+    shipping_snapshot: QuoteMerchantGroup.fromJson(Map<String,dynamic>.from(json['shipping_snapshot'] as Map)),
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+    items: (json['items'] as List).map((value) => OrderItem.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'order_id': order_id,
+    'merchant_id': merchant_id,
+    'suborder_no': suborder_no,
+    'merchant_name': merchant_name,
+    'fulfillment_status': fulfillment_status,
+    'goods_amount_fen': goods_amount_fen,
+    'shipping_amount_fen': shipping_amount_fen,
+    'discount_amount_fen': discount_amount_fen,
+    'payable_amount_fen': payable_amount_fen,
+    'shipping_snapshot': shipping_snapshot.toJson(),
+    'version': version,
+    'created_at': created_at,
+    'items': items.map((value) => value.toJson()).toList(),
+  };
+}
+
+class PaymentIntent {
+  final String id;
+  final String payment_no;
+  final String order_id;
+  final int amount_fen;
+  final String currency;
+  final String status;
+  final String expires_at;
+  final int version;
+  final String created_at;
+  const PaymentIntent({required this.id, required this.payment_no, required this.order_id, required this.amount_fen, required this.currency, required this.status, required this.expires_at, required this.version, required this.created_at});
+  factory PaymentIntent.fromJson(Map<String,dynamic> json) => PaymentIntent(
+    id: json['id'] as String,
+    payment_no: json['payment_no'] as String,
+    order_id: json['order_id'] as String,
+    amount_fen: (json['amount_fen'] as num).toInt(),
+    currency: json['currency'] as String,
+    status: json['status'] as String,
+    expires_at: json['expires_at'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'payment_no': payment_no,
+    'order_id': order_id,
+    'amount_fen': amount_fen,
+    'currency': currency,
+    'status': status,
+    'expires_at': expires_at,
+    'version': version,
+    'created_at': created_at,
+  };
+}
+
+class InventoryReservation {
+  final String id;
+  final String order_id;
+  final String offer_id;
+  final int quantity;
+  final String status;
+  final int reservation_generation;
+  final String expires_at;
+  final int version;
+  final String created_at;
+  const InventoryReservation({required this.id, required this.order_id, required this.offer_id, required this.quantity, required this.status, required this.reservation_generation, required this.expires_at, required this.version, required this.created_at});
+  factory InventoryReservation.fromJson(Map<String,dynamic> json) => InventoryReservation(
+    id: json['id'] as String,
+    order_id: json['order_id'] as String,
+    offer_id: json['offer_id'] as String,
+    quantity: (json['quantity'] as num).toInt(),
+    status: json['status'] as String,
+    reservation_generation: (json['reservation_generation'] as num).toInt(),
+    expires_at: json['expires_at'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'order_id': order_id,
+    'offer_id': offer_id,
+    'quantity': quantity,
+    'status': status,
+    'reservation_generation': reservation_generation,
+    'expires_at': expires_at,
+    'version': version,
+    'created_at': created_at,
+  };
+}
+
+class UnpaidCancellation {
+  final String id;
+  final String order_id;
+  final String actor_type;
+  final String? actor_id;
+  final String reason_code;
+  final String status;
+  final String created_at;
+  const UnpaidCancellation({required this.id, required this.order_id, required this.actor_type, required this.actor_id, required this.reason_code, required this.status, required this.created_at});
+  factory UnpaidCancellation.fromJson(Map<String,dynamic> json) => UnpaidCancellation(
+    id: json['id'] as String,
+    order_id: json['order_id'] as String,
+    actor_type: json['actor_type'] as String,
+    actor_id: json['actor_id'] == null ? null : json['actor_id'] as String,
+    reason_code: json['reason_code'] as String,
+    status: json['status'] as String,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'order_id': order_id,
+    'actor_type': actor_type,
+    'actor_id': actor_id == null ? null : actor_id!,
+    'reason_code': reason_code,
+    'status': status,
+    'created_at': created_at,
+  };
+}
+
+class Order {
+  final String id;
+  final String order_no;
+  final String quote_id;
+  final String currency;
+  final int goods_amount_fen;
+  final int shipping_amount_fen;
+  final int discount_amount_fen;
+  final int payable_amount_fen;
+  final String policy_version_id;
+  final String reservation_expires_at;
+  final String status;
+  final int version;
+  final String created_at;
+  final PaymentIntent payment;
+  final CheckoutAddress address_snapshot;
+  final PricingQuote pricing_snapshot;
+  final List<Suborder> suborders;
+  final List<InventoryReservation> reservations;
+  final UnpaidCancellation? cancellation;
+  const Order({required this.id, required this.order_no, required this.quote_id, required this.currency, required this.goods_amount_fen, required this.shipping_amount_fen, required this.discount_amount_fen, required this.payable_amount_fen, required this.policy_version_id, required this.reservation_expires_at, required this.status, required this.version, required this.created_at, required this.payment, required this.address_snapshot, required this.pricing_snapshot, required this.suborders, required this.reservations, required this.cancellation});
+  factory Order.fromJson(Map<String,dynamic> json) => Order(
+    id: json['id'] as String,
+    order_no: json['order_no'] as String,
+    quote_id: json['quote_id'] as String,
+    currency: json['currency'] as String,
+    goods_amount_fen: (json['goods_amount_fen'] as num).toInt(),
+    shipping_amount_fen: (json['shipping_amount_fen'] as num).toInt(),
+    discount_amount_fen: (json['discount_amount_fen'] as num).toInt(),
+    payable_amount_fen: (json['payable_amount_fen'] as num).toInt(),
+    policy_version_id: json['policy_version_id'] as String,
+    reservation_expires_at: json['reservation_expires_at'] as String,
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+    payment: PaymentIntent.fromJson(Map<String,dynamic>.from(json['payment'] as Map)),
+    address_snapshot: CheckoutAddress.fromJson(Map<String,dynamic>.from(json['address_snapshot'] as Map)),
+    pricing_snapshot: PricingQuote.fromJson(Map<String,dynamic>.from(json['pricing_snapshot'] as Map)),
+    suborders: (json['suborders'] as List).map((value) => Suborder.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    reservations: (json['reservations'] as List).map((value) => InventoryReservation.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    cancellation: json['cancellation'] == null ? null : UnpaidCancellation.fromJson(Map<String,dynamic>.from(json['cancellation'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'order_no': order_no,
+    'quote_id': quote_id,
+    'currency': currency,
+    'goods_amount_fen': goods_amount_fen,
+    'shipping_amount_fen': shipping_amount_fen,
+    'discount_amount_fen': discount_amount_fen,
+    'payable_amount_fen': payable_amount_fen,
+    'policy_version_id': policy_version_id,
+    'reservation_expires_at': reservation_expires_at,
+    'status': status,
+    'version': version,
+    'created_at': created_at,
+    'payment': payment.toJson(),
+    'address_snapshot': address_snapshot.toJson(),
+    'pricing_snapshot': pricing_snapshot.toJson(),
+    'suborders': suborders.map((value) => value.toJson()).toList(),
+    'reservations': reservations.map((value) => value.toJson()).toList(),
+    'cancellation': cancellation == null ? null : cancellation!.toJson(),
+  };
+}
+
+class OrderEnvelope {
+  final Order data;
+  final Meta meta;
+  const OrderEnvelope({required this.data, required this.meta});
+  factory OrderEnvelope.fromJson(Map<String,dynamic> json) => OrderEnvelope(
+    data: Order.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class OrderSummaryListEnvelope {
+  final List<OrderSummary> data;
+  final Page page;
+  final Meta meta;
+  const OrderSummaryListEnvelope({required this.data, required this.page, required this.meta});
+  factory OrderSummaryListEnvelope.fromJson(Map<String,dynamic> json) => OrderSummaryListEnvelope(
+    data: (json['data'] as List).map((value) => OrderSummary.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class SuborderListEnvelope {
+  final List<Suborder> data;
+  final Page page;
+  final Meta meta;
+  const SuborderListEnvelope({required this.data, required this.page, required this.meta});
+  factory SuborderListEnvelope.fromJson(Map<String,dynamic> json) => SuborderListEnvelope(
+    data: (json['data'] as List).map((value) => Suborder.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class SuborderEnvelope {
+  final Suborder data;
+  final Meta meta;
+  const SuborderEnvelope({required this.data, required this.meta});
+  factory SuborderEnvelope.fromJson(Map<String,dynamic> json) => SuborderEnvelope(
+    data: Suborder.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class OrderPolicyEnvelope {
+  final OrderPolicy data;
+  final Meta meta;
+  const OrderPolicyEnvelope({required this.data, required this.meta});
+  factory OrderPolicyEnvelope.fromJson(Map<String,dynamic> json) => OrderPolicyEnvelope(
+    data: OrderPolicy.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -3702,4 +4192,14 @@ class ApiRoutes {
   static const get_consumer_checkout_quotes__id = '/consumer/checkout/quotes/{id}';
   static const get_admin_merchants__id__shipping_rules = '/admin/merchants/{id}/shipping-rules';
   static const post_admin_merchants__id__shipping_rules = '/admin/merchants/{id}/shipping-rules';
+  static const post_consumer_orders = '/consumer/orders';
+  static const get_consumer_orders = '/consumer/orders';
+  static const get_consumer_orders__id = '/consumer/orders/{id}';
+  static const post_consumer_orders__id__cancel = '/consumer/orders/{id}/cancel';
+  static const get_merchant_suborders = '/merchant/suborders';
+  static const get_merchant_suborders__id = '/merchant/suborders/{id}';
+  static const get_admin_orders = '/admin/orders';
+  static const get_admin_orders__id = '/admin/orders/{id}';
+  static const get_admin_order_policies = '/admin/order-policies';
+  static const post_admin_order_policies = '/admin/order-policies';
 }

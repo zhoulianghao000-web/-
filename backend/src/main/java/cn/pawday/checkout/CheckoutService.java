@@ -31,6 +31,12 @@ public class CheckoutService {
  private Map<String,Object> one(String sql,Object... args){var rows=db.queryForList(sql,args);if(rows.isEmpty())throw new Failure(404,"RESOURCE_NOT_FOUND");return rows.getFirst();}
  private Map<String,Object> view(Map<String,Object>r){var out=new LinkedHashMap<String,Object>();r.forEach((k,v)->{if(!Set.of("user_id","created_by").contains(k))out.put(k,v==null?null:v instanceof Timestamp?v.toString():v);});return out;}
  private UUID cart(Actor a){consumer(a);db.update("INSERT INTO carts(id,user_id) VALUES (?,?) ON CONFLICT(user_id) DO NOTHING",UUID.randomUUID(),a.userId());return (UUID)one("SELECT * FROM carts WHERE user_id=? FOR UPDATE",a.userId()).get("id");}
+ private void lockSelected(Actor a,List<UUID> selected){
+  for(UUID i:selected.stream().sorted(Comparator.comparing(UUID::toString)).toList())db.queryForList("SELECT i.id FROM cart_items i JOIN carts c ON c.id=i.cart_id WHERE i.id=? AND c.user_id=? FOR UPDATE OF i",i,a.userId());
+  var offers=new TreeSet<UUID>(Comparator.comparing(UUID::toString));
+  for(UUID i:selected)for(var row:db.queryForList("SELECT i.offer_id FROM cart_items i JOIN carts c ON c.id=i.cart_id WHERE i.id=? AND c.user_id=?",i,a.userId()))offers.add((UUID)row.get("offer_id"));
+  for(UUID o:offers){db.queryForList("SELECT id FROM offers WHERE id=? FOR SHARE",o);db.queryForList("SELECT offer_id FROM inventory_balances WHERE offer_id=? FOR SHARE",o);}
+ }
  private Map<String,Object> offer(UUID id,long quantity){
   var r=one("SELECT o.*,i.available_qty,i.version inventory_version,k.weight_g,p.name,m.name merchant_name,(SELECT id FROM sku_standard_versions v WHERE v.sku_id=k.id AND v.status='PUBLISHED' ORDER BY version_no DESC LIMIT 1) standard_id FROM offers o JOIN inventory_balances i ON i.offer_id=o.id JOIN skus k ON k.id=o.sku_id JOIN spus p ON p.id=k.spu_id JOIN brands b ON b.id=p.brand_id JOIN merchant m ON m.id=o.merchant_id WHERE o.id=? AND o.sale_status='ACTIVE' AND k.status='ACTIVE' AND p.status='ACTIVE' AND b.status='ACTIVE' AND m.status='ACTIVE' FOR SHARE OF o,i,k,p,b,m",id);
   if(r.get("standard_id")==null)throw new Failure(422,"CATALOG_NOT_PUBLISHED");if(((Number)r.get("available_qty")).longValue()<quantity)throw new Failure(409,"INSUFFICIENT_STOCK");return r;
@@ -69,7 +75,7 @@ public class CheckoutService {
  private List<UUID> ids(Object x){check(x instanceof List<?>);var values=(List<?>)x;check(values.size()<=100);var ids=values.stream().map(CheckoutService::id).toList();check(new HashSet<>(ids).size()==ids.size());return ids;}
  public Map<String,Object> quote(Actor a,Map<String,Object>b,String key){consumer(a);fields(b,"cart_item_ids","address_id","coupon_ids","use_membership");var selected=ids(b.get("cart_item_ids"));check(!selected.isEmpty());UUID address=id(b.get("address_id"));var selectedCoupons=ids(b.getOrDefault("coupon_ids",List.of()));check(b.getOrDefault("use_membership",false) instanceof Boolean);boolean use=(Boolean)b.getOrDefault("use_membership",false);
   return commands.command(a,"checkout.quote",key,b,()->{
-   UUID cart=cart(a);var addr=address(a,address);var member=membership(a,use);var lines=new ArrayList<Map<String,Object>>();
+   UUID cart=cart(a);lockSelected(a,selected);var addr=address(a,address);var member=membership(a,use);var lines=new ArrayList<Map<String,Object>>();
    for(UUID i:selected){var ci=item(a,i);if(ci.get("pet_id")!=null)pets.get(a,(UUID)ci.get("pet_id"));var o=offer((UUID)ci.get("offer_id"),((Number)ci.get("quantity")).longValue());var line=new LinkedHashMap<String,Object>();line.putAll(ci);line.put("offer",o);lines.add(line);}
    lines.sort(Comparator.comparing(x->{var o=(Map<?,?>)x.get("offer");return o.get("merchant_id")+":"+o.get("id")+":"+x.get("id");}));
    var inputLines=new ArrayList<PricingEngine.Line>();var weights=new TreeMap<String,Long>();var merchantGoods=new TreeMap<String,Long>();var snapshots=new ArrayList<Map<String,Object>>();int seq=0;
@@ -93,6 +99,7 @@ public class CheckoutService {
   });
  }
  public Map<String,Object> getQuote(Actor a,UUID q){consumer(a);return tx.execute(s->{var row=one("SELECT * FROM pricing_quotes WHERE id=? AND user_id=? FOR UPDATE",q,a.userId());String status=row.get("status").toString();if(status.equals("ACTIVE")){
+   lockSelected(a,db.queryForList("SELECT cart_item_id FROM pricing_quote_items WHERE quote_id=?",q).stream().map(x->(UUID)x.get("cart_item_id")).toList());
    String next=((Timestamp)row.get("expires_at")).toInstant().isAfter(clock.instant())?null:"EXPIRED";
    if(next==null)try{var facts=json.readValue(row.get("facts_snapshot").toString(),Map.class);var addr=address(a,id(facts.get("address_id")));current(addr,((Number)facts.get("address_version")).longValue());if(!json.readTree(json.writeValueAsString(membership(a,(Boolean)facts.get("use_membership")))).equals(json.readTree(json.writeValueAsString(facts.get("membership")))))throw new Failure(409,"MEMBERSHIP_CHANGED");
     for(Object x:(List<?>)facts.get("items")){var line=(Map<String,Object>)x;var ci=item(a,id(line.get("cart_item_id")));current(ci,((Number)line.get("cart_item_version")).longValue());if(ci.get("pet_id")!=null)one("SELECT id FROM pets WHERE id=? AND owner_user_id=? AND status='ACTIVE' FOR SHARE",ci.get("pet_id"),a.userId());var o=offer(id(line.get("offer_id")),((Number)line.get("quantity")).longValue());current(o,((Number)line.get("offer_version")).longValue());if(!o.get("standard_id").toString().equals(line.get("catalog_standard_version_id").toString()))throw new Failure(409,"STANDARD_CHANGED");}

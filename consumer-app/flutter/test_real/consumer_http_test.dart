@@ -6,6 +6,7 @@ import 'package:pawday_consumer/api/client.dart';
 import 'package:pawday_consumer/pet_repository.dart';
 import 'package:pawday_consumer/catalog_repository.dart';
 import 'package:pawday_consumer/checkout_repository.dart';
+import 'package:pawday_consumer/order_repository.dart';
 import 'package:pawday_consumer/api/generated/dto.dart';
 
 // Explicit CI entry point. Missing infrastructure fails; this test never uses a mock transport.
@@ -150,7 +151,27 @@ void main() {
     final currentItem = (await checkout.cart()).items.firstWhere(
       (i) => i.id == cartItem.id,
     );
-    await checkout.remove(currentItem, checkoutCommandKey());
+    final nextQuote = await checkout.quote(
+      [currentItem.id],
+      address.id,
+      checkoutCommandKey(),
+    );
+    final ordering = OrderRepository(restored), orderKey = checkoutCommandKey();
+    final order = await ordering.create(nextQuote.quote_id, orderKey);
+    expect(order.status, 'PENDING_PAYMENT');
+    expect(order.payable_amount_fen, nextQuote.payable_amount_fen);
+    expect(order.suborders.single.items.single.quantity, 2);
+    expect(order.reservations.single.quantity, 2);
+    expect((await ordering.create(nextQuote.quote_id, orderKey)).id, order.id);
+    expect((await ordering.get(order.id)).payment.status, 'PENDING');
+    expect((await ordering.list()).data.any((o) => o.id == order.id), true);
+    expect((await checkout.getQuote(nextQuote.quote_id)).status, 'CONSUMED');
+    final cancelled = await ordering.cancel(order, checkoutCommandKey());
+    expect(cancelled.status, 'CANCELLED');
+    expect(cancelled.payment.status, 'CLOSED');
+    expect(cancelled.reservations.single.status, 'RELEASED');
+    expect(cancelled.suborders.single.items.single.cancelled_qty, 2);
+
     await checkout.removeAddress(address, checkoutCommandKey());
     expect((await checkout.cart()).items.isEmpty, true);
     final latest = (await pets.list()).firstWhere((p) => p.id == pet.id);

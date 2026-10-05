@@ -16,11 +16,16 @@ public class RabbitTopology {
         var dlq=QueueBuilder.durable(DLQ).quorum().build();
         // Keep standard facts durably until M3.4 installs the catalog projection consumer.
         var offerQueue=QueueBuilder.durable(OFFER_FACT_QUEUE).quorum().build();
+        var orderQueue=QueueBuilder.durable("pawday.order.facts").quorum().build();
         var catalogQueue=QueueBuilder.durable(CATALOG_STANDARD_QUEUE).quorum().build();
         var searchQueue=QueueBuilder.durable(SEARCH_QUEUE).quorum().deadLetterExchange(DLX).deadLetterRoutingKey("dead").withArgument("x-dead-letter-strategy","at-least-once").withArgument("x-overflow","reject-publish").withArgument("x-delivery-limit",-1).build();
-        return new Declarables(exchange,dead,queue,searchQueue,dlq,catalogQueue,offerQueue,
+        return new Declarables(exchange,dead,queue,searchQueue,dlq,catalogQueue,offerQueue,orderQueue,
             BindingBuilder.bind(offerQueue).to(exchange).with("OfferStateChanged"),
             BindingBuilder.bind(offerQueue).to(exchange).with("InventoryAdjusted"),
+            BindingBuilder.bind(offerQueue).to(exchange).with("InventoryReservationChanged"),
+            BindingBuilder.bind(orderQueue).to(exchange).with("OrderCreated"),
+            BindingBuilder.bind(orderQueue).to(exchange).with("OrderCancelled"),
+            BindingBuilder.bind(orderQueue).to(exchange).with("OrderExpired"),
             BindingBuilder.bind(catalogQueue).to(exchange).with("CatalogStandardPublished"),
             BindingBuilder.bind(queue).to(exchange).with("otp.sms.requested"),BindingBuilder.bind(dlq).to(dead).with("dead"),
             BindingBuilder.bind(searchQueue).to(exchange).with("CatalogPublished"),
