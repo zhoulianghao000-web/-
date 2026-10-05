@@ -6,6 +6,7 @@ import 'repositories.dart';
 import 'screens.dart';
 import 'checkout_screen.dart';
 import 'order_screen.dart';
+import 'payment_screen.dart';
 
 String safeReturnTo(String? value) {
   const allowed = [
@@ -17,6 +18,7 @@ String safeReturnTo(String? value) {
     '/sessions',
     '/cart',
     '/orders',
+    '/payments',
   ];
   if (value == null ||
       !value.startsWith('/') ||
@@ -68,7 +70,13 @@ final routerProvider = Provider<GoRouter>((ref) {
       }
       if (state.uri.path == '/launch') return pendingLocation;
       if (auth.principal == null &&
-          ['/pets', '/sessions', '/cart', '/orders'].contains(state.uri.path)) {
+          [
+            '/pets',
+            '/sessions',
+            '/cart',
+            '/orders',
+            '/payments',
+          ].contains(state.uri.path)) {
         return Uri(
           path: '/auth/login',
           queryParameters: {'returnTo': state.uri.toString()},
@@ -77,6 +85,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
+      GoRoute(
+        path: '/payments',
+        builder: (_, state) =>
+            PaymentScreen(id: state.uri.queryParameters['id'] ?? ''),
+      ),
       GoRoute(
         path: '/launch',
         builder: (_, _) =>

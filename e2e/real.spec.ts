@@ -1,3 +1,6 @@
+import {readdir,readFile} from 'node:fs/promises';
+import {join} from 'node:path';
+import {randomUUID} from 'node:crypto';
 import {createHmac} from 'node:crypto';
 import {test,expect} from '@playwright/test';
 test.skip(!process.env.PAWDAY_REAL_E2E,'Run in the mandatory real-infrastructure CI job');
@@ -75,5 +78,17 @@ test('real administrator TOTP, catalog publication, merchant correction and revi
   await page.getByRole('link',{name:'订单',exact:true}).click();await expect(page.getByRole('heading',{name:'平台订单',exact:true})).toBeVisible();await expect(page.getByRole('heading',{name:'暂无访问权限',exact:true})).toHaveCount(0);await expect(page.getByText('暂时没有可查看的订单',{exact:true})).toBeVisible();await expect(page.getByRole('alert')).toHaveCount(0);
   await merchantPage.getByRole('link',{name:'订单',exact:true}).click();await expect(merchantPage.getByRole('heading',{name:'商家订单',exact:true})).toBeVisible();await expect(merchantPage.getByRole('heading',{name:'暂无访问权限',exact:true})).toHaveCount(0);await expect(merchantPage.getByRole('alert')).toHaveCount(0);
   await page.getByRole('link',{name:'付款期限规则',exact:true}).click();await expect(page.getByRole('heading',{name:'付款期限规则',exact:true})).toBeVisible();await expect(page.getByRole('heading',{name:'暂无访问权限',exact:true})).toHaveCount(0);await page.getByLabel('新版本编码').fill('CI_REAL_ORDER_V1');await page.getByLabel('付款期限（秒）').fill('900');await fresh();await page.getByRole('button',{name:'验证并发布付款期限规则',exact:true}).click();await expect(page.getByRole('status')).toHaveText('新付款期限规则已发布，已有订单期限保持原值');await expect(page.getByLabel('再次输入密码')).toHaveValue('');await page.screenshot({path:'frontend-evidence/m42-real-admin-order-policy.png',fullPage:true});
+
+  const api='http://127.0.0.1:8080/api/v1',phone='+8613900000043',sms=process.env.PAWDAY_REAL_SMS_DIRECTORY;if(!sms)throw new Error('Real SMS inbox required');
+  expect((await page.request.post(api+'/consumer/auth/phone/request-code',{data:{phone_e164:phone,purpose:'LOGIN'}})).ok()).toBe(true);
+  let otp='';await expect.poll(async()=>{for(const name of await readdir(sms)){const lines=(await readFile(join(sms,name),'utf8')).split(/\r?\n/);if(lines[0]===phone)otp=lines[1]??'';}return otp.length;},{timeout:30000,intervals:[250]}).toBe(6);
+  const login=await page.request.post(api+'/consumer/auth/phone/verify',{data:{phone_e164:phone,code:otp,device_id:'ci-payment-browser'}});expect(login.ok()).toBe(true);const consumerTokens=(await login.json()).data;
+  const create=async(path:string,data:unknown)=>{const response=await page.request.post(api+path,{data,headers:{Authorization:`Bearer ${consumerTokens.access_token}`,'Idempotency-Key':randomUUID()}});expect(response.ok()).toBe(true);return (await response.json()).data;};
+  const address=await create('/consumer/addresses',{recipient:'TEST ONLY',phone:'13800000000',province_code:'310000',detail:'TEST ONLY Shanghai'});
+  const cart=await create('/consumer/cart/items',{offer_id:createdOffer.id,quantity:1});const quote=await create('/consumer/checkout/quotes',{cart_item_ids:[cart.id],address_id:address.id});const order=await create('/consumer/orders',{quote_id:quote.quote_id});
+  const pending=await create('/consumer/payments/'+order.payment.id+'/attempts',{channel:'WECHAT',client_platform:'WEB'});const success=await create('/consumer/payments/'+order.payment.id+'/simulation',{attempt_id:pending.attempts[0].id,outcome:'SUCCEEDED'});expect(success.status).toBe('SUCCEEDED');
+  await page.getByRole('link',{name:'订单',exact:true}).click();const row=page.locator('tr').filter({hasText:order.order_no});await expect(row).toContainText('已付款待履约');await row.getByRole('button',{name:'查看详情'}).click();await expect(page.getByRole('heading',{name:'支付核对',exact:true})).toBeVisible();await expect(page.getByText('成功渠道 微信',{exact:true})).toBeVisible();
+  const paymentStep=Math.floor(Date.now()/30000);await expect.poll(()=>Math.floor(Date.now()/30000),{timeout:32000,intervals:[250]}).toBeGreaterThan(paymentStep);await page.getByLabel('核查密码',{exact:true}).fill(password);await page.getByLabel('核查动态验证码',{exact:true}).fill(totp());await page.getByRole('button',{name:'验证并核查支付',exact:true}).click();await expect(page.getByRole('status')).toHaveText('已按渠道事实核对支付与异常补偿');await expect(page.getByLabel('核查密码',{exact:true})).toHaveValue('');await page.screenshot({path:'frontend-evidence/m43-real-admin-payment.png',fullPage:true});
+  await merchantPage.getByRole('button',{name:'刷新订单',exact:true}).click();await expect(merchantPage.locator('tr').filter({hasText:order.suborders[0].suborder_no})).toContainText('已付款待履约');await merchantPage.screenshot({path:'frontend-evidence/m43-real-merchant-paid-order.png',fullPage:true});
   await context.close();
 });

@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 a280011cba8c5f09a0b613edc1306bba12accc0012df0ece3296c7aa159e7fee
+// Generated from Pawday runtime OpenAPI; SHA256 9c5492015561a12b6a023da0c6c2e6dcaa3b63ca48169c99587cbbaaf98ccbbc
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -4069,6 +4069,177 @@ class OrderPolicyEnvelope {
   };
 }
 
+class PaymentAttemptInput {
+  final String channel;
+  final String client_platform;
+  const PaymentAttemptInput({required this.channel, required this.client_platform});
+  factory PaymentAttemptInput.fromJson(Map<String,dynamic> json) => PaymentAttemptInput(
+    channel: json['channel'] as String,
+    client_platform: json['client_platform'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'channel': channel,
+    'client_platform': client_platform,
+  };
+}
+
+class PaymentAttempt {
+  final String id;
+  final String payment_id;
+  final String attempt_no;
+  final String channel;
+  final String client_platform;
+  final String status;
+  final int version;
+  final String created_at;
+  const PaymentAttempt({required this.id, required this.payment_id, required this.attempt_no, required this.channel, required this.client_platform, required this.status, required this.version, required this.created_at});
+  factory PaymentAttempt.fromJson(Map<String,dynamic> json) => PaymentAttempt(
+    id: json['id'] as String,
+    payment_id: json['payment_id'] as String,
+    attempt_no: json['attempt_no'] as String,
+    channel: json['channel'] as String,
+    client_platform: json['client_platform'] as String,
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'payment_id': payment_id,
+    'attempt_no': attempt_no,
+    'channel': channel,
+    'client_platform': client_platform,
+    'status': status,
+    'version': version,
+    'created_at': created_at,
+  };
+}
+
+class PaymentCase {
+  final String id;
+  final String payment_id;
+  final String attempt_id;
+  final String receipt_id;
+  final String reason_code;
+  final String refund_no;
+  final String status;
+  final int attempt_count;
+  final String next_retry_at;
+  final String? last_error_code;
+  final String created_at;
+  const PaymentCase({required this.id, required this.payment_id, required this.attempt_id, required this.receipt_id, required this.reason_code, required this.refund_no, required this.status, required this.attempt_count, required this.next_retry_at, required this.last_error_code, required this.created_at});
+  factory PaymentCase.fromJson(Map<String,dynamic> json) => PaymentCase(
+    id: json['id'] as String,
+    payment_id: json['payment_id'] as String,
+    attempt_id: json['attempt_id'] as String,
+    receipt_id: json['receipt_id'] as String,
+    reason_code: json['reason_code'] as String,
+    refund_no: json['refund_no'] as String,
+    status: json['status'] as String,
+    attempt_count: (json['attempt_count'] as num).toInt(),
+    next_retry_at: json['next_retry_at'] as String,
+    last_error_code: json['last_error_code'] == null ? null : json['last_error_code'] as String,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'payment_id': payment_id,
+    'attempt_id': attempt_id,
+    'receipt_id': receipt_id,
+    'reason_code': reason_code,
+    'refund_no': refund_no,
+    'status': status,
+    'attempt_count': attempt_count,
+    'next_retry_at': next_retry_at,
+    'last_error_code': last_error_code == null ? null : last_error_code!,
+    'created_at': created_at,
+  };
+}
+
+class PaymentDetail {
+  final String id;
+  final String payment_no;
+  final String order_id;
+  final int amount_fen;
+  final String currency;
+  final String status;
+  final String expires_at;
+  final int version;
+  final String created_at;
+  final String? successful_attempt_id;
+  final String? successful_receipt_id;
+  final String? paid_at;
+  final String? final_channel;
+  final bool simulation;
+  final List<PaymentAttempt> attempts;
+  final List<PaymentCase> cases;
+  const PaymentDetail({required this.id, required this.payment_no, required this.order_id, required this.amount_fen, required this.currency, required this.status, required this.expires_at, required this.version, required this.created_at, required this.successful_attempt_id, required this.successful_receipt_id, required this.paid_at, required this.final_channel, required this.simulation, required this.attempts, required this.cases});
+  factory PaymentDetail.fromJson(Map<String,dynamic> json) => PaymentDetail(
+    id: json['id'] as String,
+    payment_no: json['payment_no'] as String,
+    order_id: json['order_id'] as String,
+    amount_fen: (json['amount_fen'] as num).toInt(),
+    currency: json['currency'] as String,
+    status: json['status'] as String,
+    expires_at: json['expires_at'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+    successful_attempt_id: json['successful_attempt_id'] == null ? null : json['successful_attempt_id'] as String,
+    successful_receipt_id: json['successful_receipt_id'] == null ? null : json['successful_receipt_id'] as String,
+    paid_at: json['paid_at'] == null ? null : json['paid_at'] as String,
+    final_channel: json['final_channel'] == null ? null : json['final_channel'] as String,
+    simulation: json['simulation'] as bool,
+    attempts: (json['attempts'] as List).map((value) => PaymentAttempt.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    cases: (json['cases'] as List).map((value) => PaymentCase.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'payment_no': payment_no,
+    'order_id': order_id,
+    'amount_fen': amount_fen,
+    'currency': currency,
+    'status': status,
+    'expires_at': expires_at,
+    'version': version,
+    'created_at': created_at,
+    'successful_attempt_id': successful_attempt_id == null ? null : successful_attempt_id!,
+    'successful_receipt_id': successful_receipt_id == null ? null : successful_receipt_id!,
+    'paid_at': paid_at == null ? null : paid_at!,
+    'final_channel': final_channel == null ? null : final_channel!,
+    'simulation': simulation,
+    'attempts': attempts.map((value) => value.toJson()).toList(),
+    'cases': cases.map((value) => value.toJson()).toList(),
+  };
+}
+
+class SimulationInput {
+  final String attempt_id;
+  final String outcome;
+  const SimulationInput({required this.attempt_id, required this.outcome});
+  factory SimulationInput.fromJson(Map<String,dynamic> json) => SimulationInput(
+    attempt_id: json['attempt_id'] as String,
+    outcome: json['outcome'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'attempt_id': attempt_id,
+    'outcome': outcome,
+  };
+}
+
+class PaymentDetailEnvelope {
+  final PaymentDetail data;
+  final Meta meta;
+  const PaymentDetailEnvelope({required this.data, required this.meta});
+  factory PaymentDetailEnvelope.fromJson(Map<String,dynamic> json) => PaymentDetailEnvelope(
+    data: PaymentDetail.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -4202,4 +4373,12 @@ class ApiRoutes {
   static const get_admin_orders__id = '/admin/orders/{id}';
   static const get_admin_order_policies = '/admin/order-policies';
   static const post_admin_order_policies = '/admin/order-policies';
+  static const get_consumer_payments__id = '/consumer/payments/{id}';
+  static const get_consumer_payments__id__status = '/consumer/payments/{id}/status';
+  static const post_consumer_payments__id__attempts = '/consumer/payments/{id}/attempts';
+  static const post_consumer_payments__id__close_attempt = '/consumer/payments/{id}/close-attempt';
+  static const post_consumer_payments__id__requery = '/consumer/payments/{id}/requery';
+  static const get_admin_payments__id = '/admin/payments/{id}';
+  static const post_admin_payments__id__requery = '/admin/payments/{id}/requery';
+  static const post_consumer_payments__id__simulation = '/consumer/payments/{id}/simulation';
 }

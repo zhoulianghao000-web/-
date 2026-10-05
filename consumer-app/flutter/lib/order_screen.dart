@@ -160,7 +160,15 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
             for (final row in rows)
               ListTile(
                 title: Text(row.order_no),
-                subtitle: Text(row.status == 'PENDING_PAYMENT' ? '待付款' : '已取消'),
+                subtitle: Text(
+                  row.status == 'FULFILLING'
+                      ? '已付款待履约'
+                      : row.status == 'PAYMENT_PROCESSING'
+                      ? '支付确认中'
+                      : row.status == 'PENDING_PAYMENT'
+                      ? '待付款'
+                      : '已取消',
+                ),
                 trailing: Text(orderMoney(row.payable_amount_fen)),
                 onTap: busy ? null : () => load(id: row.id),
               ),
@@ -175,7 +183,15 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
               child: const Text('返回订单列表'),
             ),
             Text(order.order_no),
-            Text(order.status == 'PENDING_PAYMENT' ? '待付款' : '已取消'),
+            Text(
+              order.status == 'FULFILLING'
+                  ? '已付款待履约'
+                  : order.status == 'PAYMENT_PROCESSING'
+                  ? '支付确认中'
+                  : order.status == 'PENDING_PAYMENT'
+                  ? '待付款'
+                  : '已取消',
+            ),
             Text(
               '应付 ${orderMoney(order.payable_amount_fen)}',
               style: Theme.of(context).textTheme.headlineSmall,
@@ -183,7 +199,15 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
             Text(
               '付款期限 ${DateTime.parse(order.reservation_expires_at).toLocal()}',
             ),
-            const Text('本阶段尚未接通支付，请勿转账。'),
+            const Text('当前接通开发环境模拟支付，不发生真实扣款。'),
+            if (order.status == 'PENDING_PAYMENT' ||
+                order.status == 'PAYMENT_PROCESSING')
+              FilledButton(
+                onPressed: busy
+                    ? null
+                    : () => context.go('/payments?id=${order.payment.id}'),
+                child: const Text('进入收银台'),
+              ),
             for (final sub in order.suborders)
               Card(
                 child: Padding(

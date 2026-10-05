@@ -1,0 +1,25 @@
+import fs from 'node:fs/promises';
+import YAML from 'yaml';
+const doc=YAML.parse(await fs.readFile(new URL('../openapi/pawday-m4.2.yaml',import.meta.url),'utf8'));
+doc.info.title='Pawday M4.3 Simulated Payments API';doc.info.version='0.4.3';
+doc.info.description='Implemented provider-confirmed simulated payments, safe attempt switching, exactly-once stock/coupon consumption and original-route exception compensation. Simulation is disabled in production; real payment adapters and fulfillment follow in later stages.';
+doc.components.schemas.Reverify.properties.action.enum.push('payment.requery');
+const s=doc.components.schemas,ref=n=>({$ref:`#/components/schemas/${n}`}),id=()=>({type:'string',format:'uuid'}),str=(max=160)=>({type:'string',minLength:1,maxLength:max}),num=()=>({type:'integer',minimum:0,maximum:9007199254740991}),time=()=>({type:'string',format:'date-time'}),array=items=>({type:'array',items}),nullable=x=>({anyOf:[x,{type:'null'}]}),obj=(properties,required=Object.keys(properties))=>({type:'object',additionalProperties:false,properties,required});
+s.OrderSummary.properties.status.enum.push('FULFILLING','PAYMENT_PROCESSING');s.Order.properties.status.enum=s.OrderSummary.properties.status.enum;
+s.Suborder.properties.fulfillment_status.enum.push('PAID_WAITING_FULFILLMENT');s.PaymentIntent.properties.status.enum.push('PROCESSING','SUCCEEDED');
+s.PaymentAttemptInput=obj({channel:{type:'string',enum:['WECHAT','ALIPAY']},client_platform:{type:'string',enum:['IOS','ANDROID','WEB']}});
+s.PaymentAttempt=obj({id:id(),payment_id:id(),attempt_no:str(48),channel:{type:'string',enum:['WECHAT','ALIPAY']},client_platform:{type:'string',enum:['IOS','ANDROID','WEB']},status:{type:'string',enum:['CREATED','CHANNEL_PENDING','UNKNOWN','CHANNEL_SUCCEEDED','CHANNEL_FAILED','CANCELLED']},version:num(),created_at:time()});
+s.PaymentCase=obj({id:id(),payment_id:id(),attempt_id:id(),receipt_id:id(),reason_code:{type:'string',enum:['LATE_COLLECTION','DUPLICATE_COLLECTION','AMOUNT_MISMATCH','CURRENCY_MISMATCH']},refund_no:str(48),status:{type:'string',enum:['REFUND_PENDING','REFUNDED','NEEDS_REVIEW']},attempt_count:num(),next_retry_at:time(),last_error_code:nullable(str(80)),created_at:time()});
+s.PaymentDetail=obj({...s.PaymentIntent.properties,successful_attempt_id:nullable(id()),successful_receipt_id:nullable(id()),paid_at:nullable(time()),final_channel:nullable({type:'string',enum:['WECHAT','ALIPAY']}),simulation:{type:'boolean'},attempts:array(ref('PaymentAttempt')),cases:array(ref('PaymentCase'))});
+s.SimulationInput=obj({attempt_id:id(),outcome:{type:'string',enum:['SUCCEEDED','FAILED','UNKNOWN']}});
+function add(path,method,response,{realm='consumer',request,list=false,match=false,proof=false,keyed=false}={}){
+ const name=response+(list?'List':'')+'Envelope';s[name]=obj({data:list?array(ref(response)):ref(response),...(list?{page:ref('Page')}:{}),meta:ref('Meta')});
+ const parameters=[...[...path.matchAll(/\{([^}]+)\}/g)].map(m=>({name:m[1],in:'path',required:true,schema:id()})),...(list?[{name:'cursor',in:'query',schema:id()},{name:'limit',in:'query',schema:{type:'integer',minimum:1,maximum:100,default:50}}]:[]),...(method==='get'||!keyed?[]:[{name:'Idempotency-Key',in:'header',required:true,schema:{type:'string',minLength:16,maxLength:128}}]),...(match?[{name:'If-Match',in:'header',required:true,schema:{type:'string',pattern:'^"[0-9]+"$'}}]:[]),...(proof?[{name:'X-Reverify-Token',in:'header',required:true,schema:str(128)}]:[])];
+ const responses={200:{description:'Persisted result',content:{'application/json':{schema:ref(name)}}}};for(const status of [400,401,403,404,409,422,428,429,503])responses[status]={description:'Rejected',content:{'application/json':{schema:ref('ErrorEnvelope')}}};
+ const op={operationId:`${method}_${path.slice(1).replaceAll(/[/{\}-]/g,'_').replace(/_+$/,'')}`,summary:`${method.toUpperCase()} ${path}`,tags:[realm],security:[{[`${realm}Bearer`]:[]}],parameters,responses,'x-implemented-in':'M4.3'};
+ if(request)op.requestBody={required:true,content:{'application/json':{schema:ref(request)}}};(doc.paths[path]??={})[method]=op;
+}
+
+add('/consumer/payments/{id}','get','PaymentDetail');add('/consumer/payments/{id}/status','get','PaymentDetail');add('/consumer/payments/{id}/attempts','post','PaymentDetail',{request:'PaymentAttemptInput',keyed:true});add('/consumer/payments/{id}/close-attempt','post','PaymentDetail');add('/consumer/payments/{id}/requery','post','PaymentDetail');add('/admin/payments/{id}','get','PaymentDetail',{realm:'admin'});add('/admin/payments/{id}/requery','post','PaymentDetail',{realm:'admin',keyed:true,proof:true});add('/consumer/payments/{id}/simulation','post','PaymentDetail',{request:'SimulationInput'});doc.paths['/consumer/payments/{id}/simulation'].post['x-development-only']=true;
+const output=YAML.stringify(doc,{lineWidth:110}),target=new URL('../openapi/pawday-m4.3.yaml',import.meta.url);
+if(process.argv.includes('--check')){if(await fs.readFile(target,'utf8')!==output)throw new Error('M4.3 contract drift');console.log('M4.3 contract composition PASS');}else await fs.writeFile(target,output);

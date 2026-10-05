@@ -17,9 +17,14 @@ public class RabbitTopology {
         // Keep standard facts durably until M3.4 installs the catalog projection consumer.
         var offerQueue=QueueBuilder.durable(OFFER_FACT_QUEUE).quorum().build();
         var orderQueue=QueueBuilder.durable("pawday.order.facts").quorum().build();
+        var paymentQueue=QueueBuilder.durable("pawday.payment.facts").quorum().build();
         var catalogQueue=QueueBuilder.durable(CATALOG_STANDARD_QUEUE).quorum().build();
         var searchQueue=QueueBuilder.durable(SEARCH_QUEUE).quorum().deadLetterExchange(DLX).deadLetterRoutingKey("dead").withArgument("x-dead-letter-strategy","at-least-once").withArgument("x-overflow","reject-publish").withArgument("x-delivery-limit",-1).build();
-        return new Declarables(exchange,dead,queue,searchQueue,dlq,catalogQueue,offerQueue,orderQueue,
+        return new Declarables(exchange,dead,queue,searchQueue,dlq,catalogQueue,offerQueue,orderQueue,paymentQueue,
+            BindingBuilder.bind(paymentQueue).to(exchange).with("PaymentAttemptCreated"),
+            BindingBuilder.bind(paymentQueue).to(exchange).with("PaymentExceptionRecorded"),
+            BindingBuilder.bind(paymentQueue).to(exchange).with("PaymentCompensated"),
+            BindingBuilder.bind(orderQueue).to(exchange).with("OrderPaid"),
             BindingBuilder.bind(offerQueue).to(exchange).with("OfferStateChanged"),
             BindingBuilder.bind(offerQueue).to(exchange).with("InventoryAdjusted"),
             BindingBuilder.bind(offerQueue).to(exchange).with("InventoryReservationChanged"),
