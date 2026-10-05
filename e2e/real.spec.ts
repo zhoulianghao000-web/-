@@ -81,7 +81,7 @@ test('real administrator TOTP, catalog publication, merchant correction and revi
 
   const api='http://127.0.0.1:8080/api/v1',phone='+8613900000043',sms=process.env.PAWDAY_REAL_SMS_DIRECTORY;if(!sms)throw new Error('Real SMS inbox required');
   expect((await page.request.post(api+'/consumer/auth/phone/request-code',{data:{phone_e164:phone,purpose:'LOGIN'}})).ok()).toBe(true);
-  let otp='';await expect.poll(async()=>{for(const name of await readdir(sms)){const lines=(await readFile(join(sms,name),'utf8')).split(/\r?\n/);if(lines[0]===phone)otp=lines[1]??'';}return otp.length;},{timeout:30000,intervals:[250]}).toBe(6);
+  let otp='';await expect.poll(async()=>{let names:string[];try{names=await readdir(sms);}catch(e){if((e as NodeJS.ErrnoException).code==='ENOENT')return 0;throw e;}for(const name of names){const lines=(await readFile(join(sms,name),'utf8')).split(/\r?\n/);if(lines[0]===phone)otp=lines[1]??'';}return otp.length;},{timeout:30000,intervals:[250]}).toBe(6);
   const login=await page.request.post(api+'/consumer/auth/phone/verify',{data:{phone_e164:phone,code:otp,device_id:'ci-payment-browser'}});expect(login.ok()).toBe(true);const consumerTokens=(await login.json()).data;
   const create=async(path:string,data:unknown)=>{const response=await page.request.post(api+path,{data,headers:{Authorization:`Bearer ${consumerTokens.access_token}`,'Idempotency-Key':randomUUID()}});expect(response.ok()).toBe(true);return (await response.json()).data;};
   const address=await create('/consumer/addresses',{recipient:'TEST ONLY',phone:'13800000000',province_code:'310000',detail:'TEST ONLY Shanghai'});
