@@ -1,6 +1,7 @@
 import 'package:pawday_consumer/payment_repository.dart';
 
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -223,6 +224,57 @@ void main() {
       'PAID_WAITING_FULFILLMENT',
     );
     expect(fulfilling.reservations.single.status, 'CONSUMED');
+    final staffLogin = await http.post(
+      Uri.parse('$base/merchant/auth/login'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'login_name': 'local-staff-a',
+        'password': env['PAWDAY_DEMO_MERCHANT_PASSWORD'],
+        'device_id': 'ci-fulfillment-dart',
+      }),
+    );
+    expect(staffLogin.statusCode, 200);
+    final staffToken =
+        (jsonDecode(staffLogin.body)
+                as Map<String, dynamic>)['data']['access_token']
+            as String;
+    final sub = fulfilling.suborders.single;
+    final shipment = await http.post(
+      Uri.parse('$base/merchant/suborders/${sub.id}/shipments'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $staffToken',
+        'Idempotency-Key': checkoutCommandKey(),
+        'If-Match': '"${sub.version}"',
+      },
+      body: jsonEncode({
+        'carrier_code': 'SF',
+        'tracking_no': 'DART${DateTime.now().microsecondsSinceEpoch}',
+        'items': [
+          {'order_item_id': sub.items.single.id, 'quantity': 1},
+        ],
+      }),
+    );
+    expect(shipment.statusCode, 200, reason: shipment.body);
+    final shipped = await ordering.fulfillment(sub.id);
+    expect(shipped.fulfillment_status, 'SHIPPED_WAITING_RECEIPT');
+    final tracking = await ordering.tracking(shipped.shipments.single.id);
+    expect(tracking.status, 'UNKNOWN');
+    expect(tracking.stale, true);
+    final receiptKey = checkoutCommandKey();
+    expect(
+      (await ordering.receive(shipped, [
+        shipped.shipments.single.id,
+      ], receiptKey)).fulfillment_status,
+      'COMPLETED',
+    );
+    expect(
+      (await ordering.receive(shipped, [
+        shipped.shipments.single.id,
+      ], receiptKey)).fulfillment_status,
+      'COMPLETED',
+    );
+    expect((await ordering.get(paidOrder.id)).status, 'COMPLETED');
     await checkout.removeAddress(address, checkoutCommandKey());
     expect((await checkout.cart()).items.isEmpty, true);
     final latest = (await pets.list()).firstWhere((p) => p.id == pet.id);

@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 9c5492015561a12b6a023da0c6c2e6dcaa3b63ca48169c99587cbbaaf98ccbbc
+// Generated from Pawday runtime OpenAPI; SHA256 66a904a8646d7a2452423cddc9dd42a7c6330ec3a1b2817b609abe5c23640ced
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -4240,6 +4240,203 @@ class PaymentDetailEnvelope {
   };
 }
 
+class ShipmentItem {
+  final String order_item_id;
+  final int quantity;
+  const ShipmentItem({required this.order_item_id, required this.quantity});
+  factory ShipmentItem.fromJson(Map<String,dynamic> json) => ShipmentItem(
+    order_item_id: json['order_item_id'] as String,
+    quantity: (json['quantity'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'order_item_id': order_item_id,
+    'quantity': quantity,
+  };
+}
+
+class ShipmentInput {
+  final String carrier_code;
+  final String tracking_no;
+  final List<ShipmentItem> items;
+  const ShipmentInput({required this.carrier_code, required this.tracking_no, required this.items});
+  factory ShipmentInput.fromJson(Map<String,dynamic> json) => ShipmentInput(
+    carrier_code: json['carrier_code'] as String,
+    tracking_no: json['tracking_no'] as String,
+    items: (json['items'] as List).map((value) => ShipmentItem.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'carrier_code': carrier_code,
+    'tracking_no': tracking_no,
+    'items': items.map((value) => value.toJson()).toList(),
+  };
+}
+
+class ReceiptInput {
+  final List<String> shipment_ids;
+  const ReceiptInput({required this.shipment_ids});
+  factory ReceiptInput.fromJson(Map<String,dynamic> json) => ReceiptInput(
+    shipment_ids: (json['shipment_ids'] as List).map((value) => value as String).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'shipment_ids': shipment_ids.map((value) => value).toList(),
+  };
+}
+
+class Shipment {
+  final String id;
+  final String suborder_id;
+  final String carrier_code;
+  final String tracking_no;
+  final String created_at;
+  final String? confirmed_at;
+  final List<ShipmentItem> items;
+  const Shipment({required this.id, required this.suborder_id, required this.carrier_code, required this.tracking_no, required this.created_at, required this.confirmed_at, required this.items});
+  factory Shipment.fromJson(Map<String,dynamic> json) => Shipment(
+    id: json['id'] as String,
+    suborder_id: json['suborder_id'] as String,
+    carrier_code: json['carrier_code'] as String,
+    tracking_no: json['tracking_no'] as String,
+    created_at: json['created_at'] as String,
+    confirmed_at: json['confirmed_at'] == null ? null : json['confirmed_at'] as String,
+    items: (json['items'] as List).map((value) => ShipmentItem.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'suborder_id': suborder_id,
+    'carrier_code': carrier_code,
+    'tracking_no': tracking_no,
+    'created_at': created_at,
+    'confirmed_at': confirmed_at == null ? null : confirmed_at!,
+    'items': items.map((value) => value.toJson()).toList(),
+  };
+}
+
+class FulfillmentItem {
+  final String order_item_id;
+  final int quantity;
+  final int cancelled_qty;
+  final int shipped_qty;
+  final int received_qty;
+  const FulfillmentItem({required this.order_item_id, required this.quantity, required this.cancelled_qty, required this.shipped_qty, required this.received_qty});
+  factory FulfillmentItem.fromJson(Map<String,dynamic> json) => FulfillmentItem(
+    order_item_id: json['order_item_id'] as String,
+    quantity: (json['quantity'] as num).toInt(),
+    cancelled_qty: (json['cancelled_qty'] as num).toInt(),
+    shipped_qty: (json['shipped_qty'] as num).toInt(),
+    received_qty: (json['received_qty'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'order_item_id': order_item_id,
+    'quantity': quantity,
+    'cancelled_qty': cancelled_qty,
+    'shipped_qty': shipped_qty,
+    'received_qty': received_qty,
+  };
+}
+
+class Fulfillment {
+  final String suborder_id;
+  final int version;
+  final String fulfillment_status;
+  final List<FulfillmentItem> items;
+  final List<Shipment> shipments;
+  final CheckoutAddress? delivery_address;
+  const Fulfillment({required this.suborder_id, required this.version, required this.fulfillment_status, required this.items, required this.shipments, required this.delivery_address});
+  factory Fulfillment.fromJson(Map<String,dynamic> json) => Fulfillment(
+    suborder_id: json['suborder_id'] as String,
+    version: (json['version'] as num).toInt(),
+    fulfillment_status: json['fulfillment_status'] as String,
+    items: (json['items'] as List).map((value) => FulfillmentItem.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    shipments: (json['shipments'] as List).map((value) => Shipment.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    delivery_address: json['delivery_address'] == null ? null : CheckoutAddress.fromJson(Map<String,dynamic>.from(json['delivery_address'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'suborder_id': suborder_id,
+    'version': version,
+    'fulfillment_status': fulfillment_status,
+    'items': items.map((value) => value.toJson()).toList(),
+    'shipments': shipments.map((value) => value.toJson()).toList(),
+    'delivery_address': delivery_address == null ? null : delivery_address!.toJson(),
+  };
+}
+
+class TrackingEvent {
+  final String event_id;
+  final String occurred_at;
+  final String description;
+  final String? location;
+  const TrackingEvent({required this.event_id, required this.occurred_at, required this.description, required this.location});
+  factory TrackingEvent.fromJson(Map<String,dynamic> json) => TrackingEvent(
+    event_id: json['event_id'] as String,
+    occurred_at: json['occurred_at'] as String,
+    description: json['description'] as String,
+    location: json['location'] == null ? null : json['location'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'event_id': event_id,
+    'occurred_at': occurred_at,
+    'description': description,
+    'location': location == null ? null : location!,
+  };
+}
+
+class Tracking {
+  final String carrier_code;
+  final String tracking_no;
+  final String status;
+  final List<TrackingEvent> events;
+  final String? last_synced_at;
+  final bool stale;
+  final String provider_reference;
+  const Tracking({required this.carrier_code, required this.tracking_no, required this.status, required this.events, required this.last_synced_at, required this.stale, required this.provider_reference});
+  factory Tracking.fromJson(Map<String,dynamic> json) => Tracking(
+    carrier_code: json['carrier_code'] as String,
+    tracking_no: json['tracking_no'] as String,
+    status: json['status'] as String,
+    events: (json['events'] as List).map((value) => TrackingEvent.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    last_synced_at: json['last_synced_at'] == null ? null : json['last_synced_at'] as String,
+    stale: json['stale'] as bool,
+    provider_reference: json['provider_reference'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'carrier_code': carrier_code,
+    'tracking_no': tracking_no,
+    'status': status,
+    'events': events.map((value) => value.toJson()).toList(),
+    'last_synced_at': last_synced_at == null ? null : last_synced_at!,
+    'stale': stale,
+    'provider_reference': provider_reference,
+  };
+}
+
+class FulfillmentEnvelope {
+  final Fulfillment data;
+  final Meta meta;
+  const FulfillmentEnvelope({required this.data, required this.meta});
+  factory FulfillmentEnvelope.fromJson(Map<String,dynamic> json) => FulfillmentEnvelope(
+    data: Fulfillment.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class TrackingEnvelope {
+  final Tracking data;
+  final Meta meta;
+  const TrackingEnvelope({required this.data, required this.meta});
+  factory TrackingEnvelope.fromJson(Map<String,dynamic> json) => TrackingEnvelope(
+    data: Tracking.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -4381,4 +4578,12 @@ class ApiRoutes {
   static const get_admin_payments__id = '/admin/payments/{id}';
   static const post_admin_payments__id__requery = '/admin/payments/{id}/requery';
   static const post_consumer_payments__id__simulation = '/consumer/payments/{id}/simulation';
+  static const get_consumer_suborders__id__fulfillment = '/consumer/suborders/{id}/fulfillment';
+  static const get_consumer_shipments__id__tracking = '/consumer/shipments/{id}/tracking';
+  static const get_merchant_suborders__id__fulfillment = '/merchant/suborders/{id}/fulfillment';
+  static const get_merchant_shipments__id__tracking = '/merchant/shipments/{id}/tracking';
+  static const get_admin_suborders__id__fulfillment = '/admin/suborders/{id}/fulfillment';
+  static const get_admin_shipments__id__tracking = '/admin/shipments/{id}/tracking';
+  static const post_merchant_suborders__id__shipments = '/merchant/suborders/{id}/shipments';
+  static const post_consumer_suborders__id__confirm_receipt = '/consumer/suborders/{id}/confirm-receipt';
 }

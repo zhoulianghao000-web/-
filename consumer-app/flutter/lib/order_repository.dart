@@ -27,6 +27,26 @@ class OrderRepository {
   Future<Order> get(String id) async =>
       OrderEnvelope.fromJson(await api.request('GET', '/consumer/orders/$id'))
           .data;
+  Future<Fulfillment> fulfillment(String sub) async =>
+      FulfillmentEnvelope.fromJson(
+        await api.request('GET', '/consumer/suborders/$sub/fulfillment'),
+      ).data;
+  Future<Tracking> tracking(String shipment) async => TrackingEnvelope.fromJson(
+    await api.request('GET', '/consumer/shipments/$shipment/tracking'),
+  ).data;
+  Future<Fulfillment> receive(
+    Fulfillment value,
+    List<String> shipments,
+    String key,
+  ) async => FulfillmentEnvelope.fromJson(
+    await api.request(
+      'POST',
+      '/consumer/suborders/${value.suborder_id}/confirm-receipt',
+      body: ReceiptInput(shipment_ids: shipments).toJson(),
+      version: value.version,
+      idempotencyKey: key,
+    ),
+  ).data;
   Future<Order> cancel(Order order, String key) async => OrderEnvelope.fromJson(
     await api.request(
       'POST',

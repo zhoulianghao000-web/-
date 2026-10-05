@@ -25,6 +25,8 @@ public class RabbitTopology {
             BindingBuilder.bind(paymentQueue).to(exchange).with("PaymentExceptionRecorded"),
             BindingBuilder.bind(paymentQueue).to(exchange).with("PaymentCompensated"),
             BindingBuilder.bind(orderQueue).to(exchange).with("OrderPaid"),
+            BindingBuilder.bind(orderQueue).to(exchange).with("ShipmentCreated"),
+            BindingBuilder.bind(orderQueue).to(exchange).with("SuborderReceiptConfirmed"),
             BindingBuilder.bind(offerQueue).to(exchange).with("OfferStateChanged"),
             BindingBuilder.bind(offerQueue).to(exchange).with("InventoryAdjusted"),
             BindingBuilder.bind(offerQueue).to(exchange).with("InventoryReservationChanged"),
