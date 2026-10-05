@@ -91,7 +91,8 @@ CREATE FUNCTION verify_payment_success_commit() RETURNS trigger LANGUAGE plpgsql
  IF a.status<>'CHANNEL_SUCCEEDED' OR r.amount_fen<>NEW.amount_fen OR r.currency<>NEW.currency
  OR NOT EXISTS(SELECT 1 FROM orders WHERE id=NEW.order_id AND status='FULFILLING')
  OR EXISTS(SELECT 1 FROM suborders WHERE order_id=NEW.order_id AND fulfillment_status<>'PAID_WAITING_FULFILLMENT')
- OR EXISTS(SELECT 1 FROM inventory_reservations WHERE order_id=NEW.order_id AND status<>'CONSUMED')
+ OR EXISTS(SELECT 1 FROM inventory_reservations v WHERE v.order_id=NEW.order_id AND (v.status<>'CONSUMED' OR NOT EXISTS(SELECT 1 FROM inventory_sale_events e WHERE e.reservation_id=v.id AND e.payment_id=NEW.id AND e.offer_id=v.offer_id AND e.quantity=v.quantity)))
+ OR EXISTS(SELECT 1 FROM order_coupon_snapshots c WHERE c.order_id=NEW.order_id AND NOT EXISTS(SELECT 1 FROM coupon_redemption_events e JOIN user_coupons u ON u.id=e.coupon_id WHERE e.order_id=c.order_id AND e.coupon_id=c.coupon_id AND e.payment_id=NEW.id AND u.status='USED'))
  THEN RAISE EXCEPTION 'payment success consistency'; END IF; RETURN NULL; END $$;
 CREATE CONSTRAINT TRIGGER payment_success_consistency AFTER UPDATE ON payments DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE FUNCTION verify_payment_success_commit();
 INSERT INTO permission(code,description) VALUES ('payment.read','Read payment facts'),('payment.requery','Requery payment after reverify');
