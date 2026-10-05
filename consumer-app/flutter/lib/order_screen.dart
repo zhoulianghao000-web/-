@@ -3,10 +3,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'api/generated/dto.dart';
+import 'fulfillment_card.dart';
 import 'checkout_repository.dart';
 import 'order_repository.dart';
 import 'repositories.dart';
 
+String fulfillmentLabel(String status) =>
+    const {
+      'PENDING_PAYMENT': '待付款',
+      'PAYMENT_PROCESSING': '支付确认中',
+      'FULFILLING': '已付款待履约',
+      'PARTIALLY_SHIPPED': '部分发货',
+      'AWAITING_RECEIPT': '待收货',
+      'PARTIALLY_COMPLETED': '部分完成',
+      'COMPLETED': '已完成',
+      'CANCELLED': '已取消',
+    }[status] ??
+    '状态未知';
 String orderMoney(int fen) => '¥${(fen / 100).toStringAsFixed(2)}';
 
 class OrdersScreen extends ConsumerStatefulWidget {
@@ -160,15 +173,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
             for (final row in rows)
               ListTile(
                 title: Text(row.order_no),
-                subtitle: Text(
-                  row.status == 'FULFILLING'
-                      ? '已付款待履约'
-                      : row.status == 'PAYMENT_PROCESSING'
-                      ? '支付确认中'
-                      : row.status == 'PENDING_PAYMENT'
-                      ? '待付款'
-                      : '已取消',
-                ),
+                subtitle: Text(fulfillmentLabel(row.status)),
                 trailing: Text(orderMoney(row.payable_amount_fen)),
                 onTap: busy ? null : () => load(id: row.id),
               ),
@@ -183,15 +188,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
               child: const Text('返回订单列表'),
             ),
             Text(order.order_no),
-            Text(
-              order.status == 'FULFILLING'
-                  ? '已付款待履约'
-                  : order.status == 'PAYMENT_PROCESSING'
-                  ? '支付确认中'
-                  : order.status == 'PENDING_PAYMENT'
-                  ? '待付款'
-                  : '已取消',
-            ),
+            Text(fulfillmentLabel(order.status)),
             Text(
               '应付 ${orderMoney(order.payable_amount_fen)}',
               style: Theme.of(context).textTheme.headlineSmall,
@@ -221,6 +218,11 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                           '${item.product_snapshot.name} × ${item.quantity} · ${orderMoney(item.payable_amount_fen)}',
                         ),
                       Text('商品及运费 ${orderMoney(sub.payable_amount_fen)}'),
+                      FulfillmentCard(
+                        key: ValueKey('${sub.id}:${sub.version}'),
+                        suborderId: sub.id,
+                        onChanged: () => load(id: order.id),
+                      ),
                     ],
                   ),
                 ),
