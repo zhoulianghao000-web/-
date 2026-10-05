@@ -1,6 +1,9 @@
+import 'package:go_router/go_router.dart';
+
+import 'checkout_repository.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import 'api/generated/dto.dart';
 import 'api/client.dart';
@@ -264,6 +267,41 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
     super.dispose();
   }
 
+  final Map<String, String> cartKeys = {};
+  bool adding = false;
+  Future<void> addOffer(ConsumerOffer offer) async {
+    if (adding) return;
+    final user = ref.read(authProvider).principal?.user_id;
+    if (user == null) {
+      ref.read(guestCartProvider.notifier).add(offer.offer_id);
+      context.go('/auth/login?returnTo=%2Fcart');
+      return;
+    }
+    final pet = ref.read(currentPetProvider)?.id;
+    setState(() {
+      adding = true;
+      error = null;
+    });
+    final fingerprint = '$user:${offer.offer_id}:$pet';
+    final key = cartKeys.putIfAbsent(fingerprint, checkoutCommandKey);
+    try {
+      await ref
+          .read(checkoutRepositoryProvider)
+          .add(offer.offer_id, 1, pet, key);
+      if (mounted && user == ref.read(authProvider).principal?.user_id) {
+        cartKeys.remove(fingerprint);
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('已加入购物车')));
+      }
+    } catch (e) {
+      if (mounted && user == ref.read(authProvider).principal?.user_id) {
+        setState(() => error = checkoutError(e));
+      }
+    } finally {
+      if (mounted) setState(() => adding = false);
+    }
+  }
+
   Future<void> load() async {
     final epoch = ++generation,
         pet = ref.read(currentPetProvider),
@@ -353,12 +391,22 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
               Card(
                 child: ListTile(
                   title: Text(o.merchant_name),
+                  trailing: FilledButton(
+                    onPressed: loading || adding || !o.in_stock
+                        ? null
+                        : () => addOffer(o),
+                    child: const Text('加入购物车'),
+                  ),
                   subtitle: Text(
                     '¥${(o.sale_price_fen / 100).toStringAsFixed(2)} · ${o.in_stock ? '有库存' : '缺货'}\n${o.fulfillment_sla}',
                   ),
                 ),
               ),
             const Text('报价不含尚未确认的运费与优惠。'),
+            OutlinedButton(
+              onPressed: () => context.go('/cart'),
+              child: const Text('查看购物车'),
+            ),
           ],
           OutlinedButton(
             onPressed: loading ? null : load,

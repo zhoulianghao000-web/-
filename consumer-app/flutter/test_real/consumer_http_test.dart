@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:pawday_consumer/api/client.dart';
 import 'package:pawday_consumer/pet_repository.dart';
 import 'package:pawday_consumer/catalog_repository.dart';
+import 'package:pawday_consumer/checkout_repository.dart';
+import 'package:pawday_consumer/api/generated/dto.dart';
 
 // Explicit CI entry point. Missing infrastructure fails; this test never uses a mock transport.
 void main() {
@@ -114,6 +116,43 @@ void main() {
     expect(fit.result, 'INSUFFICIENT_DATA');
     expect(fit.uncertainties, isNotEmpty);
     expect(fit.fit_rule_version, 'pawday-fit-1');
+    final checkout = CheckoutRepository(restored);
+    final offer = (await catalog.offers(sku)).firstWhere((o) => o.in_stock);
+    final cartItem = await checkout.add(
+      offer.offer_id,
+      1,
+      pet.id,
+      checkoutCommandKey(),
+    );
+    final address = await checkout.saveAddress(
+      const CheckoutAddressInput(
+        recipient: 'TEST-only recipient',
+        phone: '13800000000',
+        province_code: '310000',
+        detail: 'TEST-only Shanghai address',
+      ),
+      checkoutCommandKey(),
+    );
+    final quoteKey = checkoutCommandKey();
+    final quote = await checkout.quote([cartItem.id], address.id, quoteKey);
+    expect(quote.status, 'ACTIVE');
+    expect(quote.goods_amount_fen, offer.sale_price_fen);
+    expect(quote.shipping_amount_fen, 400);
+    expect(quote.payable_amount_fen, offer.sale_price_fen + 400);
+    expect(quote.items.single.offer_id, offer.offer_id);
+    expect(
+      (await checkout.quote([cartItem.id], address.id, quoteKey)).quote_id,
+      quote.quote_id,
+    );
+    expect((await checkout.getQuote(quote.quote_id)).status, 'ACTIVE');
+    await checkout.quantity(cartItem, 2, checkoutCommandKey());
+    expect((await checkout.getQuote(quote.quote_id)).status, 'INVALIDATED');
+    final currentItem = (await checkout.cart()).items.firstWhere(
+      (i) => i.id == cartItem.id,
+    );
+    await checkout.remove(currentItem, checkoutCommandKey());
+    await checkout.removeAddress(address, checkoutCommandKey());
+    expect((await checkout.cart()).items.isEmpty, true);
     final latest = (await pets.list()).firstWhere((p) => p.id == pet.id);
     await pets.delete(latest, newPetCommandKey());
     expect((await pets.list()).any((p) => p.id == pet.id), false);
