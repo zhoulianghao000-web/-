@@ -139,6 +139,16 @@ class TabScreen extends ConsumerWidget {
               ),
             if (loggedIn) ...[
               ListTile(
+                title: const Text('我的订单'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.push('/orders'),
+              ),
+              ListTile(
+                title: const Text('购物车'),
+                trailing: const Icon(Icons.shopping_cart_outlined),
+                onTap: () => context.push('/cart'),
+              ),
+              ListTile(
                 leading: const Icon(Icons.devices),
                 title: const Text('登录设备'),
                 trailing: const Icon(Icons.chevron_right),

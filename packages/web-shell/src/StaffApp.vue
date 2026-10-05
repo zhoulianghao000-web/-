@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import OrdersPanel from './OrdersPanel.vue';
+import OrderPolicyPanel from './OrderPolicyPanel.vue';
 import ShippingPanel from './ShippingPanel.vue';
 import OfferPanel from './OfferPanel.vue';
 import CatalogPanel from './CatalogPanel.vue';
@@ -56,8 +58,9 @@ watch(()=>route.fullPath,loadPage);onMounted(loadPage);
     </form>
   </div>
   <div v-else class="workspace">
-    <aside><div class="brand">爪日 <span>Pawday</span></div><p class="realm-label">{{ title }}</p><nav aria-label="主导航"><RouterLink to="/dashboard">工作台</RouterLink><RouterLink v-if="realm==='merchant'&&session.can('store.read')" to="/stores">我的门店</RouterLink><RouterLink v-if="realm==='admin'&&session.can('audit.read')" to="/audit">审计记录</RouterLink><RouterLink v-if="realm==='admin'&&session.can('pet.taxonomy.read')" to="/pet-taxonomy">宠物分类</RouterLink><RouterLink v-if="session.can('catalog.standard.read')" to="/catalog">标准商品</RouterLink><RouterLink v-if="session.can(realm==='merchant'?'offer.read':'offer.admin.read')" to="/offers">报价与库存</RouterLink><RouterLink v-if="realm==='admin'&&session.can('pricing.shipping.manage')" to="/shipping">配送规则</RouterLink><RouterLink to="/sessions">账号与设备</RouterLink></nav><p class="aside-footer">认真照顾，每一个日常。</p></aside>
+    <aside><div class="brand">爪日 <span>Pawday</span></div><p class="realm-label">{{ title }}</p><nav aria-label="主导航"><RouterLink to="/dashboard">工作台</RouterLink><RouterLink v-if="session.can(realm==='merchant'?'order.read':'order.admin.read')" to="/orders">订单</RouterLink><RouterLink v-if="realm==='admin'&&session.can('order.policy.manage')" to="/order-policies">付款期限规则</RouterLink><RouterLink v-if="realm==='merchant'&&session.can('store.read')" to="/stores">我的门店</RouterLink><RouterLink v-if="realm==='admin'&&session.can('audit.read')" to="/audit">审计记录</RouterLink><RouterLink v-if="realm==='admin'&&session.can('pet.taxonomy.read')" to="/pet-taxonomy">宠物分类</RouterLink><RouterLink v-if="session.can('catalog.standard.read')" to="/catalog">标准商品</RouterLink><RouterLink v-if="session.can(realm==='merchant'?'offer.read':'offer.admin.read')" to="/offers">报价与库存</RouterLink><RouterLink v-if="realm==='admin'&&session.can('pricing.shipping.manage')" to="/shipping">配送规则</RouterLink><RouterLink to="/sessions">账号与设备</RouterLink></nav><p class="aside-footer">认真照顾，每一个日常。</p></aside>
     <main>
+<OrdersPanel v-if="route.meta.page==='orders'" :session="session" :realm="realm" /><OrderPolicyPanel v-if="route.meta.page==='order-policies'" :session="session" />
       <header><span>{{ title }}</span><div class="account"><select v-if="realm==='merchant'&&session.state.stores.length" aria-label="当前门店" :value="session.state.storeId" @change="selectStore"><option v-for="store in session.state.stores" :key="store.id" :value="store.id">{{ store.name }}</option></select><button class="secondary" :disabled="busy" @click="logout">退出登录</button></div></header>
       <section class="page">
         <p v-if="error" role="alert" class="error">{{ error }}</p><p v-if="notice" role="status" class="notice">{{ notice }}</p>
