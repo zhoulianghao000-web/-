@@ -16,5 +16,21 @@ public class SimulatedPaymentGateway implements PaymentGateway {
  public Result close(Request r){outside();db.update("INSERT INTO simulated_payment_transactions(attempt_no,channel,amount_fen,currency,status) VALUES (?,?,?,?,'CLOSED') ON CONFLICT DO NOTHING",r.attemptNo(),r.channel(),r.amountFen(),r.currency());db.update("UPDATE simulated_payment_transactions SET status='CLOSED',updated_at=clock_timestamp() WHERE attempt_no=? AND status='PENDING'",r.attemptNo());return query(r);}
  /** Development channel controls; callers still confirm by server query. */
  public void outcome(Request r,String status){outside();if(!Set.of("SUCCEEDED","FAILED","UNKNOWN").contains(status))throw new Failure(400,"VALIDATION_ERROR");db.update("UPDATE simulated_payment_transactions SET status=?,transaction_id=CASE WHEN ?='SUCCEEDED' THEN coalesce(transaction_id,?) ELSE transaction_id END,updated_at=clock_timestamp() WHERE attempt_no=? AND status IN ('PENDING','UNKNOWN')",status,status,"SIM-"+r.attemptNo(),r.attemptNo());}
- public boolean refund(String no,Result r){outside();db.update("INSERT INTO simulated_payment_refunds(refund_no,transaction_id,amount_fen,currency,status) VALUES (?,?,?,?,'SUCCEEDED') ON CONFLICT DO NOTHING",no,r.transactionId(),r.amountFen(),r.currency());return db.queryForObject("SELECT count(*) FROM simulated_payment_refunds WHERE refund_no=? AND transaction_id=? AND amount_fen=? AND currency=?",Integer.class,no,r.transactionId(),r.amountFen(),r.currency())==1;}
+ /** Several partial refunds may share one collected transaction; the same refund_no never double-refunds. */
+ public RefundOutcome refund(RefundInstruction i){outside();
+  var directive=db.queryForList("SELECT outcome FROM simulated_refund_directives WHERE refund_no=?",i.refundNo());
+  if(!directive.isEmpty()&&directive.getFirst().get("outcome").equals("FAIL_TRANSIENT"))return new RefundOutcome("UNKNOWN",null,"SIMULATED_TRANSIENT");
+  if(!directive.isEmpty()&&directive.getFirst().get("outcome").equals("FAIL_FINAL"))return new RefundOutcome("FAILED",null,"SIMULATED_FINAL");
+  if(!db.queryForList("SELECT refund_no FROM simulated_payment_refund_requests WHERE refund_no=?",i.refundNo()).isEmpty())return queryRefund(i.refundNo());
+  var collected=db.queryForList("SELECT amount_fen,currency FROM simulated_payment_transactions WHERE transaction_id=? AND status='SUCCEEDED'",i.transactionId());
+  if(collected.isEmpty())return new RefundOutcome("FAILED",null,"SIMULATED_NOT_COLLECTED");
+  long cap=((Number)collected.getFirst().get("amount_fen")).longValue();
+  if(!collected.getFirst().get("currency").equals(i.currency()))return new RefundOutcome("FAILED",null,"SIMULATED_CURRENCY");
+  Long used=db.queryForObject("SELECT (SELECT coalesce(sum(amount_fen),0) FROM simulated_payment_refund_requests WHERE transaction_id=?)+(SELECT coalesce(sum(amount_fen),0) FROM simulated_payment_refunds WHERE transaction_id=?)",Long.class,i.transactionId(),i.transactionId());
+  if(used==null)used=0L;
+  if(used+i.amountFen()>cap)return new RefundOutcome("FAILED",null,"SIMULATED_EXCEEDS_COLLECTION");
+  db.update("INSERT INTO simulated_payment_refund_requests(refund_no,transaction_id,amount_fen,currency,status,channel_refund_no) VALUES (?,?,?,?,'SUCCEEDED',?) ON CONFLICT (refund_no) DO NOTHING",i.refundNo(),i.transactionId(),i.amountFen(),i.currency(),"SIMR-"+i.refundNo());
+  return queryRefund(i.refundNo());
+ }
+ public RefundOutcome queryRefund(String refundNo){outside();var rows=db.queryForList("SELECT * FROM simulated_payment_refund_requests WHERE refund_no=?",refundNo);if(rows.isEmpty())return new RefundOutcome("NOT_FOUND",null,null);var x=rows.getFirst();return new RefundOutcome(x.get("status").toString(),x.get("channel_refund_no").toString(),null);}
 }

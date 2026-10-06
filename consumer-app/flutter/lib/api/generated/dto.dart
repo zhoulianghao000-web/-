@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 66a904a8646d7a2452423cddc9dd42a7c6330ec3a1b2817b609abe5c23640ced
+// Generated from Pawday runtime OpenAPI; SHA256 6c4817866b68a0f747072d6d7752cf64ae41f9db093127d78fdea37d7f779a3c
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -4437,6 +4437,649 @@ class TrackingEnvelope {
   };
 }
 
+class Refund {
+  final String id;
+  final String refund_no;
+  final String payment_id;
+  final String payment_attempt_id;
+  final String? cancellation_id;
+  final String? aftersale_id;
+  final int amount_fen;
+  final String? channel_refund_no;
+  final String status;
+  final int attempt_count;
+  final String? next_retry_at;
+  final String? last_error_code;
+  final String created_at;
+  final String? decided_at;
+  const Refund({required this.id, required this.refund_no, required this.payment_id, required this.payment_attempt_id, required this.cancellation_id, required this.aftersale_id, required this.amount_fen, required this.channel_refund_no, required this.status, required this.attempt_count, required this.next_retry_at, required this.last_error_code, required this.created_at, required this.decided_at});
+  factory Refund.fromJson(Map<String,dynamic> json) => Refund(
+    id: json['id'] as String,
+    refund_no: json['refund_no'] as String,
+    payment_id: json['payment_id'] as String,
+    payment_attempt_id: json['payment_attempt_id'] as String,
+    cancellation_id: json['cancellation_id'] == null ? null : json['cancellation_id'] as String,
+    aftersale_id: json['aftersale_id'] == null ? null : json['aftersale_id'] as String,
+    amount_fen: (json['amount_fen'] as num).toInt(),
+    channel_refund_no: json['channel_refund_no'] == null ? null : json['channel_refund_no'] as String,
+    status: json['status'] as String,
+    attempt_count: (json['attempt_count'] as num).toInt(),
+    next_retry_at: json['next_retry_at'] == null ? null : json['next_retry_at'] as String,
+    last_error_code: json['last_error_code'] == null ? null : json['last_error_code'] as String,
+    created_at: json['created_at'] as String,
+    decided_at: json['decided_at'] == null ? null : json['decided_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'refund_no': refund_no,
+    'payment_id': payment_id,
+    'payment_attempt_id': payment_attempt_id,
+    'cancellation_id': cancellation_id == null ? null : cancellation_id!,
+    'aftersale_id': aftersale_id == null ? null : aftersale_id!,
+    'amount_fen': amount_fen,
+    'channel_refund_no': channel_refund_no == null ? null : channel_refund_no!,
+    'status': status,
+    'attempt_count': attempt_count,
+    'next_retry_at': next_retry_at == null ? null : next_retry_at!,
+    'last_error_code': last_error_code == null ? null : last_error_code!,
+    'created_at': created_at,
+    'decided_at': decided_at == null ? null : decided_at!,
+  };
+}
+
+class CancellationItemInput {
+  final String order_item_id;
+  final int quantity;
+  const CancellationItemInput({required this.order_item_id, required this.quantity});
+  factory CancellationItemInput.fromJson(Map<String,dynamic> json) => CancellationItemInput(
+    order_item_id: json['order_item_id'] as String,
+    quantity: (json['quantity'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'order_item_id': order_item_id,
+    'quantity': quantity,
+  };
+}
+
+class CancellationInput {
+  final String reason_code;
+  final List<CancellationItemInput> items;
+  const CancellationInput({required this.reason_code, required this.items});
+  factory CancellationInput.fromJson(Map<String,dynamic> json) => CancellationInput(
+    reason_code: json['reason_code'] as String,
+    items: (json['items'] as List).map((value) => CancellationItemInput.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'reason_code': reason_code,
+    'items': items.map((value) => value.toJson()).toList(),
+  };
+}
+
+class CancellationItem {
+  final String id;
+  final String cancellation_id;
+  final String order_item_id;
+  final int quantity;
+  final int item_payable_refund_fen;
+  final int shipping_refund_fen;
+  final Map<String,dynamic> allocation_snapshot;
+  final String? refund_id;
+  const CancellationItem({required this.id, required this.cancellation_id, required this.order_item_id, required this.quantity, required this.item_payable_refund_fen, required this.shipping_refund_fen, required this.allocation_snapshot, required this.refund_id});
+  factory CancellationItem.fromJson(Map<String,dynamic> json) => CancellationItem(
+    id: json['id'] as String,
+    cancellation_id: json['cancellation_id'] as String,
+    order_item_id: json['order_item_id'] as String,
+    quantity: (json['quantity'] as num).toInt(),
+    item_payable_refund_fen: (json['item_payable_refund_fen'] as num).toInt(),
+    shipping_refund_fen: (json['shipping_refund_fen'] as num).toInt(),
+    allocation_snapshot: Map<String,dynamic>.from(json['allocation_snapshot'] as Map),
+    refund_id: json['refund_id'] == null ? null : json['refund_id'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'cancellation_id': cancellation_id,
+    'order_item_id': order_item_id,
+    'quantity': quantity,
+    'item_payable_refund_fen': item_payable_refund_fen,
+    'shipping_refund_fen': shipping_refund_fen,
+    'allocation_snapshot': allocation_snapshot,
+    'refund_id': refund_id == null ? null : refund_id!,
+  };
+}
+
+class CancellationSummary {
+  final String id;
+  final String order_id;
+  final String? suborder_id;
+  final String actor_type;
+  final String? actor_id;
+  final String reason_code;
+  final String status;
+  final int version;
+  final String created_at;
+  const CancellationSummary({required this.id, required this.order_id, required this.suborder_id, required this.actor_type, required this.actor_id, required this.reason_code, required this.status, required this.version, required this.created_at});
+  factory CancellationSummary.fromJson(Map<String,dynamic> json) => CancellationSummary(
+    id: json['id'] as String,
+    order_id: json['order_id'] as String,
+    suborder_id: json['suborder_id'] == null ? null : json['suborder_id'] as String,
+    actor_type: json['actor_type'] as String,
+    actor_id: json['actor_id'] == null ? null : json['actor_id'] as String,
+    reason_code: json['reason_code'] as String,
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'order_id': order_id,
+    'suborder_id': suborder_id == null ? null : suborder_id!,
+    'actor_type': actor_type,
+    'actor_id': actor_id == null ? null : actor_id!,
+    'reason_code': reason_code,
+    'status': status,
+    'version': version,
+    'created_at': created_at,
+  };
+}
+
+class Cancellation {
+  final String id;
+  final String order_id;
+  final String? suborder_id;
+  final String actor_type;
+  final String? actor_id;
+  final String reason_code;
+  final String status;
+  final int version;
+  final String created_at;
+  final List<CancellationItem> items;
+  final Refund? refund;
+  final int refund_amount_fen;
+  const Cancellation({required this.id, required this.order_id, required this.suborder_id, required this.actor_type, required this.actor_id, required this.reason_code, required this.status, required this.version, required this.created_at, required this.items, required this.refund, required this.refund_amount_fen});
+  factory Cancellation.fromJson(Map<String,dynamic> json) => Cancellation(
+    id: json['id'] as String,
+    order_id: json['order_id'] as String,
+    suborder_id: json['suborder_id'] == null ? null : json['suborder_id'] as String,
+    actor_type: json['actor_type'] as String,
+    actor_id: json['actor_id'] == null ? null : json['actor_id'] as String,
+    reason_code: json['reason_code'] as String,
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+    items: (json['items'] as List).map((value) => CancellationItem.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    refund: json['refund'] == null ? null : Refund.fromJson(Map<String,dynamic>.from(json['refund'] as Map)),
+    refund_amount_fen: (json['refund_amount_fen'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'order_id': order_id,
+    'suborder_id': suborder_id == null ? null : suborder_id!,
+    'actor_type': actor_type,
+    'actor_id': actor_id == null ? null : actor_id!,
+    'reason_code': reason_code,
+    'status': status,
+    'version': version,
+    'created_at': created_at,
+    'items': items.map((value) => value.toJson()).toList(),
+    'refund': refund == null ? null : refund!.toJson(),
+    'refund_amount_fen': refund_amount_fen,
+  };
+}
+
+class AfterSaleItemInput {
+  final String order_item_id;
+  final int quantity;
+  const AfterSaleItemInput({required this.order_item_id, required this.quantity});
+  factory AfterSaleItemInput.fromJson(Map<String,dynamic> json) => AfterSaleItemInput(
+    order_item_id: json['order_item_id'] as String,
+    quantity: (json['quantity'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'order_item_id': order_item_id,
+    'quantity': quantity,
+  };
+}
+
+class AfterSaleEvidenceInput {
+  final String content;
+  const AfterSaleEvidenceInput({required this.content});
+  factory AfterSaleEvidenceInput.fromJson(Map<String,dynamic> json) => AfterSaleEvidenceInput(
+    content: json['content'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'content': content,
+  };
+}
+
+class AfterSaleInput {
+  final String type;
+  final String reason_code;
+  final String reason_text;
+  final List<AfterSaleItemInput> items;
+  final List<AfterSaleEvidenceInput> evidence;
+  const AfterSaleInput({required this.type, required this.reason_code, required this.reason_text, required this.items, required this.evidence});
+  factory AfterSaleInput.fromJson(Map<String,dynamic> json) => AfterSaleInput(
+    type: json['type'] as String,
+    reason_code: json['reason_code'] as String,
+    reason_text: json['reason_text'] as String,
+    items: (json['items'] as List).map((value) => AfterSaleItemInput.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    evidence: (json['evidence'] as List).map((value) => AfterSaleEvidenceInput.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'type': type,
+    'reason_code': reason_code,
+    'reason_text': reason_text,
+    'items': items.map((value) => value.toJson()).toList(),
+    'evidence': evidence.map((value) => value.toJson()).toList(),
+  };
+}
+
+class AfterSaleItem {
+  final String id;
+  final String aftersale_id;
+  final String order_item_id;
+  final int quantity;
+  final int item_payable_refund_fen;
+  final String? refund_id;
+  const AfterSaleItem({required this.id, required this.aftersale_id, required this.order_item_id, required this.quantity, required this.item_payable_refund_fen, required this.refund_id});
+  factory AfterSaleItem.fromJson(Map<String,dynamic> json) => AfterSaleItem(
+    id: json['id'] as String,
+    aftersale_id: json['aftersale_id'] as String,
+    order_item_id: json['order_item_id'] as String,
+    quantity: (json['quantity'] as num).toInt(),
+    item_payable_refund_fen: (json['item_payable_refund_fen'] as num).toInt(),
+    refund_id: json['refund_id'] == null ? null : json['refund_id'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'aftersale_id': aftersale_id,
+    'order_item_id': order_item_id,
+    'quantity': quantity,
+    'item_payable_refund_fen': item_payable_refund_fen,
+    'refund_id': refund_id == null ? null : refund_id!,
+  };
+}
+
+class AfterSaleEvidence {
+  final String id;
+  final String actor_type;
+  final String kind;
+  final String? content;
+  final String? asset_id;
+  final String created_at;
+  const AfterSaleEvidence({required this.id, required this.actor_type, required this.kind, required this.content, required this.asset_id, required this.created_at});
+  factory AfterSaleEvidence.fromJson(Map<String,dynamic> json) => AfterSaleEvidence(
+    id: json['id'] as String,
+    actor_type: json['actor_type'] as String,
+    kind: json['kind'] as String,
+    content: json['content'] == null ? null : json['content'] as String,
+    asset_id: json['asset_id'] == null ? null : json['asset_id'] as String,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'actor_type': actor_type,
+    'kind': kind,
+    'content': content == null ? null : content!,
+    'asset_id': asset_id == null ? null : asset_id!,
+    'created_at': created_at,
+  };
+}
+
+class AfterSaleDecision {
+  final String id;
+  final String decision;
+  final String reason;
+  final int amount_fen;
+  final String created_at;
+  const AfterSaleDecision({required this.id, required this.decision, required this.reason, required this.amount_fen, required this.created_at});
+  factory AfterSaleDecision.fromJson(Map<String,dynamic> json) => AfterSaleDecision(
+    id: json['id'] as String,
+    decision: json['decision'] as String,
+    reason: json['reason'] as String,
+    amount_fen: (json['amount_fen'] as num).toInt(),
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'decision': decision,
+    'reason': reason,
+    'amount_fen': amount_fen,
+    'created_at': created_at,
+  };
+}
+
+class AfterSaleSummary {
+  final String id;
+  final String suborder_id;
+  final String order_id;
+  final String user_id;
+  final String merchant_id;
+  final String type;
+  final String reason_code;
+  final String reason_text;
+  final String status;
+  final String? return_carrier_code;
+  final String? return_tracking_no;
+  final int version;
+  final String created_at;
+  const AfterSaleSummary({required this.id, required this.suborder_id, required this.order_id, required this.user_id, required this.merchant_id, required this.type, required this.reason_code, required this.reason_text, required this.status, required this.return_carrier_code, required this.return_tracking_no, required this.version, required this.created_at});
+  factory AfterSaleSummary.fromJson(Map<String,dynamic> json) => AfterSaleSummary(
+    id: json['id'] as String,
+    suborder_id: json['suborder_id'] as String,
+    order_id: json['order_id'] as String,
+    user_id: json['user_id'] as String,
+    merchant_id: json['merchant_id'] as String,
+    type: json['type'] as String,
+    reason_code: json['reason_code'] as String,
+    reason_text: json['reason_text'] as String,
+    status: json['status'] as String,
+    return_carrier_code: json['return_carrier_code'] == null ? null : json['return_carrier_code'] as String,
+    return_tracking_no: json['return_tracking_no'] == null ? null : json['return_tracking_no'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'suborder_id': suborder_id,
+    'order_id': order_id,
+    'user_id': user_id,
+    'merchant_id': merchant_id,
+    'type': type,
+    'reason_code': reason_code,
+    'reason_text': reason_text,
+    'status': status,
+    'return_carrier_code': return_carrier_code == null ? null : return_carrier_code!,
+    'return_tracking_no': return_tracking_no == null ? null : return_tracking_no!,
+    'version': version,
+    'created_at': created_at,
+  };
+}
+
+class AfterSale {
+  final String id;
+  final String suborder_id;
+  final String order_id;
+  final String user_id;
+  final String merchant_id;
+  final String type;
+  final String reason_code;
+  final String reason_text;
+  final String status;
+  final String? return_carrier_code;
+  final String? return_tracking_no;
+  final int version;
+  final String created_at;
+  final List<AfterSaleItem> items;
+  final Refund? refund;
+  final int refund_amount_fen;
+  final List<AfterSaleEvidence> evidence;
+  final List<AfterSaleDecision> decisions;
+  const AfterSale({required this.id, required this.suborder_id, required this.order_id, required this.user_id, required this.merchant_id, required this.type, required this.reason_code, required this.reason_text, required this.status, required this.return_carrier_code, required this.return_tracking_no, required this.version, required this.created_at, required this.items, required this.refund, required this.refund_amount_fen, required this.evidence, required this.decisions});
+  factory AfterSale.fromJson(Map<String,dynamic> json) => AfterSale(
+    id: json['id'] as String,
+    suborder_id: json['suborder_id'] as String,
+    order_id: json['order_id'] as String,
+    user_id: json['user_id'] as String,
+    merchant_id: json['merchant_id'] as String,
+    type: json['type'] as String,
+    reason_code: json['reason_code'] as String,
+    reason_text: json['reason_text'] as String,
+    status: json['status'] as String,
+    return_carrier_code: json['return_carrier_code'] == null ? null : json['return_carrier_code'] as String,
+    return_tracking_no: json['return_tracking_no'] == null ? null : json['return_tracking_no'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+    items: (json['items'] as List).map((value) => AfterSaleItem.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    refund: json['refund'] == null ? null : Refund.fromJson(Map<String,dynamic>.from(json['refund'] as Map)),
+    refund_amount_fen: (json['refund_amount_fen'] as num).toInt(),
+    evidence: (json['evidence'] as List).map((value) => AfterSaleEvidence.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    decisions: (json['decisions'] as List).map((value) => AfterSaleDecision.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'suborder_id': suborder_id,
+    'order_id': order_id,
+    'user_id': user_id,
+    'merchant_id': merchant_id,
+    'type': type,
+    'reason_code': reason_code,
+    'reason_text': reason_text,
+    'status': status,
+    'return_carrier_code': return_carrier_code == null ? null : return_carrier_code!,
+    'return_tracking_no': return_tracking_no == null ? null : return_tracking_no!,
+    'version': version,
+    'created_at': created_at,
+    'items': items.map((value) => value.toJson()).toList(),
+    'refund': refund == null ? null : refund!.toJson(),
+    'refund_amount_fen': refund_amount_fen,
+    'evidence': evidence.map((value) => value.toJson()).toList(),
+    'decisions': decisions.map((value) => value.toJson()).toList(),
+  };
+}
+
+class AfterSaleDecisionInput {
+  final String action;
+  final String reason;
+  const AfterSaleDecisionInput({required this.action, required this.reason});
+  factory AfterSaleDecisionInput.fromJson(Map<String,dynamic> json) => AfterSaleDecisionInput(
+    action: json['action'] as String,
+    reason: json['reason'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'action': action,
+    'reason': reason,
+  };
+}
+
+class AfterSaleReasonInput {
+  final String reason;
+  const AfterSaleReasonInput({required this.reason});
+  factory AfterSaleReasonInput.fromJson(Map<String,dynamic> json) => AfterSaleReasonInput(
+    reason: json['reason'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'reason': reason,
+  };
+}
+
+class ReturnShipmentInput {
+  final String carrier_code;
+  final String tracking_no;
+  const ReturnShipmentInput({required this.carrier_code, required this.tracking_no});
+  factory ReturnShipmentInput.fromJson(Map<String,dynamic> json) => ReturnShipmentInput(
+    carrier_code: json['carrier_code'] as String,
+    tracking_no: json['tracking_no'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'carrier_code': carrier_code,
+    'tracking_no': tracking_no,
+  };
+}
+
+class AfterSaleArbitrationInput {
+  final String decision;
+  final String reason;
+  const AfterSaleArbitrationInput({required this.decision, required this.reason});
+  factory AfterSaleArbitrationInput.fromJson(Map<String,dynamic> json) => AfterSaleArbitrationInput(
+    decision: json['decision'] as String,
+    reason: json['reason'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'decision': decision,
+    'reason': reason,
+  };
+}
+
+class RefundAdmin {
+  final String id;
+  final String refund_no;
+  final String payment_id;
+  final String payment_attempt_id;
+  final String? cancellation_id;
+  final String? aftersale_id;
+  final int amount_fen;
+  final String? channel_refund_no;
+  final String status;
+  final int attempt_count;
+  final String? next_retry_at;
+  final String? last_error_code;
+  final String created_at;
+  final String? decided_at;
+  final String order_id;
+  final String currency;
+  const RefundAdmin({required this.id, required this.refund_no, required this.payment_id, required this.payment_attempt_id, required this.cancellation_id, required this.aftersale_id, required this.amount_fen, required this.channel_refund_no, required this.status, required this.attempt_count, required this.next_retry_at, required this.last_error_code, required this.created_at, required this.decided_at, required this.order_id, required this.currency});
+  factory RefundAdmin.fromJson(Map<String,dynamic> json) => RefundAdmin(
+    id: json['id'] as String,
+    refund_no: json['refund_no'] as String,
+    payment_id: json['payment_id'] as String,
+    payment_attempt_id: json['payment_attempt_id'] as String,
+    cancellation_id: json['cancellation_id'] == null ? null : json['cancellation_id'] as String,
+    aftersale_id: json['aftersale_id'] == null ? null : json['aftersale_id'] as String,
+    amount_fen: (json['amount_fen'] as num).toInt(),
+    channel_refund_no: json['channel_refund_no'] == null ? null : json['channel_refund_no'] as String,
+    status: json['status'] as String,
+    attempt_count: (json['attempt_count'] as num).toInt(),
+    next_retry_at: json['next_retry_at'] == null ? null : json['next_retry_at'] as String,
+    last_error_code: json['last_error_code'] == null ? null : json['last_error_code'] as String,
+    created_at: json['created_at'] as String,
+    decided_at: json['decided_at'] == null ? null : json['decided_at'] as String,
+    order_id: json['order_id'] as String,
+    currency: json['currency'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'refund_no': refund_no,
+    'payment_id': payment_id,
+    'payment_attempt_id': payment_attempt_id,
+    'cancellation_id': cancellation_id == null ? null : cancellation_id!,
+    'aftersale_id': aftersale_id == null ? null : aftersale_id!,
+    'amount_fen': amount_fen,
+    'channel_refund_no': channel_refund_no == null ? null : channel_refund_no!,
+    'status': status,
+    'attempt_count': attempt_count,
+    'next_retry_at': next_retry_at == null ? null : next_retry_at!,
+    'last_error_code': last_error_code == null ? null : last_error_code!,
+    'created_at': created_at,
+    'decided_at': decided_at == null ? null : decided_at!,
+    'order_id': order_id,
+    'currency': currency,
+  };
+}
+
+class CancellationEnvelope {
+  final Cancellation data;
+  final Meta meta;
+  const CancellationEnvelope({required this.data, required this.meta});
+  factory CancellationEnvelope.fromJson(Map<String,dynamic> json) => CancellationEnvelope(
+    data: Cancellation.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class CancellationListEnvelope {
+  final List<Cancellation> data;
+  final Page page;
+  final Meta meta;
+  const CancellationListEnvelope({required this.data, required this.page, required this.meta});
+  factory CancellationListEnvelope.fromJson(Map<String,dynamic> json) => CancellationListEnvelope(
+    data: (json['data'] as List).map((value) => Cancellation.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AfterSaleListEnvelope {
+  final List<AfterSale> data;
+  final Page page;
+  final Meta meta;
+  const AfterSaleListEnvelope({required this.data, required this.page, required this.meta});
+  factory AfterSaleListEnvelope.fromJson(Map<String,dynamic> json) => AfterSaleListEnvelope(
+    data: (json['data'] as List).map((value) => AfterSale.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AfterSaleEnvelope {
+  final AfterSale data;
+  final Meta meta;
+  const AfterSaleEnvelope({required this.data, required this.meta});
+  factory AfterSaleEnvelope.fromJson(Map<String,dynamic> json) => AfterSaleEnvelope(
+    data: AfterSale.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class CancellationSummaryListEnvelope {
+  final List<CancellationSummary> data;
+  final Page page;
+  final Meta meta;
+  const CancellationSummaryListEnvelope({required this.data, required this.page, required this.meta});
+  factory CancellationSummaryListEnvelope.fromJson(Map<String,dynamic> json) => CancellationSummaryListEnvelope(
+    data: (json['data'] as List).map((value) => CancellationSummary.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AfterSaleSummaryListEnvelope {
+  final List<AfterSaleSummary> data;
+  final Page page;
+  final Meta meta;
+  const AfterSaleSummaryListEnvelope({required this.data, required this.page, required this.meta});
+  factory AfterSaleSummaryListEnvelope.fromJson(Map<String,dynamic> json) => AfterSaleSummaryListEnvelope(
+    data: (json['data'] as List).map((value) => AfterSaleSummary.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class RefundAdminListEnvelope {
+  final List<RefundAdmin> data;
+  final Page page;
+  final Meta meta;
+  const RefundAdminListEnvelope({required this.data, required this.page, required this.meta});
+  factory RefundAdminListEnvelope.fromJson(Map<String,dynamic> json) => RefundAdminListEnvelope(
+    data: (json['data'] as List).map((value) => RefundAdmin.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -4586,4 +5229,27 @@ class ApiRoutes {
   static const get_admin_shipments__id__tracking = '/admin/shipments/{id}/tracking';
   static const post_merchant_suborders__id__shipments = '/merchant/suborders/{id}/shipments';
   static const post_consumer_suborders__id__confirm_receipt = '/consumer/suborders/{id}/confirm-receipt';
+  static const post_consumer_suborders__id__cancellations = '/consumer/suborders/{id}/cancellations';
+  static const get_consumer_suborders__id__cancellations = '/consumer/suborders/{id}/cancellations';
+  static const get_consumer_suborders__id__aftersales = '/consumer/suborders/{id}/aftersales';
+  static const post_consumer_suborders__id__aftersales = '/consumer/suborders/{id}/aftersales';
+  static const post_merchant_suborders__id__cancellations = '/merchant/suborders/{id}/cancellations';
+  static const get_merchant_suborders__id__cancellations = '/merchant/suborders/{id}/cancellations';
+  static const get_merchant_suborders__id__aftersales = '/merchant/suborders/{id}/aftersales';
+  static const get_consumer_cancellations__id = '/consumer/cancellations/{id}';
+  static const get_consumer_aftersales__id = '/consumer/aftersales/{id}';
+  static const get_merchant_cancellations__id = '/merchant/cancellations/{id}';
+  static const get_merchant_aftersales__id = '/merchant/aftersales/{id}';
+  static const get_admin_cancellations__id = '/admin/cancellations/{id}';
+  static const get_admin_aftersales__id = '/admin/aftersales/{id}';
+  static const post_consumer_aftersales__id__cancel = '/consumer/aftersales/{id}/cancel';
+  static const post_consumer_aftersales__id__return_shipment = '/consumer/aftersales/{id}/return-shipment';
+  static const post_consumer_aftersales__id__escalate = '/consumer/aftersales/{id}/escalate';
+  static const post_merchant_aftersales__id__decide = '/merchant/aftersales/{id}/decide';
+  static const post_merchant_aftersales__id__confirm_arrival = '/merchant/aftersales/{id}/confirm-arrival';
+  static const post_merchant_aftersales__id__inspect = '/merchant/aftersales/{id}/inspect';
+  static const get_admin_cancellations = '/admin/cancellations';
+  static const get_admin_aftersales = '/admin/aftersales';
+  static const post_admin_aftersales__id__decide = '/admin/aftersales/{id}/decide';
+  static const get_admin_refunds = '/admin/refunds';
 }
