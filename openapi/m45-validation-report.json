@@ -1,7 +1,7 @@
 {
   "result": "PASS",
-  "operations": 171,
-  "new_aftersale_refund_operations": 23,
+  "operations": 173,
+  "new_aftersale_refund_operations": 25,
   "actual_http_responses_validated": 317,
   "covered_responses": [
     [

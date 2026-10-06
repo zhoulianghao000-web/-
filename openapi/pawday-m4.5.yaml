@@ -11674,184 +11674,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
       x-implemented-in: M4.5
-  /consumer/suborders/{id}/aftersales:
-    get:
-      operationId: get_consumer_suborders__id__aftersales
-      summary: GET /consumer/suborders/{id}/aftersales
-      tags:
-        - consumer
-      security:
-        - consumerBearer: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: cursor
-          in: query
-          schema:
-            type: string
-            format: uuid
-        - name: limit
-          in: query
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 100
-            default: 50
-      responses:
-        "200":
-          description: Persisted result
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AfterSaleListEnvelope"
-        "400":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-        "401":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-        "403":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-        "404":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-        "409":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-        "422":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-        "428":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-        "429":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-        "503":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-      x-implemented-in: M4.5
-    post:
-      operationId: post_consumer_suborders__id__aftersales
-      summary: POST /consumer/suborders/{id}/aftersales
-      tags:
-        - consumer
-      security:
-        - consumerBearer: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: Idempotency-Key
-          in: header
-          required: true
-          schema:
-            type: string
-            minLength: 16
-            maxLength: 128
-      responses:
-        "200":
-          description: Persisted result
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AfterSaleEnvelope"
-        "400":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-        "401":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-        "403":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-        "404":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-        "409":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-        "422":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-        "428":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-        "429":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-        "503":
-          description: Rejected
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorEnvelope"
-      x-implemented-in: M4.5
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/AfterSaleInput"
   /merchant/suborders/{id}/cancellations:
     post:
       operationId: post_merchant_suborders__id__cancellations
@@ -12030,6 +11852,184 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
       x-implemented-in: M4.5
+  /consumer/suborders/{id}/aftersales:
+    get:
+      operationId: get_consumer_suborders__id__aftersales
+      summary: GET /consumer/suborders/{id}/aftersales
+      tags:
+        - consumer
+      security:
+        - consumerBearer: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: cursor
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+      responses:
+        "200":
+          description: Persisted result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AfterSaleListEnvelope"
+        "400":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "401":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "403":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "404":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "409":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "422":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "428":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "429":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "503":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+      x-implemented-in: M4.5
+    post:
+      operationId: post_consumer_suborders__id__aftersales
+      summary: POST /consumer/suborders/{id}/aftersales
+      tags:
+        - consumer
+      security:
+        - consumerBearer: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            minLength: 16
+            maxLength: 128
+      responses:
+        "200":
+          description: Persisted result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AfterSaleEnvelope"
+        "400":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "401":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "403":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "404":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "409":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "422":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "428":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "429":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "503":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+      x-implemented-in: M4.5
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AfterSaleInput"
   /merchant/suborders/{id}/aftersales:
     get:
       operationId: get_merchant_suborders__id__aftersales
@@ -12038,6 +12038,184 @@ paths:
         - merchant
       security:
         - merchantBearer: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: cursor
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+      responses:
+        "200":
+          description: Persisted result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AfterSaleListEnvelope"
+        "400":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "401":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "403":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "404":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "409":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "422":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "428":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "429":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "503":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+      x-implemented-in: M4.5
+  /admin/suborders/{id}/cancellations:
+    get:
+      operationId: get_admin_suborders__id__cancellations
+      summary: GET /admin/suborders/{id}/cancellations
+      tags:
+        - admin
+      security:
+        - adminBearer: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: cursor
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+      responses:
+        "200":
+          description: Persisted result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CancellationListEnvelope"
+        "400":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "401":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "403":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "404":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "409":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "422":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "428":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "429":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "503":
+          description: Rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+      x-implemented-in: M4.5
+  /admin/suborders/{id}/aftersales:
+    get:
+      operationId: get_admin_suborders__id__aftersales
+      summary: GET /admin/suborders/{id}/aftersales
+      tags:
+        - admin
+      security:
+        - adminBearer: []
       parameters:
         - name: id
           in: path
@@ -12671,6 +12849,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
       x-implemented-in: M4.5
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmptyInput"
   /consumer/aftersales/{id}/return-shipment:
     post:
       operationId: post_consumer_aftersales__id__return_shipment
@@ -13049,6 +13233,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorEnvelope"
       x-implemented-in: M4.5
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmptyInput"
   /merchant/aftersales/{id}/inspect:
     post:
       operationId: post_merchant_aftersales__id__inspect
@@ -13144,7 +13334,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AfterSaleDecisionInput"
+              $ref: "#/components/schemas/AfterSaleInspectionInput"
   /admin/cancellations:
     get:
       operationId: get_admin_cancellations
@@ -13632,6 +13822,7 @@ components:
             - pricing.shipping.manage
             - order.policy.manage
             - payment.requery
+            - aftersale.arbitrate
         expires_at: *a9
       required:
         - reverify_token
@@ -19078,6 +19269,22 @@ components:
       required:
         - action
         - reason
+    AfterSaleInspectionInput:
+      type: object
+      additionalProperties: false
+      properties:
+        action:
+          type: string
+          enum:
+            - ACCEPT
+            - REJECT
+        reason:
+          type: string
+          minLength: 1
+          maxLength: 500
+      required:
+        - action
+        - reason
     AfterSaleReasonInput:
       type: object
       additionalProperties: false
@@ -19117,6 +19324,11 @@ components:
       required:
         - decision
         - reason
+    EmptyInput:
+      type: object
+      additionalProperties: false
+      properties: {}
+      required: []
     RefundAdmin:
       type: object
       additionalProperties: false

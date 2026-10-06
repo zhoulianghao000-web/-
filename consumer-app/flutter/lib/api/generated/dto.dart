@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 6c4817866b68a0f747072d6d7752cf64ae41f9db093127d78fdea37d7f779a3c
+// Generated from Pawday runtime OpenAPI; SHA256 ad98c4e10975c3fce2470cd89d3eb20acf47d98d8be1ef31b71c516f7255809c
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -4872,6 +4872,20 @@ class AfterSaleDecisionInput {
   };
 }
 
+class AfterSaleInspectionInput {
+  final String action;
+  final String reason;
+  const AfterSaleInspectionInput({required this.action, required this.reason});
+  factory AfterSaleInspectionInput.fromJson(Map<String,dynamic> json) => AfterSaleInspectionInput(
+    action: json['action'] as String,
+    reason: json['reason'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'action': action,
+    'reason': reason,
+  };
+}
+
 class AfterSaleReasonInput {
   final String reason;
   const AfterSaleReasonInput({required this.reason});
@@ -4908,6 +4922,17 @@ class AfterSaleArbitrationInput {
   Map<String,dynamic> toJson() => {
     'decision': decision,
     'reason': reason,
+  };
+}
+
+class EmptyInput {
+
+  const EmptyInput({});
+  factory EmptyInput.fromJson(Map<String,dynamic> json) => EmptyInput(
+
+  );
+  Map<String,dynamic> toJson() => {
+
   };
 }
 
@@ -5231,11 +5256,13 @@ class ApiRoutes {
   static const post_consumer_suborders__id__confirm_receipt = '/consumer/suborders/{id}/confirm-receipt';
   static const post_consumer_suborders__id__cancellations = '/consumer/suborders/{id}/cancellations';
   static const get_consumer_suborders__id__cancellations = '/consumer/suborders/{id}/cancellations';
-  static const get_consumer_suborders__id__aftersales = '/consumer/suborders/{id}/aftersales';
-  static const post_consumer_suborders__id__aftersales = '/consumer/suborders/{id}/aftersales';
   static const post_merchant_suborders__id__cancellations = '/merchant/suborders/{id}/cancellations';
   static const get_merchant_suborders__id__cancellations = '/merchant/suborders/{id}/cancellations';
+  static const get_consumer_suborders__id__aftersales = '/consumer/suborders/{id}/aftersales';
+  static const post_consumer_suborders__id__aftersales = '/consumer/suborders/{id}/aftersales';
   static const get_merchant_suborders__id__aftersales = '/merchant/suborders/{id}/aftersales';
+  static const get_admin_suborders__id__cancellations = '/admin/suborders/{id}/cancellations';
+  static const get_admin_suborders__id__aftersales = '/admin/suborders/{id}/aftersales';
   static const get_consumer_cancellations__id = '/consumer/cancellations/{id}';
   static const get_consumer_aftersales__id = '/consumer/aftersales/{id}';
   static const get_merchant_cancellations__id = '/merchant/cancellations/{id}';
