@@ -10,6 +10,7 @@ import 'package:pawday_consumer/pet_repository.dart';
 import 'package:pawday_consumer/catalog_repository.dart';
 import 'package:pawday_consumer/checkout_repository.dart';
 import 'package:pawday_consumer/order_repository.dart';
+import 'package:pawday_consumer/aftersale_repository.dart';
 import 'package:pawday_consumer/api/generated/dto.dart';
 
 // Explicit CI entry point. Missing infrastructure fails; this test never uses a mock transport.
@@ -275,6 +276,155 @@ void main() {
       'COMPLETED',
     );
     expect((await ordering.get(paidOrder.id)).status, 'COMPLETED');
+
+    // M4.5 real chain: paid cancellation refunds one frozen unit, then a
+    // refund-only after-sale is approved by the merchant and settled.
+    final aftersales = AfterSaleRepository(restored);
+    final cancelItem = await checkout.add(
+      offer.offer_id,
+      2,
+      pet.id,
+      checkoutCommandKey(),
+    );
+    final cancelQuote = await checkout.quote(
+      [cancelItem.id],
+      address.id,
+      checkoutCommandKey(),
+    );
+    final cancelOrder = await ordering.create(
+      cancelQuote.quote_id,
+      checkoutCommandKey(),
+    );
+    final cancelPending = await payments.attempt(
+      cancelOrder.payment.id,
+      'WECHAT',
+      checkoutCommandKey(),
+    );
+    await payments.simulate(
+      cancelOrder.payment.id,
+      cancelPending.attempts.single.id,
+      'SUCCEEDED',
+    );
+    final cancelSub = (await ordering.get(cancelOrder.id)).suborders.single;
+    final cancelKey = checkoutCommandKey();
+    final cancellation = await aftersales.cancelPaid(
+      cancelSub.id,
+      [
+        CancellationItemInput(
+          order_item_id: cancelSub.items.single.id,
+          quantity: 1,
+        ),
+      ],
+      cancelKey,
+    );
+    expect(
+      (await aftersales.cancelPaid(
+        cancelSub.id,
+        [
+          CancellationItemInput(
+            order_item_id: cancelSub.items.single.id,
+            quantity: 1,
+          ),
+        ],
+        cancelKey,
+      )).id,
+      cancellation.id,
+      reason: 'Idempotent replay must return the same cancellation',
+    );
+    var settledCancellation = await aftersales.getCancellation(cancellation.id);
+    final cancelDeadline = DateTime.now().add(const Duration(seconds: 10));
+    while (settledCancellation.status != 'COMPLETED' &&
+        DateTime.now().isBefore(cancelDeadline)) {
+      await Future<void>.delayed(const Duration(milliseconds: 250));
+      settledCancellation = await aftersales.getCancellation(cancellation.id);
+    }
+    expect(settledCancellation.status, 'COMPLETED');
+    expect(settledCancellation.refund_amount_fen, offer.sale_price_fen);
+    expect(settledCancellation.refund, isNotNull);
+    expect(settledCancellation.refund!.status, 'SUCCEEDED');
+    final afterCancel = await ordering.fulfillment(cancelSub.id);
+    expect(afterCancel.items.single.cancelled_qty, 1);
+    expect(
+      (await aftersales.cancellations(
+        cancelSub.id,
+      )).data.any((c) => c.id == cancellation.id),
+      true,
+    );
+
+    final applyInput = AfterSaleInput(
+      type: 'REFUND_ONLY',
+      reason_code: 'QUALITY_ISSUE',
+      reason_text: 'CI REAL 仅退款',
+      items: [
+        AfterSaleItemInput(order_item_id: sub.items.single.id, quantity: 1),
+      ],
+      evidence: const [AfterSaleEvidenceInput(content: 'CI REAL 凭证')],
+    );
+    final applyKey = checkoutCommandKey();
+    final applied = await aftersales.apply(sub.id, applyInput, applyKey);
+    expect(applied.status, 'PENDING_MERCHANT');
+    expect(applied.refund_amount_fen, offer.sale_price_fen);
+    expect(
+      (await aftersales.apply(sub.id, applyInput, applyKey)).id,
+      applied.id,
+      reason: 'Idempotent replay must return the same after-sale',
+    );
+    final decide = await http.post(
+      Uri.parse('$base/merchant/aftersales/${applied.id}/decide'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $staffToken',
+        'Idempotency-Key': checkoutCommandKey(),
+        'If-Match': '"${applied.version}"',
+      },
+      body: jsonEncode({'action': 'APPROVE_REFUND', 'reason': 'CI REAL 同意退款'}),
+    );
+    expect(decide.statusCode, 200, reason: decide.body);
+    var settled = await aftersales.getAftersale(applied.id);
+    final settleDeadline = DateTime.now().add(const Duration(seconds: 10));
+    while (settled.status != 'COMPLETED' &&
+        DateTime.now().isBefore(settleDeadline)) {
+      await Future<void>.delayed(const Duration(milliseconds: 250));
+      settled = await aftersales.getAftersale(applied.id);
+    }
+    expect(
+      settled.status,
+      'COMPLETED',
+      reason: 'Simulated channel refund must settle',
+    );
+    expect(settled.refund, isNotNull);
+    expect(settled.refund!.status, 'SUCCEEDED');
+    expect(settled.refund!.amount_fen, offer.sale_price_fen);
+    expect(
+      (await aftersales.aftersales(sub.id)).data.any((a) => a.id == applied.id),
+      true,
+    );
+    await expectLater(
+      aftersales.apply(
+        sub.id,
+        AfterSaleInput(
+          type: 'REFUND_ONLY',
+          reason_code: 'DAMAGED',
+          reason_text: 'CI REAL 超量申请',
+          items: [
+            AfterSaleItemInput(
+              order_item_id: sub.items.single.id,
+              quantity: 1,
+            ),
+          ],
+          evidence: const [],
+        ),
+        checkoutCommandKey(),
+      ),
+      throwsA(
+        isA<ApiFailure>().having(
+          (e) => e.code,
+          'code',
+          'AFTERSALE_QUANTITY_EXCEEDED',
+        ),
+      ),
+      reason: 'Shipped units already claimed by the approved after-sale',
+    );
     await checkout.removeAddress(address, checkoutCommandKey());
     expect((await checkout.cart()).items.isEmpty, true);
     final latest = (await pets.list()).firstWhere((p) => p.id == pet.id);

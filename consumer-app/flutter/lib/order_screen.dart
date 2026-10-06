@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'api/generated/dto.dart';
+import 'aftersale_card.dart';
 import 'fulfillment_card.dart';
 import 'checkout_repository.dart';
 import 'order_repository.dart';
@@ -223,6 +224,12 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                         suborderId: sub.id,
                         onChanged: () => load(id: order.id),
                       ),
+                      if (order.status != 'PENDING_PAYMENT' &&
+                          order.status != 'PAYMENT_PROCESSING')
+                        AfterSaleCard(
+                          suborderId: sub.id,
+                          onChanged: () => load(id: order.id),
+                        ),
                     ],
                   ),
                 ),

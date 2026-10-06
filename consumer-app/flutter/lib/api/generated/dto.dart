@@ -4927,7 +4927,7 @@ class AfterSaleArbitrationInput {
 
 class EmptyInput {
 
-  const EmptyInput({});
+  const EmptyInput();
   factory EmptyInput.fromJson(Map<String,dynamic> json) => EmptyInput(
 
   );
