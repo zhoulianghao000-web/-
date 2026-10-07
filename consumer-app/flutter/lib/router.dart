@@ -5,8 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'repositories.dart';
 import 'screens.dart';
 import 'checkout_screen.dart';
+import 'membership_screen.dart';
 import 'order_screen.dart';
 import 'payment_screen.dart';
+import 'points_screen.dart';
 
 String safeReturnTo(String? value) {
   const allowed = [
@@ -19,6 +21,8 @@ String safeReturnTo(String? value) {
     '/cart',
     '/orders',
     '/payments',
+    '/membership',
+    '/points',
   ];
   if (value == null ||
       !value.startsWith('/') ||
@@ -76,6 +80,8 @@ final routerProvider = Provider<GoRouter>((ref) {
             '/cart',
             '/orders',
             '/payments',
+            '/membership',
+            '/points',
           ].contains(state.uri.path)) {
         return Uri(
           path: '/auth/login',
@@ -90,6 +96,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, state) =>
             PaymentScreen(id: state.uri.queryParameters['id'] ?? ''),
       ),
+      GoRoute(path: '/membership', builder: (_, _) => const MembershipScreen()),
+      GoRoute(path: '/points', builder: (_, _) => const PointsScreen()),
       GoRoute(
         path: '/launch',
         builder: (_, _) =>

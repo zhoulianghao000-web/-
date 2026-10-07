@@ -139,6 +139,18 @@ class TabScreen extends ConsumerWidget {
               ),
             if (loggedIn) ...[
               ListTile(
+                leading: const Icon(Icons.workspace_premium_outlined),
+                title: const Text('会员中心'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.push('/membership'),
+              ),
+              ListTile(
+                leading: const Icon(Icons.stars_outlined),
+                title: const Text('我的积分'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.push('/points'),
+              ),
+              ListTile(
                 title: const Text('我的订单'),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () => context.push('/orders'),

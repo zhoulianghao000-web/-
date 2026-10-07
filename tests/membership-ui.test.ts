@@ -1,0 +1,55 @@
+import {it,expect,vi} from 'vitest';
+import {mount,flushPromises} from '@vue/test-utils';
+import {PawdayClient,type Tokens} from '../packages/api-client/src';
+import {StaffSession} from '../packages/web-shell/src/auth';
+import MembershipPanel from '../packages/web-shell/src/MembershipPanel.vue';
+const id='00000000-0000-0000-0000-000000000001',meta={request_id:id,correlation_id:id};
+const tokens:Tokens={access_token:'a'.repeat(43),refresh_token:'b'.repeat(43),expires_in:900,session_id:id,user_id:null};
+const json=(data:unknown)=>new Response(JSON.stringify({data,page:{next_cursor:null,has_more:false},meta}),{headers:{'Content-Type':'application/json'}});
+const plan={id,code:'MEMBER_MONTH',name:'月度会员',term:'MONTH',price_fen:1500,ai_quota:20,benefits:['会员价'],status:'ACTIVE',plan_version:1,created_by:id,created_at:'2026-10-07T00:00:00Z'};
+const policy={id,earn_points_per_yuan:1,checkin_points:5,checkin_cycle_days:30,policy_version:1,created_by:id,created_at:'2026-10-07T00:00:00Z'};
+const reward={id,code:'TREAT',name:'零食券',cost_points:50,status:'ACTIVE',reward_version:1,created_by:id,created_at:'2026-10-07T00:00:00Z'};
+const entry={id,user_id:id,entry_type:'MANUAL_ADJUSTMENT',points:25,business_key:'MANUAL:'+id,order_id:null,refund_id:null,redemption_id:null,policy_version:null,reason:'TEST goodwill',created_by_type:'PRINCIPAL',created_by:id,created_at:'2026-10-07T00:00:00Z'};
+function adminSession(network:typeof fetch){const client=new PawdayClient('admin','http://localhost/api/v1',network);client.setSession(tokens);const session=new StaffSession(client);session.state.principal={id,realm:'ADMIN',merchant_id:null,user_id:null,session_id:id,permissions:['membership.plan.manage','points.policy.manage','points.reward.manage','points.adjust','points.read']};return session;}
+it('membership panel lists plans policies and rewards',async()=>{
+ const network=vi.fn<typeof fetch>(async input=>{const url=(input as Request).url;
+  if(url.includes('/admin/membership-plans'))return json([plan]);
+  if(url.includes('/admin/points-policies'))return json([policy]);
+  if(url.includes('/admin/points-rewards'))return json([reward]);
+  return json([]);});
+ const wrapper=mount(MembershipPanel,{props:{session:adminSession(network)}});await flushPromises();
+ expect(wrapper.text()).toContain('月度会员');expect(wrapper.text()).toContain('¥15.00');expect(wrapper.text()).toContain('会员价');expect(wrapper.text()).toContain('零食券');wrapper.unmount();
+});
+it('plan publish requires reverify and failed reverify never posts the plan',async()=>{
+ const calls:Request[]=[];const network=vi.fn<typeof fetch>(async input=>{const r=input as Request;calls.push(r);const url=r.url;
+  if(r.method==='GET'&&url.includes('/admin/membership-plans'))return json([plan]);
+  if(url.includes('/admin/points-policies'))return json([policy]);
+  if(url.includes('/admin/points-rewards'))return json([reward]);
+  return new Response(JSON.stringify({error:{code:'INVALID_CREDENTIALS',message:'INVALID_CREDENTIALS',retryable:false,details:{}},meta}),{status:401,headers:{'Content-Type':'application/json'}});});
+ const wrapper=mount(MembershipPanel,{props:{session:adminSession(network)}});await flushPromises();
+ const form=wrapper.findAll('form')[0]!;const inputs=form.findAll('input');
+ await inputs[0]!.setValue('MEMBER_MONTH');await inputs[1]!.setValue('月度会员');await inputs[2]!.setValue(1500);await inputs[3]!.setValue(20);await inputs[4]!.setValue('会员价');await inputs[5]!.setValue('TEST wrong');await inputs[6]!.setValue('123456');
+ await form.trigger('submit');await flushPromises();
+ expect(calls.some(r=>r.method==='POST'&&r.url.includes('/admin/membership-plans'))).toBe(false);
+ expect(wrapper.find('[role="alert"]').exists()).toBe(true);wrapper.unmount();
+});
+it('points adjustment posts with idempotency key after reverify and refreshes the ledger',async()=>{
+ const calls:Request[]=[];const network=vi.fn<typeof fetch>(async input=>{const r=input as Request;calls.push(r);const url=r.url;
+  if(r.method==='GET'&&url.includes('/admin/membership-plans'))return json([plan]);
+  if(url.includes('/admin/points-policies'))return json([policy]);
+  if(url.includes('/admin/points-rewards'))return json([reward]);
+  if(url.includes('/reverify'))return json({reverify_token:'proof',action:'points.adjust',expires_in:300});
+  if(url.includes('/points-adjustments'))return json(entry);
+  if(url.includes('/points/ledger'))return json([entry]);
+  if(url.includes(`/admin/users/${id}/points`))return json({user_id:id,balance:25});
+  return json([]);});
+ const wrapper=mount(MembershipPanel,{props:{session:adminSession(network)}});await flushPromises();
+ const section=wrapper.findAll('form').at(-1)!;const userInput=wrapper.findAll('input').find(i=>i.attributes('minlength')==='36')!;
+ await userInput.setValue(id);await wrapper.findAll('button').find(b=>b.text().includes('读取积分'))!.trigger('click');await flushPromises();
+ expect(wrapper.text()).toContain('25');
+ const inputs=section.findAll('input');await inputs[0]!.setValue(25);await inputs[1]!.setValue('TEST goodwill');await inputs[2]!.setValue('TEST pass');await inputs[3]!.setValue('123456');
+ await section.trigger('submit');await flushPromises();
+ const posted=calls.find(r=>r.method==='POST'&&r.url.includes('/points-adjustments'));
+ expect(posted).toBeTruthy();expect(posted!.headers.get('Idempotency-Key')).toBeTruthy();expect(posted!.headers.get('X-Reverify-Token')).toBe('proof');
+ expect(wrapper.find('[role="status"]').exists()).toBe(true);wrapper.unmount();
+});
