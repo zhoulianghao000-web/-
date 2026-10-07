@@ -17,9 +17,9 @@ import tools.jackson.databind.json.JsonMapper;
 
 /** Paid cancellation of unshipped quantities: frozen-unit quota occupation, one-time restock, original-route refund intent. */
 @Service public class CancellationService {
- private final JdbcTemplate db;private final TransactionTemplate tx;private final IdempotentCommandExecutor commands;private final RefundService refunds;private final OutboxWriter outbox;private final AuditWriter audit;private final Clock clock;
+ private final JdbcTemplate db;private final TransactionTemplate tx;private final IdempotentCommandExecutor commands;private final RefundService refunds;private final OutboxWriter outbox;private final AuditWriter audit;private final cn.pawday.settlement.SettlementService settlement;private final Clock clock;
  private final JsonMapper json=JsonMapper.builder().build();
- public CancellationService(JdbcTemplate db,TransactionTemplate tx,IdempotentCommandExecutor commands,RefundService refunds,OutboxWriter outbox,AuditWriter audit,Clock clock){this.db=db;this.tx=tx;this.commands=commands;this.refunds=refunds;this.outbox=outbox;this.audit=audit;this.clock=clock;}
+ public CancellationService(JdbcTemplate db,TransactionTemplate tx,IdempotentCommandExecutor commands,RefundService refunds,OutboxWriter outbox,AuditWriter audit,cn.pawday.settlement.SettlementService settlement,Clock clock){this.db=db;this.tx=tx;this.commands=commands;this.refunds=refunds;this.outbox=outbox;this.audit=audit;this.settlement=settlement;this.clock=clock;}
  private Map<String,Object> one(String q,Object...args){var rows=db.queryForList(q,args);if(rows.isEmpty())throw new Failure(404,"RESOURCE_NOT_FOUND");return rows.getFirst();}
  private long n(Object v){return ((Number)v).longValue();}
  private Map<String,Object> view(Map<String,Object> r){var v=new LinkedHashMap<String,Object>();r.forEach((k,x)->v.put(k,x instanceof Timestamp t?t.toInstant().toString():x));return v;}
@@ -52,6 +52,7 @@ import tools.jackson.databind.json.JsonMapper;
   long total=db.queryForObject("SELECT coalesce(sum(quantity-cancelled_qty),0) FROM order_items WHERE suborder_id=?",Long.class,sub),shipped=db.queryForObject("SELECT coalesce(sum(quantity),0) FROM shipment_items WHERE suborder_id=?",Long.class,sub),received=db.queryForObject("SELECT coalesce(sum(i.quantity),0) FROM shipment_items i JOIN shipment_receipts r ON r.shipment_id=i.shipment_id WHERE i.suborder_id=?",Long.class,sub);
   String state=total==0?"CANCELLED":received==total?"COMPLETED":received>0?"PARTIALLY_COMPLETED":shipped==total?"SHIPPED_WAITING_RECEIPT":shipped>0?"PARTIALLY_SHIPPED":"PAID_WAITING_FULFILLMENT";
   db.update("UPDATE suborders SET fulfillment_status=?,version=version+1 WHERE id=?",state,sub);
+  if(state.equals("COMPLETED"))settlement.beginBuffering(sub);else if(state.equals("CANCELLED"))settlement.onSuborderCancelled(sub);
   db.update("UPDATE orders SET version=version+1 WHERE id=?",order);
   if(db.queryForObject("SELECT count(*) FROM suborders WHERE order_id=? AND fulfillment_status<>'CANCELLED'",Integer.class,order)==0)db.update("UPDATE orders SET status='CANCELLED',version=version+1 WHERE id=?",order);
  }

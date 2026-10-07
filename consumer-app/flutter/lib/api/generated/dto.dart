@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 ad98c4e10975c3fce2470cd89d3eb20acf47d98d8be1ef31b71c516f7255809c
+// Generated from Pawday runtime OpenAPI; SHA256 aac92edf7e2665a7cb74ce537c7d5a29a1b06aab4b5a4d3554afb3089655adf9
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -5105,6 +5105,585 @@ class RefundAdminListEnvelope {
   };
 }
 
+class CommissionPolicy {
+  final String id;
+  final String name;
+  final String? merchant_id;
+  final String? category;
+  final String? campaign_code;
+  final int rate_basis_points;
+  final int priority;
+  final String effective_from;
+  final String? effective_to;
+  final int policy_version;
+  final String? created_by;
+  final String created_at;
+  const CommissionPolicy({required this.id, required this.name, required this.merchant_id, required this.category, required this.campaign_code, required this.rate_basis_points, required this.priority, required this.effective_from, required this.effective_to, required this.policy_version, required this.created_by, required this.created_at});
+  factory CommissionPolicy.fromJson(Map<String,dynamic> json) => CommissionPolicy(
+    id: json['id'] as String,
+    name: json['name'] as String,
+    merchant_id: json['merchant_id'] == null ? null : json['merchant_id'] as String,
+    category: json['category'] == null ? null : json['category'] as String,
+    campaign_code: json['campaign_code'] == null ? null : json['campaign_code'] as String,
+    rate_basis_points: (json['rate_basis_points'] as num).toInt(),
+    priority: (json['priority'] as num).toInt(),
+    effective_from: json['effective_from'] as String,
+    effective_to: json['effective_to'] == null ? null : json['effective_to'] as String,
+    policy_version: (json['policy_version'] as num).toInt(),
+    created_by: json['created_by'] == null ? null : json['created_by'] as String,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'merchant_id': merchant_id == null ? null : merchant_id!,
+    'category': category == null ? null : category!,
+    'campaign_code': campaign_code == null ? null : campaign_code!,
+    'rate_basis_points': rate_basis_points,
+    'priority': priority,
+    'effective_from': effective_from,
+    'effective_to': effective_to == null ? null : effective_to!,
+    'policy_version': policy_version,
+    'created_by': created_by == null ? null : created_by!,
+    'created_at': created_at,
+  };
+}
+
+class CommissionPolicyInput {
+  final String name;
+  final String? merchant_id;
+  final String? category;
+  final String? campaign_code;
+  final int rate_basis_points;
+  final int? priority;
+  final String effective_from;
+  final String? effective_to;
+  const CommissionPolicyInput({required this.name, this.merchant_id, this.category, this.campaign_code, required this.rate_basis_points, this.priority, required this.effective_from, this.effective_to});
+  factory CommissionPolicyInput.fromJson(Map<String,dynamic> json) => CommissionPolicyInput(
+    name: json['name'] as String,
+    merchant_id: json['merchant_id'] == null ? null : json['merchant_id'] as String,
+    category: json['category'] == null ? null : json['category'] as String,
+    campaign_code: json['campaign_code'] == null ? null : json['campaign_code'] as String,
+    rate_basis_points: (json['rate_basis_points'] as num).toInt(),
+    priority: json['priority'] == null ? null : (json['priority'] as num).toInt(),
+    effective_from: json['effective_from'] as String,
+    effective_to: json['effective_to'] == null ? null : json['effective_to'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'name': name,
+    if (merchant_id != null) 'merchant_id': merchant_id == null ? null : merchant_id!,
+    if (category != null) 'category': category == null ? null : category!,
+    if (campaign_code != null) 'campaign_code': campaign_code == null ? null : campaign_code!,
+    'rate_basis_points': rate_basis_points,
+    if (priority != null) 'priority': priority == null ? null : priority!,
+    'effective_from': effective_from,
+    if (effective_to != null) 'effective_to': effective_to == null ? null : effective_to!,
+  };
+}
+
+class SettlementPolicy {
+  final String id;
+  final int buffer_days;
+  final int policy_version;
+  final String? created_by;
+  final String created_at;
+  const SettlementPolicy({required this.id, required this.buffer_days, required this.policy_version, required this.created_by, required this.created_at});
+  factory SettlementPolicy.fromJson(Map<String,dynamic> json) => SettlementPolicy(
+    id: json['id'] as String,
+    buffer_days: (json['buffer_days'] as num).toInt(),
+    policy_version: (json['policy_version'] as num).toInt(),
+    created_by: json['created_by'] == null ? null : json['created_by'] as String,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'buffer_days': buffer_days,
+    'policy_version': policy_version,
+    'created_by': created_by == null ? null : created_by!,
+    'created_at': created_at,
+  };
+}
+
+class SettlementPolicyInput {
+  final int buffer_days;
+  const SettlementPolicyInput({required this.buffer_days});
+  factory SettlementPolicyInput.fromJson(Map<String,dynamic> json) => SettlementPolicyInput(
+    buffer_days: (json['buffer_days'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'buffer_days': buffer_days,
+  };
+}
+
+class LedgerEntry {
+  final String id;
+  final String merchant_id;
+  final String entry_type;
+  final String direction;
+  final int amount_fen;
+  final bool affects_balance;
+  final String? order_id;
+  final String? suborder_id;
+  final String? order_item_id;
+  final String? refund_id;
+  final String? settlement_id;
+  final String source_event;
+  final String? reason;
+  final String created_by_type;
+  final String? created_by;
+  final String created_at;
+  const LedgerEntry({required this.id, required this.merchant_id, required this.entry_type, required this.direction, required this.amount_fen, required this.affects_balance, required this.order_id, required this.suborder_id, required this.order_item_id, required this.refund_id, required this.settlement_id, required this.source_event, required this.reason, required this.created_by_type, required this.created_by, required this.created_at});
+  factory LedgerEntry.fromJson(Map<String,dynamic> json) => LedgerEntry(
+    id: json['id'] as String,
+    merchant_id: json['merchant_id'] as String,
+    entry_type: json['entry_type'] as String,
+    direction: json['direction'] as String,
+    amount_fen: (json['amount_fen'] as num).toInt(),
+    affects_balance: json['affects_balance'] as bool,
+    order_id: json['order_id'] == null ? null : json['order_id'] as String,
+    suborder_id: json['suborder_id'] == null ? null : json['suborder_id'] as String,
+    order_item_id: json['order_item_id'] == null ? null : json['order_item_id'] as String,
+    refund_id: json['refund_id'] == null ? null : json['refund_id'] as String,
+    settlement_id: json['settlement_id'] == null ? null : json['settlement_id'] as String,
+    source_event: json['source_event'] as String,
+    reason: json['reason'] == null ? null : json['reason'] as String,
+    created_by_type: json['created_by_type'] as String,
+    created_by: json['created_by'] == null ? null : json['created_by'] as String,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'merchant_id': merchant_id,
+    'entry_type': entry_type,
+    'direction': direction,
+    'amount_fen': amount_fen,
+    'affects_balance': affects_balance,
+    'order_id': order_id == null ? null : order_id!,
+    'suborder_id': suborder_id == null ? null : suborder_id!,
+    'order_item_id': order_item_id == null ? null : order_item_id!,
+    'refund_id': refund_id == null ? null : refund_id!,
+    'settlement_id': settlement_id == null ? null : settlement_id!,
+    'source_event': source_event,
+    'reason': reason == null ? null : reason!,
+    'created_by_type': created_by_type,
+    'created_by': created_by == null ? null : created_by!,
+    'created_at': created_at,
+  };
+}
+
+class LedgerAdjustmentInput {
+  final String direction;
+  final int amount_fen;
+  final String reason;
+  final String? suborder_id;
+  const LedgerAdjustmentInput({required this.direction, required this.amount_fen, required this.reason, this.suborder_id});
+  factory LedgerAdjustmentInput.fromJson(Map<String,dynamic> json) => LedgerAdjustmentInput(
+    direction: json['direction'] as String,
+    amount_fen: (json['amount_fen'] as num).toInt(),
+    reason: json['reason'] as String,
+    suborder_id: json['suborder_id'] == null ? null : json['suborder_id'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'direction': direction,
+    'amount_fen': amount_fen,
+    'reason': reason,
+    if (suborder_id != null) 'suborder_id': suborder_id == null ? null : suborder_id!,
+  };
+}
+
+class SettlementTrack {
+  final String id;
+  final String suborder_id;
+  final String order_id;
+  final String merchant_id;
+  final String status;
+  final String? settlement_policy_id;
+  final int? buffer_days;
+  final String? eligible_at;
+  final String? settlement_id;
+  final int version;
+  final String created_at;
+  final int net_fen;
+  const SettlementTrack({required this.id, required this.suborder_id, required this.order_id, required this.merchant_id, required this.status, required this.settlement_policy_id, required this.buffer_days, required this.eligible_at, required this.settlement_id, required this.version, required this.created_at, required this.net_fen});
+  factory SettlementTrack.fromJson(Map<String,dynamic> json) => SettlementTrack(
+    id: json['id'] as String,
+    suborder_id: json['suborder_id'] as String,
+    order_id: json['order_id'] as String,
+    merchant_id: json['merchant_id'] as String,
+    status: json['status'] as String,
+    settlement_policy_id: json['settlement_policy_id'] == null ? null : json['settlement_policy_id'] as String,
+    buffer_days: json['buffer_days'] == null ? null : (json['buffer_days'] as num).toInt(),
+    eligible_at: json['eligible_at'] == null ? null : json['eligible_at'] as String,
+    settlement_id: json['settlement_id'] == null ? null : json['settlement_id'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+    net_fen: (json['net_fen'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'suborder_id': suborder_id,
+    'order_id': order_id,
+    'merchant_id': merchant_id,
+    'status': status,
+    'settlement_policy_id': settlement_policy_id == null ? null : settlement_policy_id!,
+    'buffer_days': buffer_days == null ? null : buffer_days!,
+    'eligible_at': eligible_at == null ? null : eligible_at!,
+    'settlement_id': settlement_id == null ? null : settlement_id!,
+    'version': version,
+    'created_at': created_at,
+    'net_fen': net_fen,
+  };
+}
+
+class SettlementItem {
+  final String ledger_entry_id;
+  final int signed_amount_fen;
+  final String entry_type;
+  final String? suborder_id;
+  final String source_event;
+  const SettlementItem({required this.ledger_entry_id, required this.signed_amount_fen, required this.entry_type, required this.suborder_id, required this.source_event});
+  factory SettlementItem.fromJson(Map<String,dynamic> json) => SettlementItem(
+    ledger_entry_id: json['ledger_entry_id'] as String,
+    signed_amount_fen: (json['signed_amount_fen'] as num).toInt(),
+    entry_type: json['entry_type'] as String,
+    suborder_id: json['suborder_id'] == null ? null : json['suborder_id'] as String,
+    source_event: json['source_event'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'ledger_entry_id': ledger_entry_id,
+    'signed_amount_fen': signed_amount_fen,
+    'entry_type': entry_type,
+    'suborder_id': suborder_id == null ? null : suborder_id!,
+    'source_event': source_event,
+  };
+}
+
+class SettlementSummary {
+  final String id;
+  final String settlement_no;
+  final String merchant_id;
+  final String status;
+  final int amount_fen;
+  final int entry_count;
+  final int attempt_count;
+  final String? last_error_code;
+  final String? channel_reference;
+  final String? initiated_by;
+  final String created_at;
+  final String? settled_at;
+  final String? next_retry_at;
+  const SettlementSummary({required this.id, required this.settlement_no, required this.merchant_id, required this.status, required this.amount_fen, required this.entry_count, required this.attempt_count, required this.last_error_code, required this.channel_reference, required this.initiated_by, required this.created_at, required this.settled_at, required this.next_retry_at});
+  factory SettlementSummary.fromJson(Map<String,dynamic> json) => SettlementSummary(
+    id: json['id'] as String,
+    settlement_no: json['settlement_no'] as String,
+    merchant_id: json['merchant_id'] as String,
+    status: json['status'] as String,
+    amount_fen: (json['amount_fen'] as num).toInt(),
+    entry_count: (json['entry_count'] as num).toInt(),
+    attempt_count: (json['attempt_count'] as num).toInt(),
+    last_error_code: json['last_error_code'] == null ? null : json['last_error_code'] as String,
+    channel_reference: json['channel_reference'] == null ? null : json['channel_reference'] as String,
+    initiated_by: json['initiated_by'] == null ? null : json['initiated_by'] as String,
+    created_at: json['created_at'] as String,
+    settled_at: json['settled_at'] == null ? null : json['settled_at'] as String,
+    next_retry_at: json['next_retry_at'] == null ? null : json['next_retry_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'settlement_no': settlement_no,
+    'merchant_id': merchant_id,
+    'status': status,
+    'amount_fen': amount_fen,
+    'entry_count': entry_count,
+    'attempt_count': attempt_count,
+    'last_error_code': last_error_code == null ? null : last_error_code!,
+    'channel_reference': channel_reference == null ? null : channel_reference!,
+    'initiated_by': initiated_by == null ? null : initiated_by!,
+    'created_at': created_at,
+    'settled_at': settled_at == null ? null : settled_at!,
+    'next_retry_at': next_retry_at == null ? null : next_retry_at!,
+  };
+}
+
+class Settlement {
+  final String id;
+  final String settlement_no;
+  final String merchant_id;
+  final String status;
+  final int amount_fen;
+  final int entry_count;
+  final int attempt_count;
+  final String? last_error_code;
+  final String? channel_reference;
+  final String? initiated_by;
+  final String created_at;
+  final String? settled_at;
+  final String? next_retry_at;
+  final List<SettlementItem> items;
+  const Settlement({required this.id, required this.settlement_no, required this.merchant_id, required this.status, required this.amount_fen, required this.entry_count, required this.attempt_count, required this.last_error_code, required this.channel_reference, required this.initiated_by, required this.created_at, required this.settled_at, required this.next_retry_at, required this.items});
+  factory Settlement.fromJson(Map<String,dynamic> json) => Settlement(
+    id: json['id'] as String,
+    settlement_no: json['settlement_no'] as String,
+    merchant_id: json['merchant_id'] as String,
+    status: json['status'] as String,
+    amount_fen: (json['amount_fen'] as num).toInt(),
+    entry_count: (json['entry_count'] as num).toInt(),
+    attempt_count: (json['attempt_count'] as num).toInt(),
+    last_error_code: json['last_error_code'] == null ? null : json['last_error_code'] as String,
+    channel_reference: json['channel_reference'] == null ? null : json['channel_reference'] as String,
+    initiated_by: json['initiated_by'] == null ? null : json['initiated_by'] as String,
+    created_at: json['created_at'] as String,
+    settled_at: json['settled_at'] == null ? null : json['settled_at'] as String,
+    next_retry_at: json['next_retry_at'] == null ? null : json['next_retry_at'] as String,
+    items: (json['items'] as List).map((value) => SettlementItem.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'settlement_no': settlement_no,
+    'merchant_id': merchant_id,
+    'status': status,
+    'amount_fen': amount_fen,
+    'entry_count': entry_count,
+    'attempt_count': attempt_count,
+    'last_error_code': last_error_code == null ? null : last_error_code!,
+    'channel_reference': channel_reference == null ? null : channel_reference!,
+    'initiated_by': initiated_by == null ? null : initiated_by!,
+    'created_at': created_at,
+    'settled_at': settled_at == null ? null : settled_at!,
+    'next_retry_at': next_retry_at == null ? null : next_retry_at!,
+    'items': items.map((value) => value.toJson()).toList(),
+  };
+}
+
+class FinanceSummary {
+  final String merchant_id;
+  final int balance_fen;
+  final int eligible_fen;
+  final int buffering_fen;
+  final int in_flight_fen;
+  final int settled_total_fen;
+  final int receivable_fen;
+  const FinanceSummary({required this.merchant_id, required this.balance_fen, required this.eligible_fen, required this.buffering_fen, required this.in_flight_fen, required this.settled_total_fen, required this.receivable_fen});
+  factory FinanceSummary.fromJson(Map<String,dynamic> json) => FinanceSummary(
+    merchant_id: json['merchant_id'] as String,
+    balance_fen: (json['balance_fen'] as num).toInt(),
+    eligible_fen: (json['eligible_fen'] as num).toInt(),
+    buffering_fen: (json['buffering_fen'] as num).toInt(),
+    in_flight_fen: (json['in_flight_fen'] as num).toInt(),
+    settled_total_fen: (json['settled_total_fen'] as num).toInt(),
+    receivable_fen: (json['receivable_fen'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'merchant_id': merchant_id,
+    'balance_fen': balance_fen,
+    'eligible_fen': eligible_fen,
+    'buffering_fen': buffering_fen,
+    'in_flight_fen': in_flight_fen,
+    'settled_total_fen': settled_total_fen,
+    'receivable_fen': receivable_fen,
+  };
+}
+
+class ReconciliationCheck {
+  final String name;
+  final int mismatches;
+  const ReconciliationCheck({required this.name, required this.mismatches});
+  factory ReconciliationCheck.fromJson(Map<String,dynamic> json) => ReconciliationCheck(
+    name: json['name'] as String,
+    mismatches: (json['mismatches'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'name': name,
+    'mismatches': mismatches,
+  };
+}
+
+class ReconciliationReport {
+  final bool consistent;
+  final List<ReconciliationCheck> checks;
+  final String generated_at;
+  const ReconciliationReport({required this.consistent, required this.checks, required this.generated_at});
+  factory ReconciliationReport.fromJson(Map<String,dynamic> json) => ReconciliationReport(
+    consistent: json['consistent'] as bool,
+    checks: (json['checks'] as List).map((value) => ReconciliationCheck.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    generated_at: json['generated_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'consistent': consistent,
+    'checks': checks.map((value) => value.toJson()).toList(),
+    'generated_at': generated_at,
+  };
+}
+
+class CommissionPolicyListEnvelope {
+  final List<CommissionPolicy> data;
+  final Page page;
+  final Meta meta;
+  const CommissionPolicyListEnvelope({required this.data, required this.page, required this.meta});
+  factory CommissionPolicyListEnvelope.fromJson(Map<String,dynamic> json) => CommissionPolicyListEnvelope(
+    data: (json['data'] as List).map((value) => CommissionPolicy.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class CommissionPolicyEnvelope {
+  final CommissionPolicy data;
+  final Meta meta;
+  const CommissionPolicyEnvelope({required this.data, required this.meta});
+  factory CommissionPolicyEnvelope.fromJson(Map<String,dynamic> json) => CommissionPolicyEnvelope(
+    data: CommissionPolicy.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class SettlementPolicyListEnvelope {
+  final List<SettlementPolicy> data;
+  final Page page;
+  final Meta meta;
+  const SettlementPolicyListEnvelope({required this.data, required this.page, required this.meta});
+  factory SettlementPolicyListEnvelope.fromJson(Map<String,dynamic> json) => SettlementPolicyListEnvelope(
+    data: (json['data'] as List).map((value) => SettlementPolicy.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class SettlementPolicyEnvelope {
+  final SettlementPolicy data;
+  final Meta meta;
+  const SettlementPolicyEnvelope({required this.data, required this.meta});
+  factory SettlementPolicyEnvelope.fromJson(Map<String,dynamic> json) => SettlementPolicyEnvelope(
+    data: SettlementPolicy.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class SettlementTrackListEnvelope {
+  final List<SettlementTrack> data;
+  final Page page;
+  final Meta meta;
+  const SettlementTrackListEnvelope({required this.data, required this.page, required this.meta});
+  factory SettlementTrackListEnvelope.fromJson(Map<String,dynamic> json) => SettlementTrackListEnvelope(
+    data: (json['data'] as List).map((value) => SettlementTrack.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class SettlementSummaryListEnvelope {
+  final List<SettlementSummary> data;
+  final Page page;
+  final Meta meta;
+  const SettlementSummaryListEnvelope({required this.data, required this.page, required this.meta});
+  factory SettlementSummaryListEnvelope.fromJson(Map<String,dynamic> json) => SettlementSummaryListEnvelope(
+    data: (json['data'] as List).map((value) => SettlementSummary.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class SettlementEnvelope {
+  final Settlement data;
+  final Meta meta;
+  const SettlementEnvelope({required this.data, required this.meta});
+  factory SettlementEnvelope.fromJson(Map<String,dynamic> json) => SettlementEnvelope(
+    data: Settlement.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class LedgerEntryListEnvelope {
+  final List<LedgerEntry> data;
+  final Page page;
+  final Meta meta;
+  const LedgerEntryListEnvelope({required this.data, required this.page, required this.meta});
+  factory LedgerEntryListEnvelope.fromJson(Map<String,dynamic> json) => LedgerEntryListEnvelope(
+    data: (json['data'] as List).map((value) => LedgerEntry.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class FinanceSummaryEnvelope {
+  final FinanceSummary data;
+  final Meta meta;
+  const FinanceSummaryEnvelope({required this.data, required this.meta});
+  factory FinanceSummaryEnvelope.fromJson(Map<String,dynamic> json) => FinanceSummaryEnvelope(
+    data: FinanceSummary.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class LedgerEntryEnvelope {
+  final LedgerEntry data;
+  final Meta meta;
+  const LedgerEntryEnvelope({required this.data, required this.meta});
+  factory LedgerEntryEnvelope.fromJson(Map<String,dynamic> json) => LedgerEntryEnvelope(
+    data: LedgerEntry.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ReconciliationReportEnvelope {
+  final ReconciliationReport data;
+  final Meta meta;
+  const ReconciliationReportEnvelope({required this.data, required this.meta});
+  factory ReconciliationReportEnvelope.fromJson(Map<String,dynamic> json) => ReconciliationReportEnvelope(
+    data: ReconciliationReport.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -5279,4 +5858,22 @@ class ApiRoutes {
   static const get_admin_aftersales = '/admin/aftersales';
   static const post_admin_aftersales__id__decide = '/admin/aftersales/{id}/decide';
   static const get_admin_refunds = '/admin/refunds';
+  static const get_admin_commission_policies = '/admin/commission-policies';
+  static const post_admin_commission_policies = '/admin/commission-policies';
+  static const get_admin_settlement_policies = '/admin/settlement-policies';
+  static const post_admin_settlement_policies = '/admin/settlement-policies';
+  static const get_admin_settlement_tracks = '/admin/settlement-tracks';
+  static const get_admin_settlements = '/admin/settlements';
+  static const get_admin_settlements__id = '/admin/settlements/{id}';
+  static const get_merchant_settlement_tracks = '/merchant/settlement-tracks';
+  static const get_merchant_settlements = '/merchant/settlements';
+  static const get_merchant_settlements__id = '/merchant/settlements/{id}';
+  static const post_admin_merchants__id__settlements = '/admin/merchants/{id}/settlements';
+  static const post_admin_settlements__id__retry = '/admin/settlements/{id}/retry';
+  static const get_admin_merchants__id__ledger = '/admin/merchants/{id}/ledger';
+  static const get_merchant_ledger = '/merchant/ledger';
+  static const get_admin_merchants__id__finance_summary = '/admin/merchants/{id}/finance-summary';
+  static const get_merchant_finance_summary = '/merchant/finance-summary';
+  static const post_admin_merchants__id__ledger_adjustments = '/admin/merchants/{id}/ledger-adjustments';
+  static const get_admin_finance_reconciliation = '/admin/finance/reconciliation';
 }

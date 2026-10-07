@@ -15,8 +15,8 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 /** Original-route refunds bound to the actually collected attempt. Channel I/O stays outside business transactions. */
 @Service public class RefundService {
- private final JdbcTemplate db;private final TransactionTemplate tx;private final ObjectProvider<PaymentGateway> gateways;private final OutboxWriter outbox;private final AuditWriter audit;private final Clock clock;
- public RefundService(JdbcTemplate db,TransactionTemplate tx,ObjectProvider<PaymentGateway> gateways,OutboxWriter outbox,AuditWriter audit,Clock clock){this.db=db;this.tx=tx;this.gateways=gateways;this.outbox=outbox;this.audit=audit;this.clock=clock;}
+ private final JdbcTemplate db;private final TransactionTemplate tx;private final ObjectProvider<PaymentGateway> gateways;private final OutboxWriter outbox;private final AuditWriter audit;private final cn.pawday.settlement.SettlementService settlement;private final Clock clock;
+ public RefundService(JdbcTemplate db,TransactionTemplate tx,ObjectProvider<PaymentGateway> gateways,OutboxWriter outbox,AuditWriter audit,cn.pawday.settlement.SettlementService settlement,Clock clock){this.db=db;this.tx=tx;this.gateways=gateways;this.outbox=outbox;this.audit=audit;this.settlement=settlement;this.clock=clock;}
  private PaymentGateway gateway(){var g=gateways.getIfAvailable();if(g==null)throw new Failure(503,"PAYMENT_PROVIDER_UNAVAILABLE");return g;}
  private Map<String,Object> one(String q,Object...args){var rows=db.queryForList(q,args);if(rows.isEmpty())throw new Failure(404,"RESOURCE_NOT_FOUND");return rows.getFirst();}
  private long n(Object v){return ((Number)v).longValue();}
@@ -54,6 +54,8 @@ import org.springframework.transaction.support.TransactionTemplate;
     db.update("UPDATE refunds SET status='SUCCEEDED',channel_refund_no=?,decided_at=clock_timestamp(),next_retry_at=NULL,last_error_code=NULL WHERE id=?",o.channelRefundNo(),id);
     db.update("UPDATE order_refund_unit_claims SET status='REFUNDED' WHERE refund_id=? AND status='RESERVED'",id);
     if(r.get("cancellation_id")!=null)completeCancellation((UUID)r.get("cancellation_id"),id);else completeAftersale((UUID)r.get("aftersale_id"),id);
+    settlement.recordRefundSuccess(id);
+    if(r.get("aftersale_id")!=null)settlement.unfreezeIfClear((UUID)one("SELECT suborder_id FROM aftersales WHERE id=?",r.get("aftersale_id")).get("suborder_id"));
     outbox.append("PAYMENT",r.get("payment_id").toString(),"RefundSucceeded",1,Map.of("refund_id",id.toString(),"amount_fen",amount),null);
     audit.write(null,"refund.succeeded","REFUND",id.toString(),Map.of(),Map.of("amount_fen",amount),null);
    }else if(o.status().equals("FAILED")){
