@@ -1,4 +1,4 @@
-// Generated from pawday-m5.1.yaml; SHA256 c87fa635f790096f5f39c65b1227a0458c4fb838bcb98e8dfc4e395d33ec238e
+// Generated from pawday-m5.1.yaml; SHA256 29e64b93fffe88a4029c131dd745c5e05f5ab690ddedd115e184f1fcb0e44f34
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -4811,6 +4811,7 @@ export interface components {
             version: number;
             /** Format: date-time */
             created_at: string;
+            membership_order_id: string | null;
             successful_attempt_id: string | null;
             successful_receipt_id: string | null;
             paid_at: string | null;
@@ -4818,7 +4819,6 @@ export interface components {
             simulation: boolean;
             attempts: components["schemas"]["PaymentAttempt"][];
             cases: components["schemas"]["PaymentCase"][];
-            membership_order_id?: string | null;
         };
         SimulationInput: {
             /** Format: uuid */

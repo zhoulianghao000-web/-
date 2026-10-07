@@ -55,5 +55,6 @@ add('/admin/points-rewards','post','PointsReward',{request:'PointsRewardInput',p
 add('/admin/users/{id}/points','get','AdminPointsOverview',{});
 add('/admin/users/{id}/points/ledger','get','PointsLedgerEntry',{list:true,paged:true});
 add('/admin/users/{id}/points-adjustments','post','PointsLedgerEntry',{request:'PointsAdjustmentInput',keyed:true,proof:true});
+for(const name of ['PaymentIntent','PaymentDetail']){if(s[name])s[name].properties.membership_order_id=nullable(id());}
 const output=YAML.stringify(doc,{lineWidth:110}),target=new URL('../openapi/pawday-m5.1.yaml',import.meta.url);
 if(process.argv.includes('--check')){if(await fs.readFile(target,'utf8')!==output)throw new Error('M5.1 contract drift');console.log('M5.1 contract composition PASS');}else await fs.writeFile(target,output);

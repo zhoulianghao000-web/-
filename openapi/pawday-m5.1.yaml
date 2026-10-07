@@ -21542,6 +21542,11 @@ components:
         expires_at: *a112
         version: *a113
         created_at: *a114
+        membership_order_id:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
         successful_attempt_id:
           anyOf:
             - type: string
@@ -21574,11 +21579,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/PaymentCase"
-        membership_order_id:
-          anyOf:
-            - type: string
-              format: uuid
-            - type: "null"
       required:
         - id
         - payment_no
@@ -21588,6 +21588,7 @@ components:
         - expires_at
         - version
         - created_at
+        - membership_order_id
         - successful_attempt_id
         - successful_receipt_id
         - paid_at

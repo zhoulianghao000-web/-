@@ -25,6 +25,7 @@ function add(path,method,response,{realm='consumer',request,list=false,match=fal
 }
 add('/consumer/orders','post','Order',{request:'OrderInput'});add('/consumer/orders','get','OrderSummary',{list:true});add('/consumer/orders/{id}','get','Order');add('/consumer/orders/{id}/cancel','post','Order',{request:'OrderCancelInput',match:true});
 add('/merchant/suborders','get','Suborder',{realm:'merchant',list:true});add('/merchant/suborders/{id}','get','Suborder',{realm:'merchant'});add('/admin/orders','get','OrderSummary',{realm:'admin',list:true});add('/admin/orders/{id}','get','Order',{realm:'admin'});add('/admin/order-policies','get','OrderPolicy',{realm:'admin'});add('/admin/order-policies','post','OrderPolicy',{realm:'admin',request:'OrderPolicyInput',proof:true});
+for(const name of ['PaymentIntent','PaymentDetail']){if(s[name])s[name].properties.membership_order_id=nullable(id());}
 const output=YAML.stringify(doc,{lineWidth:110}),target=new URL('../openapi/pawday-m4.2.yaml',import.meta.url);
 if(process.argv.includes('--check')){if(await fs.readFile(target,'utf8')!==output)throw new Error('M4.2 contract drift');console.log('M4.2 contract composition PASS');}else await fs.writeFile(target,output);
 

@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 c87fa635f790096f5f39c65b1227a0458c4fb838bcb98e8dfc4e395d33ec238e
+// Generated from Pawday runtime OpenAPI; SHA256 29e64b93fffe88a4029c131dd745c5e05f5ab690ddedd115e184f1fcb0e44f34
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -4169,6 +4169,7 @@ class PaymentDetail {
   final String expires_at;
   final int version;
   final String created_at;
+  final String? membership_order_id;
   final String? successful_attempt_id;
   final String? successful_receipt_id;
   final String? paid_at;
@@ -4176,8 +4177,7 @@ class PaymentDetail {
   final bool simulation;
   final List<PaymentAttempt> attempts;
   final List<PaymentCase> cases;
-  final String? membership_order_id;
-  const PaymentDetail({required this.id, required this.payment_no, this.order_id, required this.amount_fen, required this.currency, required this.status, required this.expires_at, required this.version, required this.created_at, required this.successful_attempt_id, required this.successful_receipt_id, required this.paid_at, required this.final_channel, required this.simulation, required this.attempts, required this.cases, this.membership_order_id});
+  const PaymentDetail({required this.id, required this.payment_no, this.order_id, required this.amount_fen, required this.currency, required this.status, required this.expires_at, required this.version, required this.created_at, required this.membership_order_id, required this.successful_attempt_id, required this.successful_receipt_id, required this.paid_at, required this.final_channel, required this.simulation, required this.attempts, required this.cases});
   factory PaymentDetail.fromJson(Map<String,dynamic> json) => PaymentDetail(
     id: json['id'] as String,
     payment_no: json['payment_no'] as String,
@@ -4188,6 +4188,7 @@ class PaymentDetail {
     expires_at: json['expires_at'] as String,
     version: (json['version'] as num).toInt(),
     created_at: json['created_at'] as String,
+    membership_order_id: json['membership_order_id'] == null ? null : json['membership_order_id'] as String,
     successful_attempt_id: json['successful_attempt_id'] == null ? null : json['successful_attempt_id'] as String,
     successful_receipt_id: json['successful_receipt_id'] == null ? null : json['successful_receipt_id'] as String,
     paid_at: json['paid_at'] == null ? null : json['paid_at'] as String,
@@ -4195,7 +4196,6 @@ class PaymentDetail {
     simulation: json['simulation'] as bool,
     attempts: (json['attempts'] as List).map((value) => PaymentAttempt.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
     cases: (json['cases'] as List).map((value) => PaymentCase.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
-    membership_order_id: json['membership_order_id'] == null ? null : json['membership_order_id'] as String,
   );
   Map<String,dynamic> toJson() => {
     'id': id,
@@ -4207,6 +4207,7 @@ class PaymentDetail {
     'expires_at': expires_at,
     'version': version,
     'created_at': created_at,
+    'membership_order_id': membership_order_id == null ? null : membership_order_id!,
     'successful_attempt_id': successful_attempt_id == null ? null : successful_attempt_id!,
     'successful_receipt_id': successful_receipt_id == null ? null : successful_receipt_id!,
     'paid_at': paid_at == null ? null : paid_at!,
@@ -4214,7 +4215,6 @@ class PaymentDetail {
     'simulation': simulation,
     'attempts': attempts.map((value) => value.toJson()).toList(),
     'cases': cases.map((value) => value.toJson()).toList(),
-    if (membership_order_id != null) 'membership_order_id': membership_order_id == null ? null : membership_order_id!,
   };
 }
 

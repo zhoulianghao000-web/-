@@ -26,6 +26,7 @@ function add(path,method,response,{realm='consumer',request,list=false,match=fal
 for(const realm of ['consumer','merchant','admin']){add(`/${realm}/suborders/{id}/fulfillment`,'get','Fulfillment',{realm});add(`/${realm}/shipments/{id}/tracking`,'get','Tracking',{realm});}
 add('/merchant/suborders/{id}/shipments','post','Fulfillment',{realm:'merchant',request:'ShipmentInput',keyed:true,match:true});
 add('/consumer/suborders/{id}/confirm-receipt','post','Fulfillment',{request:'ReceiptInput',keyed:true,match:true});
+for(const name of ['PaymentIntent','PaymentDetail']){if(s[name])s[name].properties.membership_order_id=nullable(id());}
 const output=YAML.stringify(doc,{lineWidth:110}),target=new URL('../openapi/pawday-m4.4.yaml',import.meta.url);
 if(process.argv.includes('--check')){if(await fs.readFile(target,'utf8')!==output)throw new Error('M4.4 contract drift');console.log('M4.4 contract composition PASS');}else await fs.writeFile(target,output);
 
