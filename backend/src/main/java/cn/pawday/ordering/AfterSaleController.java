@@ -1,0 +1,21 @@
+package cn.pawday.ordering;
+import cn.pawday.common.Api;
+import cn.pawday.identity.AccessGuard;
+import jakarta.servlet.http.HttpServletRequest;
+import java.util.*;
+import org.springframework.web.bind.annotation.*;
+@RestController @RequestMapping("/api/v1") public class AfterSaleController {
+ private final AfterSaleService service;private final AccessGuard guard;
+ public AfterSaleController(AfterSaleService service,AccessGuard guard){this.service=service;this.guard=guard;}
+ @PostMapping("/consumer/suborders/{id}/aftersales")Object apply(@PathVariable String id,@RequestBody Map<String,Object>b,@RequestHeader(value="Idempotency-Key",required=false)String key,HttpServletRequest r){return Api.ok(service.apply(guard.actor(),guard.id(id),b,key,r),r);}
+ @GetMapping({"/consumer/suborders/{id}/aftersales","/merchant/suborders/{id}/aftersales","/admin/suborders/{id}/aftersales"})Object list(@PathVariable String id,HttpServletRequest r){return Api.list(service.list(guard.actor(),guard.id(id)),r);}
+ @GetMapping({"/consumer/aftersales/{id}","/merchant/aftersales/{id}","/admin/aftersales/{id}"})Object get(@PathVariable String id,HttpServletRequest r){return Api.ok(service.get(guard.actor(),guard.id(id)),r);}
+ @PostMapping("/consumer/aftersales/{id}/cancel")Object cancel(@PathVariable String id,@RequestBody Map<String,Object>b,@RequestHeader(value="Idempotency-Key",required=false)String key,@RequestHeader(value="If-Match",required=false)String match,HttpServletRequest r){return Api.ok(service.cancel(guard.actor(),guard.id(id),b,match,key,r),r);}
+ @PostMapping("/consumer/aftersales/{id}/return-shipment")Object shipReturn(@PathVariable String id,@RequestBody Map<String,Object>b,@RequestHeader(value="Idempotency-Key",required=false)String key,@RequestHeader(value="If-Match",required=false)String match,HttpServletRequest r){return Api.ok(service.shipReturn(guard.actor(),guard.id(id),b,match,key,r),r);}
+ @PostMapping("/consumer/aftersales/{id}/escalate")Object escalate(@PathVariable String id,@RequestBody Map<String,Object>b,@RequestHeader(value="Idempotency-Key",required=false)String key,@RequestHeader(value="If-Match",required=false)String match,HttpServletRequest r){return Api.ok(service.escalate(guard.actor(),guard.id(id),b,match,key,r),r);}
+ @PostMapping("/merchant/aftersales/{id}/decide")Object decide(@PathVariable String id,@RequestBody Map<String,Object>b,@RequestHeader(value="Idempotency-Key",required=false)String key,@RequestHeader(value="If-Match",required=false)String match,HttpServletRequest r){return Api.ok(service.decide(guard.actor(),guard.id(id),b,match,key,r),r);}
+ @PostMapping("/merchant/aftersales/{id}/confirm-arrival")Object confirmArrival(@PathVariable String id,@RequestBody Map<String,Object>b,@RequestHeader(value="Idempotency-Key",required=false)String key,@RequestHeader(value="If-Match",required=false)String match,HttpServletRequest r){return Api.ok(service.confirmArrival(guard.actor(),guard.id(id),b,match,key,r),r);}
+ @PostMapping("/merchant/aftersales/{id}/inspect")Object inspect(@PathVariable String id,@RequestBody Map<String,Object>b,@RequestHeader(value="Idempotency-Key",required=false)String key,@RequestHeader(value="If-Match",required=false)String match,HttpServletRequest r){return Api.ok(service.inspect(guard.actor(),guard.id(id),b,match,key,r),r);}
+ @GetMapping("/admin/aftersales")Object adminList(@RequestParam(required=false)String status,@RequestParam(required=false)String cursor,@RequestParam(defaultValue="50")int limit,HttpServletRequest r){UUID after=cursor==null?new UUID(0,0):guard.id(cursor);var rows=service.adminList(guard.actor(),status,after,limit);boolean more=rows.size()>limit;var data=rows.stream().limit(limit).toList();return new Api.ListEnvelope<>(data,new Api.Page(more?data.getLast().get("id").toString():null,more),Api.meta(r));}
+ @PostMapping("/admin/aftersales/{id}/decide")Object arbitrate(@PathVariable String id,@RequestBody Map<String,Object>b,@RequestHeader(value="Idempotency-Key",required=false)String key,@RequestHeader(value="If-Match",required=false)String match,@RequestHeader(value="X-Reverify-Token",required=false)String proof,HttpServletRequest r){return Api.ok(service.arbitrate(guard.actor(),guard.id(id),b,match,key,proof,r),r);}
+}
