@@ -16,9 +16,9 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 /** After-sale lifecycle: quantity locked through claims, platform arbitration with reverify, restock once on accepted returns. */
 @Service public class AfterSaleService {
- private final JdbcTemplate db;private final TransactionTemplate tx;private final IdempotentCommandExecutor commands;private final RefundService refunds;private final OutboxWriter outbox;private final AuditWriter audit;private final AuthService auth;private final Clock clock;
+ private final JdbcTemplate db;private final TransactionTemplate tx;private final IdempotentCommandExecutor commands;private final RefundService refunds;private final OutboxWriter outbox;private final AuditWriter audit;private final AuthService auth;private final cn.pawday.settlement.SettlementService settlement;private final Clock clock;
  private final tools.jackson.databind.json.JsonMapper json=tools.jackson.databind.json.JsonMapper.builder().build();
- public AfterSaleService(JdbcTemplate db,TransactionTemplate tx,IdempotentCommandExecutor commands,RefundService refunds,OutboxWriter outbox,AuditWriter audit,AuthService auth,Clock clock){this.db=db;this.tx=tx;this.commands=commands;this.refunds=refunds;this.outbox=outbox;this.audit=audit;this.auth=auth;this.clock=clock;}
+ public AfterSaleService(JdbcTemplate db,TransactionTemplate tx,IdempotentCommandExecutor commands,RefundService refunds,OutboxWriter outbox,AuditWriter audit,AuthService auth,cn.pawday.settlement.SettlementService settlement,Clock clock){this.db=db;this.tx=tx;this.commands=commands;this.refunds=refunds;this.outbox=outbox;this.audit=audit;this.auth=auth;this.settlement=settlement;this.clock=clock;}
  private Map<String,Object> one(String q,Object...args){var rows=db.queryForList(q,args);if(rows.isEmpty())throw new Failure(404,"RESOURCE_NOT_FOUND");return rows.getFirst();}
  private long n(Object v){return ((Number)v).longValue();}
  private Map<String,Object> view(Map<String,Object> r){var v=new LinkedHashMap<String,Object>();r.forEach((k,x)->v.put(k,x instanceof Timestamp t?t.toInstant().toString():x));return v;}
@@ -113,6 +113,7 @@ import org.springframework.transaction.support.TransactionTemplate;
     db.update("INSERT INTO aftersale_items(id,aftersale_id,order_item_id,quantity,item_payable_refund_fen) VALUES (?,?,?,?,?)",aftersaleItem,id,e.getKey(),e.getValue(),amount);
    }
    for(Object x:evidence)db.update("INSERT INTO aftersale_evidence(id,aftersale_id,actor_type,actor_id,kind,content) VALUES (?,?,'CONSUMER',?,'TEXT',?)",UUID.randomUUID(),id,a.principalId(),((Map<?,?>)x).get("content"));
+   settlement.freezeForAftersale(sub);
    event(id,"NONE","PENDING_MERCHANT","CONSUMER",a.principalId(),body.get("reason_code").toString());
    outbox.append("AFTERSALE",id.toString(),"AfterSaleCreated",1,Map.of("aftersale_id",id.toString(),"suborder_id",sub.toString(),"order_id",order.toString()),correlation(r));
    audit.write(a,"aftersale.apply","AFTERSALE",id.toString(),Map.of(),Map.of("suborder_id",sub,"type",body.get("type"),"reason_code",body.get("reason_code")),r);
@@ -143,6 +144,7 @@ import org.springframework.transaction.support.TransactionTemplate;
    else if(action.equals("APPROVE_RETURN")&&type.equals("RETURN_REFUND"))move(aid,"PENDING_MERCHANT","WAITING_RETURN",a,reason);
    else if(action.equals("REJECT"))move(aid,"PENDING_MERCHANT","REJECTED",a,reason);
    else throw new Failure(400,"VALIDATION_ERROR");
+   settlement.unfreezeIfClear((UUID)locked.get("suborder_id"));
    outbox.append("AFTERSALE",aid.toString(),"AfterSaleMerchantDecision",1,Map.of("aftersale_id",aid.toString(),"action",action),correlation(r));
    audit.write(a,"aftersale.decide","AFTERSALE",aid.toString(),Map.of("status","PENDING_MERCHANT"),Map.of("action",action,"reason",reason),r);
    return payment;
@@ -154,6 +156,7 @@ import org.springframework.transaction.support.TransactionTemplate;
    String from=locked.get("status").toString();
    if(!Set.of("PENDING_MERCHANT","WAITING_RETURN").contains(from))throw new Failure(409,"AFTERSALE_STATE_CONFLICT");
    release(aid);move(aid,from,"CANCELLED",a,"CONSUMER_WITHDRAWN");
+   settlement.unfreezeIfClear((UUID)locked.get("suborder_id"));
    audit.write(a,"aftersale.cancel","AFTERSALE",aid.toString(),Map.of("status",from),Map.of("status","CANCELLED"),r);
    return null;
   });
@@ -188,6 +191,7 @@ import org.springframework.transaction.support.TransactionTemplate;
     payment=approveRefund(a,aid,"WAITING_INSPECTION",reason,r);
    }else if(action.equals("REJECT"))move(aid,"WAITING_INSPECTION","REJECTED",a,reason);
    else throw new Failure(400,"VALIDATION_ERROR");
+   settlement.unfreezeIfClear((UUID)locked.get("suborder_id"));
    outbox.append("AFTERSALE",aid.toString(),"AfterSaleInspected",1,Map.of("aftersale_id",aid.toString(),"action",action),correlation(r));
    audit.write(a,"aftersale.inspect","AFTERSALE",aid.toString(),Map.of("status","WAITING_INSPECTION"),Map.of("action",action,"reason",reason),r);
    return payment;
@@ -213,6 +217,7 @@ import org.springframework.transaction.support.TransactionTemplate;
    String decision=body.get("decision").toString();UUID payment=null;long amount=claimed(aid);
    if(decision.equals("REFUND_APPROVED"))payment=approveRefund(a,aid,"PLATFORM_ESCALATED",reason,r);
    else{release(aid);move(aid,"PLATFORM_ESCALATED","REJECTED",a,reason);}
+   settlement.unfreezeIfClear((UUID)locked.get("suborder_id"));
    db.update("INSERT INTO aftersale_decisions(id,aftersale_id,decision,decided_by,reason,amount_fen) VALUES (?,?,?,?,?,?)",UUID.randomUUID(),aid,decision,a.principalId(),reason,decision.equals("REFUND_APPROVED")?amount:0);
    outbox.append("AFTERSALE",aid.toString(),"AfterSaleArbitrated",1,Map.of("aftersale_id",aid.toString(),"decision",decision),correlation(r));
    audit.write(a,"aftersale.arbitrate","AFTERSALE",aid.toString(),Map.of("status","PLATFORM_ESCALATED"),Map.of("decision",decision,"amount_fen",amount),r);
