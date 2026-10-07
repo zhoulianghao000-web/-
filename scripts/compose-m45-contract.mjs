@@ -54,5 +54,6 @@ add('/admin/cancellations','get','CancellationSummary',{realm:'admin',list:true}
 add('/admin/aftersales','get','AfterSaleSummary',{realm:'admin',list:true,query:[{name:'status',in:'query',schema:aftersaleStatus}]});
 add('/admin/aftersales/{id}/decide','post','AfterSale',{realm:'admin',request:'AfterSaleArbitrationInput',keyed:true,match:true,proof:true});
 add('/admin/refunds','get','RefundAdmin',{realm:'admin',list:true,query:[{name:'status',in:'query',schema:s.Refund.properties.status}]});
+for(const name of ['PaymentIntent','PaymentDetail']){if(s[name])s[name].properties.membership_order_id=nullable(id());}
 const output=YAML.stringify(doc,{lineWidth:110}),target=new URL('../openapi/pawday-m4.5.yaml',import.meta.url);
 if(process.argv.includes('--check')){if(await fs.readFile(target,'utf8')!==output)throw new Error('M4.5 contract drift');console.log('M4.5 contract composition PASS');}else await fs.writeFile(target,output);

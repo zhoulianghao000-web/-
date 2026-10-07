@@ -112,7 +112,7 @@ class IdentitySecurityIntegrationTests {
         db.update("INSERT INTO principal_store_scope(principal_id,merchant_id,store_id) VALUES (?,?,?),(?,?,?)",staffA,merchantA,storeA,staffB,merchantB,storeB);
     }
     @Test void migrationsAndHealthAreReal() throws Exception {
-        assertEquals(14,db.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success",Integer.class));
+        assertEquals(15,db.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success",Integer.class));
         var r=client.send(HttpRequest.newBuilder(URI.create("http://127.0.0.1:"+port+"/actuator/health")).GET().build(),HttpResponse.BodyHandlers.ofString());assertEquals(200,r.statusCode());assertEquals("UP",json.readTree(r.body()).get("status").asString());
     }
     @Test void anonymousCannotUseAnyPrivateRealm(){for(String realm:List.of("consumer","merchant","admin"))assertEquals(401,call("GET","/"+realm+"/me",null,null).status());}

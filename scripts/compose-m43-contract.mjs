@@ -21,5 +21,6 @@ function add(path,method,response,{realm='consumer',request,list=false,match=fal
 }
 
 add('/consumer/payments/{id}','get','PaymentDetail');add('/consumer/payments/{id}/status','get','PaymentDetail');add('/consumer/payments/{id}/attempts','post','PaymentDetail',{request:'PaymentAttemptInput',keyed:true});add('/consumer/payments/{id}/close-attempt','post','PaymentDetail');add('/consumer/payments/{id}/requery','post','PaymentDetail');add('/admin/payments/{id}','get','PaymentDetail',{realm:'admin'});add('/admin/payments/{id}/requery','post','PaymentDetail',{realm:'admin',keyed:true,proof:true});add('/consumer/payments/{id}/simulation','post','PaymentDetail',{request:'SimulationInput'});doc.paths['/consumer/payments/{id}/simulation'].post['x-development-only']=true;
+for(const name of ['PaymentIntent','PaymentDetail']){if(s[name])s[name].properties.membership_order_id=nullable(id());}
 const output=YAML.stringify(doc,{lineWidth:110}),target=new URL('../openapi/pawday-m4.3.yaml',import.meta.url);
 if(process.argv.includes('--check')){if(await fs.readFile(target,'utf8')!==output)throw new Error('M4.3 contract drift');console.log('M4.3 contract composition PASS');}else await fs.writeFile(target,output);

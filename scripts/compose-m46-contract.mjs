@@ -46,5 +46,6 @@ add('/admin/merchants/{id}/finance-summary','get','FinanceSummary',{});
 add('/merchant/finance-summary','get','FinanceSummary',{realm:'merchant'});
 add('/admin/merchants/{id}/ledger-adjustments','post','LedgerEntry',{request:'LedgerAdjustmentInput',keyed:true,proof:true});
 add('/admin/finance/reconciliation','get','ReconciliationReport',{});
+for(const name of ['PaymentIntent','PaymentDetail']){if(s[name])s[name].properties.membership_order_id=nullable(id());}
 const output=YAML.stringify(doc,{lineWidth:110}),target=new URL('../openapi/pawday-m4.6.yaml',import.meta.url);
 if(process.argv.includes('--check')){if(await fs.readFile(target,'utf8')!==output)throw new Error('M4.6 contract drift');console.log('M4.6 contract composition PASS');}else await fs.writeFile(target,output);

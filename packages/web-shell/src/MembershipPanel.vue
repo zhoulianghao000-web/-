@@ -1,0 +1,53 @@
+<script setup lang="ts">
+import {ref,onMounted,watch} from 'vue';
+import {unwrap,type components} from '../../api-client/src';
+import {StaffSession,explainError} from './auth';
+const props=defineProps<{session:StaffSession}>();
+type Plan=components['schemas']['MembershipPlan'];
+type Policy=components['schemas']['PointsPolicy'];
+type Reward=components['schemas']['PointsReward'];
+type Entry=components['schemas']['PointsLedgerEntry'];
+type Overview=components['schemas']['AdminPointsOverview'];
+const plans=ref<Plan[]>([]),policies=ref<Policy[]>([]),rewards=ref<Reward[]>([]),entries=ref<Entry[]>([]),overview=ref<Overview|null>(null),busy=ref(false),error=ref(''),notice=ref('');
+const planCode=ref(''),planName=ref(''),planTerm=ref<'MONTH'|'YEAR'>('MONTH'),planPrice=ref(0),planQuota=ref(0),planBenefits=ref(''),planStatus=ref<'ACTIVE'|'RETIRED'>('ACTIVE');
+const earnRate=ref(1),checkinPoints=ref(5),cycleDays=ref(30);
+const rewardCode=ref(''),rewardName=ref(''),rewardCost=ref(0),rewardStatus=ref<'ACTIVE'|'RETIRED'>('ACTIVE');
+const userId=ref(''),adjustPoints=ref(0),adjustReason=ref(''),password=ref(''),totp=ref('');let generation=0;const keys=new Map<string,string>();
+function keyFor(payload:string){const existing=keys.get(payload);if(existing)return existing;const created=crypto.randomUUID();keys.set(payload,created);return created;}
+function money(fen:number){return `¥${(fen/100).toFixed(2)}`;}
+function entryLabel(value:string){return ({PURCHASE_EARN:'购物得积分',REVIEW_EARN:'评价奖励',MEDIA_REVIEW_BONUS:'图文评价加奖',CHECKIN_EARN:'签到',REDEMPTION_SPEND:'兑换支出',REFUND_CLAWBACK:'退款追回',MANUAL_ADJUSTMENT:'人工调整'} as Record<string,string>)[value]??value;}
+async function load(){const epoch=++generation,identity=props.session.state.principal?.session_id;busy.value=true;error.value='';
+ try{const api=props.session.client.api;const [planRows,policyRows,rewardRows]=await Promise.all([unwrap(await api.GET('/admin/membership-plans')).data,unwrap(await api.GET('/admin/points-policies')).data,unwrap(await api.GET('/admin/points-rewards')).data]);
+  if(epoch===generation&&identity===props.session.state.principal?.session_id){plans.value=planRows;policies.value=policyRows;rewards.value=rewardRows;}}catch(e){if(epoch===generation)error.value=explainError(e);}finally{if(epoch===generation)busy.value=false;}}
+async function loadUser(){const id=userId.value.trim();if(!id)return;const epoch=++generation,identity=props.session.state.principal?.session_id;busy.value=true;error.value='';
+ try{const api=props.session.client.api;const sum=unwrap(await api.GET('/admin/users/{id}/points',{params:{path:{id}}})).data;const rows=unwrap(await api.GET('/admin/users/{id}/points/ledger',{params:{path:{id},query:{limit:30}}})).data;
+  if(epoch===generation&&identity===props.session.state.principal?.session_id){overview.value=sum;entries.value=rows;}}catch(e){if(epoch===generation){error.value=explainError(e);overview.value=null;entries.value=[];}}finally{if(epoch===generation)busy.value=false;}}
+async function withReverify(action:'membership.plan.manage'|'points.policy.manage'|'points.reward.manage'|'points.adjust',work:(proof:string)=>Promise<void>){if(busy.value)return;busy.value=true;error.value='';notice.value='';
+ try{const proof=await props.session.client.reverify({action,password:password.value,totp_code:totp.value});await work(proof.reverify_token);password.value='';totp.value='';}catch(e){error.value=explainError(e);}finally{busy.value=false;}}
+async function publishPlan(){const body={code:planCode.value,name:planName.value,term:planTerm.value,price_fen:planPrice.value,ai_quota:planQuota.value,benefits:planBenefits.value.split(/[，,]/).map(x=>x.trim()).filter(Boolean),status:planStatus.value};
+ await withReverify('membership.plan.manage',async proof=>{await unwrap(await props.session.client.api.POST('/admin/membership-plans',{params:{header:{'X-Reverify-Token':proof}},body}));notice.value='会员计划新版本已发布，立即对后续购买生效，历史订单快照不变。';await load();});}
+async function publishPolicy(){const body={earn_points_per_yuan:earnRate.value,checkin_points:checkinPoints.value,checkin_cycle_days:cycleDays.value};
+ await withReverify('points.policy.manage',async proof=>{await unwrap(await props.session.client.api.POST('/admin/points-policies',{params:{header:{'X-Reverify-Token':proof}},body}));notice.value='积分政策已发布，仅影响之后的入账。';await load();});}
+async function publishReward(){const body={code:rewardCode.value,name:rewardName.value,cost_points:rewardCost.value,status:rewardStatus.value};
+ await withReverify('points.reward.manage',async proof=>{await unwrap(await props.session.client.api.POST('/admin/points-rewards',{params:{header:{'X-Reverify-Token':proof}},body}));notice.value='积分奖励新版本已发布。';await load();});}
+async function adjust(){const id=userId.value.trim();const body={points:adjustPoints.value,reason:adjustReason.value};
+ await withReverify('points.adjust',async proof=>{await unwrap(await props.session.client.api.POST('/admin/users/{id}/points-adjustments',{params:{path:{id},header:{'Idempotency-Key':keyFor(`points:${id}:${JSON.stringify(body)}`),'X-Reverify-Token':proof}},body}));notice.value='积分调整已入账并记录审计。';await loadUser();});}
+watch(()=>props.session.state.principal?.session_id,()=>{generation++;plans.value=[];policies.value=[];rewards.value=[];entries.value=[];overview.value=null;userId.value='';password.value='';totp.value='';keys.clear();busy.value=false;error.value='';notice.value='';});onMounted(load);
+</script>
+<template>
+<section>
+<h3>会员计划</h3><p v-if="error" role="alert">{{ error }}</p><p v-if="notice" role="status">{{ notice }}</p>
+<table v-if="plans.length"><thead><tr><th>计划</th><th>周期</th><th>价格</th><th>AI 额度</th><th>权益</th><th>状态</th></tr></thead><tbody><tr v-for="p in plans" :key="p.id"><td>{{ p.name }}（{{ p.code }}）· v{{ p.plan_version }}</td><td>{{ p.term==='MONTH'?'月度':'年度' }}</td><td>{{ money(p.price_fen) }}</td><td>{{ p.ai_quota }}</td><td>{{ p.benefits.join('、') }}</td><td>{{ p.status==='ACTIVE'?'在售':'下架' }}</td></tr></tbody></table>
+<form class="confirm-card" @submit.prevent="publishPlan"><h4>发布会员计划新版本</h4><label>计划编码<input v-model="planCode" maxlength="40" :disabled="busy" required /></label><label>名称<input v-model="planName" maxlength="80" :disabled="busy" required /></label><label>周期<select v-model="planTerm"><option value="MONTH">月度</option><option value="YEAR">年度</option></select></label><label>价格（分）<input v-model.number="planPrice" type="number" min="1" max="100000000" step="1" :disabled="busy" required /></label><label>AI 问答额度<input v-model.number="planQuota" type="number" min="0" step="1" :disabled="busy" required /></label><label>权益（逗号分隔）<input v-model="planBenefits" maxlength="400" :disabled="busy" /></label><label>状态<select v-model="planStatus"><option value="ACTIVE">在售</option><option value="RETIRED">下架</option></select></label><label>再次输入密码<input v-model="password" type="password" autocomplete="current-password" :disabled="busy" required /></label><label>新的动态验证码<input v-model="totp" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" :disabled="busy" required /></label><button :disabled="busy" type="submit">验证并发布计划</button></form>
+<h3>积分政策</h3>
+<table v-if="policies.length"><thead><tr><th>版本</th><th>每元积分</th><th>签到积分</th><th>签到周期</th><th>发布时间</th></tr></thead><tbody><tr v-for="p in policies" :key="p.id"><td>v{{ p.policy_version }}</td><td>{{ p.earn_points_per_yuan }}</td><td>{{ p.checkin_points }}</td><td>{{ p.checkin_cycle_days }} 天</td><td>{{ p.created_at }}</td></tr></tbody></table>
+<form class="confirm-card" @submit.prevent="publishPolicy"><h4>发布积分政策</h4><label>每元消费积分<input v-model.number="earnRate" type="number" min="0" max="1000" step="1" :disabled="busy" required /></label><label>签到积分<input v-model.number="checkinPoints" type="number" min="1" max="10000" step="1" :disabled="busy" required /></label><label>签到周期（天）<input v-model.number="cycleDays" type="number" min="1" max="30" step="1" :disabled="busy" required /></label><label>再次输入密码<input v-model="password" type="password" autocomplete="current-password" :disabled="busy" required /></label><label>新的动态验证码<input v-model="totp" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" :disabled="busy" required /></label><button :disabled="busy" type="submit">验证并发布积分政策</button></form>
+<h3>积分奖励</h3>
+<table v-if="rewards.length"><thead><tr><th>奖励</th><th>所需积分</th><th>状态</th><th>发布时间</th></tr></thead><tbody><tr v-for="r in rewards" :key="r.id"><td>{{ r.name }}（{{ r.code }}）· v{{ r.reward_version }}</td><td>{{ r.cost_points }}</td><td>{{ r.status==='ACTIVE'?'可兑换':'已下架' }}</td><td>{{ r.created_at }}</td></tr></tbody></table>
+<form class="confirm-card" @submit.prevent="publishReward"><h4>发布积分奖励</h4><label>奖励编码<input v-model="rewardCode" maxlength="60" :disabled="busy" required /></label><label>名称<input v-model="rewardName" maxlength="120" :disabled="busy" required /></label><label>所需积分<input v-model.number="rewardCost" type="number" min="1" max="100000000" step="1" :disabled="busy" required /></label><label>状态<select v-model="rewardStatus"><option value="ACTIVE">可兑换</option><option value="RETIRED">下架</option></select></label><label>再次输入密码<input v-model="password" type="password" autocomplete="current-password" :disabled="busy" required /></label><label>新的动态验证码<input v-model="totp" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" :disabled="busy" required /></label><button :disabled="busy" type="submit">验证并发布奖励</button></form>
+<h3>用户积分</h3><label>用户编号<input v-model="userId" minlength="36" maxlength="36" :disabled="busy" /></label><button class="secondary" :disabled="busy" @click="loadUser()">读取积分</button>
+<p v-if="overview">当前余额：<strong>{{ overview.balance }}</strong> 分</p>
+<table v-if="entries.length"><thead><tr><th>类型</th><th>积分</th><th>业务键</th><th>时间</th></tr></thead><tbody><tr v-for="e in entries" :key="e.id"><td>{{ entryLabel(e.entry_type) }}</td><td>{{ e.points>0?`+${e.points}`:e.points }}</td><td>{{ e.business_key }}</td><td>{{ e.created_at }}</td></tr></tbody></table><p v-else-if="overview&&!busy">暂无积分明细</p>
+<form class="confirm-card" @submit.prevent="adjust"><h4>人工积分调整</h4><label>积分（正数补入，负数扣减）<input v-model.number="adjustPoints" type="number" min="-100000000" max="100000000" step="1" :disabled="busy" required /></label><label>调整原因<input v-model="adjustReason" maxlength="500" :disabled="busy" required /></label><label>再次输入密码<input v-model="password" type="password" autocomplete="current-password" :disabled="busy" required /></label><label>新的动态验证码<input v-model="totp" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" :disabled="busy" required /></label><button :disabled="busy" type="submit">验证并入账调整</button></form>
+</section>
+</template>

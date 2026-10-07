@@ -1,0 +1,60 @@
+import fs from 'node:fs/promises';
+import YAML from 'yaml';
+const doc=YAML.parse(await fs.readFile(new URL('../openapi/pawday-m4.6.yaml',import.meta.url),'utf8'));
+doc.info.title='Pawday M5.1 Membership and Points API';doc.info.version='0.5.1';
+doc.info.description='Paid membership purchased through the shared payments pipeline (versioned immutable plans, renewal extends from the current expiry, unpaid orders expire with their payment window) plus the consumer points ledger (append-only entries with unique business keys, goods earn, refund clawback allowing negative balances, daily check-in streaks, atomic reward redemption, and reverified admin adjustments). Membership refunds are intentionally deferred; PAID membership orders stay terminal in M5.1.';
+doc.components.schemas.Reverify.properties.action.enum.push('membership.plan.manage','points.policy.manage','points.reward.manage','points.adjust');
+const s=doc.components.schemas,ref=n=>({$ref:`#/components/schemas/${n}`}),id=()=>({type:'string',format:'uuid'}),str=(max=160)=>({type:'string',minLength:1,maxLength:max}),num=()=>({type:'integer',minimum:0,maximum:9007199254741}),time=()=>({type:'string',format:'date-time'}),array=items=>({type:'array',items}),nullable=x=>({anyOf:[x,{type:'null'}]}),obj=(properties,required=Object.keys(properties))=>({type:'object',additionalProperties:false,properties,required});
+// Payments now belong to exactly one of a goods order or a membership order.
+for(const name of ['PaymentIntent','PaymentDetail']){const p=s[name].properties;p.order_id=nullable(id());p.membership_order_id=nullable(id());s[name].required=s[name].required.filter(x=>x!=='order_id');}
+const term={type:'string',enum:['MONTH','YEAR']},planStatus={type:'string',enum:['ACTIVE','RETIRED']};
+const entryType={type:'string',enum:['PURCHASE_EARN','REVIEW_EARN','MEDIA_REVIEW_BONUS','CHECKIN_EARN','REDEMPTION_SPEND','REFUND_CLAWBACK','MANUAL_ADJUSTMENT']};
+s.MembershipPlan=obj({id:id(),code:str(40),name:str(80),term,price_fen:{type:'integer',minimum:1,maximum:100000000},ai_quota:num(),benefits:array(str(200)),status:planStatus,plan_version:{type:'integer',minimum:1},created_by:nullable(id()),created_at:time()});
+s.MembershipPlanInput=obj({code:str(40),name:str(80),term,price_fen:{type:'integer',minimum:1,maximum:100000000},ai_quota:num(),benefits:array(str(200)),status:planStatus});
+s.PlanSnapshot=obj({plan_id:id(),code:str(40),name:str(80),term,price_fen:{type:'integer',minimum:1},ai_quota:num(),plan_version:{type:'integer',minimum:1},benefits:array(str(200))});
+s.MembershipPayment=obj({id:id(),payment_no:str(48),order_id:nullable(id()),membership_order_id:nullable(id()),amount_fen:{type:'integer',minimum:1},currency:{type:'string',enum:['CNY']},status:{type:'string',enum:['PENDING','PROCESSING','SUCCEEDED','CLOSED']},expires_at:time(),version:num(),created_at:time(),successful_attempt_id:nullable(id()),successful_receipt_id:nullable(id()),paid_at:nullable(time())});
+s.MembershipOrder=obj({id:id(),order_no:str(40),user_id:id(),plan_id:id(),plan_snapshot:ref('PlanSnapshot'),amount_fen:{type:'integer',minimum:1},status:{type:'string',enum:['PENDING_PAYMENT','PAID','EXPIRED','CANCELLED']},payment_id:nullable(id()),version:num(),created_at:time(),paid_at:nullable(time())});
+s.MembershipOrderDetail=obj({...s.MembershipOrder.properties,payment:ref('MembershipPayment')});
+s.MembershipPurchaseInput=obj({plan_code:str(40)});
+s.MembershipStatus=obj({effective_status:{type:'string',enum:['NONE','ACTIVE','EXPIRED']},user_id:id(),plan_version_id:id(),starts_at:time(),expires_at:time(),status:{type:'string',enum:['ACTIVE','EXPIRED','CANCELLED']},version:num()},['effective_status']);
+s.PointsPolicy=obj({id:id(),earn_points_per_yuan:{type:'integer',minimum:0,maximum:1000},checkin_points:{type:'integer',minimum:1,maximum:10000},checkin_cycle_days:{type:'integer',minimum:1,maximum:30},policy_version:{type:'integer',minimum:1},created_by:nullable(id()),created_at:time()});
+s.PointsPolicyInput=obj({earn_points_per_yuan:{type:'integer',minimum:0,maximum:1000},checkin_points:{type:'integer',minimum:1,maximum:10000},checkin_cycle_days:{type:'integer',minimum:1,maximum:30}});
+s.PointsOverview=obj({balance:{type:'integer'},checked_in_today:{type:'boolean'},current_cycle_day:{type:'integer',minimum:0,maximum:30},policy:ref('PointsPolicy')});
+s.AdminPointsOverview=obj({user_id:id(),balance:{type:'integer'}});
+s.PointsLedgerEntry=obj({id:id(),user_id:id(),entry_type:entryType,points:{type:'integer',not:{enum:[0]}},business_key:str(120),order_id:nullable(id()),refund_id:nullable(id()),redemption_id:nullable(id()),policy_version:nullable({type:'integer',minimum:1}),reason:nullable(str(500)),created_by_type:{type:'string',enum:['SYSTEM','PRINCIPAL']},created_by:nullable(id()),created_at:time()});
+s.PointsCheckin=obj({id:id(),user_id:id(),checkin_date:{type:'string',format:'date'},cycle_day:{type:'integer',minimum:1,maximum:30},points:{type:'integer',minimum:1},created_at:time()});
+s.PointsReward=obj({id:id(),code:str(60),name:str(120),cost_points:{type:'integer',minimum:1,maximum:100000000},status:planStatus,reward_version:{type:'integer',minimum:1},created_by:nullable(id()),created_at:time()});
+s.PointsRewardInput=obj({code:str(60),name:str(120),cost_points:{type:'integer',minimum:1,maximum:100000000},status:planStatus});
+s.PointsRedemption=obj({id:id(),redemption_no:str(40),user_id:id(),reward_id:id(),reward_snapshot:ref('PointsReward'),cost_points:{type:'integer',minimum:1},status:{type:'string',enum:['SUCCEEDED']},created_at:time()});
+s.PointsRedemptionInput=obj({reward_id:id()});
+s.PointsAdjustmentInput=obj({points:{type:'integer',minimum:-100000000,maximum:100000000,not:{enum:[0]}},reason:str(500)});
+function add(path,method,response,{realm='admin',request,list=false,proof=false,keyed=false,paged=false,query=[]}={}){
+ const name=response+(list?'List':'')+'Envelope';s[name]=obj({data:list?array(ref(response)):ref(response),...(list?{page:ref('Page')}:{}),meta:ref('Meta')});
+ const parameters=[...[...path.matchAll(/\{([^}]+)\}/g)].map(m=>({name:m[1],in:'path',required:true,schema:id()})),...query,...(paged?[{name:'cursor',in:'query',schema:id()},{name:'limit',in:'query',schema:{type:'integer',minimum:1,maximum:100,default:50}}]:[]),...(method==='get'||!keyed?[]:[{name:'Idempotency-Key',in:'header',required:true,schema:{type:'string',minLength:16,maxLength:128}}]),...(proof?[{name:'X-Reverify-Token',in:'header',required:true,schema:str(128)}]:[])];
+ const responses={200:{description:'Persisted result',content:{'application/json':{schema:ref(name)}}}};for(const status of [400,401,403,404,409,422,428,429,503])responses[status]={description:'Rejected',content:{'application/json':{schema:ref('ErrorEnvelope')}}};
+ const op={operationId:`${method}_${path.slice(1).replaceAll(/[/{\}-]/g,'_').replace(/_+$/,'')}`,summary:`${method.toUpperCase()} ${path}`,tags:[realm],security:[{[`${realm}Bearer`]:[]}],parameters,responses,'x-implemented-in':'M5.1'};
+ if(request)op.requestBody={required:true,content:{'application/json':{schema:ref(request)}}};(doc.paths[path]??={})[method]=op;
+}
+add('/consumer/membership/plans','get','MembershipPlan',{realm:'consumer',list:true});
+add('/consumer/membership','get','MembershipStatus',{realm:'consumer'});
+add('/consumer/membership/orders','get','MembershipOrder',{realm:'consumer',list:true,paged:true});
+add('/consumer/membership/orders','post','MembershipOrderDetail',{realm:'consumer',request:'MembershipPurchaseInput',keyed:true});
+add('/consumer/membership/orders/{id}','get','MembershipOrderDetail',{realm:'consumer'});
+add('/admin/membership-plans','get','MembershipPlan',{list:true});
+add('/admin/membership-plans','post','MembershipPlan',{request:'MembershipPlanInput',proof:true});
+add('/consumer/points','get','PointsOverview',{realm:'consumer'});
+add('/consumer/points/ledger','get','PointsLedgerEntry',{realm:'consumer',list:true,paged:true,query:[{name:'entry_type',in:'query',schema:entryType}]});
+add('/consumer/points/checkins','get','PointsCheckin',{realm:'consumer',list:true});
+add('/consumer/points/checkins','post','PointsCheckin',{realm:'consumer',keyed:true});
+add('/consumer/points/rewards','get','PointsReward',{realm:'consumer',list:true});
+add('/consumer/points/redemptions','post','PointsRedemption',{realm:'consumer',request:'PointsRedemptionInput',keyed:true});
+add('/admin/points-policies','get','PointsPolicy',{list:true});
+add('/admin/points-policies','post','PointsPolicy',{request:'PointsPolicyInput',proof:true});
+add('/admin/points-rewards','get','PointsReward',{list:true});
+add('/admin/points-rewards','post','PointsReward',{request:'PointsRewardInput',proof:true});
+add('/admin/users/{id}/points','get','AdminPointsOverview',{});
+add('/admin/users/{id}/points/ledger','get','PointsLedgerEntry',{list:true,paged:true});
+add('/admin/users/{id}/points-adjustments','post','PointsLedgerEntry',{request:'PointsAdjustmentInput',keyed:true,proof:true});
+for(const name of ['PaymentIntent','PaymentDetail']){if(s[name])s[name].properties.membership_order_id=nullable(id());}
+const output=YAML.stringify(doc,{lineWidth:110}),target=new URL('../openapi/pawday-m5.1.yaml',import.meta.url);
+if(process.argv.includes('--check')){if(await fs.readFile(target,'utf8')!==output)throw new Error('M5.1 contract drift');console.log('M5.1 contract composition PASS');}else await fs.writeFile(target,output);

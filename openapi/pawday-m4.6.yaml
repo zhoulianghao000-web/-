@@ -19591,6 +19591,11 @@ components:
         created_at: &a115
           type: string
           format: date-time
+        membership_order_id:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
       required:
         - id
         - payment_no
@@ -19948,6 +19953,11 @@ components:
         expires_at: *a113
         version: *a114
         created_at: *a115
+        membership_order_id:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: "null"
         successful_attempt_id:
           anyOf:
             - type: string
@@ -19990,6 +20000,7 @@ components:
         - expires_at
         - version
         - created_at
+        - membership_order_id
         - successful_attempt_id
         - successful_receipt_id
         - paid_at
