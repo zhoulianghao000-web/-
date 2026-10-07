@@ -240,6 +240,10 @@ class AfterSaleRefundIntegrationTests {
   assertEquals(1000,db.queryForObject("SELECT amount_fen FROM aftersale_decisions WHERE aftersale_id=?",Long.class,UUID.fromString(aid)));
   assertEquals(1,db.queryForObject("SELECT count(*) FROM audit_event WHERE action='aftersale.arbitrate' AND object_id=?",Integer.class,aid));
  }
+ @Test void arbitrationReverifyActionIsAllowlisted(){
+  var r=req("POST","/admin/auth/reverify",Map.of("action","aftersale.arbitrate","password","TEST-ONLY wrong password","totp_code","000000"),admin,Map.of());
+  assertNotEquals("REVERIFY_ACTION_NOT_ALLOWED",r.body().get("error").get("code").asText(),r.body().toString());
+ }
  @Test void concurrentAfterSaleApplicationsCannotExceedShippedQuantity()throws Exception{var f=paid(1,List.of());String h=ship(f,1);receive(f,h);
   var pool=Executors.newFixedThreadPool(2);try{var start=new CountDownLatch(1);Callable<Response> work=()->{start.await();return applyRefundOnly(f,1,key());};var x=pool.submit(work);var y=pool.submit(work);start.countDown();var statuses=List.of(x.get(20,TimeUnit.SECONDS).status(),y.get(20,TimeUnit.SECONDS).status());assertTrue(statuses.contains(200),statuses.toString());assertTrue(statuses.contains(409),statuses.toString());assertEquals(1,db.queryForObject("SELECT count(*) FROM aftersales WHERE suborder_id=?",Integer.class,UUID.fromString(sub(f))));}finally{pool.shutdownNow();}
  }
