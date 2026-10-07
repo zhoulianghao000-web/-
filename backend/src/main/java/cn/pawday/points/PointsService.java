@@ -42,7 +42,9 @@ import tools.jackson.databind.json.JsonMapper;
 
  /** Goods payment success earns points from the payable amount at the policy rate frozen in the entry. */
  public void recordGoodsPaymentSuccess(UUID order,UUID payment,UUID user){
-  var p=policy();long rate=n(p.get("earn_points_per_yuan"));
+  var policies=db.queryForList("SELECT * FROM points_policies ORDER BY policy_version DESC LIMIT 1");
+  if(policies.isEmpty())return;
+  var p=policies.getFirst();long rate=n(p.get("earn_points_per_yuan"));
   var o=one("SELECT payable_amount_fen,shipping_amount_fen FROM orders WHERE id=?",order);
   long goodsPayable=Math.max(0,n(o.get("payable_amount_fen"))-n(o.get("shipping_amount_fen")));
   long earn=goodsPayable/100*rate;
