@@ -58,6 +58,7 @@ import org.springframework.transaction.support.TransactionTemplate;
  public void beginBuffering(UUID sub){
   var rows=db.queryForList("SELECT * FROM settlement_tracks WHERE suborder_id=? AND status='WAITING_RECEIPT' FOR UPDATE",sub);
   if(rows.isEmpty())return;
+  db.update("INSERT INTO settlement_policies(id,buffer_days,policy_version) VALUES ('7b2f2b6a-7c1f-4d0d-9c1a-000000000002',7,1) ON CONFLICT(id) DO NOTHING");
   var policy=one("SELECT * FROM settlement_policies ORDER BY policy_version DESC LIMIT 1");
   boolean open=db.queryForObject("SELECT count(*) FROM aftersales WHERE suborder_id=? AND status NOT IN ('COMPLETED','REJECTED','CANCELLED')",Integer.class,sub)>0;
   db.update("UPDATE settlement_tracks SET status=?,settlement_policy_id=?,buffer_days=?,eligible_at=clock_timestamp()+(?*interval '1 day'),version=version+1 WHERE id=?",open?"FROZEN":"BUFFERING",policy.get("id"),((Number)policy.get("buffer_days")).intValue(),((Number)policy.get("buffer_days")).intValue(),rows.getFirst().get("id"));
