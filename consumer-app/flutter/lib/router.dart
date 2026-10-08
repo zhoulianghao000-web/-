@@ -9,6 +9,7 @@ import 'membership_screen.dart';
 import 'order_screen.dart';
 import 'payment_screen.dart';
 import 'points_screen.dart';
+import 'publishing_screen.dart';
 
 String safeReturnTo(String? value) {
   const allowed = [
@@ -23,6 +24,10 @@ String safeReturnTo(String? value) {
     '/payments',
     '/membership',
     '/points',
+    '/reviews',
+    '/my-reviews',
+    '/review-edit',
+    '/content',
   ];
   if (value == null ||
       !value.startsWith('/') ||
@@ -82,6 +87,8 @@ final routerProvider = Provider<GoRouter>((ref) {
             '/payments',
             '/membership',
             '/points',
+            '/my-reviews',
+            '/review-edit',
           ].contains(state.uri.path)) {
         return Uri(
           path: '/auth/login',
@@ -91,6 +98,27 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
+      GoRoute(
+        path: '/reviews',
+        builder: (_, state) =>
+            ReviewsScreen(spuId: state.uri.queryParameters['spu_id']),
+      ),
+      GoRoute(
+        path: '/my-reviews',
+        builder: (_, _) => const ReviewsScreen(own: true),
+      ),
+      GoRoute(
+        path: '/review-edit',
+        builder: (_, state) => ReviewEditorScreen(
+          itemId: state.uri.queryParameters['item_id'] ?? '',
+          reviewId: state.uri.queryParameters['id'],
+        ),
+      ),
+      GoRoute(
+        path: '/content',
+        builder: (_, state) =>
+            ContentScreen(id: state.uri.queryParameters['id']),
+      ),
       GoRoute(
         path: '/payments',
         builder: (_, state) =>

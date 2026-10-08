@@ -36,13 +36,13 @@ public class MediaService {
         Actor actor=guard.actor();
         Set<String> scopes=switch(actor.realm()){case CONSUMER->Set.of("AVATAR","REVIEW","CHAT");case MERCHANT->Set.of("PRODUCT","CHAT");case ADMIN->Set.of("ARTICLE","CHAT");};
         if(!scopes.contains(scope))throw new Failure(403,"MEDIA_SCOPE_DENIED");
-        if(!Set.of("image/png","image/jpeg").contains(mime))throw new Failure(400,"UPLOAD_MIME_NOT_ALLOWED");
+        if(!Set.of("image/png","image/jpeg").contains(mime)&&!(scope.equals("REVIEW")&&mime.equals("video/mp4")))throw new Failure(400,"UPLOAD_MIME_NOT_ALLOWED");
         if(size<1||size>maximum)throw new Failure(413,"UPLOAD_TOO_LARGE");
         if(hash==null||!hash.matches("[0-9a-f]{64}"))throw new Failure(400,"VALIDATION_ERROR");
         if(scope.equals("PRODUCT")){if(store==null)throw new Failure(400,"STORE_REQUIRED");guard.store(actor,store);}
         else if(store!=null)throw new Failure(400,"STORE_NOT_ALLOWED");
         UUID id=UUID.randomUUID();String token=crypto.token();Instant now=clock.instant(),expires=now.plusSeconds(grantSeconds);
-        String key="media/"+id+(mime.equals("image/png")?".png":".jpg");
+        String key="media/"+id+(mime.equals("video/mp4")?".mp4":mime.equals("image/png")?".png":".jpg");
         return tx.execute(status->{
             // Bound outstanding grants per principal; advisory locking serializes simultaneous issuances.
             db.queryForObject("SELECT pg_advisory_xact_lock(hashtextextended(?,0))",Object.class,actor.principalId().toString());
@@ -102,6 +102,7 @@ public class MediaService {
     public Asset delete(UUID id,HttpServletRequest request) {
         Actor actor=guard.actor();boolean work=Boolean.TRUE.equals(tx.execute(status->{
             var row=row(id,true);owner(actor,row);if("DELETED".equals(row.get("status")))return false;
+            if(jdbcUsage(id))throw new Failure(409,"MEDIA_IN_USE");
             if("UPLOADING".equals(row.get("status")))throw new Failure(409,"UPLOAD_IN_PROGRESS");
             if(!"DELETE_PENDING".equals(row.get("status"))) {
                 db.update("UPDATE media_asset SET status='DELETE_PENDING',upload_token_hash=NULL,error_code=NULL,next_cleanup_at=?,updated_at=? WHERE id=?",Timestamp.from(clock.instant()),Timestamp.from(clock.instant()),id);
@@ -110,6 +111,7 @@ public class MediaService {
         }));
         if(work)cleanup(id);return metadata(id);
     }
+    private boolean jdbcUsage(UUID id){return db.queryForObject("SELECT count(*) FROM media_asset_usage WHERE asset_id=?",Integer.class,id)>0;}
     /** One short DB claim, provider IO, then fenced DB completion. Safe for multiple schedulers. */
     private void cleanup(UUID preferred) {
         UUID token=UUID.randomUUID();Instant now=clock.instant();

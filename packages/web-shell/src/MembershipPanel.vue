@@ -15,7 +15,7 @@ const rewardCode=ref(''),rewardName=ref(''),rewardCost=ref(0),rewardStatus=ref<'
 const userId=ref(''),adjustPoints=ref(0),adjustReason=ref(''),password=ref(''),totp=ref('');let generation=0;const keys=new Map<string,string>();
 function keyFor(payload:string){const existing=keys.get(payload);if(existing)return existing;const created=crypto.randomUUID();keys.set(payload,created);return created;}
 function money(fen:number){return `¥${(fen/100).toFixed(2)}`;}
-function entryLabel(value:string){return ({PURCHASE_EARN:'购物得积分',REVIEW_EARN:'评价奖励',MEDIA_REVIEW_BONUS:'图文评价加奖',CHECKIN_EARN:'签到',REDEMPTION_SPEND:'兑换支出',REFUND_CLAWBACK:'退款追回',MANUAL_ADJUSTMENT:'人工调整'} as Record<string,string>)[value]??value;}
+function entryLabel(value:string){return ({PURCHASE_EARN:'购物得积分',REVIEW_EARN:'评价奖励',MEDIA_REVIEW_BONUS:'图文评价加奖',CHECKIN_EARN:'签到',REDEMPTION_SPEND:'兑换支出',REFUND_CLAWBACK:'购物奖励退款追回',REVIEW_CLAWBACK:'评价奖励退款追回',MANUAL_ADJUSTMENT:'人工调整'} as Record<string,string>)[value]??value;}
 async function load(){const epoch=++generation,identity=props.session.state.principal?.session_id;busy.value=true;error.value='';
  try{const api=props.session.client.api;const [planRows,policyRows,rewardRows]=await Promise.all([unwrap(await api.GET('/admin/membership-plans')).data,unwrap(await api.GET('/admin/points-policies')).data,unwrap(await api.GET('/admin/points-rewards')).data]);
   if(epoch===generation&&identity===props.session.state.principal?.session_id){plans.value=planRows;policies.value=policyRows;rewards.value=rewardRows;}}catch(e){if(epoch===generation)error.value=explainError(e);}finally{if(epoch===generation)busy.value=false;}}

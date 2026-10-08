@@ -1,4 +1,5 @@
 import 'package:pawday_consumer/payment_repository.dart';
+import 'package:pawday_consumer/publishing_repository.dart';
 
 import 'dart:io';
 import 'dart:convert';
@@ -277,6 +278,65 @@ void main() {
     );
     expect((await ordering.get(paidOrder.id)).status, 'COMPLETED');
 
+    final publishing = PublishingRepository(restored);
+    final eligibility = await publishing.eligibility(sub.items.single.id);
+    expect(eligibility.eligible, true);
+    final video = base64Decode(
+      (await File(
+        '../../backend/src/test/resources/review-video.base64',
+      ).readAsString()).trim(),
+    );
+    final videoAsset = await publishing.upload(video, 'video/mp4');
+    expect(videoAsset.status, 'READY');
+    final reviewInput = ReviewInput(
+      rating: 4,
+      service_rating: 5,
+      body: 'CI REAL Dart purchased video review',
+      asset_ids: [videoAsset.asset_id],
+      pet_id: pet.id,
+      share_pet_label: true,
+    );
+    final reviewKey = checkoutCommandKey(),
+        review = await publishing.save(
+          sub.items.single.id,
+          reviewInput,
+          reviewKey,
+        );
+    expect(review.draft_status, 'PENDING');
+    expect(
+      (await publishing.save(sub.items.single.id, reviewInput, reviewKey)).id,
+      review.id,
+    );
+    final revoked = await publishing.save(
+      sub.items.single.id,
+      ReviewInput(
+        rating: 4,
+        service_rating: 5,
+        body: review.body,
+        asset_ids: reviewInput.asset_ids,
+        pet_id: null,
+        share_pet_label: false,
+      ),
+      checkoutCommandKey(),
+      existing: review,
+    );
+    expect(revoked.share_pet_label, false);
+    expect(revoked.pet_label, isNull);
+    expect((await publishing.own()).data.any((r) => r.id == review.id), true);
+    final articles = await publishing.articles();
+    expect(
+      articles.data.any((a) => a.title == 'CI REAL M52 sourced content'),
+      true,
+    );
+    final article = articles.data.firstWhere(
+      (a) => a.title == 'CI REAL M52 sourced content',
+    );
+    expect(
+      (await publishing.article(article.id, pet: pet.id)).products.first.fit,
+      isNotNull,
+    );
+    expect(article.sponsored, true);
+
     // M4.5 real chain: paid cancellation refunds one frozen unit, then a
     // refund-only after-sale is approved by the merchant and settled.
     final aftersales = AfterSaleRepository(restored);
@@ -307,27 +367,19 @@ void main() {
     );
     final cancelSub = (await ordering.get(cancelOrder.id)).suborders.single;
     final cancelKey = checkoutCommandKey();
-    final cancellation = await aftersales.cancelPaid(
-      cancelSub.id,
-      [
+    final cancellation = await aftersales.cancelPaid(cancelSub.id, [
+      CancellationItemInput(
+        order_item_id: cancelSub.items.single.id,
+        quantity: 1,
+      ),
+    ], cancelKey);
+    expect(
+      (await aftersales.cancelPaid(cancelSub.id, [
         CancellationItemInput(
           order_item_id: cancelSub.items.single.id,
           quantity: 1,
         ),
-      ],
-      cancelKey,
-    );
-    expect(
-      (await aftersales.cancelPaid(
-        cancelSub.id,
-        [
-          CancellationItemInput(
-            order_item_id: cancelSub.items.single.id,
-            quantity: 1,
-          ),
-        ],
-        cancelKey,
-      )).id,
+      ], cancelKey)).id,
       cancellation.id,
       reason: 'Idempotent replay must return the same cancellation',
     );
@@ -345,9 +397,8 @@ void main() {
     final afterCancel = await ordering.fulfillment(cancelSub.id);
     expect(afterCancel.items.single.cancelled_qty, 1);
     expect(
-      (await aftersales.cancellations(
-        cancelSub.id,
-      )).data.any((c) => c.id == cancellation.id),
+      (await aftersales.cancellations(cancelSub.id)).data
+          .any((c) => c.id == cancellation.id),
       true,
     );
 
@@ -407,10 +458,7 @@ void main() {
           reason_code: 'DAMAGED',
           reason_text: 'CI REAL 超量申请',
           items: [
-            AfterSaleItemInput(
-              order_item_id: sub.items.single.id,
-              quantity: 1,
-            ),
+            AfterSaleItemInput(order_item_id: sub.items.single.id, quantity: 1),
           ],
           evidence: const [],
         ),

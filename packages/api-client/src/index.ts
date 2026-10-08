@@ -21,9 +21,13 @@ export function safeReturnTo(value:unknown, fallback='/dashboard'):string {
   if(value.startsWith('/auth/')||value.startsWith('/login'))return fallback;
   return value;
 }
-export const mutationHeaders=(key:string,proof?:string,version?:number)=>({
+export function mutationHeaders(key:string,proof:string,version:number):{'Idempotency-Key':string;'X-Reverify-Token':string;'If-Match':string};
+export function mutationHeaders(key:string,proof:undefined,version:number):{'Idempotency-Key':string;'If-Match':string};
+export function mutationHeaders(key:string,proof:string,version?:undefined):{'Idempotency-Key':string;'X-Reverify-Token':string};
+export function mutationHeaders(key:string,proof?:string,version?:number):{'Idempotency-Key':string;'X-Reverify-Token'?:string;'If-Match'?:string};
+export function mutationHeaders(key:string,proof?:string,version?:number){return {
   'Idempotency-Key':key,...(proof?{'X-Reverify-Token':proof}:{}),...(version!==undefined?{'If-Match':`"${version}"`}:{}),
-});
+};}
 export function unwrap<T>(result:{data?:T;error?:unknown;response:Response}):T {
   if(result.data===undefined)throw new ApiError(result.response.status,'EMPTY_RESPONSE',result.response.headers.get('X-Request-ID')??'');
   return result.data;
@@ -39,6 +43,33 @@ export class PawdayClient {
     this.api=createClient<paths>({baseUrl,fetch:this.transport});
   }
   get authenticated(){return this.tokens!==null;}
+  async uploadMedia(scope:'ARTICLE'|'REVIEW',file:File):Promise<components['schemas']['MediaAsset']>{
+    const epoch=this.epoch;
+    if(file.size<1||file.size>5242880)throw new ApiError(413,'UPLOAD_TOO_LARGE','');
+    if(!['image/png','image/jpeg',...(scope==='REVIEW'?['video/mp4']:[])].includes(file.type))throw new ApiError(400,'UPLOAD_MIME_NOT_ALLOWED','');
+    const bytes=await file.arrayBuffer();
+    const sha256=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),x=>x.toString(16).padStart(2,'0')).join('');
+    if(epoch!==this.epoch)throw new ApiError(401,'SESSION_CHANGED','');
+    const grant=unwrap(await this.api.POST('/media/upload-grants',{body:{scope,mime:file.type as 'image/png'|'image/jpeg'|'video/mp4',size_bytes:file.size,sha256}})).data;
+    if(epoch!==this.epoch)throw new ApiError(401,'SESSION_CHANGED','');
+    // Never replay a one-use upload credential after a failed response.
+    const response=await this.transport(new Request(`${this.baseUrl}/media/${grant.asset_id}/content`,{method:'PUT',headers:{'Content-Type':file.type,'X-Upload-Token':grant.upload_token},body:bytes}));
+    const value=await response.json() as {data:components['schemas']['MediaAsset']};
+    if(epoch!==this.epoch)throw new ApiError(401,'SESSION_CHANGED','');
+    return value.data;
+  }
+  async publicationMedia(path:string):Promise<Blob>{
+    const epoch=this.epoch,base=new URL(this.baseUrl,globalThis.location?.origin??'http://localhost');
+    if(!/^\/api\/v1\/(public|consumer|admin)\/(reviews|content)\/[0-9a-f-]{36}\/media\/[0-9a-f-]{36}$/.test(path))throw new ApiError(0,'INVALID_API_DESTINATION','');
+    const response=await this.transport(new Request(new URL(path,base.origin)));
+    const mime=response.headers.get('Content-Type')?.split(';')[0]??'';
+    if(!['image/png','image/jpeg','video/mp4'].includes(mime))throw new ApiError(0,'INVALID_MEDIA_RESPONSE','');
+    const reader=response.body?.getReader();if(!reader)throw new ApiError(0,'EMPTY_RESPONSE','');
+    const chunks:Uint8Array<ArrayBuffer>[]=[];let size=0;
+    try{while(true){const next=await reader.read();if(next.done)break;size+=next.value.length;if(size>5242880)throw new ApiError(413,'UPLOAD_TOO_LARGE','');chunks.push(new Uint8Array(next.value));}}finally{await reader.cancel();}
+    if(epoch!==this.epoch)throw new ApiError(401,'SESSION_CHANGED','');
+    return new Blob(chunks,{type:mime});
+  }
   setSession(tokens:Tokens){this.epoch++;this.tokens=tokens;}
   clearSession(){this.epoch++;this.tokens=null;this.onExpired();}
   private failure=async(response:Response):Promise<never>=>{

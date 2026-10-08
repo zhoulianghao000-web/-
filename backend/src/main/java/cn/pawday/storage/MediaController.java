@@ -27,7 +27,7 @@ public class MediaController {
     @GetMapping("/{asset_id}")
     Api.Envelope<MediaService.Asset> metadata(@PathVariable String asset_id,HttpServletRequest request){return Api.ok(service.metadata(guard.id(asset_id)),request);}
     @GetMapping("/{asset_id}/content")
-    ResponseEntity<InputStreamResource> content(@PathVariable String asset_id){var content=service.content(guard.id(asset_id));return ResponseEntity.ok().contentType(MediaType.parseMediaType(content.asset().mime())).contentLength(content.asset().size_bytes()).header("X-Content-Type-Options","nosniff").header("Cache-Control","private, no-store").header("Content-Disposition","inline; filename=\""+content.asset().asset_id()+(content.asset().mime().equals("image/png")?".png":".jpg")+"\"").body(new InputStreamResource(content.input()));}
+    ResponseEntity<InputStreamResource> content(@PathVariable String asset_id){var content=service.content(guard.id(asset_id));return ResponseEntity.ok().contentType(MediaType.parseMediaType(content.asset().mime())).contentLength(content.asset().size_bytes()).header("X-Content-Type-Options","nosniff").header("Cache-Control","private, no-store").header("Content-Disposition","inline; filename=\""+content.asset().asset_id()+(content.asset().mime().equals("video/mp4")?".mp4":content.asset().mime().equals("image/png")?".png":".jpg")+"\"").body(new InputStreamResource(content.input()));}
     @DeleteMapping("/{asset_id}") @ResponseStatus(HttpStatus.ACCEPTED)
     Api.Envelope<MediaService.Asset> delete(@PathVariable String asset_id,HttpServletRequest request){return Api.ok(service.delete(guard.id(asset_id),request),request);}
 }

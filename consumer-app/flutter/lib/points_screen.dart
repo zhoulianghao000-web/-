@@ -12,7 +12,8 @@ String pointsEntryLabel(String type) =>
       'MEDIA_REVIEW_BONUS': '图文评价加奖',
       'CHECKIN_EARN': '每日签到',
       'REDEMPTION_SPEND': '积分兑换',
-      'REFUND_CLAWBACK': '退款追回',
+      'REFUND_CLAWBACK': '购物奖励退款追回',
+      'REVIEW_CLAWBACK': '评价奖励退款追回',
       'MANUAL_ADJUSTMENT': '人工调整',
     }[type] ??
     type;
@@ -58,7 +59,11 @@ class _PointsScreenState extends ConsumerState<PointsScreen> {
     bool valid() => mounted && epoch == generation && owner == user;
     try {
       final repo = ref.read(pointsRepositoryProvider);
-      final results = await Future.wait([repo.overview(), repo.rewards(), repo.ledger()]);
+      final results = await Future.wait([
+        repo.overview(),
+        repo.rewards(),
+        repo.ledger(),
+      ]);
       if (valid()) {
         setState(() {
           overview = results[0] as PointsOverview;
@@ -81,9 +86,13 @@ class _PointsScreenState extends ConsumerState<PointsScreen> {
       notice = null;
     });
     try {
-      final done = await ref.read(pointsRepositoryProvider).checkin(keyFor('checkin'));
+      final done = await ref
+          .read(pointsRepositoryProvider)
+          .checkin(keyFor('checkin'));
       if (mounted) {
-        setState(() => notice = '签到成功，连续第 ${done.cycle_day} 天，+${done.points} 分。');
+        setState(
+          () => notice = '签到成功，连续第 ${done.cycle_day} 天，+${done.points} 分。',
+        );
       }
     } catch (e) {
       if (mounted) setState(() => error = '今天已经签到过了，明天再来吧。');
@@ -101,7 +110,9 @@ class _PointsScreenState extends ConsumerState<PointsScreen> {
       notice = null;
     });
     try {
-      await ref.read(pointsRepositoryProvider).redeem(reward.id, keyFor('redeem:${reward.code}'));
+      await ref
+          .read(pointsRepositoryProvider)
+          .redeem(reward.id, keyFor('redeem:${reward.code}'));
       if (mounted) setState(() => notice = '已兑换「${reward.name}」。');
     } catch (e) {
       if (mounted) setState(() => error = '积分不足，暂时无法兑换。');
@@ -124,20 +135,29 @@ class _PointsScreenState extends ConsumerState<PointsScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            if (error != null) Text(error!, style: const TextStyle(color: Colors.red)),
-            if (notice != null) Text(notice!, style: const TextStyle(color: Colors.green)),
+            if (error != null)
+              Text(error!, style: const TextStyle(color: Colors.red)),
+            if (notice != null)
+              Text(notice!, style: const TextStyle(color: Colors.green)),
             Card(
               child: ListTile(
                 leading: const Icon(Icons.stars_outlined),
-                title: Text('${current?.balance ?? 0} 分', style: const TextStyle(fontSize: 22)),
+                title: Text(
+                  '${current?.balance ?? 0} 分',
+                  style: const TextStyle(fontSize: 22),
+                ),
                 subtitle: Text(
                   current == null
                       ? '购物、签到都能攒积分。'
                       : '每消费 1 元得 ${current.policy.earn_points_per_yuan} 分 · 连续签到第 ${current.current_cycle_day} 天',
                 ),
                 trailing: FilledButton(
-                  onPressed: busy || (current?.checked_in_today ?? false) ? null : checkin,
-                  child: Text(current?.checked_in_today ?? false ? '已签到' : '签到'),
+                  onPressed: busy || (current?.checked_in_today ?? false)
+                      ? null
+                      : checkin,
+                  child: Text(
+                    current?.checked_in_today ?? false ? '已签到' : '签到',
+                  ),
                 ),
               ),
             ),
@@ -150,7 +170,8 @@ class _PointsScreenState extends ConsumerState<PointsScreen> {
                   title: Text(reward.name),
                   subtitle: Text('${reward.cost_points} 积分'),
                   trailing: FilledButton.tonal(
-                    onPressed: busy || (current?.balance ?? 0) < reward.cost_points
+                    onPressed:
+                        busy || (current?.balance ?? 0) < reward.cost_points
                         ? null
                         : () => redeem(reward),
                     child: const Text('兑换'),
@@ -167,7 +188,9 @@ class _PointsScreenState extends ConsumerState<PointsScreen> {
                 subtitle: Text(entry.reason ?? entry.created_at),
                 trailing: Text(
                   entry.points > 0 ? '+${entry.points}' : '${entry.points}',
-                  style: TextStyle(color: entry.points > 0 ? Colors.green : Colors.red),
+                  style: TextStyle(
+                    color: entry.points > 0 ? Colors.green : Colors.red,
+                  ),
                 ),
               ),
           ],

@@ -1,0 +1,63 @@
+import fs from 'node:fs/promises';
+import YAML from 'yaml';
+const doc=YAML.parse(await fs.readFile(new URL('../openapi/pawday-m5.1.yaml',import.meta.url),'utf8'));
+doc.info.title='Pawday M5.2 Reviews and Content API';doc.info.version='0.5.2';
+doc.info.description='Verified received order-item reviews; immutable revisions, explicit pet-label consent and moderated publication; controlled image/short MP4 resources; once-per-parent-order review and media reward grants with frozen refund rules; versioned article publishing and authoritative current product/pet fit. Nearby service verification requires a future actual reservation/payment flow and is not fabricated.';
+const s=doc.components.schemas,ref=n=>({$ref:`#/components/schemas/${n}`}),id=()=>({type:'string',format:'uuid'}),str=(max=160)=>({type:'string',minLength:1,maxLength:max}),time=()=>({type:'string',format:'date-time'}),array=(items,max)=>({type:'array',items,...(max===undefined?{}:{maxItems:max})}),nullable=x=>({anyOf:[x,{type:'null'}]}),obj=(properties,required=Object.keys(properties))=>({type:'object',additionalProperties:false,properties,required}),bool={type:'boolean'},num={type:'integer',minimum:0,maximum:9007199254741},rating={type:'integer',minimum:1,maximum:5};
+s.Reverify.properties.action.enum.push('review.moderate','review.policy.manage','content.moderate');
+s.PointsLedgerEntry.properties.entry_type.enum.push('REVIEW_CLAWBACK');
+for(const name of ['MediaGrantRequest','MediaAsset'])s[name].properties.mime.enum.push('video/mp4');
+s.MediaAsset.properties.object_key.pattern='^media/[0-9a-f-]{36}\\.(png|jpg|mp4)$';
+doc.paths['/media/{asset_id}/content'].get.responses['200'].content['video/mp4']={schema:{type:'string',format:'binary'}};
+s.PublicationMedia=obj({asset_id:id(),mime:{type:'string',enum:['image/png','image/jpeg','video/mp4']},size_bytes:{type:'integer',minimum:1,maximum:5242880},available:bool,content_url:str(400)});
+s.ReviewPetLabel=obj({species_name:str(160),breed_name:nullable(str(160)),age_label:nullable(str(80))});
+s.ReviewInput=obj({rating,service_rating:nullable(rating),body:str(2000),asset_ids:{...array(id(),6),uniqueItems:true},pet_id:nullable(id()),share_pet_label:bool});
+s.PublicReview=obj({id:id(),revision_id:id(),spu_id:id(),sku_id:id(),rating,service_rating:nullable(rating),body:str(2000),verified_purchase:{type:'boolean',const:true},version:num,created_at:time(),media:array(ref('PublicationMedia'),6),pet_label:nullable(ref('ReviewPetLabel'))});
+s.ReviewModerationRecord=obj({decision:{type:'string',enum:['APPROVE','REJECT','HIDE']},reason:str(1000),created_at:time()});
+s.ReviewDetail=obj({...s.PublicReview.properties,order_id:id(),suborder_id:id(),order_item_id:id(),user_id:id(),merchant_id:id(),store_id:nullable(id()),visibility:{type:'string',enum:['PUBLIC','HIDDEN']},draft_status:{type:'string',enum:['PENDING','APPROVED','REJECTED']},share_pet_label:bool,published_revision_id:nullable(id()),pet_id:nullable(id()),revision_no:{type:'integer',minimum:1},moderation:array(ref('ReviewModerationRecord'))});
+s.ReviewModerationInput=obj({decision:{type:'string',enum:['APPROVE','REJECT','HIDE']},reason:str(1000)});
+s.ReviewRewardPolicyInput=obj({base_points:{type:'integer',minimum:0,maximum:10000},media_bonus_points:{type:'integer',minimum:0,maximum:10000},refund_strategy:{type:'string',enum:['PROPORTIONAL_GOODS','NONE']}});
+s.ReviewRewardPolicy=obj({...s.ReviewRewardPolicyInput.properties,id:id(),policy_version:{type:'integer',minimum:1},created_by:nullable(id()),created_at:time()});
+s.ReviewEligibility=obj({order_item_id:id(),spu_id:id(),eligible:bool,existing_review_id:nullable(id()),reason:nullable(str(80)),reward_policy:ref('ReviewRewardPolicy')});
+const category={type:'string',enum:['FOOD_KNOWLEDGE','BRAND_KNOWLEDGE','PET_CARE']};
+s.ArticleInput=obj({title:str(160),category,body:str(20000),source_refs:{...array(str(500),10),minItems:1},sponsored:bool,asset_ids:{...array(id(),6),uniqueItems:true},sku_ids:{...array(id(),8),uniqueItems:true}});
+s.ArticleModerationRecord=obj({decision:{type:'string',enum:['PUBLISH','REJECT','HIDE']},reason:str(1000),created_at:time()});
+s.ArticleModerationInput=obj({decision:{type:'string',enum:['PUBLISH','REJECT','HIDE']},reason:str(1000)});
+s.ArticleProduct=obj({sku_id:id(),spu_id:nullable(id()),name:nullable(str(240)),available:bool,in_stock:bool,fit:nullable(ref('ProductFit'))});
+const articleCommon={id:id(),revision_id:id(),title:str(160),category,body:str(20000),source_refs:{...array(str(500),10),minItems:1},sponsored:bool,version:num,media:array(ref('PublicationMedia'),6),published_at:nullable(time())};
+s.PublicArticle=obj({...articleCommon,products:array(ref('ArticleProduct'),8)});
+s.ArticleDetail=obj({...articleCommon,sku_ids:array(id(),8),visibility:{type:'string',enum:['PUBLIC','HIDDEN']},draft_status:{type:'string',enum:['DRAFT','SUBMITTED','APPROVED','REJECTED']},published_revision_id:nullable(id()),created_by:id(),moderation:array(ref('ArticleModerationRecord'))});
+s.ArticleSubmitInput=obj({});
+function add(path,method,response,{realm='admin',request,list=false,keyed=false,proof=false,versioned=false,paged=false,query=[],binary=false,permission}={}){
+ const name=response+(list?'List':'')+'Envelope';if(!binary)s[name]=obj({data:list?array(ref(response)):ref(response),...(list?{page:ref('Page')}:{}),meta:ref('Meta')});
+ const parameters=[...[...path.matchAll(/\{([^}]+)\}/g)].map(m=>({name:m[1],in:'path',required:true,schema:id()})),...query,...(paged?[{name:'cursor',in:'query',schema:id()},{name:'limit',in:'query',schema:{type:'integer',minimum:1,maximum:100,default:50}}]:[]),...(keyed?[{name:'Idempotency-Key',in:'header',required:true,schema:{type:'string',minLength:16,maxLength:128}}]:[]),...(proof?[{name:'X-Reverify-Token',in:'header',required:true,schema:str(128)}]:[]),...(versioned?[{name:'If-Match',in:'header',required:true,schema:{type:'string',pattern:'^"[0-9]{1,13}"$'}}]:[])];
+ const responses={200:{description:binary?'Visible referenced resource; hidden/draft access is denied':'Persisted or currently visible result',content:binary?Object.fromEntries(['image/png','image/jpeg','video/mp4'].map(mime=>[mime,{schema:{type:'string',format:'binary'}}])):{'application/json':{schema:ref(name)}}}};
+ for(const status of [400,401,403,404,409,413,422,429,503])responses[status]={description:'Rejected without leaking unpublished or private resource data',content:{'application/json':{schema:ref('ErrorEnvelope')}}};
+ const op={operationId:`${method}_${path.slice(1).replaceAll(/[/{\}-]/g,'_').replace(/_+$/,'')}`,summary:`${method.toUpperCase()} ${path}`,tags:[realm],security:realm==='public'?[]:[{[`${realm}Bearer`]:[]}],parameters,responses,'x-implemented-in':'M5.2',...(permission?{'x-permission':permission}:{})};if(request)op.requestBody={required:true,content:{'application/json':{schema:ref(request)}}};(doc.paths[path]??={})[method]=op;
+}
+for(const realm of ['public','consumer'])add(`/${realm}/spus/{id}/reviews`,'get','PublicReview',{realm,list:true,paged:true});
+add('/public/reviews/{id}','get','PublicReview',{realm:'public'});
+add('/consumer/order-items/{id}/review-eligibility','get','ReviewEligibility',{realm:'consumer'});
+add('/consumer/order-items/{id}/reviews','post','ReviewDetail',{realm:'consumer',request:'ReviewInput',keyed:true});
+for(const realm of ['consumer','admin']){
+ add(`/${realm}/reviews/{id}`,'get','ReviewDetail',{realm});add(`/${realm}/reviews`,'get','ReviewDetail',{realm,list:true,paged:true});
+ add(`/${realm}/reviews/{id}/media/{asset}`,'get','PublicationMedia',{realm,binary:true});
+}
+add('/public/reviews/{id}/media/{asset}','get','PublicationMedia',{realm:'public',binary:true});
+add('/merchant/reviews','get','PublicReview',{realm:'merchant',list:true,paged:true,permission:'review.merchant.read',query:[{name:'store_id',in:'query',required:true,schema:id()}]});
+add('/consumer/reviews/{id}','patch','ReviewDetail',{realm:'consumer',request:'ReviewInput',keyed:true,versioned:true});
+add('/admin/reviews/{id}/moderation','post','ReviewDetail',{request:'ReviewModerationInput',keyed:true,proof:true,versioned:true,permission:'review.moderate'});
+add('/admin/review-reward-policies','get','ReviewRewardPolicy',{list:true,permission:'review.read'});
+add('/admin/review-reward-policies','post','ReviewRewardPolicy',{request:'ReviewRewardPolicyInput',keyed:true,proof:true,permission:'review.policy.manage'});
+add('/public/content','get','PublicArticle',{realm:'public',list:true,paged:true,query:[{name:'category',in:'query',schema:category}]});
+add('/public/content/{id}','get','PublicArticle',{realm:'public'});
+add('/consumer/content/{id}','get','PublicArticle',{realm:'consumer',query:[{name:'pet_id',in:'query',schema:id()}]});
+add('/admin/content','get','ArticleDetail',{list:true,paged:true,permission:'content.read'});
+add('/admin/content/{id}','get','ArticleDetail',{permission:'content.read'});
+add('/admin/content','post','ArticleDetail',{request:'ArticleInput',keyed:true,permission:'content.write'});
+add('/admin/content/{id}','patch','ArticleDetail',{request:'ArticleInput',keyed:true,versioned:true,permission:'content.write'});
+add('/admin/content/{id}/submit','post','ArticleDetail',{request:'ArticleSubmitInput',keyed:true,versioned:true,permission:'content.write'});
+add('/admin/content/{id}/moderation','post','ArticleDetail',{request:'ArticleModerationInput',keyed:true,proof:true,versioned:true,permission:'content.moderate'});
+for(const realm of ['public','admin'])add(`/${realm}/content/{id}/media/{asset}`,'get','PublicationMedia',{realm,binary:true});
+const output=YAML.stringify(doc,{lineWidth:120}),target=new URL('../openapi/pawday-m5.2.yaml',import.meta.url);
+if(process.argv.includes('--check')){if(await fs.readFile(target,'utf8')!==output)throw new Error('M5.2 composition drift');console.log('M5.2 composition PASS');}else{await fs.writeFile(target,output);console.log('M5.2 composed');}

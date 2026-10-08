@@ -39,7 +39,7 @@ public class LocalObjectStorageProvider implements ObjectStorageProvider {
     }
     private void safeDirectory(Path path) throws IOException {rejectLinks(path);Files.createDirectories(path);rejectLinks(path);if(!Files.isDirectory(path,LinkOption.NOFOLLOW_LINKS))throw new IOException("not a directory");}
     private Path path(String key) throws IOException {
-        if(key==null||!key.matches("media/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\.(png|jpg)"))throw new Failure(400,"INVALID_OBJECT_KEY");
+        if(key==null||!key.matches("media/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\.(png|jpg|mp4)"))throw new Failure(400,"INVALID_OBJECT_KEY");
         if(!Files.isDirectory(root.resolve("media"),LinkOption.NOFOLLOW_LINKS))throw new IOException("object directory unavailable");
         Path target=root.resolve(key).normalize();rejectLinks(target);if(!target.startsWith(root))throw new Failure(400,"INVALID_OBJECT_KEY");return target;
     }
@@ -58,7 +58,7 @@ public class LocalObjectStorageProvider implements ObjectStorageProvider {
             }
             if(size!=request.sizeBytes())throw new Failure(400,"UPLOAD_SIZE_MISMATCH");
             String hash=HexFormat.of().formatHex(digest.digest());if(!hash.equals(request.sha256()))throw new Failure(400,"UPLOAD_HASH_MISMATCH");
-            validateImage(staging,request.mime());
+            if(request.mime().equals("video/mp4"))VideoContentValidator.validate(staging);else validateImage(staging,request.mime());
             // Immutable key: credentials cannot replace existing content. No cloud-dependent overwrite behavior.
             rejectLinks(target);Files.move(staging,target);staging=null;
             return new Metadata(request.objectKey(),request.mime(),size,hash);
@@ -83,7 +83,7 @@ public class LocalObjectStorageProvider implements ObjectStorageProvider {
     @Override public Optional<Metadata> metadata(String key) {
         try {Path p=path(key);if(!Files.exists(p,LinkOption.NOFOLLOW_LINKS))return Optional.empty();if(!Files.isRegularFile(p,LinkOption.NOFOLLOW_LINKS))throw unavailable();
             long size=Files.size(p);MessageDigest digest=MessageDigest.getInstance("SHA-256");try(var in=Files.newInputStream(p,LinkOption.NOFOLLOW_LINKS)) {byte[] b=new byte[16384];int n;while((n=in.read(b))!=-1)digest.update(b,0,n);}
-            return Optional.of(new Metadata(key,key.endsWith(".png")?"image/png":"image/jpeg",size,HexFormat.of().formatHex(digest.digest())));
+            return Optional.of(new Metadata(key,key.endsWith(".mp4")?"video/mp4":key.endsWith(".png")?"image/png":"image/jpeg",size,HexFormat.of().formatHex(digest.digest())));
         }catch(Failure f){throw f;}catch(Exception ignored){throw unavailable();}
     }
     @Override public InputStream read(String key) {

@@ -83,6 +83,11 @@ jobs:
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m5.1.yaml
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m5.1.yaml -o /tmp/pawday-m51-bundled.yaml
           python openapi/validate_m51_contract.py --samples backend/target/m51-contract-samples.json --report openapi/membership-points-response-report.json
+      - name: M5.2 reviews and content real HTTP and binary contracts
+        run: |
+          npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m5.2.yaml
+          npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m5.2.yaml -o /tmp/pawday-m52-bundled.yaml
+          python openapi/validate_m52_contract.py --samples backend/target/m52-contract-samples.json --binary-samples backend/target/m52-binary-samples.json --report openapi/reviews-content-response-report.json
       - name: Real infrastructure diagnostics
         if: always()
         run: |
@@ -99,6 +104,7 @@ jobs:
             backend/target/surefire-reports/
             backend/target/failsafe-reports/
             backend/target/*contract-samples.json
+            backend/target/m52-binary-samples.json
             backend/target/m23-infrastructure-evidence.json
             backend/target/infrastructure-evidence/
             openapi/*response-report.json
@@ -141,6 +147,9 @@ jobs:
           python openapi/validate_m45_contract.py
           python openapi/validate_m46_contract.py
           python openapi/validate_m51_contract.py
+          python openapi/validate_m52_contract.py
+          npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m5.2.yaml
+          npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m5.2.yaml --output openapi/pawday-m5.2.redocly.bundle.json
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m5.1.yaml
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m5.1.yaml --output openapi/pawday-m5.1.redocly.bundle.json
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m4.6.yaml

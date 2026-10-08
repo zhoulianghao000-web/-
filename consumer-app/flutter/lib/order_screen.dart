@@ -218,6 +218,15 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                         Text(
                           '${item.product_snapshot.name} × ${item.quantity} · ${orderMoney(item.payable_amount_fen)}',
                         ),
+                      for (final item in sub.items)
+                        OutlinedButton(
+                          onPressed: busy
+                              ? null
+                              : () => context.go(
+                                  '/review-edit?item_id=${item.id}',
+                                ),
+                          child: Text('评价 ${item.product_snapshot.name}'),
+                        ),
                       Text('商品及运费 ${orderMoney(sub.payable_amount_fen)}'),
                       FulfillmentCard(
                         key: ValueKey('${sub.id}:${sub.version}'),

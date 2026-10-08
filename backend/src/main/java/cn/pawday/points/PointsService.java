@@ -59,6 +59,7 @@ import tools.jackson.databind.json.JsonMapper;
 
  /** Refund success claws back the proportional share of what the order earned; the balance may go negative. */
  public void recordRefundSuccess(UUID refundId){
+  recordReviewRefundSuccess(refundId);
   var refund=one("SELECT * FROM refunds WHERE id=?",refundId);
   UUID payment=(UUID)refund.get("payment_id");
   var earns=db.queryForList("SELECT * FROM points_ledger WHERE business_key=?","PURCHASE:"+payment);
@@ -135,7 +136,7 @@ import tools.jackson.databind.json.JsonMapper;
 
  public List<Map<String,Object>> ledger(Actor a,String type,UUID after,int limit){
   consumer(a);if(limit<1||limit>100)throw new Failure(400,"VALIDATION_ERROR");
-  if(type!=null&&!Set.of("PURCHASE_EARN","REVIEW_EARN","MEDIA_REVIEW_BONUS","CHECKIN_EARN","REDEMPTION_SPEND","REFUND_CLAWBACK","MANUAL_ADJUSTMENT").contains(type))throw new Failure(400,"VALIDATION_ERROR");
+  if(type!=null&&!Set.of("PURCHASE_EARN","REVIEW_EARN","MEDIA_REVIEW_BONUS","CHECKIN_EARN","REDEMPTION_SPEND","REFUND_CLAWBACK","REVIEW_CLAWBACK","MANUAL_ADJUSTMENT").contains(type))throw new Failure(400,"VALIDATION_ERROR");
   var args=new ArrayList<>();args.add(a.userId());args.add(after);
   String where="WHERE user_id=? AND id>?";
   if(type!=null){where+=" AND entry_type=?";args.add(type);}
@@ -201,4 +202,36 @@ import tools.jackson.databind.json.JsonMapper;
   });
  }
  public List<Map<String,Object>> adminRewards(Actor a){permission(a,"points.read");return db.queryForList("SELECT * FROM points_rewards ORDER BY code,reward_version DESC").stream().map(this::view).toList();}
+
+ /** Caller holds the parent order lock and has approved a currently eligible received-item review. */
+ public void recordReviewApproved(UUID reviewId,UUID revisionId){
+  var review=one("SELECT * FROM reviews WHERE id=?",reviewId);
+  UUID order=(UUID)review.get("order_id"),user=(UUID)review.get("user_id");
+  var policies=db.queryForList("SELECT * FROM review_reward_policies ORDER BY policy_version DESC LIMIT 1");
+  if(policies.isEmpty())throw new Failure(503,"REVIEW_POLICY_UNAVAILABLE");
+  db.update("INSERT INTO review_reward_grants(order_id,user_id,policy_id,first_review_id) VALUES (?,?,?,?) ON CONFLICT(order_id) DO NOTHING",order,user,policies.getFirst().get("id"),reviewId);
+  var policy=one("SELECT p.* FROM review_reward_grants g JOIN review_reward_policies p ON p.id=g.policy_id WHERE g.order_id=?",order);
+  lockAccount(user);
+  int v=((Number)policy.get("policy_version")).intValue();long base=n(policy.get("base_points")),bonus=n(policy.get("media_bonus_points"));
+  if(base>0)entry(user,"REVIEW_EARN",base,"REVIEW_BASE:"+order,order,null,null,v,"审核通过评价奖励",null);
+  var revision=one("SELECT asset_ids FROM review_revisions WHERE id=? AND review_id=?",revisionId,reviewId);
+  if(bonus>0&&!json.readValue(revision.get("asset_ids").toString(),List.class).isEmpty())entry(user,"MEDIA_REVIEW_BONUS",bonus,"REVIEW_MEDIA:"+order,order,null,null,v,"审核通过媒体评价增量奖励",null);
+  reconcileReviewRefund(order,null,"AWARD:"+revisionId);
+ }
+
+ private void recordReviewRefundSuccess(UUID refundId){
+  var row=one("SELECT p.order_id FROM refunds r JOIN payments p ON p.id=r.payment_id WHERE r.id=?",refundId);
+  if(row.get("order_id")!=null)reconcileReviewRefund((UUID)row.get("order_id"),refundId,"REFUND:"+refundId);
+ }
+ private void reconcileReviewRefund(UUID order,UUID refund,String suffix){
+  var grants=db.queryForList("SELECT g.user_id,p.refund_strategy,p.policy_version FROM review_reward_grants g JOIN review_reward_policies p ON p.id=g.policy_id WHERE g.order_id=?",order);
+  if(grants.isEmpty()||!grants.getFirst().get("refund_strategy").equals("PROPORTIONAL_GOODS"))return;
+  UUID user=(UUID)grants.getFirst().get("user_id");lockAccount(user);
+  long amount=goodsPayable(order);if(amount<1)return;
+  long refunded=db.queryForObject("SELECT coalesce(sum(u.paid_amount_fen),0) FROM order_refund_unit_claims c JOIN order_item_refund_units u USING(order_item_id,unit_index) JOIN refunds r ON r.id=c.refund_id JOIN payments p ON p.id=r.payment_id WHERE p.order_id=? AND r.status='SUCCEEDED' AND c.status='REFUNDED'",Long.class,order);
+  long earned=db.queryForObject("SELECT coalesce(sum(points),0) FROM points_ledger WHERE order_id=? AND entry_type IN ('REVIEW_EARN','MEDIA_REVIEW_BONUS')",Long.class,order);
+  long clawed=db.queryForObject("SELECT coalesce(-sum(points),0) FROM points_ledger WHERE order_id=? AND entry_type='REVIEW_CLAWBACK'",Long.class,order);
+  long target=BigInteger.valueOf(earned).multiply(BigInteger.valueOf(Math.min(amount,refunded))).divide(BigInteger.valueOf(amount)).longValueExact();
+  if(target>clawed)entry(user,"REVIEW_CLAWBACK",-(target-clawed),"REVIEW_CLAWBACK:"+suffix,order,refund,null,((Number)grants.getFirst().get("policy_version")).intValue(),"按冻结评价规则追回退款对应奖励",null);
+ }
 }
