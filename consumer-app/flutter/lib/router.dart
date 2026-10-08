@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'repositories.dart';
 import 'screens.dart';
+import 'nearby_screen.dart';
 import 'checkout_screen.dart';
 import 'membership_screen.dart';
 import 'order_screen.dart';
@@ -182,7 +183,9 @@ final routerProvider = Provider<GoRouter>((ref) {
               routes: [
                 GoRoute(
                   path: path,
-                  builder: (_, _) => TabScreen(path: path),
+                  builder: (_, _) => path == '/nearby'
+                      ? const NearbyScreen()
+                      : TabScreen(path: path),
                 ),
               ],
             ),

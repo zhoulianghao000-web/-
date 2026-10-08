@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>仅在你选择定位时获取一次位置，用于查找附近宠物服务；拒绝后仍可按城市浏览。</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>选择图片或短视频，分享真实购买评价。</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>

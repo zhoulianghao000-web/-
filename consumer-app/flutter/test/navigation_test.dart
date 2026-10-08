@@ -44,7 +44,7 @@ void main() {
     expect(find.text('商品与适配'), findsOneWidget);
     await tester.tap(find.widgetWithText(NavigationDestination, '附近'));
     await tester.pumpAndSettle();
-    expect(find.text('发现身边的友好'), findsOneWidget);
+    expect(find.text('发现身边的宠物服务'), findsOneWidget);
     await tester.tap(find.widgetWithText(NavigationDestination, '我的'));
     await tester.pumpAndSettle();
     expect(find.text('欢迎来到爪日'), findsOneWidget);

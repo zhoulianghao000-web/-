@@ -28,3 +28,6 @@ consumer-app/flutter/coverage/
 
 openapi/m43-validation-report.json
 openapi/m44-validation-report.json
+
+merchant-web/public/consumer-preview/
+openapi/m54-validation-report.json

@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 305586192a9a90c15dd7a80b6cb5a706f79f1233c1018431b4e2bb582e4de048
+// Generated from Pawday runtime OpenAPI; SHA256 7e664a78bacbc8a10045e047f9d9998c289b87eff007f06760e87eb00d3842f7
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -7550,6 +7550,369 @@ class NotificationPreferenceEnvelope {
   };
 }
 
+class NearbyProfileInput {
+  final String city;
+  final String category;
+  final String address;
+  final String phone;
+  final String business_hours;
+  final double longitude;
+  final double latitude;
+  final String coordinate_system;
+  final List<String> services;
+  const NearbyProfileInput({required this.city, required this.category, required this.address, required this.phone, required this.business_hours, required this.longitude, required this.latitude, required this.coordinate_system, required this.services});
+  factory NearbyProfileInput.fromJson(Map<String,dynamic> json) => NearbyProfileInput(
+    city: json['city'] as String,
+    category: json['category'] as String,
+    address: json['address'] as String,
+    phone: json['phone'] as String,
+    business_hours: json['business_hours'] as String,
+    longitude: (json['longitude'] as num).toDouble(),
+    latitude: (json['latitude'] as num).toDouble(),
+    coordinate_system: json['coordinate_system'] as String,
+    services: (json['services'] as List).map((value) => value as String).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'city': city,
+    'category': category,
+    'address': address,
+    'phone': phone,
+    'business_hours': business_hours,
+    'longitude': longitude,
+    'latitude': latitude,
+    'coordinate_system': coordinate_system,
+    'services': services.map((value) => value).toList(),
+  };
+}
+
+class NearbyProfile {
+  final String id;
+  final String name;
+  final String merchant_id;
+  final String city;
+  final String category;
+  final String address;
+  final String phone;
+  final String business_hours;
+  final double longitude;
+  final double latitude;
+  final String coordinate_system;
+  final List<String> services;
+  final String source;
+  final String publication_status;
+  final String claim_status;
+  final bool pawday_certified;
+  final int version;
+  final String updated_at;
+  const NearbyProfile({required this.id, required this.name, required this.merchant_id, required this.city, required this.category, required this.address, required this.phone, required this.business_hours, required this.longitude, required this.latitude, required this.coordinate_system, required this.services, required this.source, required this.publication_status, required this.claim_status, required this.pawday_certified, required this.version, required this.updated_at});
+  factory NearbyProfile.fromJson(Map<String,dynamic> json) => NearbyProfile(
+    id: json['id'] as String,
+    name: json['name'] as String,
+    merchant_id: json['merchant_id'] as String,
+    city: json['city'] as String,
+    category: json['category'] as String,
+    address: json['address'] as String,
+    phone: json['phone'] as String,
+    business_hours: json['business_hours'] as String,
+    longitude: (json['longitude'] as num).toDouble(),
+    latitude: (json['latitude'] as num).toDouble(),
+    coordinate_system: json['coordinate_system'] as String,
+    services: (json['services'] as List).map((value) => value as String).toList(),
+    source: json['source'] as String,
+    publication_status: json['publication_status'] as String,
+    claim_status: json['claim_status'] as String,
+    pawday_certified: json['pawday_certified'] as bool,
+    version: (json['version'] as num).toInt(),
+    updated_at: json['updated_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'merchant_id': merchant_id,
+    'city': city,
+    'category': category,
+    'address': address,
+    'phone': phone,
+    'business_hours': business_hours,
+    'longitude': longitude,
+    'latitude': latitude,
+    'coordinate_system': coordinate_system,
+    'services': services.map((value) => value).toList(),
+    'source': source,
+    'publication_status': publication_status,
+    'claim_status': claim_status,
+    'pawday_certified': pawday_certified,
+    'version': version,
+    'updated_at': updated_at,
+  };
+}
+
+class NearbyPlace {
+  final String id;
+  final String name;
+  final String city;
+  final String category;
+  final String address;
+  final String phone;
+  final String business_hours;
+  final double longitude;
+  final double latitude;
+  final String coordinate_system;
+  final List<String> services;
+  final String source;
+  final String publication_status;
+  final String claim_status;
+  final bool pawday_certified;
+  final int version;
+  final String updated_at;
+  const NearbyPlace({required this.id, required this.name, required this.city, required this.category, required this.address, required this.phone, required this.business_hours, required this.longitude, required this.latitude, required this.coordinate_system, required this.services, required this.source, required this.publication_status, required this.claim_status, required this.pawday_certified, required this.version, required this.updated_at});
+  factory NearbyPlace.fromJson(Map<String,dynamic> json) => NearbyPlace(
+    id: json['id'] as String,
+    name: json['name'] as String,
+    city: json['city'] as String,
+    category: json['category'] as String,
+    address: json['address'] as String,
+    phone: json['phone'] as String,
+    business_hours: json['business_hours'] as String,
+    longitude: (json['longitude'] as num).toDouble(),
+    latitude: (json['latitude'] as num).toDouble(),
+    coordinate_system: json['coordinate_system'] as String,
+    services: (json['services'] as List).map((value) => value as String).toList(),
+    source: json['source'] as String,
+    publication_status: json['publication_status'] as String,
+    claim_status: json['claim_status'] as String,
+    pawday_certified: json['pawday_certified'] as bool,
+    version: (json['version'] as num).toInt(),
+    updated_at: json['updated_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'city': city,
+    'category': category,
+    'address': address,
+    'phone': phone,
+    'business_hours': business_hours,
+    'longitude': longitude,
+    'latitude': latitude,
+    'coordinate_system': coordinate_system,
+    'services': services.map((value) => value).toList(),
+    'source': source,
+    'publication_status': publication_status,
+    'claim_status': claim_status,
+    'pawday_certified': pawday_certified,
+    'version': version,
+    'updated_at': updated_at,
+  };
+}
+
+class NearbyResult {
+  final String id;
+  final String name;
+  final String city;
+  final String category;
+  final String address;
+  final String phone;
+  final String business_hours;
+  final double longitude;
+  final double latitude;
+  final String coordinate_system;
+  final List<String> services;
+  final String source;
+  final String publication_status;
+  final String claim_status;
+  final bool pawday_certified;
+  final int version;
+  final String updated_at;
+  final int? distance_m;
+  const NearbyResult({required this.id, required this.name, required this.city, required this.category, required this.address, required this.phone, required this.business_hours, required this.longitude, required this.latitude, required this.coordinate_system, required this.services, required this.source, required this.publication_status, required this.claim_status, required this.pawday_certified, required this.version, required this.updated_at, required this.distance_m});
+  factory NearbyResult.fromJson(Map<String,dynamic> json) => NearbyResult(
+    id: json['id'] as String,
+    name: json['name'] as String,
+    city: json['city'] as String,
+    category: json['category'] as String,
+    address: json['address'] as String,
+    phone: json['phone'] as String,
+    business_hours: json['business_hours'] as String,
+    longitude: (json['longitude'] as num).toDouble(),
+    latitude: (json['latitude'] as num).toDouble(),
+    coordinate_system: json['coordinate_system'] as String,
+    services: (json['services'] as List).map((value) => value as String).toList(),
+    source: json['source'] as String,
+    publication_status: json['publication_status'] as String,
+    claim_status: json['claim_status'] as String,
+    pawday_certified: json['pawday_certified'] as bool,
+    version: (json['version'] as num).toInt(),
+    updated_at: json['updated_at'] as String,
+    distance_m: json['distance_m'] == null ? null : (json['distance_m'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'city': city,
+    'category': category,
+    'address': address,
+    'phone': phone,
+    'business_hours': business_hours,
+    'longitude': longitude,
+    'latitude': latitude,
+    'coordinate_system': coordinate_system,
+    'services': services.map((value) => value).toList(),
+    'source': source,
+    'publication_status': publication_status,
+    'claim_status': claim_status,
+    'pawday_certified': pawday_certified,
+    'version': version,
+    'updated_at': updated_at,
+    'distance_m': distance_m == null ? null : distance_m!,
+  };
+}
+
+class NearbyModeration {
+  final String publication_status;
+  final String claim_status;
+  final bool pawday_certified;
+  final String reason;
+  const NearbyModeration({required this.publication_status, required this.claim_status, required this.pawday_certified, required this.reason});
+  factory NearbyModeration.fromJson(Map<String,dynamic> json) => NearbyModeration(
+    publication_status: json['publication_status'] as String,
+    claim_status: json['claim_status'] as String,
+    pawday_certified: json['pawday_certified'] as bool,
+    reason: json['reason'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'publication_status': publication_status,
+    'claim_status': claim_status,
+    'pawday_certified': pawday_certified,
+    'reason': reason,
+  };
+}
+
+class NavigationInput {
+  final String place_id;
+  final String mode;
+  const NavigationInput({required this.place_id, required this.mode});
+  factory NavigationInput.fromJson(Map<String,dynamic> json) => NavigationInput(
+    place_id: json['place_id'] as String,
+    mode: json['mode'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'place_id': place_id,
+    'mode': mode,
+  };
+}
+
+class NavigationIntent {
+  final String provider;
+  final String place_id;
+  final String destination_name;
+  final double longitude;
+  final double latitude;
+  final String coordinate_system;
+  final String mode;
+  final String launch_url;
+  final String fallback_url;
+  const NavigationIntent({required this.provider, required this.place_id, required this.destination_name, required this.longitude, required this.latitude, required this.coordinate_system, required this.mode, required this.launch_url, required this.fallback_url});
+  factory NavigationIntent.fromJson(Map<String,dynamic> json) => NavigationIntent(
+    provider: json['provider'] as String,
+    place_id: json['place_id'] as String,
+    destination_name: json['destination_name'] as String,
+    longitude: (json['longitude'] as num).toDouble(),
+    latitude: (json['latitude'] as num).toDouble(),
+    coordinate_system: json['coordinate_system'] as String,
+    mode: json['mode'] as String,
+    launch_url: json['launch_url'] as String,
+    fallback_url: json['fallback_url'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'provider': provider,
+    'place_id': place_id,
+    'destination_name': destination_name,
+    'longitude': longitude,
+    'latitude': latitude,
+    'coordinate_system': coordinate_system,
+    'mode': mode,
+    'launch_url': launch_url,
+    'fallback_url': fallback_url,
+  };
+}
+
+class NearbyProfileEnvelope {
+  final NearbyProfile data;
+  final Meta meta;
+  const NearbyProfileEnvelope({required this.data, required this.meta});
+  factory NearbyProfileEnvelope.fromJson(Map<String,dynamic> json) => NearbyProfileEnvelope(
+    data: NearbyProfile.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class NearbyProfileListEnvelope {
+  final List<NearbyProfile> data;
+  final Page page;
+  final Meta meta;
+  const NearbyProfileListEnvelope({required this.data, required this.page, required this.meta});
+  factory NearbyProfileListEnvelope.fromJson(Map<String,dynamic> json) => NearbyProfileListEnvelope(
+    data: (json['data'] as List).map((value) => NearbyProfile.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class NearbyResultListEnvelope {
+  final List<NearbyResult> data;
+  final Page page;
+  final Meta meta;
+  const NearbyResultListEnvelope({required this.data, required this.page, required this.meta});
+  factory NearbyResultListEnvelope.fromJson(Map<String,dynamic> json) => NearbyResultListEnvelope(
+    data: (json['data'] as List).map((value) => NearbyResult.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class NearbyPlaceEnvelope {
+  final NearbyPlace data;
+  final Meta meta;
+  const NearbyPlaceEnvelope({required this.data, required this.meta});
+  factory NearbyPlaceEnvelope.fromJson(Map<String,dynamic> json) => NearbyPlaceEnvelope(
+    data: NearbyPlace.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class NavigationIntentEnvelope {
+  final NavigationIntent data;
+  final Meta meta;
+  const NavigationIntentEnvelope({required this.data, required this.meta});
+  factory NavigationIntentEnvelope.fromJson(Map<String,dynamic> json) => NavigationIntentEnvelope(
+    data: NavigationIntent.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -7823,4 +8186,13 @@ class ApiRoutes {
   static const post_consumer_messages__id__read = '/consumer/messages/{id}/read';
   static const get_consumer_notification_preferences = '/consumer/notification-preferences';
   static const put_consumer_notification_preferences__category = '/consumer/notification-preferences/{category}';
+  static const get_merchant_stores__store_id__nearby_profile = '/merchant/stores/{store_id}/nearby-profile';
+  static const put_merchant_stores__store_id__nearby_profile = '/merchant/stores/{store_id}/nearby-profile';
+  static const get_admin_nearby_stores = '/admin/nearby/stores';
+  static const get_admin_nearby_stores__id = '/admin/nearby/stores/{id}';
+  static const post_admin_nearby_stores__id__moderation = '/admin/nearby/stores/{id}/moderation';
+  static const get_public_nearby_places = '/public/nearby/places';
+  static const get_public_nearby_places__id = '/public/nearby/places/{id}';
+  static const post_public_nearby_navigation_intents = '/public/nearby/navigation-intents';
+  static const post_consumer_nearby_navigation_intents = '/consumer/nearby/navigation-intents';
 }

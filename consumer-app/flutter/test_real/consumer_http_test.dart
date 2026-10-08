@@ -1,6 +1,7 @@
 import 'package:pawday_consumer/payment_repository.dart';
 import 'package:pawday_consumer/publishing_repository.dart';
 import 'package:pawday_consumer/support_repository.dart';
+import 'package:pawday_consumer/nearby_repository.dart';
 
 import 'dart:typed_data';
 
@@ -544,4 +545,38 @@ void main() {
     expect(vault.values['consumer.session'], isNull);
     restored.dispose();
   }, timeout: const Timeout(Duration(seconds: 60)));
+  test(
+    'real guest nearby facts, GPS distance and AMap handoff contract',
+    () async {
+      final base = Platform.environment['PAWDAY_REAL_API_BASE'];
+      if (base == null) throw StateError('Real backend is mandatory');
+      final api = ConsumerApi(
+        base: Uri.parse(base),
+        transport: http.Client(),
+        vault: MemoryVault(),
+      );
+      final nearby = NearbyRepository(api);
+      final places = await nearby.places(city: 'CI-M54-CITY', category: 'VET');
+      expect(places.data, isNotEmpty);
+      final place = await nearby.place(places.data.first.id);
+      expect(place.claim_status, 'VERIFIED');
+      expect(place.pawday_certified, true);
+      expect(place.services, contains('CONSULTATION'));
+      final distances = await nearby.places(
+        position: const Coordinates(121.5, 31.2),
+        category: 'VET',
+      );
+      expect(distances.data.first.distance_m, 0);
+      final intent = await nearby.navigation(place.id);
+      expect(intent.coordinate_system, 'WGS84');
+      expect(NavigationLauncher.safe(Uri.parse(intent.launch_url), '1'), true);
+      expect(
+        NavigationLauncher.safe(Uri.parse(intent.fallback_url), '0'),
+        true,
+      );
+      expect(api.authenticated, false);
+      api.dispose();
+    },
+    timeout: const Timeout(Duration(seconds: 30)),
+  );
 }
