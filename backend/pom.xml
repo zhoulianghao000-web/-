@@ -12,7 +12,7 @@
 
   <groupId>cn.pawday</groupId>
   <artifactId>pawday-backend</artifactId>
-  <version>0.5.3-SNAPSHOT</version>
+  <version>0.5.4-SNAPSHOT</version>
   <name>Pawday Backend</name>
 
   <properties>
