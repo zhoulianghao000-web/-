@@ -234,20 +234,79 @@ class MembershipPointsIntegrationTests {
 
  /** Goods purchase fixture: 1000 fen unit price, 300 flat shipping, simulated WECHAT payment. */
  record GoodsFixture(String payment,String subId,String itemId,long payable){}
- GoodsFixture paidGoods(String u,int qty){
-  var offer=req("POST","/merchant/offers",new LinkedHashMap<String,Object>(Map.of("sku_id",sku,"sale_price_fen",1000,"member_price_fen",900,"fulfillment_sla","TEST-ONLY 48h")){{put("store_id",store.toString());}},merchant,Map.of("Idempotency-Key",key()));assertEquals(201,offer.status(),offer.body().toString());
+ GoodsFixture paidGoods(String u,int qty){return paidGoods(u,qty,1000,List.of());}
+ GoodsFixture paidGoods(String u,int qty,long price,List<String> coupons){return paidGoods(u,qty,price,coupons,()->{},200);}
+ GoodsFixture paidGoods(String u,int qty,long price,List<String> coupons,Runnable beforeConfirm,int expectedStatus){
+  var offer=req("POST","/merchant/offers",new LinkedHashMap<String,Object>(Map.of("sku_id",sku,"sale_price_fen",price,"member_price_fen",Math.min(price,900),"fulfillment_sla","TEST-ONLY 48h")){{put("store_id",store.toString());}},merchant,Map.of("Idempotency-Key",key()));assertEquals(201,offer.status(),offer.body().toString());
   assertEquals(201,req("POST","/merchant/offers/"+offer.id()+"/inventory-adjustments",Map.of("delta_qty",20,"reason_code","COUNT_CORRECTION","expected_version",0),merchant,Map.of("Idempotency-Key",key())).status());
   assertEquals(200,req("POST","/merchant/offers/"+offer.id()+"/activate",Map.of("reason","TEST-ONLY lifecycle"),merchant,Map.of("Idempotency-Key",key(),"If-Match","\"0\"")).status());
   int v=db.queryForObject("SELECT coalesce(max(version_no),0)+1 FROM shipping_rule_versions WHERE merchant_id=?",Integer.class,merchantId);
   db.update("INSERT INTO shipping_rule_versions(id,merchant_id,version_no,province_codes,base_fen,per_kg_fen,free_threshold_fen,created_by) VALUES (?,?,?,'[\"310000\"]',300,100,NULL,?)",UUID.randomUUID(),merchantId,v,adminPrincipal);
   var cart=req("POST","/consumer/cart/items",Map.of("offer_id",offer.id(),"quantity",qty),u,Map.of("Idempotency-Key",key()));
   var address=req("POST","/consumer/addresses",Map.of("recipient","TEST recipient","phone","13800000000","province_code","310000","city_code","310100","district_code","310101","detail","TEST-only address"),u,Map.of("Idempotency-Key",key()));
-  var quote=req("POST","/consumer/checkout/quotes",Map.of("cart_item_ids",List.of(cart.id()),"address_id",address.id(),"coupon_ids",List.of(),"use_membership",false),u,Map.of("Idempotency-Key",key()));assertEquals(200,quote.status(),quote.body().toString());
+  var quote=req("POST","/consumer/checkout/quotes",Map.of("cart_item_ids",List.of(cart.id()),"address_id",address.id(),"coupon_ids",coupons,"use_membership",false),u,Map.of("Idempotency-Key",key()));assertEquals(200,quote.status(),quote.body().toString());
   var order=req("POST","/consumer/orders",Map.of("quote_id",quote.data().get("quote_id").asString()),u,Map.of("Idempotency-Key",key()));assertEquals(200,order.status(),order.body().toString());
   String payment=order.data().get("payment").get("id").asString();
   var attempt=req("POST","/consumer/payments/"+payment+"/attempts",Map.of("channel","WECHAT","client_platform","ANDROID"),u,Map.of("Idempotency-Key",key()));
-  assertEquals(200,req("POST","/consumer/payments/"+payment+"/simulation",Map.of("attempt_id",attempt.data().get("attempts").get(0).get("id").asString(),"outcome","SUCCEEDED"),u,Map.of()).status());
+  beforeConfirm.run();assertEquals(expectedStatus,req("POST","/consumer/payments/"+payment+"/simulation",Map.of("attempt_id",attempt.data().get("attempts").get(0).get("id").asString(),"outcome","SUCCEEDED"),u,Map.of()).status());
   return new GoodsFixture(payment,order.data().get("suborders").get(0).get("id").asString(),order.data().get("suborders").get(0).get("items").get(0).get("id").asString(),order.data().get("payable_amount_fen").asLong());
+ }
+ @Test void missingPointsPolicyRetainsPaymentForRecoveryWithoutLosingEntitlement(){
+  String u=consumer();var policies=db.queryForList("SELECT * FROM points_policies");GoodsFixture f;
+  try{f=paidGoods(u,1,1000,List.of(),()->db.execute("TRUNCATE points_policies"),503);}
+  finally{for(var p:policies)db.update("INSERT INTO points_policies(id,earn_points_per_yuan,checkin_points,checkin_cycle_days,policy_version,created_by,created_at) VALUES (?,?,?,?,?,?,?)",p.get("id"),p.get("earn_points_per_yuan"),p.get("checkin_points"),p.get("checkin_cycle_days"),p.get("policy_version"),p.get("created_by"),p.get("created_at"));}
+  assertEquals("PROCESSING",db.queryForObject("SELECT status FROM payments WHERE id=?",String.class,UUID.fromString(f.payment())));
+  assertEquals(0,balance(u));
+  var result=req("POST","/consumer/payments/"+f.payment()+"/requery",Map.of(),u,Map.of());assertEquals(200,result.status(),result.body().toString());assertEquals("SUCCEEDED",result.data().get("status").asString());assertTrue(balance(u)>0);
+ }
+ @Test void retiredPlanAndRewardCannotBePurchasedThroughOldVersion(){
+  String u=consumer(),code="TEST-"+key().substring(0,20);
+  var plan=new LinkedHashMap<String,Object>(Map.of("code",code,"name","TEST retired","term","MONTH","price_fen",100,"ai_quota",0,"benefits",List.of(),"status","ACTIVE"));
+  assertEquals(200,req("POST","/admin/membership-plans",plan,admin,Map.of("X-Reverify-Token",proof("membership.plan.manage"))).status());
+  plan.put("status","RETIRED");
+  assertEquals(200,req("POST","/admin/membership-plans",plan,admin,Map.of("X-Reverify-Token",proof("membership.plan.manage"))).status());
+  assertEquals(404,req("POST","/consumer/membership/orders",Map.of("plan_code",code),u,Map.of("Idempotency-Key",key())).status());
+  var reward=new LinkedHashMap<String,Object>(Map.of("code",code,"name","TEST retired","cost_points",1,"status","ACTIVE"));
+  var active=req("POST","/admin/points-rewards",reward,admin,Map.of("X-Reverify-Token",proof("points.reward.manage")));assertEquals(200,active.status());
+  reward.put("status","RETIRED");assertEquals(200,req("POST","/admin/points-rewards",reward,admin,Map.of("X-Reverify-Token",proof("points.reward.manage"))).status());
+  assertEquals(200,req("POST","/consumer/points/checkins",Map.of(),u,Map.of("Idempotency-Key",key())).status());
+  assertEquals(404,req("POST","/consumer/points/redemptions",Map.of("reward_id",active.id()),u,Map.of("Idempotency-Key",key())).status());
+ }
+ @Test void shippingCouponDoesNotReduceGoodsPoints(){
+  String u=consumer();UUID def=UUID.randomUUID(),coupon=UUID.randomUUID();
+  db.update("INSERT INTO coupon_definitions(id,version,status,parameters) VALUES (?,1,'PUBLISHED','{}')",def);
+  db.update("INSERT INTO user_coupons(id,user_id,definition_id,definition_version,scope,amount_fen,threshold_fen,status,expires_at,version,rule_version) VALUES (?,?,?,1,'SHIPPING',300,0,'AVAILABLE',?,0,'TEST-ONLY-1')",coupon,UUID.fromString(userIdOf(u)),def,Timestamp.from(clock.instant().plusSeconds(600)));
+  var f=paidGoods(u,1,1000,List.of(coupon.toString()));
+  long goods=db.queryForObject("SELECT sum(i.payable_amount_fen) FROM order_items i JOIN suborders s ON s.id=i.suborder_id JOIN payments p ON p.order_id=s.order_id WHERE p.id=?",Long.class,UUID.fromString(f.payment()));
+  long rate=db.queryForObject("SELECT earn_points_per_yuan FROM points_policies ORDER BY policy_version DESC LIMIT 1",Long.class);
+  assertEquals(goods/100*rate,balance(u));
+ }
+ @Test void splitFullRefundClawsBackEveryEarnedPoint(){
+  String u=consumer();var f=paidGoods(u,3,67,List.of());long earned=balance(u);assertTrue(earned>0);
+  for(int i=0;i<3;i++){
+   var r=req("POST","/consumer/suborders/"+f.subId()+"/cancellations",Map.of("reason_code","CONSUMER_CANCELLED","items",List.of(Map.of("order_item_id",f.itemId(),"quantity",1))),u,Map.of("Idempotency-Key",key()));assertEquals(200,r.status(),r.body().toString());
+  }
+  assertEquals(0,balance(u),"a full goods refund must reclaim all original points even across small partial refunds");
+ }
+ @Test void concurrentFirstMembershipPaymentsBothExtendTheSubscription()throws Exception{
+  String u=consumer();var payments=new ArrayList<String>();var attempts=new ArrayList<String>();
+  for(int i=0;i<2;i++){
+   var order=req("POST","/consumer/membership/orders",Map.of("plan_code","MEMBER_MONTH"),u,Map.of("Idempotency-Key",key()));assertEquals(200,order.status());String p=order.data().get("payment").get("id").asString();payments.add(p);
+   var a=req("POST","/consumer/payments/"+p+"/attempts",Map.of("channel","WECHAT","client_platform","ANDROID"),u,Map.of("Idempotency-Key",key()));assertEquals(200,a.status());attempts.add(a.data().get("attempts").get(0).get("id").asString());
+  }
+  var start=new java.util.concurrent.CountDownLatch(1);
+  try(var pool=java.util.concurrent.Executors.newFixedThreadPool(2)){
+   var tasks=new ArrayList<java.util.concurrent.Future<Response>>();
+   for(int i=0;i<2;i++){int index=i;tasks.add(pool.submit(()->{start.await();return req("POST","/consumer/payments/"+payments.get(index)+"/simulation",Map.of("attempt_id",attempts.get(index),"outcome","SUCCEEDED"),u,Map.of());}));}
+   start.countDown();for(var task:tasks){var result=task.get(30,java.util.concurrent.TimeUnit.SECONDS);assertEquals(200,result.status(),result.body().toString());}
+  }
+  var expiry=Instant.parse(read("/consumer/membership",u).data().get("expires_at").asString());assertTrue(expiry.isAfter(clock.instant().plusSeconds(55L*86400)));
+  assertEquals(1,db.queryForObject("SELECT count(*) FROM membership_subscriptions WHERE user_id=?",Integer.class,UUID.fromString(userIdOf(u))));
+ }
+ @Test void checkinUsesShanghaiCalendarAtUtcBoundary(){
+  String u=consumer();clock.current=Instant.parse("2026-10-07T16:30:00Z");
+  var r=req("POST","/consumer/points/checkins",Map.of(),u,Map.of("Idempotency-Key",key()));assertEquals(200,r.status(),r.body().toString());
+  assertEquals("2026-10-08",r.data().get("checkin_date").asString());
  }
  @AfterAll static void finish()throws Exception{Files.writeString(Path.of("target/m51-contract-samples.json"),JsonMapper.builder().build().writeValueAsString(SAMPLES));PG.close();}
 }

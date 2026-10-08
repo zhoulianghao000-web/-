@@ -21,7 +21,7 @@ import org.springframework.transaction.support.TransactionTemplate;
  public AfterSaleService(JdbcTemplate db,TransactionTemplate tx,IdempotentCommandExecutor commands,RefundService refunds,OutboxWriter outbox,AuditWriter audit,AuthService auth,cn.pawday.settlement.SettlementService settlement,Clock clock){this.db=db;this.tx=tx;this.commands=commands;this.refunds=refunds;this.outbox=outbox;this.audit=audit;this.auth=auth;this.settlement=settlement;this.clock=clock;}
  private Map<String,Object> one(String q,Object...args){var rows=db.queryForList(q,args);if(rows.isEmpty())throw new Failure(404,"RESOURCE_NOT_FOUND");return rows.getFirst();}
  private long n(Object v){return ((Number)v).longValue();}
- private Map<String,Object> view(Map<String,Object> r){var v=new LinkedHashMap<String,Object>();r.forEach((k,x)->v.put(k,x instanceof Timestamp t?t.toInstant().toString():x));return v;}
+ private Map<String,Object> view(Map<String,Object> r){var v=new LinkedHashMap<String,Object>();r.forEach((k,x)->{if(!k.equals("lease_token")&&!k.equals("lease_until"))v.put(k,x instanceof Timestamp t?t.toInstant().toString():x);});return v;}
  private String correlation(HttpServletRequest r){return r==null?null:(String)r.getAttribute("correlation_id");}
  private boolean scoped(Actor a,UUID sub){return db.queryForObject("SELECT count(*) FROM order_items i WHERE i.suborder_id=? AND ((i.store_id IS NULL AND NOT ?) OR (i.store_id IS NOT NULL AND NOT EXISTS(SELECT 1 FROM principal_store_scope p WHERE p.principal_id=? AND p.merchant_id=i.merchant_id AND p.store_id=i.store_id)))",Integer.class,sub,a.permissions().contains("order.default-scope"),a.principalId())==0;}
  private Map<String,Object> authorize(Actor a,UUID aid,boolean mutation){

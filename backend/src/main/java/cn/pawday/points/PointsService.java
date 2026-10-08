@@ -11,6 +11,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.Clock;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.math.BigInteger;
 import java.util.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -34,22 +36,24 @@ import tools.jackson.databind.json.JsonMapper;
  private void permission(Actor a,String p){if(a.realm()!=Actor.Realm.ADMIN||!a.permissions().contains(p))throw new Failure(403,"PERMISSION_DENIED");}
  private Map<String,Object> policy(){return one("SELECT * FROM points_policies ORDER BY policy_version DESC LIMIT 1");}
  private void account(UUID user){db.update("INSERT INTO points_accounts(user_id) VALUES (?) ON CONFLICT(user_id) DO NOTHING",user);}
+ private void lockAccount(UUID user){account(user);one("SELECT user_id FROM points_accounts WHERE user_id=? FOR UPDATE",user);}
+ private long goodsPayable(UUID order){return db.queryForObject("SELECT coalesce(sum(i.payable_amount_fen),0) FROM order_items i JOIN suborders s ON s.id=i.suborder_id WHERE s.order_id=?",Long.class,order);}
  private long balance(UUID user){return db.queryForObject("SELECT coalesce(sum(points),0) FROM points_ledger WHERE user_id=?",Long.class,user);}
  private void entry(UUID user,String type,long points,String businessKey,UUID order,UUID refund,UUID redemption,Integer policyVersion,String reason,Actor actor){
-  db.update("INSERT INTO points_ledger(id,user_id,entry_type,points,business_key,order_id,refund_id,redemption_id,policy_version,reason,created_by_type,created_by) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(business_key) DO NOTHING",
+  int inserted=db.update("INSERT INTO points_ledger(id,user_id,entry_type,points,business_key,order_id,refund_id,redemption_id,policy_version,reason,created_by_type,created_by) VALUES (?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(business_key) DO NOTHING",
    UUID.randomUUID(),user,type,points,businessKey,order,refund,redemption,policyVersion,reason,actor==null?"SYSTEM":"PRINCIPAL",actor==null?null:actor.principalId());
+  if(inserted==1)outbox.append("POINTS",user.toString(),"PointsChanged",1,Map.of("user_id",user.toString(),"reason",type),null);
  }
 
  /** Goods payment success earns points from the payable amount at the policy rate frozen in the entry. */
  public void recordGoodsPaymentSuccess(UUID order,UUID payment,UUID user){
   var policies=db.queryForList("SELECT * FROM points_policies ORDER BY policy_version DESC LIMIT 1");
-  if(policies.isEmpty())return;
+  if(policies.isEmpty())throw new Failure(503,"POINTS_POLICY_UNAVAILABLE");
   var p=policies.getFirst();long rate=n(p.get("earn_points_per_yuan"));
-  var o=one("SELECT payable_amount_fen,shipping_amount_fen FROM orders WHERE id=?",order);
-  long goodsPayable=Math.max(0,n(o.get("payable_amount_fen"))-n(o.get("shipping_amount_fen")));
+  long goodsPayable=goodsPayable(order);
   long earn=goodsPayable/100*rate;
   if(earn<1)return;
-  account(user);
+  lockAccount(user);
   entry(user,"PURCHASE_EARN",earn,"PURCHASE:"+payment,order,null,null,((Number)p.get("policy_version")).intValue(),null,null);
  }
 
@@ -60,16 +64,17 @@ import tools.jackson.databind.json.JsonMapper;
   var earns=db.queryForList("SELECT * FROM points_ledger WHERE business_key=?","PURCHASE:"+payment);
   if(earns.isEmpty())return;
   var earn=earns.getFirst();UUID user=(UUID)earn.get("user_id"),order=(UUID)earn.get("order_id");
-  var o=one("SELECT payable_amount_fen,shipping_amount_fen FROM orders WHERE id=?",order);
-  long orderGoods=Math.max(0,n(o.get("payable_amount_fen"))-n(o.get("shipping_amount_fen")));
+  lockAccount(user);
+  if(db.queryForObject("SELECT count(*) FROM points_ledger WHERE business_key=?",Integer.class,"CLAWBACK:"+refundId)>0)return;
+  long orderGoods=goodsPayable(order);
   if(orderGoods<1)return;
-  long refundedGoods=0;
-  if(refund.get("cancellation_id")!=null)refundedGoods=db.queryForObject("SELECT coalesce(sum(item_payable_refund_fen),0) FROM order_cancellation_items WHERE refund_id=?",Long.class,refundId);
-  else refundedGoods=db.queryForObject("SELECT coalesce(sum(item_payable_refund_fen),0) FROM aftersale_items WHERE refund_id=?",Long.class,refundId);
+  // Cumulative successful frozen units, rather than flooring every separate partial refund.
+  long refundedGoods=db.queryForObject("SELECT coalesce(sum(u.paid_amount_fen),0) FROM order_refund_unit_claims c JOIN order_item_refund_units u USING(order_item_id,unit_index) JOIN refunds r ON r.id=c.refund_id WHERE r.payment_id=? AND r.status='SUCCEEDED' AND c.status='REFUNDED'",Long.class,payment);
   if(refundedGoods<1)return;
   long earned=n(earn.get("points"));
   long clawed=db.queryForObject("SELECT coalesce(-sum(points),0) FROM points_ledger WHERE entry_type='REFUND_CLAWBACK' AND order_id=?",Long.class,order);
-  long clawback=Math.min(earned*refundedGoods/orderGoods,earned-clawed);
+  long target=BigInteger.valueOf(earned).multiply(BigInteger.valueOf(Math.min(refundedGoods,orderGoods))).divide(BigInteger.valueOf(orderGoods)).longValueExact();
+  long clawback=Math.max(0,target-clawed);
   if(clawback<1)return;
   entry(user,"REFUND_CLAWBACK",-clawback,"CLAWBACK:"+refundId,order,refundId,null,((Number)earn.get("policy_version")).intValue(),"退款追回",null);
  }
@@ -80,7 +85,7 @@ import tools.jackson.databind.json.JsonMapper;
   var held=commands.command(a,"points.checkin:"+a.userId(),key,Map.of(),()->tx.execute(s->{
    account(a.userId());one("SELECT user_id FROM points_accounts WHERE user_id=? FOR UPDATE",a.userId());
    var p=policy();int cycleDays=((Number)p.get("checkin_cycle_days")).intValue();int points=((Number)p.get("checkin_points")).intValue();
-   LocalDate today=LocalDate.now(clock);
+   LocalDate today=clock.instant().atZone(ZoneId.of("Asia/Shanghai")).toLocalDate();
    if(db.queryForObject("SELECT count(*) FROM points_checkins WHERE user_id=? AND checkin_date=?",Integer.class,a.userId(),Date.valueOf(today))>0)throw new Failure(409,"CHECKIN_ALREADY_DONE");
    var yesterday=db.queryForList("SELECT cycle_day FROM points_checkins WHERE user_id=? AND checkin_date=?",a.userId(),Date.valueOf(today.minusDays(1)));
    int cycleDay=yesterday.isEmpty()?1:(((Number)yesterday.getFirst().get("cycle_day")).intValue()%cycleDays)+1;
@@ -88,7 +93,6 @@ import tools.jackson.databind.json.JsonMapper;
    db.update("INSERT INTO points_checkins(id,user_id,checkin_date,cycle_day,points) VALUES (?,?,?,?,?)",id,a.userId(),Date.valueOf(today),cycleDay,points);
    entry(a.userId(),"CHECKIN_EARN",points,"CHECKIN:"+a.userId()+":"+today,null,null,null,((Number)p.get("policy_version")).intValue(),"连续签到第 "+cycleDay+" 天",null);
    audit.write(a,"points.checkin","POINTS_CHECKIN",id.toString(),Map.of(),Map.of("cycle_day",cycleDay,"points",points),r);
-   outbox.append("POINTS",a.userId().toString(),"PointsChanged",1,Map.of("user_id",a.userId().toString(),"reason","CHECKIN"),null);
    return Map.of("checkin_id",id.toString());
   }));
   return view(one("SELECT * FROM points_checkins WHERE id=?",UUID.fromString(held.get("checkin_id").toString())));
@@ -101,7 +105,10 @@ import tools.jackson.databind.json.JsonMapper;
   UUID rewardId;try{rewardId=UUID.fromString(rewardRaw);}catch(Exception e){throw new Failure(400,"VALIDATION_ERROR");}
   var held=commands.command(a,"points.redeem:"+a.userId(),key,b,()->tx.execute(s->{
    account(a.userId());one("SELECT user_id FROM points_accounts WHERE user_id=? FOR UPDATE",a.userId());
-   var reward=one("SELECT * FROM points_rewards WHERE id=? AND status='ACTIVE'",rewardId);
+   var seed=one("SELECT code FROM points_rewards WHERE id=?",rewardId);
+   db.queryForObject("SELECT pg_advisory_xact_lock(hashtextextended(?,0))",Object.class,"points.reward:"+seed.get("code"));
+   var reward=one("SELECT * FROM points_rewards WHERE code=? ORDER BY reward_version DESC LIMIT 1",seed.get("code"));
+   if(!reward.get("id").equals(rewardId)||!reward.get("status").equals("ACTIVE"))throw new Failure(404,"RESOURCE_NOT_FOUND");
    long cost=n(reward.get("cost_points"));long balance=balance(a.userId());
    if(balance<0||balance<cost)throw new Failure(422,"POINTS_INSUFFICIENT");
    UUID id=UUID.randomUUID();
@@ -109,7 +116,6 @@ import tools.jackson.databind.json.JsonMapper;
     id,"D"+id.toString().replace("-",""),a.userId(),rewardId,json.writeValueAsString(view(reward)),cost);
    entry(a.userId(),"REDEMPTION_SPEND",-cost,"REDEEM:"+id,null,null,id,((Number)reward.get("reward_version")).intValue(),"兑换 "+reward.get("name"),null);
    audit.write(a,"points.redeem","POINTS_REDEMPTION",id.toString(),Map.of(),Map.of("reward_code",reward.get("code"),"cost_points",cost),r);
-   outbox.append("POINTS",a.userId().toString(),"PointsChanged",1,Map.of("user_id",a.userId().toString(),"reason","REDEMPTION"),null);
    return Map.of("redemption_id",id.toString());
   }));
   return view(one("SELECT * FROM points_redemptions WHERE id=?",UUID.fromString(held.get("redemption_id").toString())));
@@ -119,7 +125,7 @@ import tools.jackson.databind.json.JsonMapper;
   consumer(a);
   var result=new LinkedHashMap<String,Object>();
   result.put("balance",balance(a.userId()));
-  LocalDate today=LocalDate.now(clock);
+  LocalDate today=clock.instant().atZone(ZoneId.of("Asia/Shanghai")).toLocalDate();
   result.put("checked_in_today",db.queryForObject("SELECT count(*) FROM points_checkins WHERE user_id=? AND checkin_date=?",Integer.class,a.userId(),Date.valueOf(today))>0);
   var streak=db.queryForList("SELECT cycle_day FROM points_checkins WHERE user_id=? AND checkin_date IN (?,?) ORDER BY checkin_date DESC LIMIT 1",a.userId(),Date.valueOf(today),Date.valueOf(today.minusDays(1)));
   result.put("current_cycle_day",streak.isEmpty()?0:((Number)streak.getFirst().get("cycle_day")).intValue());
@@ -142,7 +148,7 @@ import tools.jackson.databind.json.JsonMapper;
 
  public Map<String,Object> adjust(Actor a,UUID user,Map<String,Object> b,String key,String proof,HttpServletRequest r){
   permission(a,"points.adjust");
-  if(!b.keySet().equals(Set.of("points","reason"))||!(b.get("points")instanceof Number points)||points.longValue()==0||points.doubleValue()!=points.longValue()||!(b.get("reason")instanceof String reason)||reason.isBlank()||reason.length()>500)throw new Failure(400,"VALIDATION_ERROR");
+  if(!b.keySet().equals(Set.of("points","reason"))||!(b.get("points")instanceof Number points)||points.longValue()==0||points.longValue() < -100000000||points.longValue()>100000000||points.doubleValue()!=points.longValue()||!(b.get("reason")instanceof String reason)||reason.isBlank()||reason.length()>500)throw new Failure(400,"VALIDATION_ERROR");
   var held=commands.command(a,"points.adjust:"+user,key,b,()->tx.execute(s->{
    auth.consumeProof(a,"points.adjust",proof);
    one("SELECT id FROM app_user WHERE id=?",user);
@@ -150,6 +156,7 @@ import tools.jackson.databind.json.JsonMapper;
    UUID id=UUID.randomUUID();
    db.update("INSERT INTO points_ledger(id,user_id,entry_type,points,business_key,reason,created_by_type,created_by) VALUES (?,?,'MANUAL_ADJUSTMENT',?,?,?,'PRINCIPAL',?)",id,user,points.longValue(),"MANUAL:"+id,reason,a.principalId());
    audit.write(a,"points.adjust","POINTS_LEDGER",id.toString(),Map.of(),Map.of("user_id",user,"points",points.longValue(),"reason",reason),r);
+   outbox.append("POINTS",user.toString(),"PointsChanged",1,Map.of("user_id",user.toString(),"reason","MANUAL_ADJUSTMENT"),null);
    return Map.of("entry_id",id.toString());
   }));
   return view(one("SELECT * FROM points_ledger WHERE id=?",UUID.fromString(held.get("entry_id").toString())));
@@ -170,6 +177,7 @@ import tools.jackson.databind.json.JsonMapper;
   if(!b.keySet().equals(Set.of("earn_points_per_yuan","checkin_points","checkin_cycle_days"))||!(b.get("earn_points_per_yuan")instanceof Number rate)||rate.longValue()<0||rate.longValue()>1000||rate.doubleValue()!=rate.longValue()||!(b.get("checkin_points")instanceof Number cp)||cp.longValue()<1||cp.longValue()>10000||cp.doubleValue()!=cp.longValue()||!(b.get("checkin_cycle_days")instanceof Number cd)||cd.longValue()<1||cd.longValue()>30||cd.doubleValue()!=cd.longValue())throw new Failure(400,"VALIDATION_ERROR");
   return tx.execute(s->{
    auth.consumeProof(a,"points.policy.manage",proof);
+   db.queryForObject("SELECT pg_advisory_xact_lock(hashtextextended(?,0))",Object.class,"points.policy");
    int version=db.queryForObject("SELECT coalesce(max(policy_version),0)+1 FROM points_policies",Integer.class);
    UUID id=UUID.randomUUID();
    db.update("INSERT INTO points_policies(id,earn_points_per_yuan,checkin_points,checkin_cycle_days,policy_version,created_by) VALUES (?,?,?,?,?,?)",id,rate.intValue(),cp.intValue(),cd.intValue(),version,a.principalId());
@@ -184,6 +192,7 @@ import tools.jackson.databind.json.JsonMapper;
   if(!b.keySet().equals(Set.of("code","name","cost_points","status"))||!(b.get("code")instanceof String code)||code.isBlank()||code.length()>60||!(b.get("name")instanceof String name)||name.isBlank()||name.length()>120||!(b.get("cost_points")instanceof Number cost)||cost.longValue()<1||cost.longValue()>100000000||cost.doubleValue()!=cost.longValue()||!Set.of("ACTIVE","RETIRED").contains(b.get("status")))throw new Failure(400,"VALIDATION_ERROR");
   return tx.execute(s->{
    auth.consumeProof(a,"points.reward.manage",proof);
+   db.queryForObject("SELECT pg_advisory_xact_lock(hashtextextended(?,0))",Object.class,"points.reward:"+code);
    int version=db.queryForObject("SELECT coalesce(max(reward_version),0)+1 FROM points_rewards WHERE code=?",Integer.class,code);
    UUID id=UUID.randomUUID();
    db.update("INSERT INTO points_rewards(id,code,name,cost_points,status,reward_version,created_by) VALUES (?,?,?,?,?,?,?)",id,code,name,cost.longValue(),b.get("status"),version,a.principalId());

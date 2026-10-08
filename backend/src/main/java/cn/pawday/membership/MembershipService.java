@@ -65,8 +65,9 @@ import tools.jackson.databind.json.JsonMapper;
   consumer(a);
   if(!b.keySet().equals(Set.of("plan_code"))||!(b.get("plan_code")instanceof String code)||code.isBlank()||code.length()>40)throw new Failure(400,"VALIDATION_ERROR");
   var held=commands.command(a,"membership.purchase:"+a.userId(),key,b,()->tx.execute(s->{
-   var plans=db.queryForList("SELECT * FROM membership_plans WHERE code=? AND status='ACTIVE' ORDER BY plan_version DESC LIMIT 1",code);
-   if(plans.isEmpty())throw new Failure(404,"RESOURCE_NOT_FOUND");
+   db.queryForObject("SELECT pg_advisory_xact_lock(hashtextextended(?,0))",Object.class,"membership.plan:"+code);
+   var plans=db.queryForList("SELECT * FROM membership_plans WHERE code=? ORDER BY plan_version DESC LIMIT 1",code);
+   if(plans.isEmpty()||!plans.getFirst().get("status").equals("ACTIVE"))throw new Failure(404,"RESOURCE_NOT_FOUND");
    var plan=plans.getFirst();
    UUID id=UUID.randomUUID(),payment=UUID.randomUUID();
    var snapshot=Map.of("plan_id",plan.get("id").toString(),"code",plan.get("code"),"name",plan.get("name"),"term",plan.get("term"),"price_fen",n(plan.get("price_fen")),"ai_quota",((Number)plan.get("ai_quota")).intValue(),"plan_version",((Number)plan.get("plan_version")).intValue(),"benefits",json.readValue(plan.get("benefits").toString(),List.class));
@@ -93,6 +94,8 @@ import tools.jackson.databind.json.JsonMapper;
   UUID planVersion=(UUID)one("SELECT id FROM membership_plan_versions WHERE version_code=?","MP:"+plan.get("id").toString()).get("id");
   Timestamp now=Timestamp.from(clock.instant());
   Period term=plan.get("term").equals("YEAR")?Period.ofYears(1):Period.ofMonths(1);
+  // The user row exists even before the first subscription; concurrent first purchases must serialize too.
+  one("SELECT id FROM app_user WHERE id=? FOR UPDATE",order.get("user_id"));
   var subs=db.queryForList("SELECT * FROM membership_subscriptions WHERE user_id=? FOR UPDATE",order.get("user_id"));
   boolean extend=!subs.isEmpty()&&subs.getFirst().get("status").equals("ACTIVE")&&((Timestamp)subs.getFirst().get("expires_at")).toInstant().isAfter(clock.instant());
   if(subs.isEmpty()){
@@ -130,10 +133,11 @@ import tools.jackson.databind.json.JsonMapper;
   permission(a,"membership.plan.manage");
   if(!b.keySet().equals(Set.of("code","name","term","price_fen","ai_quota","benefits","status"))||!(b.get("code")instanceof String code)||code.isBlank()||code.length()>40||!(b.get("name")instanceof String name)||name.isBlank()||name.length()>80||!Set.of("MONTH","YEAR").contains(b.get("term"))||!(b.get("price_fen")instanceof Number price)||price.longValue()<1||price.longValue()>100000000||price.doubleValue()!=price.longValue()||!Set.of("ACTIVE","RETIRED").contains(b.get("status")))throw new Failure(400,"VALIDATION_ERROR");
   long quota=b.get("ai_quota")instanceof Number q&&q.longValue()>=0&&q.doubleValue()==q.longValue()?q.longValue():-1;
-  if(quota<0)throw new Failure(400,"VALIDATION_ERROR");
-  Object benefits=b.get("benefits");if(!(benefits instanceof List))throw new Failure(400,"VALIDATION_ERROR");
+  if(quota<0||quota>Integer.MAX_VALUE)throw new Failure(400,"VALIDATION_ERROR");
+  Object benefits=b.get("benefits");if(!(benefits instanceof List<?> list)||list.stream().anyMatch(x->!(x instanceof String)))throw new Failure(400,"VALIDATION_ERROR");
   return tx.execute(s->{
    auth.consumeProof(a,"membership.plan.manage",proof);
+   db.queryForObject("SELECT pg_advisory_xact_lock(hashtextextended(?,0))",Object.class,"membership.plan:"+code);
    int version=db.queryForObject("SELECT coalesce(max(plan_version),0)+1 FROM membership_plans WHERE code=?",Integer.class,code);
    UUID id=UUID.randomUUID();
    db.update("INSERT INTO membership_plans(id,code,name,term,price_fen,ai_quota,benefits,status,plan_version,created_by) VALUES (?,?,?,?,?,?,?::jsonb,?,?,?)",id,code,name,b.get("term"),price.longValue(),(int)quota,json.writeValueAsString(benefits),b.get("status"),version,a.principalId());

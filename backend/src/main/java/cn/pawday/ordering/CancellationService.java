@@ -22,7 +22,7 @@ import tools.jackson.databind.json.JsonMapper;
  public CancellationService(JdbcTemplate db,TransactionTemplate tx,IdempotentCommandExecutor commands,RefundService refunds,OutboxWriter outbox,AuditWriter audit,cn.pawday.settlement.SettlementService settlement,Clock clock){this.db=db;this.tx=tx;this.commands=commands;this.refunds=refunds;this.outbox=outbox;this.audit=audit;this.settlement=settlement;this.clock=clock;}
  private Map<String,Object> one(String q,Object...args){var rows=db.queryForList(q,args);if(rows.isEmpty())throw new Failure(404,"RESOURCE_NOT_FOUND");return rows.getFirst();}
  private long n(Object v){return ((Number)v).longValue();}
- private Map<String,Object> view(Map<String,Object> r){var v=new LinkedHashMap<String,Object>();r.forEach((k,x)->v.put(k,x instanceof Timestamp t?t.toInstant().toString():x));return v;}
+ private Map<String,Object> view(Map<String,Object> r){var v=new LinkedHashMap<String,Object>();r.forEach((k,x)->{if(!k.equals("lease_token")&&!k.equals("lease_until"))v.put(k,x instanceof Timestamp t?t.toInstant().toString():x);});return v;}
  private String correlation(HttpServletRequest r){return r==null?null:(String)r.getAttribute("correlation_id");}
  private Map<String,Object> authorize(Actor a,UUID sub){
   var row=one("SELECT s.*,o.user_id,o.status order_status FROM suborders s JOIN orders o ON o.id=s.order_id WHERE s.id=?",sub);

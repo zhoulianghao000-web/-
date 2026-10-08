@@ -18,9 +18,28 @@ public class RabbitTopology {
         var offerQueue=QueueBuilder.durable(OFFER_FACT_QUEUE).quorum().build();
         var orderQueue=QueueBuilder.durable("pawday.order.facts").quorum().build();
         var paymentQueue=QueueBuilder.durable("pawday.payment.facts").quorum().build();
+        var businessQueue=QueueBuilder.durable("pawday.business.facts").quorum().build();
         var catalogQueue=QueueBuilder.durable(CATALOG_STANDARD_QUEUE).quorum().build();
         var searchQueue=QueueBuilder.durable(SEARCH_QUEUE).quorum().deadLetterExchange(DLX).deadLetterRoutingKey("dead").withArgument("x-dead-letter-strategy","at-least-once").withArgument("x-overflow","reject-publish").withArgument("x-delivery-limit",-1).build();
-        return new Declarables(exchange,dead,queue,searchQueue,dlq,catalogQueue,offerQueue,orderQueue,paymentQueue,
+        return new Declarables(exchange,dead,queue,searchQueue,dlq,catalogQueue,offerQueue,orderQueue,paymentQueue,businessQueue,
+            BindingBuilder.bind(businessQueue).to(exchange).with("CancellationRecorded"),
+            BindingBuilder.bind(businessQueue).to(exchange).with("CancellationCompleted"),
+            BindingBuilder.bind(businessQueue).to(exchange).with("CouponReturned"),
+            BindingBuilder.bind(businessQueue).to(exchange).with("AfterSaleCreated"),
+            BindingBuilder.bind(businessQueue).to(exchange).with("AfterSaleMerchantDecision"),
+            BindingBuilder.bind(businessQueue).to(exchange).with("AfterSaleInspected"),
+            BindingBuilder.bind(businessQueue).to(exchange).with("AfterSaleEscalated"),
+            BindingBuilder.bind(businessQueue).to(exchange).with("AfterSaleArbitrated"),
+            BindingBuilder.bind(businessQueue).to(exchange).with("AfterSaleCompleted"),
+            BindingBuilder.bind(businessQueue).to(exchange).with("RefundSucceeded"),
+            BindingBuilder.bind(businessQueue).to(exchange).with("RefundFailed"),
+            BindingBuilder.bind(businessQueue).to(exchange).with("SettlementEligible"),
+            BindingBuilder.bind(businessQueue).to(exchange).with("SettlementCompleted"),
+            BindingBuilder.bind(businessQueue).to(exchange).with("SettlementAdjustmentCreated"),
+            BindingBuilder.bind(businessQueue).to(exchange).with("MembershipOrderCreated"),
+            BindingBuilder.bind(businessQueue).to(exchange).with("MembershipActivated"),
+            BindingBuilder.bind(businessQueue).to(exchange).with("MembershipPaymentSucceeded"),
+            BindingBuilder.bind(businessQueue).to(exchange).with("PointsChanged"),
             BindingBuilder.bind(paymentQueue).to(exchange).with("PaymentAttemptCreated"),
             BindingBuilder.bind(paymentQueue).to(exchange).with("PaymentExceptionRecorded"),
             BindingBuilder.bind(paymentQueue).to(exchange).with("PaymentCompensated"),
