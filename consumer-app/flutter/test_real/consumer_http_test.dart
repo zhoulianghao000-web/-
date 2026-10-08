@@ -1,5 +1,8 @@
 import 'package:pawday_consumer/payment_repository.dart';
 import 'package:pawday_consumer/publishing_repository.dart';
+import 'package:pawday_consumer/support_repository.dart';
+
+import 'dart:typed_data';
 
 import 'dart:io';
 import 'dart:convert';
@@ -478,6 +481,64 @@ void main() {
     final latest = (await pets.list()).firstWhere((p) => p.id == pet.id);
     await pets.delete(latest, newPetCommandKey());
     expect((await pets.list()).any((p) => p.id == pet.id), false);
+    final support = SupportRepository(restored);
+    final conversation = await support.create();
+    final messageKey = checkoutCommandKey();
+    final textMessage = SupportMessageInput(
+      type: 'TEXT',
+      body: 'CI REAL Dart private support',
+      asset_ids: const [],
+      target_id: null,
+    );
+    final sent = await support.send(conversation.id, textMessage, messageKey);
+    expect(
+      (await support.send(conversation.id, textMessage, messageKey)).id,
+      sent.id,
+    );
+    final chatImage = await support.upload(
+      Uint8List.fromList(
+        base64Decode(
+          'iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAEElEQVR4nGP4z8AARAwQCgAf7gP9i18U1AAAAABJRU5ErkJggg==',
+        ),
+      ),
+      'image/png',
+    );
+    final imageMessage = await support.send(
+      conversation.id,
+      SupportMessageInput(
+        type: 'IMAGE',
+        body: null,
+        asset_ids: [chatImage.asset_id],
+        target_id: null,
+      ),
+      checkoutCommandKey(),
+    );
+    expect(
+      (await support.image(imageMessage.media.single.content_url)).length,
+      greaterThan(0),
+    );
+    final history = await support.messages(conversation.id, 0);
+    expect(history.data.map((m) => m.sequence).toList(), [1, 2]);
+    expect((await support.read(conversation.id, 2)).unread_count, 0);
+    await support.preference('FOOD_REMINDER', false);
+    expect(
+      (await support.preferences())
+          .firstWhere((p) => p.category == 'FOOD_REMINDER')
+          .enabled,
+      false,
+    );
+    expect(
+      (await support.preferences())
+          .firstWhere((p) => p.category == 'ORDER')
+          .enabled,
+      true,
+    );
+    final closed = await support.status(
+      await support.detail(conversation.id),
+      'CLOSED',
+    );
+    expect(closed.status, 'CLOSED');
+    expect((await support.status(closed, 'OPEN')).status, 'OPEN');
     await restored.logout();
     expect(restored.authenticated, false);
     expect(vault.values['consumer.session'], isNull);

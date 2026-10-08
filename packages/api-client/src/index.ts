@@ -43,7 +43,7 @@ export class PawdayClient {
     this.api=createClient<paths>({baseUrl,fetch:this.transport});
   }
   get authenticated(){return this.tokens!==null;}
-  async uploadMedia(scope:'ARTICLE'|'REVIEW',file:File):Promise<components['schemas']['MediaAsset']>{
+  async uploadMedia(scope:'ARTICLE'|'REVIEW'|'CHAT',file:File):Promise<components['schemas']['MediaAsset']>{
     const epoch=this.epoch;
     if(file.size<1||file.size>5242880)throw new ApiError(413,'UPLOAD_TOO_LARGE','');
     if(!['image/png','image/jpeg',...(scope==='REVIEW'?['video/mp4']:[])].includes(file.type))throw new ApiError(400,'UPLOAD_MIME_NOT_ALLOWED','');
@@ -60,7 +60,7 @@ export class PawdayClient {
   }
   async publicationMedia(path:string):Promise<Blob>{
     const epoch=this.epoch,base=new URL(this.baseUrl,globalThis.location?.origin??'http://localhost');
-    if(!/^\/api\/v1\/(public|consumer|admin)\/(reviews|content)\/[0-9a-f-]{36}\/media\/[0-9a-f-]{36}$/.test(path))throw new ApiError(0,'INVALID_API_DESTINATION','');
+    if(!/^\/api\/v1\/(public|consumer|admin)\/(reviews|content)\/[0-9a-f-]{36}\/media\/[0-9a-f-]{36}$/.test(path)&&!/^\/api\/v1\/(consumer|merchant|admin)\/conversations\/[0-9a-f-]{36}\/messages\/[0-9a-f-]{36}\/media\/[0-9a-f-]{36}$/.test(path))throw new ApiError(0,'INVALID_API_DESTINATION','');
     const response=await this.transport(new Request(new URL(path,base.origin)));
     const mime=response.headers.get('Content-Type')?.split(';')[0]??'';
     if(!['image/png','image/jpeg','video/mp4'].includes(mime))throw new ApiError(0,'INVALID_MEDIA_RESPONSE','');

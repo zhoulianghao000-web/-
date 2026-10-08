@@ -6,6 +6,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.beans.factory.InitializingBean;
 @Configuration
 public class RabbitTopology {
+    public static final String SUPPORT_QUEUE="pawday.support.notifications";
     public static final String SEARCH_QUEUE="pawday.search";
     public static final String OFFER_FACT_QUEUE="pawday.offer.facts";
     public static final String CATALOG_STANDARD_QUEUE="pawday.catalog.standard-published";
@@ -21,7 +22,22 @@ public class RabbitTopology {
         var businessQueue=QueueBuilder.durable("pawday.business.facts").quorum().build();
         var catalogQueue=QueueBuilder.durable(CATALOG_STANDARD_QUEUE).quorum().build();
         var searchQueue=QueueBuilder.durable(SEARCH_QUEUE).quorum().deadLetterExchange(DLX).deadLetterRoutingKey("dead").withArgument("x-dead-letter-strategy","at-least-once").withArgument("x-overflow","reject-publish").withArgument("x-delivery-limit",-1).build();
-        return new Declarables(exchange,dead,queue,searchQueue,dlq,catalogQueue,offerQueue,orderQueue,paymentQueue,businessQueue,
+        var supportQueue=QueueBuilder.durable(SUPPORT_QUEUE).quorum().deadLetterExchange(DLX).deadLetterRoutingKey("dead").withArgument("x-dead-letter-strategy","at-least-once").withArgument("x-overflow","reject-publish").withArgument("x-delivery-limit",-1).build();
+        return new Declarables(supportQueue,exchange,dead,queue,searchQueue,dlq,catalogQueue,offerQueue,orderQueue,paymentQueue,businessQueue,
+            BindingBuilder.bind(supportQueue).to(exchange).with("SupportMessageCreated"),
+BindingBuilder.bind(supportQueue).to(exchange).with("SupportAssigned"),
+BindingBuilder.bind(supportQueue).to(exchange).with("OrderCreated"),
+BindingBuilder.bind(supportQueue).to(exchange).with("OrderPaid"),
+BindingBuilder.bind(supportQueue).to(exchange).with("OrderCancelled"),
+BindingBuilder.bind(supportQueue).to(exchange).with("OrderExpired"),
+BindingBuilder.bind(supportQueue).to(exchange).with("ShipmentCreated"),
+BindingBuilder.bind(supportQueue).to(exchange).with("SuborderReceiptConfirmed"),
+BindingBuilder.bind(supportQueue).to(exchange).with("AfterSaleCreated"),
+BindingBuilder.bind(supportQueue).to(exchange).with("AfterSaleMerchantDecision"),
+BindingBuilder.bind(supportQueue).to(exchange).with("AfterSaleInspected"),
+BindingBuilder.bind(supportQueue).to(exchange).with("AfterSaleEscalated"),
+BindingBuilder.bind(supportQueue).to(exchange).with("AfterSaleArbitrated"),
+BindingBuilder.bind(supportQueue).to(exchange).with("AfterSaleCompleted"),
             BindingBuilder.bind(businessQueue).to(exchange).with("CancellationRecorded"),
             BindingBuilder.bind(businessQueue).to(exchange).with("CancellationCompleted"),
             BindingBuilder.bind(businessQueue).to(exchange).with("CouponReturned"),

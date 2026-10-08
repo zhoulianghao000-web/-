@@ -214,6 +214,18 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(sub.merchant_name),
+                      OutlinedButton(
+                        onPressed: () => context.push(
+                          Uri(
+                            path: '/support',
+                            queryParameters: {
+                              'suborder_id': sub.id,
+                              'store_id': ?sub.items.firstOrNull?.store_id,
+                            },
+                          ).toString(),
+                        ),
+                        child: const Text('联系订单客服'),
+                      ),
                       for (final item in sub.items)
                         Text(
                           '${item.product_snapshot.name} × ${item.quantity} · ${orderMoney(item.payable_amount_fen)}',

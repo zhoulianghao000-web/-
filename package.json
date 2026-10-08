@@ -5,7 +5,7 @@
   "packageManager": "pnpm@11.25.0",
   "scripts": {
     "generate": "node scripts/generate-api.mjs",
-    "generate:check": "node scripts/compose-m31-contract.mjs --check && node scripts/compose-m32-contract.mjs --check && node scripts/compose-m33-contract.mjs --check && node scripts/compose-m34-contract.mjs --check && node scripts/compose-m41-contract.mjs --check && node scripts/compose-m42-contract.mjs --check && node scripts/compose-m43-contract.mjs --check && node scripts/compose-m44-contract.mjs --check && node scripts/compose-m45-contract.mjs --check && node scripts/compose-m46-contract.mjs --check && node scripts/compose-m51-contract.mjs --check && node scripts/compose-m52-contract.mjs --check && node scripts/generate-api.mjs --check",
+    "generate:check": "node scripts/compose-m31-contract.mjs --check && node scripts/compose-m32-contract.mjs --check && node scripts/compose-m33-contract.mjs --check && node scripts/compose-m34-contract.mjs --check && node scripts/compose-m41-contract.mjs --check && node scripts/compose-m42-contract.mjs --check && node scripts/compose-m43-contract.mjs --check && node scripts/compose-m44-contract.mjs --check && node scripts/compose-m45-contract.mjs --check && node scripts/compose-m46-contract.mjs --check && node scripts/compose-m51-contract.mjs --check && node scripts/compose-m52-contract.mjs --check && node scripts/compose-m53-contract.mjs --check && node scripts/generate-api.mjs --check",
     "lint": "eslint packages merchant-web/src admin-web/src tests e2e scripts --max-warnings 0",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
