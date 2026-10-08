@@ -385,6 +385,10 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
               Text('结论依据当前宠物档案和平台商品资料'),
             ],
             const Divider(),
+            OutlinedButton(
+              onPressed: () => context.push('/reviews?spu_id=${s.spu_id}'),
+              child: const Text('查看真实购买评价'),
+            ),
             const Text('当前在售商家报价'),
             if (offers.isEmpty) const Text('暂无在售报价'),
             for (final o in offers)

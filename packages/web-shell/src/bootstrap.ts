@@ -16,6 +16,8 @@ export function bootstrap(realm:Exclude<Realm,'consumer'>){
     {path:'/orders',component:{template:'<span />'},meta:{page:'orders',permission:realm==='merchant'?'order.read':'order.admin.read'}},
     ...(realm==='admin'?[{path:'/order-policies',component:{template:'<span />'},meta:{page:'order-policies',permission:'order.policy.manage'}}]:[]),
     ...(realm==='admin'?[{path:'/settlements',component:{template:'<span />'},meta:{page:'settlements',permission:'settlement.read'}},{path:'/finance-policies',component:{template:'<span />'},meta:{page:'finance-policies',permission:'settlement.policy.manage'}},{path:'/membership',component:{template:'<span />'},meta:{page:'membership',permission:'points.read'}}]:[{path:'/finance',component:{template:'<span />'},meta:{page:'finance',permission:'ledger.read'}}]),
+    {path:'/reviews',component:{template:'<span />'},meta:{page:'reviews',permission:realm==='merchant'?'review.merchant.read':'review.read'}},
+    ...(realm==='admin'?[{path:'/content',component:{template:'<span />'},meta:{page:'content',permission:'content.read'}}]:[]),
     {path:'/offers',component:{template:'<span />'},meta:{page:'offers',permission:realm==='merchant'?'offer.read':'offer.admin.read'}},
     {path:'/catalog',component:{template:'<span />'},meta:{page:'catalog',permission:'catalog.standard.read'}},
     {path:'/:pathMatch(.*)*',redirect:'/dashboard'},

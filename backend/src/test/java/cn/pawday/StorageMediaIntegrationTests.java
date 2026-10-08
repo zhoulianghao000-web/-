@@ -67,7 +67,7 @@ class StorageMediaIntegrationTests {
     String session(UUID principal){UUID id=UUID.randomUUID();String token=crypto.token();db.update("INSERT INTO auth_session(id,principal_id,access_token_hash,device_id,expires_at,refresh_expires_at,created_at) VALUES (?,?,?,'MEDIA-TEST',?,?,?)",id,principal,crypto.hash(token),Timestamp.from(clock.instant().plusSeconds(900)),Timestamp.from(clock.instant().plusSeconds(2592000)),Timestamp.from(clock.instant()));return token;}
     UUID consumer(){UUID principal=UUID.randomUUID(),user=UUID.randomUUID();db.update("INSERT INTO app_user(id,status) VALUES (?,'ACTIVE')",user);db.update("INSERT INTO identity_principal(id,realm,user_id) VALUES (?,'CONSUMER',?)",principal,user);return principal;}
     @BeforeEach void setup() throws Exception {
-        clock.value=Instant.parse("2026-10-03T00:00:00Z");db.execute("TRUNCATE media_asset");
+        clock.value=Instant.parse("2026-10-03T00:00:00Z");db.execute("TRUNCATE media_asset_usage,media_asset");
         try(var files=Files.walk(ROOT)){for(var path:files.sorted(Comparator.reverseOrder()).toList())if(!path.equals(ROOT))Files.delete(path);}
         Files.createDirectories(ROOT.resolve("media"));Files.createDirectories(ROOT.resolve(".incoming"));
         var image=new BufferedImage(2,2,BufferedImage.TYPE_INT_RGB);image.setRGB(0,0,0xff33cc);try(var out=new ByteArrayOutputStream()){assertTrue(ImageIO.write(image,"png",out));png=out.toByteArray();}

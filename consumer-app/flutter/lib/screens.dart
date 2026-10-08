@@ -55,6 +55,11 @@ class TabScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(24),
         children: [
           if (path == '/home') ...[
+            ListTile(
+              leading: const Icon(Icons.menu_book),
+              title: const Text('食品与养宠知识'),
+              onTap: () => context.go('/content'),
+            ),
             const Text(
               '每一天，认真照顾。',
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
@@ -125,6 +130,11 @@ class TabScreen extends ConsumerWidget {
             const Text('附近地点功能即将开放，无需现在授权位置。'),
           ],
           if (path == '/me') ...[
+            ListTile(
+              leading: const Icon(Icons.rate_review_outlined),
+              title: const Text('我的评价'),
+              onTap: () => context.go('/my-reviews'),
+            ),
             Card(
               child: ListTile(
                 leading: const Icon(Icons.person_outline),

@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 29e64b93fffe88a4029c131dd745c5e05f5ab690ddedd115e184f1fcb0e44f34
+// Generated from Pawday runtime OpenAPI; SHA256 d88a57cb25b79a9214bf261ae4de90d55f9902451881884e8ca9e668d87b51fd
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -6468,6 +6468,665 @@ class PointsLedgerEntryEnvelope {
   };
 }
 
+class PublicationMedia {
+  final String asset_id;
+  final String mime;
+  final int size_bytes;
+  final bool available;
+  final String content_url;
+  const PublicationMedia({required this.asset_id, required this.mime, required this.size_bytes, required this.available, required this.content_url});
+  factory PublicationMedia.fromJson(Map<String,dynamic> json) => PublicationMedia(
+    asset_id: json['asset_id'] as String,
+    mime: json['mime'] as String,
+    size_bytes: (json['size_bytes'] as num).toInt(),
+    available: json['available'] as bool,
+    content_url: json['content_url'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'asset_id': asset_id,
+    'mime': mime,
+    'size_bytes': size_bytes,
+    'available': available,
+    'content_url': content_url,
+  };
+}
+
+class ReviewPetLabel {
+  final String species_name;
+  final String? breed_name;
+  final String? age_label;
+  const ReviewPetLabel({required this.species_name, required this.breed_name, required this.age_label});
+  factory ReviewPetLabel.fromJson(Map<String,dynamic> json) => ReviewPetLabel(
+    species_name: json['species_name'] as String,
+    breed_name: json['breed_name'] == null ? null : json['breed_name'] as String,
+    age_label: json['age_label'] == null ? null : json['age_label'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'species_name': species_name,
+    'breed_name': breed_name == null ? null : breed_name!,
+    'age_label': age_label == null ? null : age_label!,
+  };
+}
+
+class ReviewInput {
+  final int rating;
+  final int? service_rating;
+  final String body;
+  final List<String> asset_ids;
+  final String? pet_id;
+  final bool share_pet_label;
+  const ReviewInput({required this.rating, required this.service_rating, required this.body, required this.asset_ids, required this.pet_id, required this.share_pet_label});
+  factory ReviewInput.fromJson(Map<String,dynamic> json) => ReviewInput(
+    rating: (json['rating'] as num).toInt(),
+    service_rating: json['service_rating'] == null ? null : (json['service_rating'] as num).toInt(),
+    body: json['body'] as String,
+    asset_ids: (json['asset_ids'] as List).map((value) => value as String).toList(),
+    pet_id: json['pet_id'] == null ? null : json['pet_id'] as String,
+    share_pet_label: json['share_pet_label'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'rating': rating,
+    'service_rating': service_rating == null ? null : service_rating!,
+    'body': body,
+    'asset_ids': asset_ids.map((value) => value).toList(),
+    'pet_id': pet_id == null ? null : pet_id!,
+    'share_pet_label': share_pet_label,
+  };
+}
+
+class PublicReview {
+  final String id;
+  final String revision_id;
+  final String spu_id;
+  final String sku_id;
+  final int rating;
+  final int? service_rating;
+  final String body;
+  final bool verified_purchase;
+  final int version;
+  final String created_at;
+  final List<PublicationMedia> media;
+  final ReviewPetLabel? pet_label;
+  const PublicReview({required this.id, required this.revision_id, required this.spu_id, required this.sku_id, required this.rating, required this.service_rating, required this.body, required this.verified_purchase, required this.version, required this.created_at, required this.media, required this.pet_label});
+  factory PublicReview.fromJson(Map<String,dynamic> json) => PublicReview(
+    id: json['id'] as String,
+    revision_id: json['revision_id'] as String,
+    spu_id: json['spu_id'] as String,
+    sku_id: json['sku_id'] as String,
+    rating: (json['rating'] as num).toInt(),
+    service_rating: json['service_rating'] == null ? null : (json['service_rating'] as num).toInt(),
+    body: json['body'] as String,
+    verified_purchase: json['verified_purchase'] as bool,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+    media: (json['media'] as List).map((value) => PublicationMedia.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    pet_label: json['pet_label'] == null ? null : ReviewPetLabel.fromJson(Map<String,dynamic>.from(json['pet_label'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'revision_id': revision_id,
+    'spu_id': spu_id,
+    'sku_id': sku_id,
+    'rating': rating,
+    'service_rating': service_rating == null ? null : service_rating!,
+    'body': body,
+    'verified_purchase': verified_purchase,
+    'version': version,
+    'created_at': created_at,
+    'media': media.map((value) => value.toJson()).toList(),
+    'pet_label': pet_label == null ? null : pet_label!.toJson(),
+  };
+}
+
+class ReviewModerationRecord {
+  final String decision;
+  final String reason;
+  final String created_at;
+  const ReviewModerationRecord({required this.decision, required this.reason, required this.created_at});
+  factory ReviewModerationRecord.fromJson(Map<String,dynamic> json) => ReviewModerationRecord(
+    decision: json['decision'] as String,
+    reason: json['reason'] as String,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'decision': decision,
+    'reason': reason,
+    'created_at': created_at,
+  };
+}
+
+class ReviewDetail {
+  final String id;
+  final String revision_id;
+  final String spu_id;
+  final String sku_id;
+  final int rating;
+  final int? service_rating;
+  final String body;
+  final bool verified_purchase;
+  final int version;
+  final String created_at;
+  final List<PublicationMedia> media;
+  final ReviewPetLabel? pet_label;
+  final String order_id;
+  final String suborder_id;
+  final String order_item_id;
+  final String user_id;
+  final String merchant_id;
+  final String? store_id;
+  final String visibility;
+  final String draft_status;
+  final bool share_pet_label;
+  final String? published_revision_id;
+  final String? pet_id;
+  final int revision_no;
+  final List<ReviewModerationRecord> moderation;
+  const ReviewDetail({required this.id, required this.revision_id, required this.spu_id, required this.sku_id, required this.rating, required this.service_rating, required this.body, required this.verified_purchase, required this.version, required this.created_at, required this.media, required this.pet_label, required this.order_id, required this.suborder_id, required this.order_item_id, required this.user_id, required this.merchant_id, required this.store_id, required this.visibility, required this.draft_status, required this.share_pet_label, required this.published_revision_id, required this.pet_id, required this.revision_no, required this.moderation});
+  factory ReviewDetail.fromJson(Map<String,dynamic> json) => ReviewDetail(
+    id: json['id'] as String,
+    revision_id: json['revision_id'] as String,
+    spu_id: json['spu_id'] as String,
+    sku_id: json['sku_id'] as String,
+    rating: (json['rating'] as num).toInt(),
+    service_rating: json['service_rating'] == null ? null : (json['service_rating'] as num).toInt(),
+    body: json['body'] as String,
+    verified_purchase: json['verified_purchase'] as bool,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+    media: (json['media'] as List).map((value) => PublicationMedia.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    pet_label: json['pet_label'] == null ? null : ReviewPetLabel.fromJson(Map<String,dynamic>.from(json['pet_label'] as Map)),
+    order_id: json['order_id'] as String,
+    suborder_id: json['suborder_id'] as String,
+    order_item_id: json['order_item_id'] as String,
+    user_id: json['user_id'] as String,
+    merchant_id: json['merchant_id'] as String,
+    store_id: json['store_id'] == null ? null : json['store_id'] as String,
+    visibility: json['visibility'] as String,
+    draft_status: json['draft_status'] as String,
+    share_pet_label: json['share_pet_label'] as bool,
+    published_revision_id: json['published_revision_id'] == null ? null : json['published_revision_id'] as String,
+    pet_id: json['pet_id'] == null ? null : json['pet_id'] as String,
+    revision_no: (json['revision_no'] as num).toInt(),
+    moderation: (json['moderation'] as List).map((value) => ReviewModerationRecord.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'revision_id': revision_id,
+    'spu_id': spu_id,
+    'sku_id': sku_id,
+    'rating': rating,
+    'service_rating': service_rating == null ? null : service_rating!,
+    'body': body,
+    'verified_purchase': verified_purchase,
+    'version': version,
+    'created_at': created_at,
+    'media': media.map((value) => value.toJson()).toList(),
+    'pet_label': pet_label == null ? null : pet_label!.toJson(),
+    'order_id': order_id,
+    'suborder_id': suborder_id,
+    'order_item_id': order_item_id,
+    'user_id': user_id,
+    'merchant_id': merchant_id,
+    'store_id': store_id == null ? null : store_id!,
+    'visibility': visibility,
+    'draft_status': draft_status,
+    'share_pet_label': share_pet_label,
+    'published_revision_id': published_revision_id == null ? null : published_revision_id!,
+    'pet_id': pet_id == null ? null : pet_id!,
+    'revision_no': revision_no,
+    'moderation': moderation.map((value) => value.toJson()).toList(),
+  };
+}
+
+class ReviewModerationInput {
+  final String decision;
+  final String reason;
+  const ReviewModerationInput({required this.decision, required this.reason});
+  factory ReviewModerationInput.fromJson(Map<String,dynamic> json) => ReviewModerationInput(
+    decision: json['decision'] as String,
+    reason: json['reason'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'decision': decision,
+    'reason': reason,
+  };
+}
+
+class ReviewRewardPolicyInput {
+  final int base_points;
+  final int media_bonus_points;
+  final String refund_strategy;
+  const ReviewRewardPolicyInput({required this.base_points, required this.media_bonus_points, required this.refund_strategy});
+  factory ReviewRewardPolicyInput.fromJson(Map<String,dynamic> json) => ReviewRewardPolicyInput(
+    base_points: (json['base_points'] as num).toInt(),
+    media_bonus_points: (json['media_bonus_points'] as num).toInt(),
+    refund_strategy: json['refund_strategy'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'base_points': base_points,
+    'media_bonus_points': media_bonus_points,
+    'refund_strategy': refund_strategy,
+  };
+}
+
+class ReviewRewardPolicy {
+  final int base_points;
+  final int media_bonus_points;
+  final String refund_strategy;
+  final String id;
+  final int policy_version;
+  final String? created_by;
+  final String created_at;
+  const ReviewRewardPolicy({required this.base_points, required this.media_bonus_points, required this.refund_strategy, required this.id, required this.policy_version, required this.created_by, required this.created_at});
+  factory ReviewRewardPolicy.fromJson(Map<String,dynamic> json) => ReviewRewardPolicy(
+    base_points: (json['base_points'] as num).toInt(),
+    media_bonus_points: (json['media_bonus_points'] as num).toInt(),
+    refund_strategy: json['refund_strategy'] as String,
+    id: json['id'] as String,
+    policy_version: (json['policy_version'] as num).toInt(),
+    created_by: json['created_by'] == null ? null : json['created_by'] as String,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'base_points': base_points,
+    'media_bonus_points': media_bonus_points,
+    'refund_strategy': refund_strategy,
+    'id': id,
+    'policy_version': policy_version,
+    'created_by': created_by == null ? null : created_by!,
+    'created_at': created_at,
+  };
+}
+
+class ReviewEligibility {
+  final String order_item_id;
+  final String spu_id;
+  final bool eligible;
+  final String? existing_review_id;
+  final String? reason;
+  final ReviewRewardPolicy reward_policy;
+  const ReviewEligibility({required this.order_item_id, required this.spu_id, required this.eligible, required this.existing_review_id, required this.reason, required this.reward_policy});
+  factory ReviewEligibility.fromJson(Map<String,dynamic> json) => ReviewEligibility(
+    order_item_id: json['order_item_id'] as String,
+    spu_id: json['spu_id'] as String,
+    eligible: json['eligible'] as bool,
+    existing_review_id: json['existing_review_id'] == null ? null : json['existing_review_id'] as String,
+    reason: json['reason'] == null ? null : json['reason'] as String,
+    reward_policy: ReviewRewardPolicy.fromJson(Map<String,dynamic>.from(json['reward_policy'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'order_item_id': order_item_id,
+    'spu_id': spu_id,
+    'eligible': eligible,
+    'existing_review_id': existing_review_id == null ? null : existing_review_id!,
+    'reason': reason == null ? null : reason!,
+    'reward_policy': reward_policy.toJson(),
+  };
+}
+
+class ArticleInput {
+  final String title;
+  final String category;
+  final String body;
+  final List<String> source_refs;
+  final bool sponsored;
+  final List<String> asset_ids;
+  final List<String> sku_ids;
+  const ArticleInput({required this.title, required this.category, required this.body, required this.source_refs, required this.sponsored, required this.asset_ids, required this.sku_ids});
+  factory ArticleInput.fromJson(Map<String,dynamic> json) => ArticleInput(
+    title: json['title'] as String,
+    category: json['category'] as String,
+    body: json['body'] as String,
+    source_refs: (json['source_refs'] as List).map((value) => value as String).toList(),
+    sponsored: json['sponsored'] as bool,
+    asset_ids: (json['asset_ids'] as List).map((value) => value as String).toList(),
+    sku_ids: (json['sku_ids'] as List).map((value) => value as String).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'title': title,
+    'category': category,
+    'body': body,
+    'source_refs': source_refs.map((value) => value).toList(),
+    'sponsored': sponsored,
+    'asset_ids': asset_ids.map((value) => value).toList(),
+    'sku_ids': sku_ids.map((value) => value).toList(),
+  };
+}
+
+class ArticleModerationRecord {
+  final String decision;
+  final String reason;
+  final String created_at;
+  const ArticleModerationRecord({required this.decision, required this.reason, required this.created_at});
+  factory ArticleModerationRecord.fromJson(Map<String,dynamic> json) => ArticleModerationRecord(
+    decision: json['decision'] as String,
+    reason: json['reason'] as String,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'decision': decision,
+    'reason': reason,
+    'created_at': created_at,
+  };
+}
+
+class ArticleModerationInput {
+  final String decision;
+  final String reason;
+  const ArticleModerationInput({required this.decision, required this.reason});
+  factory ArticleModerationInput.fromJson(Map<String,dynamic> json) => ArticleModerationInput(
+    decision: json['decision'] as String,
+    reason: json['reason'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'decision': decision,
+    'reason': reason,
+  };
+}
+
+class ArticleProduct {
+  final String sku_id;
+  final String? spu_id;
+  final String? name;
+  final bool available;
+  final bool in_stock;
+  final ProductFit? fit;
+  const ArticleProduct({required this.sku_id, required this.spu_id, required this.name, required this.available, required this.in_stock, required this.fit});
+  factory ArticleProduct.fromJson(Map<String,dynamic> json) => ArticleProduct(
+    sku_id: json['sku_id'] as String,
+    spu_id: json['spu_id'] == null ? null : json['spu_id'] as String,
+    name: json['name'] == null ? null : json['name'] as String,
+    available: json['available'] as bool,
+    in_stock: json['in_stock'] as bool,
+    fit: json['fit'] == null ? null : ProductFit.fromJson(Map<String,dynamic>.from(json['fit'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'sku_id': sku_id,
+    'spu_id': spu_id == null ? null : spu_id!,
+    'name': name == null ? null : name!,
+    'available': available,
+    'in_stock': in_stock,
+    'fit': fit == null ? null : fit!.toJson(),
+  };
+}
+
+class PublicArticle {
+  final String id;
+  final String revision_id;
+  final String title;
+  final String category;
+  final String body;
+  final List<String> source_refs;
+  final bool sponsored;
+  final int version;
+  final List<PublicationMedia> media;
+  final String? published_at;
+  final List<ArticleProduct> products;
+  const PublicArticle({required this.id, required this.revision_id, required this.title, required this.category, required this.body, required this.source_refs, required this.sponsored, required this.version, required this.media, required this.published_at, required this.products});
+  factory PublicArticle.fromJson(Map<String,dynamic> json) => PublicArticle(
+    id: json['id'] as String,
+    revision_id: json['revision_id'] as String,
+    title: json['title'] as String,
+    category: json['category'] as String,
+    body: json['body'] as String,
+    source_refs: (json['source_refs'] as List).map((value) => value as String).toList(),
+    sponsored: json['sponsored'] as bool,
+    version: (json['version'] as num).toInt(),
+    media: (json['media'] as List).map((value) => PublicationMedia.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    published_at: json['published_at'] == null ? null : json['published_at'] as String,
+    products: (json['products'] as List).map((value) => ArticleProduct.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'revision_id': revision_id,
+    'title': title,
+    'category': category,
+    'body': body,
+    'source_refs': source_refs.map((value) => value).toList(),
+    'sponsored': sponsored,
+    'version': version,
+    'media': media.map((value) => value.toJson()).toList(),
+    'published_at': published_at == null ? null : published_at!,
+    'products': products.map((value) => value.toJson()).toList(),
+  };
+}
+
+class ArticleDetail {
+  final String id;
+  final String revision_id;
+  final String title;
+  final String category;
+  final String body;
+  final List<String> source_refs;
+  final bool sponsored;
+  final int version;
+  final List<PublicationMedia> media;
+  final String? published_at;
+  final List<String> sku_ids;
+  final String visibility;
+  final String draft_status;
+  final String? published_revision_id;
+  final String created_by;
+  final List<ArticleModerationRecord> moderation;
+  const ArticleDetail({required this.id, required this.revision_id, required this.title, required this.category, required this.body, required this.source_refs, required this.sponsored, required this.version, required this.media, required this.published_at, required this.sku_ids, required this.visibility, required this.draft_status, required this.published_revision_id, required this.created_by, required this.moderation});
+  factory ArticleDetail.fromJson(Map<String,dynamic> json) => ArticleDetail(
+    id: json['id'] as String,
+    revision_id: json['revision_id'] as String,
+    title: json['title'] as String,
+    category: json['category'] as String,
+    body: json['body'] as String,
+    source_refs: (json['source_refs'] as List).map((value) => value as String).toList(),
+    sponsored: json['sponsored'] as bool,
+    version: (json['version'] as num).toInt(),
+    media: (json['media'] as List).map((value) => PublicationMedia.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    published_at: json['published_at'] == null ? null : json['published_at'] as String,
+    sku_ids: (json['sku_ids'] as List).map((value) => value as String).toList(),
+    visibility: json['visibility'] as String,
+    draft_status: json['draft_status'] as String,
+    published_revision_id: json['published_revision_id'] == null ? null : json['published_revision_id'] as String,
+    created_by: json['created_by'] as String,
+    moderation: (json['moderation'] as List).map((value) => ArticleModerationRecord.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'revision_id': revision_id,
+    'title': title,
+    'category': category,
+    'body': body,
+    'source_refs': source_refs.map((value) => value).toList(),
+    'sponsored': sponsored,
+    'version': version,
+    'media': media.map((value) => value.toJson()).toList(),
+    'published_at': published_at == null ? null : published_at!,
+    'sku_ids': sku_ids.map((value) => value).toList(),
+    'visibility': visibility,
+    'draft_status': draft_status,
+    'published_revision_id': published_revision_id == null ? null : published_revision_id!,
+    'created_by': created_by,
+    'moderation': moderation.map((value) => value.toJson()).toList(),
+  };
+}
+
+class ArticleSubmitInput {
+
+  const ArticleSubmitInput();
+  factory ArticleSubmitInput.fromJson(Map<String,dynamic> json) => ArticleSubmitInput(
+
+  );
+  Map<String,dynamic> toJson() => {
+
+  };
+}
+
+class PublicReviewListEnvelope {
+  final List<PublicReview> data;
+  final Page page;
+  final Meta meta;
+  const PublicReviewListEnvelope({required this.data, required this.page, required this.meta});
+  factory PublicReviewListEnvelope.fromJson(Map<String,dynamic> json) => PublicReviewListEnvelope(
+    data: (json['data'] as List).map((value) => PublicReview.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class PublicReviewEnvelope {
+  final PublicReview data;
+  final Meta meta;
+  const PublicReviewEnvelope({required this.data, required this.meta});
+  factory PublicReviewEnvelope.fromJson(Map<String,dynamic> json) => PublicReviewEnvelope(
+    data: PublicReview.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ReviewEligibilityEnvelope {
+  final ReviewEligibility data;
+  final Meta meta;
+  const ReviewEligibilityEnvelope({required this.data, required this.meta});
+  factory ReviewEligibilityEnvelope.fromJson(Map<String,dynamic> json) => ReviewEligibilityEnvelope(
+    data: ReviewEligibility.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ReviewDetailEnvelope {
+  final ReviewDetail data;
+  final Meta meta;
+  const ReviewDetailEnvelope({required this.data, required this.meta});
+  factory ReviewDetailEnvelope.fromJson(Map<String,dynamic> json) => ReviewDetailEnvelope(
+    data: ReviewDetail.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ReviewDetailListEnvelope {
+  final List<ReviewDetail> data;
+  final Page page;
+  final Meta meta;
+  const ReviewDetailListEnvelope({required this.data, required this.page, required this.meta});
+  factory ReviewDetailListEnvelope.fromJson(Map<String,dynamic> json) => ReviewDetailListEnvelope(
+    data: (json['data'] as List).map((value) => ReviewDetail.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ReviewRewardPolicyListEnvelope {
+  final List<ReviewRewardPolicy> data;
+  final Page page;
+  final Meta meta;
+  const ReviewRewardPolicyListEnvelope({required this.data, required this.page, required this.meta});
+  factory ReviewRewardPolicyListEnvelope.fromJson(Map<String,dynamic> json) => ReviewRewardPolicyListEnvelope(
+    data: (json['data'] as List).map((value) => ReviewRewardPolicy.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ReviewRewardPolicyEnvelope {
+  final ReviewRewardPolicy data;
+  final Meta meta;
+  const ReviewRewardPolicyEnvelope({required this.data, required this.meta});
+  factory ReviewRewardPolicyEnvelope.fromJson(Map<String,dynamic> json) => ReviewRewardPolicyEnvelope(
+    data: ReviewRewardPolicy.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class PublicArticleListEnvelope {
+  final List<PublicArticle> data;
+  final Page page;
+  final Meta meta;
+  const PublicArticleListEnvelope({required this.data, required this.page, required this.meta});
+  factory PublicArticleListEnvelope.fromJson(Map<String,dynamic> json) => PublicArticleListEnvelope(
+    data: (json['data'] as List).map((value) => PublicArticle.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class PublicArticleEnvelope {
+  final PublicArticle data;
+  final Meta meta;
+  const PublicArticleEnvelope({required this.data, required this.meta});
+  factory PublicArticleEnvelope.fromJson(Map<String,dynamic> json) => PublicArticleEnvelope(
+    data: PublicArticle.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ArticleDetailListEnvelope {
+  final List<ArticleDetail> data;
+  final Page page;
+  final Meta meta;
+  const ArticleDetailListEnvelope({required this.data, required this.page, required this.meta});
+  factory ArticleDetailListEnvelope.fromJson(Map<String,dynamic> json) => ArticleDetailListEnvelope(
+    data: (json['data'] as List).map((value) => ArticleDetail.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ArticleDetailEnvelope {
+  final ArticleDetail data;
+  final Meta meta;
+  const ArticleDetailEnvelope({required this.data, required this.meta});
+  factory ArticleDetailEnvelope.fromJson(Map<String,dynamic> json) => ArticleDetailEnvelope(
+    data: ArticleDetail.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -6680,4 +7339,32 @@ class ApiRoutes {
   static const get_admin_users__id__points = '/admin/users/{id}/points';
   static const get_admin_users__id__points_ledger = '/admin/users/{id}/points/ledger';
   static const post_admin_users__id__points_adjustments = '/admin/users/{id}/points-adjustments';
+  static const get_public_spus__id__reviews = '/public/spus/{id}/reviews';
+  static const get_consumer_spus__id__reviews = '/consumer/spus/{id}/reviews';
+  static const get_public_reviews__id = '/public/reviews/{id}';
+  static const get_consumer_order_items__id__review_eligibility = '/consumer/order-items/{id}/review-eligibility';
+  static const post_consumer_order_items__id__reviews = '/consumer/order-items/{id}/reviews';
+  static const get_consumer_reviews__id = '/consumer/reviews/{id}';
+  static const patch_consumer_reviews__id = '/consumer/reviews/{id}';
+  static const get_consumer_reviews = '/consumer/reviews';
+  static const get_consumer_reviews__id__media__asset = '/consumer/reviews/{id}/media/{asset}';
+  static const get_admin_reviews__id = '/admin/reviews/{id}';
+  static const get_admin_reviews = '/admin/reviews';
+  static const get_admin_reviews__id__media__asset = '/admin/reviews/{id}/media/{asset}';
+  static const get_public_reviews__id__media__asset = '/public/reviews/{id}/media/{asset}';
+  static const get_merchant_reviews = '/merchant/reviews';
+  static const post_admin_reviews__id__moderation = '/admin/reviews/{id}/moderation';
+  static const get_admin_review_reward_policies = '/admin/review-reward-policies';
+  static const post_admin_review_reward_policies = '/admin/review-reward-policies';
+  static const get_public_content = '/public/content';
+  static const get_public_content__id = '/public/content/{id}';
+  static const get_consumer_content__id = '/consumer/content/{id}';
+  static const get_admin_content = '/admin/content';
+  static const post_admin_content = '/admin/content';
+  static const get_admin_content__id = '/admin/content/{id}';
+  static const patch_admin_content__id = '/admin/content/{id}';
+  static const post_admin_content__id__submit = '/admin/content/{id}/submit';
+  static const post_admin_content__id__moderation = '/admin/content/{id}/moderation';
+  static const get_public_content__id__media__asset = '/public/content/{id}/media/{asset}';
+  static const get_admin_content__id__media__asset = '/admin/content/{id}/media/{asset}';
 }

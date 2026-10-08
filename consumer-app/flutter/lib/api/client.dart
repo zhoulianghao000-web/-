@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -81,6 +82,24 @@ class ConsumerApi {
     }
   }
   bool get authenticated => _tokens != null;
+  ({Uri uri, Map<String, String> headers}) mediaSource(
+    String path, {
+    bool anonymous = false,
+  }) {
+    if (!RegExp(
+      r'^/api/v1/(public|consumer)/(reviews|content)/[0-9a-f-]{36}/media/[0-9a-f-]{36}$',
+    ).hasMatch(path)) {
+      throw const ApiFailure(403, 'INVALID_API_DESTINATION');
+    }
+    return (
+      uri: _url(path.substring('/api/v1'.length)),
+      headers: {
+        if (!anonymous && _tokens != null)
+          'Authorization': 'Bearer ${_tokens!.access_token}',
+      },
+    );
+  }
+
   Future<void> _persist(Future<void> Function() operation) {
     final future = _vaultFlight.then((_) => operation());
     _vaultFlight = future.catchError((Object _) {});
@@ -163,8 +182,18 @@ class ConsumerApi {
         path == '/public/allergens' ||
         RegExp(r'^/public/pet-species/[0-9a-f-]{36}/breeds$').hasMatch(path) ||
         route == '/public/products' ||
-        RegExp(r'^/public/(skus|spus)/[0-9a-f-]{36}(/offers)?$').hasMatch(route);
-    if ((!path.startsWith('/consumer/') && !publicTaxonomy) ||
+        route == '/public/content' ||
+        RegExp(r'^/public/content/[0-9a-f-]{36}(/media/[0-9a-f-]{36})?$')
+            .hasMatch(route) ||
+        RegExp(r'^/public/reviews/[0-9a-f-]{36}(/media/[0-9a-f-]{36})?$')
+            .hasMatch(route) ||
+        RegExp(r'^/public/spus/[0-9a-f-]{36}/reviews$').hasMatch(route) ||
+        RegExp(r'^/public/(skus|spus)/[0-9a-f-]{36}(/offers)?$')
+            .hasMatch(route);
+    if ((!path.startsWith('/consumer/') &&
+            !publicTaxonomy &&
+            route != '/media/upload-grants' &&
+            !RegExp(r'^/media/[0-9a-f-]{36}/content$').hasMatch(route)) ||
         path.contains('..') ||
         path.contains('\\')) {
       throw const ApiFailure(403, 'REALM_MISMATCH');
@@ -230,6 +259,124 @@ class ConsumerApi {
       return jsonDecode(response.body) as Map<String, dynamic>;
     } catch (_) {
       throw const ApiFailure(502, 'INVALID_API_RESPONSE');
+    }
+  }
+
+  Uri publicMediaUri(String path) {
+    if (!RegExp(
+      r'^/api/v1/public/(reviews|content)/[0-9a-f-]{36}/media/[0-9a-f-]{36}$',
+    ).hasMatch(path)) {
+      throw const ApiFailure(403, 'INVALID_API_DESTINATION');
+    }
+    return _url(path.substring('/api/v1'.length));
+  }
+
+  Future<MediaAsset> uploadReview(
+    Uint8List bytes,
+    String mime,
+    String sha256,
+  ) async {
+    final epoch = _epoch;
+    if (bytes.isEmpty || bytes.length > 5242880) {
+      throw const ApiFailure(413, 'UPLOAD_TOO_LARGE');
+    }
+    if (!['image/png', 'image/jpeg', 'video/mp4'].contains(mime)) {
+      throw const ApiFailure(400, 'UPLOAD_MIME_NOT_ALLOWED');
+    }
+    final grant = MediaGrantEnvelope.fromJson(
+      await request(
+        'POST',
+        '/media/upload-grants',
+        body: MediaGrantRequest(
+          scope: 'REVIEW',
+          mime: mime,
+          size_bytes: bytes.length,
+          sha256: sha256,
+        ).toJson(),
+      ),
+    ).data;
+    if (epoch != _epoch) throw const ApiFailure(401, 'SESSION_CHANGED');
+    final upload = http.Request(
+      'PUT',
+      _url('/media/${grant.asset_id}/content'),
+    );
+    upload.headers.addAll({
+      'Authorization': 'Bearer ${_tokens?.access_token ?? ''}',
+      'Content-Type': mime,
+      'X-Upload-Token': grant.upload_token,
+      'X-Request-ID': const Uuid().v4(),
+    });
+    upload.bodyBytes = bytes;
+    try {
+      final response = await http.Response.fromStream(
+        await transport.send(upload).timeout(const Duration(seconds: 20)),
+      ).timeout(const Duration(seconds: 20));
+      if (epoch != _epoch) throw const ApiFailure(401, 'SESSION_CHANGED');
+      if (response.statusCode != 200) throw _error(response);
+      return MediaAssetEnvelope.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>,
+      ).data;
+    } on TimeoutException {
+      throw const ApiFailure(0, 'NETWORK_TIMEOUT', retryable: true);
+    } on http.ClientException {
+      throw const ApiFailure(0, 'NETWORK_UNAVAILABLE', retryable: true);
+    }
+  }
+
+  Future<Uint8List> mediaBytes(String path, {bool anonymous = false}) async {
+    if (!RegExp(
+      r'^/api/v1/(public|consumer)/(reviews|content)/[0-9a-f-]{36}/media/[0-9a-f-]{36}$',
+    ).hasMatch(path)) {
+      throw const ApiFailure(403, 'INVALID_API_DESTINATION');
+    }
+    final epoch = _epoch;
+    Future<http.StreamedResponse> send() {
+      final req = http.Request('GET', _url(path.substring('/api/v1'.length)));
+      req.headers['X-Request-ID'] = const Uuid().v4();
+      if (!anonymous && _tokens != null) {
+        req.headers['Authorization'] = 'Bearer ${_tokens!.access_token}';
+      }
+      return transport.send(req).timeout(const Duration(seconds: 10));
+    }
+
+    try {
+      var response = await send();
+      if (!anonymous && epoch != _epoch) {
+        throw const ApiFailure(401, 'SESSION_CHANGED');
+      }
+      if (response.statusCode == 401 && !anonymous && _tokens != null) {
+        await response.stream.drain<void>();
+        await refresh();
+        response = await send();
+      }
+      if (response.statusCode != 200) {
+        throw _error(await http.Response.fromStream(response));
+      }
+      if (![
+        'image/png',
+        'image/jpeg',
+        'video/mp4',
+      ].contains(response.headers['content-type']?.split(';').first)) {
+        await response.stream.drain<void>();
+        throw const ApiFailure(502, 'INVALID_MEDIA_RESPONSE');
+      }
+      final builder = BytesBuilder(copy: false);
+      await for (final chunk in response.stream.timeout(
+        const Duration(seconds: 10),
+      )) {
+        if (builder.length + chunk.length > 5242880) {
+          throw const ApiFailure(413, 'UPLOAD_TOO_LARGE');
+        }
+        builder.add(chunk);
+      }
+      if (!anonymous && epoch != _epoch) {
+        throw const ApiFailure(401, 'SESSION_CHANGED');
+      }
+      return builder.takeBytes();
+    } on TimeoutException {
+      throw const ApiFailure(0, 'NETWORK_TIMEOUT', retryable: true);
+    } on http.ClientException {
+      throw const ApiFailure(0, 'NETWORK_UNAVAILABLE', retryable: true);
     }
   }
 
