@@ -47,7 +47,10 @@ jobs:
           python openapi/validate_m32_contract.py --samples backend/target/m32-contract-samples.json --report openapi/catalog-response-report.json
           python openapi/validate_m33_contract.py --samples backend/target/m33-contract-samples.json --report openapi/offer-response-report.json
           python openapi/validate_m34_contract.py --samples backend/target/m34-contract-samples.json --report openapi/consumer-catalog-response-report.json
-          python openapi/validate_m34_contract.py --samples backend/target/m34-search-contract-samples.json --report openapi/business-search-response-report.json
+          # BusinessSearchIT now also captures reverify for current publishing actions.
+          # Validate these current runtime responses with the current contract, while
+          # retaining standalone historical contract validation in the openapi job.
+          python openapi/validate_m52_contract.py --samples backend/target/m34-search-contract-samples.json --report openapi/business-search-response-report.json
       - name: M4.1 checkout runtime and actual HTTP contract
         run: |
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m4.1.yaml
