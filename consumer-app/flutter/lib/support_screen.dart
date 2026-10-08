@@ -25,6 +25,22 @@ const notificationLabels = {
   'SUPPORT': '客服',
 };
 
+const notificationEventLabels = {
+  'OrderCreated': '订单已创建，请及时付款',
+  'OrderPaid': '付款成功，等待商家发货',
+  'OrderCancelled': '订单已取消',
+  'OrderExpired': '订单付款超时，已关闭',
+  'ShipmentCreated': '商家已发货',
+  'SuborderReceiptConfirmed': '已确认收货',
+  'AfterSaleCreated': '售后申请已提交',
+  'AfterSaleMerchantDecision': '商家已处理售后申请',
+  'AfterSaleInspected': '退回商品已完成验收',
+  'AfterSaleEscalated': '售后申请已转交平台',
+  'AfterSaleArbitrated': '平台已处理售后争议',
+  'AfterSaleCompleted': '售后处理已完成',
+  'SupportMessageCreated': '客服发来了新消息',
+};
+
 class SupportScreen extends ConsumerStatefulWidget {
   final String? storeId, suborderId, skuId;
   const SupportScreen({super.key, this.storeId, this.suborderId, this.skuId});
@@ -596,7 +612,9 @@ class _MessagesState extends ConsumerState<MessagesScreen> {
                     : Icons.mail_outline,
               ),
               title: Text(notificationLabels[m.category] ?? m.category),
-              subtitle: Text(m.event_type),
+              subtitle: Text(
+                notificationEventLabels[m.event_type] ?? '你有一条新提醒',
+              ),
               onTap: () => open(m),
             ),
           if (more)

@@ -167,7 +167,18 @@ void main() {
                 'ACTIVITY',
                 'SUPPORT',
               ].map((c) => {'category': c, 'enabled': true}).toList()
-            : [],
+            : [
+                {
+                  'id': id,
+                  'category': 'ORDER',
+                  'event_type': 'OrderPaid',
+                  'target_type': 'ORDER',
+                  'target_id': id,
+                  'notify_enabled': true,
+                  'read_at': null,
+                  'created_at': '2026-10-08T00:00:00Z',
+                },
+              ],
       ),
     );
     await tester.pumpWidget(
@@ -179,6 +190,8 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(SwitchListTile), findsNWidgets(7));
     expect(find.textContaining('系统推送'), findsOneWidget);
+    expect(find.text('付款成功，等待商家发货'), findsOneWidget);
+    expect(find.text('OrderPaid'), findsNothing);
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump();
     a.dispose();
