@@ -23,7 +23,17 @@ import tools.jackson.databind.json.JsonMapper;
 class AfterSaleRefundIntegrationTests {
  static final java.util.concurrent.atomic.AtomicLong OFFSET=new java.util.concurrent.atomic.AtomicLong();
  @org.springframework.boot.test.context.TestConfiguration static class TimeConfiguration {
+  @org.springframework.context.annotation.Bean @org.springframework.context.annotation.Primary BlockingRefundGateway blockingRefundGateway(JdbcTemplate db){return new BlockingRefundGateway(db);}
   @org.springframework.context.annotation.Bean @org.springframework.context.annotation.Primary Clock checkoutTestClock(){return new Clock(){public ZoneId getZone(){return ZoneOffset.UTC;}public Clock withZone(ZoneId zone){return this;}public Instant instant(){return Instant.now().plusSeconds(OFFSET.get());}};}
+ }
+ static class BlockingRefundGateway extends cn.pawday.payment.SimulatedPaymentGateway {
+  volatile String blocked;volatile CountDownLatch entered=new CountDownLatch(1),release=new CountDownLatch(1);
+  final java.util.concurrent.atomic.AtomicInteger calls=new java.util.concurrent.atomic.AtomicInteger();
+  BlockingRefundGateway(JdbcTemplate db){super(db);}
+  @Override public RefundOutcome refund(RefundInstruction i){
+   if(i.refundNo().equals(blocked)&&calls.incrementAndGet()==1){entered.countDown();try{if(!release.await(10,TimeUnit.SECONDS))throw new AssertionError("blocked gateway timeout");}catch(InterruptedException e){Thread.currentThread().interrupt();throw new AssertionError(e);}return new RefundOutcome("FAILED",null,"STALE_RESPONSE");}
+   return super.refund(i);
+  }
  }
  @AfterEach void resetClock(){OFFSET.set(0);}
 
@@ -32,6 +42,7 @@ class AfterSaleRefundIntegrationTests {
  @DynamicPropertySource static void properties(DynamicPropertyRegistry r){r.add("spring.datasource.url",()->PG.getJdbcUrl("postgres","postgres"));r.add("spring.datasource.username",()->"postgres");r.add("spring.datasource.password",()->"postgres");r.add("pawday.auth.secret-key",()->"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=");r.add("management.health.redis.enabled",()->false);r.add("management.health.rabbit.enabled",()->false);r.add("pawday.outbox.workers-enabled",()->false);r.add("pawday.outbox.consumer-enabled",()->false);r.add("pawday.search.enabled",()->false);r.add("pawday.storage.cleanup-enabled",()->false);r.add("pawday.checkout.expiry-enabled",()->false);r.add("pawday.ordering.expiry-enabled",()->false);r.add("pawday.payment.simulation-enabled",()->true);r.add("pawday.payment.recovery-enabled",()->false);r.add("pawday.refund.recovery-enabled",()->false);}
  @Autowired JdbcTemplate db;@Autowired Crypto crypto;@Autowired Clock clock;@LocalServerPort int port;
  @Autowired cn.pawday.payment.RefundService refunds;
+ @Autowired BlockingRefundGateway blockingGateway;
  final JsonMapper json=JsonMapper.builder().build();final HttpClient http=HttpClient.newHttpClient();
  static final List<Map<String,Object>> SAMPLES=new CopyOnWriteArrayList<>();
  String admin,merchant,foreign,colleague;UUID adminSession,adminPrincipal,merchantId,store;String sku;
@@ -42,7 +53,7 @@ class AfterSaleRefundIntegrationTests {
   db.update("INSERT INTO role(id,scope_type,code,name) VALUES (?,?,?,'Aftersale test')",role,realm,key());for(String permission:permissions)db.update("INSERT INTO role_permission SELECT ?,id FROM permission WHERE code=?",role,permission);db.update("INSERT INTO principal_role VALUES (?,?,?)",p,role,realm);UUID session=UUID.randomUUID();String t=crypto.token();db.update("INSERT INTO auth_session(id,principal_id,access_token_hash,device_id,expires_at,refresh_expires_at,created_at) VALUES (?,?,?,'AFTERSALE-IT',?,?,?)",session,p,crypto.hash(t),Timestamp.from(clock.instant().plusSeconds(900)),Timestamp.from(clock.instant().plusSeconds(2592000)),Timestamp.from(clock.instant()));if(realm.equals("ADMIN")){adminSession=session;adminPrincipal=p;}if(realm.equals("MERCHANT"))db.update("INSERT INTO principal_store_scope VALUES (?,?,?)",p,m,store);return t;
  }
  @BeforeEach void setup(){OFFSET.set(0);merchantId=UUID.randomUUID();store=UUID.randomUUID();db.update("INSERT INTO merchant(id,name,status) VALUES (?,?,'ACTIVE')",merchantId,key());db.update("INSERT INTO merchant_store(id,merchant_id,name) VALUES (?,?,'TEST scope')",store,merchantId);
-  admin=identity("ADMIN",null,List.of("offer.admin.manage","order.admin.read","payment.read","aftersale.arbitrate"));merchant=identity("MERCHANT",merchantId,List.of("offer.read","offer.write","inventory.adjust","order.read","order.ship","order.default-scope","order.cancel.handle","aftersale.handle"));colleague=identity("MERCHANT",merchantId,List.of("order.read","order.ship","order.default-scope"));UUID m=UUID.randomUUID();db.update("INSERT INTO merchant VALUES (?,'TEST foreign','ACTIVE')",m);UUID saved=store;store=UUID.randomUUID();db.update("INSERT INTO merchant_store(id,merchant_id,name) VALUES (?,?,'TEST foreign store')",store,m);foreign=identity("MERCHANT",m,List.of("order.read","order.cancel.handle","aftersale.handle"));store=saved;
+  admin=identity("ADMIN",null,List.of("offer.admin.manage","order.admin.read","payment.read","payment.requery","aftersale.arbitrate"));merchant=identity("MERCHANT",merchantId,List.of("offer.read","offer.write","inventory.adjust","order.read","order.ship","order.default-scope","order.cancel.handle","aftersale.handle"));colleague=identity("MERCHANT",merchantId,List.of("order.read","order.ship","order.default-scope"));UUID m=UUID.randomUUID();db.update("INSERT INTO merchant VALUES (?,'TEST foreign','ACTIVE')",m);UUID saved=store;store=UUID.randomUUID();db.update("INSERT INTO merchant_store(id,merchant_id,name) VALUES (?,?,'TEST foreign store')",store,m);foreign=identity("MERCHANT",m,List.of("order.read","order.cancel.handle","aftersale.handle"));store=saved;
   UUID brand=UUID.randomUUID(),spu=UUID.randomUUID(),k=UUID.randomUUID();sku=k.toString();db.update("INSERT INTO brands(id,name,source_ref) VALUES (?,?,'TEST-ONLY')",brand,key());db.update("INSERT INTO spus(id,brand_id,name,pet_category,category) VALUES (?,?,'TEST-ONLY','CAT','DRY_FOOD')",spu,brand);db.update("INSERT INTO skus(id,spu_id,sku_code,weight_g,package_unit) VALUES (?,?,?,1000,'BAG')",k,spu,key());db.update("INSERT INTO sku_standard_versions(id,sku_id,version_no,status,ingredients,nutrients,allergens_known,life_stage_ids,source_refs,source_updated_on,created_by,published_at) VALUES (?,?,1,'PUBLISHED','[\"TEST-ONLY\"]','[]',false,'[]','[\"TEST-ONLY source\"]','2026-10-01',?,clock_timestamp())",UUID.randomUUID(),k,adminPrincipal);
  }
  Response req(String method,String path,Object payload,String token,Map<String,String> headers){try{var b=HttpRequest.newBuilder(URI.create("http://127.0.0.1:"+port+"/api/v1"+path)).timeout(Duration.ofSeconds(20));if(token!=null)b.header("Authorization","Bearer "+token);headers.forEach(b::header);if(payload==null)b.method(method,HttpRequest.BodyPublishers.noBody());else b.header("Content-Type","application/json").method(method,HttpRequest.BodyPublishers.ofString(json.writeValueAsString(payload)));var response=http.send(b.build(),HttpResponse.BodyHandlers.ofString());var body=json.readTree(response.body());SAMPLES.add(Map.of("method",method.toLowerCase(),"path",path,"status",response.statusCode(),"response",body));return new Response(response.statusCode(),body);}catch(Exception e){throw new AssertionError(e);}}
@@ -143,13 +154,39 @@ class AfterSaleRefundIntegrationTests {
   UUID cid=UUID.randomUUID();db.update("INSERT INTO order_cancellations(id,order_id,suborder_id,actor_type,reason_code,status) VALUES (?,?,?,'CONSUMER','CONSUMER_CANCELLED','ACCEPTED')",cid,UUID.fromString(f.order().id()),UUID.fromString(sub(f)));
   UUID rid=refunds.createIntent(UUID.fromString(f.payment()),cid,null,1000);String refundNo=db.queryForObject("SELECT refund_no FROM refunds WHERE id=?",String.class,rid);
   UUID claim=UUID.randomUUID();db.update("INSERT INTO order_refund_unit_claims(id,order_item_id,unit_index,source_type,source_item_id,refund_id) VALUES (?,?,1,'CANCELLATION',?,?)",claim,UUID.fromString(item(f)),cid,rid);
-  directive(refundNo,"FAIL_FINAL");for(int i=0;i<8;i++)refunds.drive(rid);
+  directive(refundNo,"FAIL_FINAL");for(int i=0;i<8;i++){if(i>0)db.update("UPDATE refunds SET next_retry_at=clock_timestamp()-interval '1 hour' WHERE id=?",rid);refunds.drive(rid);}
   var state=db.queryForMap("SELECT status,attempt_count,next_retry_at FROM refunds WHERE id=?",rid);
   assertEquals("FAILED_FINAL",state.get("status"));assertEquals(8,((Number)state.get("attempt_count")).intValue());assertNull(state.get("next_retry_at"));
   assertEquals("ACCEPTED",db.queryForObject("SELECT status FROM order_cancellations WHERE id=?",String.class,cid));
   assertEquals("RESERVED",db.queryForObject("SELECT status FROM order_refund_unit_claims WHERE id=?",String.class,claim));
   assertEquals(0,db.queryForObject("SELECT count(*) FROM simulated_payment_refund_requests WHERE refund_no=?",Integer.class,refundNo));
   refunds.recoverBatch();assertEquals("FAILED_FINAL",db.queryForObject("SELECT status FROM refunds WHERE id=?",String.class,rid));
+ }
+ @Test void unknownOutcomeStopsAutomaticRetryAndRequiresControlledResume(){
+  var f=paid(2,List.of());UUID cid=UUID.randomUUID();db.update("INSERT INTO order_cancellations(id,order_id,suborder_id,actor_type,reason_code,status) VALUES (?,?,?,'CONSUMER','CONSUMER_CANCELLED','ACCEPTED')",cid,UUID.fromString(f.order().id()),UUID.fromString(sub(f)));
+  UUID rid=refunds.createIntent(UUID.fromString(f.payment()),cid,null,1000);String no=db.queryForObject("SELECT refund_no FROM refunds WHERE id=?",String.class,rid);directive(no,"FAIL_TRANSIENT");
+  for(int i=0;i<8;i++){if(i>0)db.update("UPDATE refunds SET next_retry_at=clock_timestamp()-interval '1 hour' WHERE id=?",rid);refunds.drive(rid);}
+  assertEquals("FAILED_FINAL",db.queryForObject("SELECT status FROM refunds WHERE id=?",String.class,rid));
+  req("POST","/consumer/payments/"+f.payment()+"/requery",Map.of(),f.u(),Map.of());assertEquals("FAILED_FINAL",db.queryForObject("SELECT status FROM refunds WHERE id=?",String.class,rid));
+  assertEquals(403,req("POST","/admin/payments/"+f.payment()+"/requery",Map.of(),admin,Map.of("Idempotency-Key",key())).status());
+  directive(no,"SUCCEED");String k=key();var headers=Map.of("Idempotency-Key",k,"X-Reverify-Token",proof("payment.requery"));
+  var resumed=req("POST","/admin/payments/"+f.payment()+"/requery",Map.of(),admin,headers);assertEquals(200,resumed.status(),resumed.body().toString());assertEquals("SUCCEEDED",db.queryForObject("SELECT status FROM refunds WHERE id=?",String.class,rid));
+  assertEquals(200,req("POST","/admin/payments/"+f.payment()+"/requery",Map.of(),admin,headers).status());
+  assertEquals(1,db.queryForObject("SELECT count(*) FROM audit_event WHERE action='payment.requery' AND object_id=?",Integer.class,f.payment()));assertEquals(1,db.queryForObject("SELECT count(*) FROM simulated_payment_refund_requests WHERE refund_no=?",Integer.class,no));
+ }
+ @Test void refundLeaseExcludesOtherWorkersAndFencesExpiredResponses()throws Exception{
+  var f=paid(2,List.of());UUID cid=UUID.randomUUID();db.update("INSERT INTO order_cancellations(id,order_id,suborder_id,actor_type,reason_code,status) VALUES (?,?,?,'CONSUMER','CONSUMER_CANCELLED','ACCEPTED')",cid,UUID.fromString(f.order().id()),UUID.fromString(sub(f)));
+  UUID rid=refunds.createIntent(UUID.fromString(f.payment()),cid,null,1000);String no=db.queryForObject("SELECT refund_no FROM refunds WHERE id=?",String.class,rid);
+  blockingGateway.blocked=no;blockingGateway.calls.set(0);blockingGateway.entered=new CountDownLatch(1);blockingGateway.release=new CountDownLatch(1);
+  try(var pool=Executors.newSingleThreadExecutor()){
+   var first=pool.submit(()->refunds.drive(rid));
+   try{assertTrue(blockingGateway.entered.await(5,TimeUnit.SECONDS));refunds.drive(rid);assertEquals(1,blockingGateway.calls.get());assertEquals(1,db.queryForObject("SELECT attempt_count FROM refunds WHERE id=?",Integer.class,rid));
+    db.update("UPDATE refunds SET lease_until=clock_timestamp()-interval '1 second' WHERE id=?",rid);refunds.drive(rid);assertEquals("SUCCEEDED",db.queryForObject("SELECT status FROM refunds WHERE id=?",String.class,rid));
+   }finally{blockingGateway.release.countDown();}
+   first.get(10,TimeUnit.SECONDS);
+  }finally{blockingGateway.blocked=null;}
+  assertEquals("SUCCEEDED",db.queryForObject("SELECT status FROM refunds WHERE id=?",String.class,rid));assertEquals(2,db.queryForObject("SELECT attempt_count FROM refunds WHERE id=?",Integer.class,rid));
+  assertEquals(1,db.queryForObject("SELECT count(*) FROM simulated_payment_refund_requests WHERE refund_no=?",Integer.class,no));assertEquals(1,db.queryForObject("SELECT count(*) FROM outbox_event WHERE event_type='RefundSucceeded' AND payload->>'refund_id'=?",Integer.class,rid.toString()));
  }
  @Test void channelSuccessWithLocalRollbackRecoversWithoutDuplicateRefund(){var f=paid(2,List.of());
   db.execute("CREATE FUNCTION fail_m45_refund_audit() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN IF NEW.action='refund.succeeded' THEN RAISE EXCEPTION 'TEST fault';END IF; RETURN NEW; END $$");
@@ -162,6 +199,7 @@ class AfterSaleRefundIntegrationTests {
   assertEquals("PROCESSING",db.queryForObject("SELECT status FROM refunds WHERE id=?",String.class,rid));
   String refundNo=db.queryForObject("SELECT refund_no FROM refunds WHERE id=?",String.class,rid);
   assertEquals(1,db.queryForObject("SELECT count(*) FROM simulated_payment_refund_requests WHERE refund_no=?",Integer.class,refundNo));
+  db.update("UPDATE refunds SET lease_until=clock_timestamp()-interval '1 second' WHERE id=?",rid);
   refunds.recoverBatch();
   assertEquals("SUCCEEDED",db.queryForObject("SELECT status FROM refunds WHERE id=?",String.class,rid));
   assertEquals("COMPLETED",db.queryForObject("SELECT status FROM order_cancellations WHERE id=?",String.class,cid));

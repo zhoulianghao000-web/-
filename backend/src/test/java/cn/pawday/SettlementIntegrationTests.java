@@ -25,6 +25,7 @@ class SettlementIntegrationTests {
  @DynamicPropertySource static void properties(DynamicPropertyRegistry r){r.add("spring.datasource.url",()->PG.getJdbcUrl("postgres","postgres"));r.add("spring.datasource.username",()->"postgres");r.add("spring.datasource.password",()->"postgres");r.add("pawday.auth.secret-key",()->"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=");r.add("management.health.redis.enabled",()->false);r.add("management.health.rabbit.enabled",()->false);r.add("pawday.outbox.workers-enabled",()->false);r.add("pawday.outbox.consumer-enabled",()->false);r.add("pawday.search.enabled",()->false);r.add("pawday.storage.cleanup-enabled",()->false);r.add("pawday.checkout.expiry-enabled",()->false);r.add("pawday.ordering.expiry-enabled",()->false);r.add("pawday.payment.simulation-enabled",()->true);r.add("pawday.payment.recovery-enabled",()->false);r.add("pawday.refund.recovery-enabled",()->false);r.add("pawday.settlement.worker-enabled",()->false);}
  @Autowired JdbcTemplate db;@Autowired Crypto crypto;@Autowired Clock clock;@LocalServerPort int port;
  @Autowired cn.pawday.settlement.SettlementService settlements;
+ @Autowired org.springframework.transaction.support.TransactionTemplate tx;
  final JsonMapper json=JsonMapper.builder().build();final HttpClient http=HttpClient.newHttpClient();
  static final List<Map<String,Object>> SAMPLES=new CopyOnWriteArrayList<>();
  String admin,merchant,colleague,foreign;UUID adminSession,adminPrincipal,merchantId,store,foreignMerchant;String sku;
@@ -163,6 +164,34 @@ class SettlementIntegrationTests {
   assertEquals(secondNet-adjustmentAmount,next.data().get("amount_fen").asLong());
   assertEquals(0,balance());
   assertReconciliationConsistent();
+ }
+ @Test void settlementRechecksEligibilityAfterWaitingForTrackLock()throws Exception{
+  bufferDays(0);var f=paid(1);shipAndReceive(f,1);settlements.promoteDue();
+  var task=new java.util.concurrent.atomic.AtomicReference<Future<Response>>();
+  try(var pool=Executors.newSingleThreadExecutor()){
+   tx.executeWithoutResult(s->{
+    db.queryForMap("SELECT id FROM settlement_tracks WHERE suborder_id=? FOR UPDATE",UUID.fromString(sub(f)));
+    task.set(pool.submit(()->initiate()));
+    org.awaitility.Awaitility.await().atMost(Duration.ofSeconds(5)).until(()->db.queryForObject("SELECT count(*) FROM pg_stat_activity WHERE wait_event_type='Lock' AND query LIKE '%settlement_tracks%'",Integer.class)>0);
+    db.update("UPDATE settlement_tracks SET status='FROZEN',version=version+1 WHERE suborder_id=?",UUID.fromString(sub(f)));
+   });
+   var result=task.get().get(10,TimeUnit.SECONDS);assertEquals(409,result.status(),result.body().toString());
+  }
+  assertEquals(0,db.queryForObject("SELECT count(*) FROM simulated_settlement_disbursements WHERE merchant_id=?",Integer.class,merchantId));assertEquals("FROZEN",trackStatus(sub(f)));
+ }
+ @Test void splitFullRefundReversesTheEntireFrozenCommission(){
+  var h=Map.of("X-Reverify-Token",proof("settlement.policy.manage"));
+  assertEquals(200,req("POST","/admin/commission-policies",Map.of("name","TEST two basis points","merchant_id",merchantId.toString(),"rate_basis_points",2,"priority",100,"effective_from","2026-01-01T00:00:00Z"),admin,h).status());
+  var f=paid(3);long frozen=db.queryForObject("SELECT commission_fen FROM commission_allocations WHERE order_item_id=?",Long.class,UUID.fromString(item(f)));assertEquals(1,frozen);
+  for(int i=0;i<3;i++){var c=cancelPaid(f,1,key());assertEquals(200,c.status(),c.body().toString());}
+  assertEquals(frozen,db.queryForObject("SELECT coalesce(sum(amount_fen),0) FROM merchant_ledger_entries WHERE entry_type='COMMISSION_REVERSAL' AND order_item_id=?",Long.class,UUID.fromString(item(f))));assertEquals(0,balance());assertReconciliationConsistent();
+ }
+ @Test void repeatedRefundsAfterSettlementRemainCollectableInNextBatch(){
+  bufferDays(0);var f=paid(2);shipAndReceive(f,2);settlements.promoteDue();var first=initiate();assertEquals(200,first.status());
+  for(int i=0;i<2;i++){var a=applyRefundOnly(f,1,key());assertEquals(200,a.status());var decided=decide(a.id(),0,"APPROVE_REFUND",key());assertEquals(200,decided.status(),decided.body().toString());}
+  assertEquals(2,db.queryForObject("SELECT count(*) FROM merchant_ledger_entries WHERE suborder_id=? AND entry_type='SETTLEMENT_ADJUSTMENT'",Integer.class,UUID.fromString(sub(f))));
+  var nextGoods=paid(3);shipAndReceive(nextGoods,3);settlements.promoteDue();
+  var next=initiate();assertEquals(200,next.status(),next.body().toString());assertEquals(0,balance(),"every post-payout refund debit must be included in the next batch");assertReconciliationConsistent();
  }
  @Test void transientDisbursementFailureRetriesWithoutDuplicatePayout(){bufferDays(0);var f=paid(1);shipAndReceive(f,1);settlements.promoteDue();
   db.update("INSERT INTO simulated_settlement_directives(settlement_no,outcome) VALUES (?,'FAIL_TRANSIENT')","MERCHANT:"+merchantId);

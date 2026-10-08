@@ -9,18 +9,21 @@ import java.sql.Timestamp;
 import java.time.Clock;
 import java.util.*;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
 /** Original-route refunds bound to the actually collected attempt. Channel I/O stays outside business transactions. */
 @Service public class RefundService {
+ @Value("${pawday.refund.lease-ms:60000}") private long leaseMs;
+ private static final String DUE="status IN ('CREATED','PROCESSING','FAILED_RETRYABLE') AND (next_retry_at IS NULL OR next_retry_at<=clock_timestamp()) AND (lease_until IS NULL OR lease_until<=clock_timestamp())";
  private final JdbcTemplate db;private final TransactionTemplate tx;private final ObjectProvider<PaymentGateway> gateways;private final OutboxWriter outbox;private final AuditWriter audit;private final cn.pawday.settlement.SettlementService settlement;private final cn.pawday.points.PointsService points;private final Clock clock;
  public RefundService(JdbcTemplate db,TransactionTemplate tx,ObjectProvider<PaymentGateway> gateways,OutboxWriter outbox,AuditWriter audit,cn.pawday.settlement.SettlementService settlement,cn.pawday.points.PointsService points,Clock clock){this.db=db;this.tx=tx;this.gateways=gateways;this.outbox=outbox;this.audit=audit;this.settlement=settlement;this.points=points;this.clock=clock;}
  private PaymentGateway gateway(){var g=gateways.getIfAvailable();if(g==null)throw new Failure(503,"PAYMENT_PROVIDER_UNAVAILABLE");return g;}
  private Map<String,Object> one(String q,Object...args){var rows=db.queryForList(q,args);if(rows.isEmpty())throw new Failure(404,"RESOURCE_NOT_FOUND");return rows.getFirst();}
  private long n(Object v){return ((Number)v).longValue();}
- private Map<String,Object> view(Map<String,Object> r){var v=new LinkedHashMap<String,Object>();r.forEach((k,x)->v.put(k,x instanceof Timestamp t?t.toInstant().toString():x));return v;}
+ private Map<String,Object> view(Map<String,Object> r){var v=new LinkedHashMap<String,Object>();r.forEach((k,x)->{if(!k.equals("lease_token")&&!k.equals("lease_until"))v.put(k,x instanceof Timestamp t?t.toInstant().toString():x);});return v;}
 
  /** Created inside the caller's business transaction so acceptance and refund intent commit or roll back together. */
  public UUID createIntent(UUID paymentId,UUID cancellationId,UUID aftersaleId,long amountFen){
@@ -31,27 +34,31 @@ import org.springframework.transaction.support.TransactionTemplate;
   db.update("INSERT INTO refunds(id,refund_no,payment_id,payment_attempt_id,cancellation_id,aftersale_id,amount_fen) VALUES (?,?,?,?,?,?,?)",id,"R"+id.toString().replace("-",""),paymentId,payment.get("successful_attempt_id"),cancellationId,aftersaleId,amountFen);
   return id;
  }
- public void dueForPayment(UUID paymentId){for(var r:db.queryForList("SELECT id FROM refunds WHERE payment_id=? AND status IN ('CREATED','PROCESSING','FAILED_RETRYABLE') AND (next_retry_at IS NULL OR next_retry_at<=clock_timestamp()) ORDER BY created_at,id",paymentId))drive((UUID)r.get("id"));}
- public int recoverBatch(){if(gateways.getIfAvailable()==null)return 0;int count=0;for(var r:db.queryForList("SELECT id FROM refunds WHERE status IN ('CREATED','PROCESSING','FAILED_RETRYABLE') AND (next_retry_at IS NULL OR next_retry_at<=clock_timestamp()) ORDER BY created_at,id LIMIT 50")){try{drive((UUID)r.get("id"));count++;}catch(Exception e){org.slf4j.LoggerFactory.getLogger(RefundService.class).warn("Refund recovery retained for retry: {}",r.get("id"));}}return count;}
+ public void dueForPayment(UUID paymentId){for(var r:db.queryForList("SELECT id FROM refunds WHERE payment_id=? AND "+DUE+" ORDER BY created_at,id",paymentId))drive((UUID)r.get("id"));}
+ public int recoverBatch(){if(gateways.getIfAvailable()==null)return 0;int count=0;for(var r:db.queryForList("SELECT id FROM refunds WHERE "+DUE+" ORDER BY created_at,id LIMIT 50")){try{drive((UUID)r.get("id"));count++;}catch(Exception e){org.slf4j.LoggerFactory.getLogger(RefundService.class).warn("Refund recovery retained for retry: {}",r.get("id"));}}return count;}
  public void drive(UUID id){
-  var held=tx.execute(s->{var rows=db.queryForList("SELECT * FROM refunds WHERE id=? AND status IN ('CREATED','PROCESSING','FAILED_RETRYABLE') FOR UPDATE",id);if(rows.isEmpty())return null;var r=rows.getFirst();
-   if(r.get("status").equals("PROCESSING")&&r.get("next_retry_at")!=null&&((Timestamp)r.get("next_retry_at")).toInstant().isAfter(clock.instant()))return null;
-   db.update("UPDATE refunds SET status='PROCESSING',attempt_count=attempt_count+1,last_error_code=NULL,next_retry_at=NULL WHERE id=?",id);
+  var held=tx.execute(s->{var rows=db.queryForList("SELECT * FROM refunds WHERE id=? AND "+DUE+" FOR UPDATE SKIP LOCKED",id);if(rows.isEmpty())return null;
+   db.update("UPDATE refunds SET status='PROCESSING',attempt_count=attempt_count+1,last_error_code=NULL,next_retry_at=NULL,lease_token=?,lease_until=clock_timestamp()+(?*interval '1 millisecond') WHERE id=?",UUID.randomUUID(),Math.max(1,leaseMs),id);
    return one("SELECT r.*,p.currency FROM refunds r JOIN payments p ON p.id=r.payment_id WHERE r.id=?",id);});
   if(held==null)return;
   PaymentGateway.RefundOutcome outcome;
   try{var receipt=one("SELECT provider,channel_transaction_id FROM payment_receipts WHERE attempt_id=?",held.get("payment_attempt_id"));
-   outcome=gateway().refund(new PaymentGateway.RefundInstruction(held.get("refund_no").toString(),receipt.get("provider").toString(),receipt.get("channel_transaction_id").toString(),n(held.get("amount_fen")),held.get("currency").toString()));
+   outcome=gateway().queryRefund(held.get("refund_no").toString());
+   if(outcome!=null&&!"SUCCEEDED".equals(outcome.status()))outcome=gateway().refund(new PaymentGateway.RefundInstruction(held.get("refund_no").toString(),receipt.get("provider").toString(),receipt.get("channel_transaction_id").toString(),n(held.get("amount_fen")),held.get("currency").toString()));
   }catch(Exception e){outcome=new PaymentGateway.RefundOutcome("UNKNOWN",null,"PROVIDER_UNAVAILABLE");}
-  if(outcome.status().equals("NOT_FOUND")||outcome.status()==null)outcome=new PaymentGateway.RefundOutcome("UNKNOWN",null,outcome.errorCode());
-  settle(id,outcome);
+  if(outcome==null||outcome.status()==null||outcome.status().equals("NOT_FOUND"))outcome=new PaymentGateway.RefundOutcome("UNKNOWN",null,"PROVIDER_INVALID_RESPONSE");
+  settle(id,(UUID)held.get("lease_token"),outcome);
  }
  private long backoff(int attempts){return Math.min(300,5L*(1L<<Math.min(Math.max(attempts,1),6)));}
- private void settle(UUID id,PaymentGateway.RefundOutcome o){
-  tx.executeWithoutResult(s->{var rows=db.queryForList("SELECT * FROM refunds WHERE id=? AND status='PROCESSING' FOR UPDATE",id);if(rows.isEmpty())return;var r=rows.getFirst();long amount=n(r.get("amount_fen"));int attempts=((Number)r.get("attempt_count")).intValue();
+ private void settle(UUID id,UUID token,PaymentGateway.RefundOutcome o){
+  tx.executeWithoutResult(s->{
+   var seed=one("SELECT p.order_id,coalesce(c.suborder_id,a.suborder_id) suborder_id FROM refunds r JOIN payments p ON p.id=r.payment_id LEFT JOIN order_cancellations c ON c.id=r.cancellation_id LEFT JOIN aftersales a ON a.id=r.aftersale_id WHERE r.id=?",id);
+   one("SELECT id FROM orders WHERE id=? FOR UPDATE",seed.get("order_id"));
+   one("SELECT id FROM suborders WHERE id=? FOR UPDATE",seed.get("suborder_id"));
+   var rows=db.queryForList("SELECT * FROM refunds WHERE id=? AND status='PROCESSING' AND lease_token=? FOR UPDATE",id,token);if(rows.isEmpty())return;var r=rows.getFirst();long amount=n(r.get("amount_fen"));int attempts=((Number)r.get("attempt_count")).intValue();
    if(o.status().equals("SUCCEEDED")){
     if(o.channelRefundNo()==null||o.channelRefundNo().isBlank())throw new Failure(409,"INVALID_PROVIDER_RECEIPT");
-    db.update("UPDATE refunds SET status='SUCCEEDED',channel_refund_no=?,decided_at=clock_timestamp(),next_retry_at=NULL,last_error_code=NULL WHERE id=?",o.channelRefundNo(),id);
+    db.update("UPDATE refunds SET status='SUCCEEDED',channel_refund_no=?,decided_at=clock_timestamp(),next_retry_at=NULL,last_error_code=NULL,lease_token=NULL,lease_until=NULL WHERE id=?",o.channelRefundNo(),id);
     db.update("UPDATE order_refund_unit_claims SET status='REFUNDED' WHERE refund_id=? AND status='RESERVED'",id);
     if(r.get("cancellation_id")!=null)completeCancellation((UUID)r.get("cancellation_id"),id);else completeAftersale((UUID)r.get("aftersale_id"),id);
     settlement.recordRefundSuccess(id);
@@ -59,12 +66,12 @@ import org.springframework.transaction.support.TransactionTemplate;
     if(r.get("aftersale_id")!=null)settlement.unfreezeIfClear((UUID)one("SELECT suborder_id FROM aftersales WHERE id=?",r.get("aftersale_id")).get("suborder_id"));
     outbox.append("PAYMENT",r.get("payment_id").toString(),"RefundSucceeded",1,Map.of("refund_id",id.toString(),"amount_fen",amount),null);
     audit.write(null,"refund.succeeded","REFUND",id.toString(),Map.of(),Map.of("amount_fen",amount),null);
-   }else if(o.status().equals("FAILED")){
+   }else if(o.status().equals("FAILED")||attempts>=8){
     boolean fin=attempts>=8;
-    db.update("UPDATE refunds SET status=?,last_error_code=?,next_retry_at=CASE WHEN ? THEN NULL ELSE clock_timestamp()+(?*interval '1 second') END WHERE id=?",fin?"FAILED_FINAL":"FAILED_RETRYABLE",o.errorCode(),fin,backoff(attempts),id);
+    db.update("UPDATE refunds SET status=?,last_error_code=?,next_retry_at=CASE WHEN ? THEN NULL ELSE clock_timestamp()+(?*interval '1 second') END,lease_token=NULL,lease_until=NULL WHERE id=?",fin?"FAILED_FINAL":"FAILED_RETRYABLE",o.errorCode(),fin,backoff(attempts),id);
     outbox.append("PAYMENT",r.get("payment_id").toString(),"RefundFailed",1,Map.of("refund_id",id.toString(),"final",fin),null);
     audit.write(null,"refund.failed","REFUND",id.toString(),Map.of(),Map.of("status",fin?"FAILED_FINAL":"FAILED_RETRYABLE","error_code",o.errorCode()==null?"":o.errorCode()),null);
-   }else db.update("UPDATE refunds SET next_retry_at=clock_timestamp()+(?*interval '1 second'),last_error_code=? WHERE id=?",backoff(attempts),o.errorCode(),id);});
+   }else db.update("UPDATE refunds SET next_retry_at=clock_timestamp()+(?*interval '1 second'),last_error_code=?,lease_token=NULL,lease_until=NULL WHERE id=?",backoff(attempts),o.errorCode(),id);});
  }
  /** Refund success only settles money and completes the source document; quantities and stock are never replayed. */
  private void completeCancellation(UUID cid,UUID refundId){
@@ -85,7 +92,7 @@ import org.springframework.transaction.support.TransactionTemplate;
  /** Whole discount scope cancelled and every original refund finished: return the coupon once per its frozen snapshot. */
  public void returnCoupons(UUID cancellationId,UUID orderId){
   UUID payment=(UUID)one("SELECT id FROM payments WHERE order_id=?",orderId).get("id");
-  long open=db.queryForObject("SELECT count(*) FROM refunds WHERE payment_id=? AND status IN ('CREATED','PROCESSING','FAILED_RETRYABLE')",Integer.class,payment);
+  long open=db.queryForObject("SELECT count(*) FROM refunds WHERE payment_id=? AND status NOT IN ('SUCCEEDED','CANCELLED')",Integer.class,payment);
   for(var snap:db.queryForList("SELECT coupon_id FROM order_coupon_snapshots WHERE order_id=? ORDER BY coupon_id",orderId)){
    UUID cid=(UUID)snap.get("coupon_id");var coupon=one("SELECT * FROM user_coupons WHERE id=? FOR UPDATE",cid);
    if(!coupon.get("status").equals("USED")||open>0)continue;

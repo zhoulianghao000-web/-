@@ -9,6 +9,7 @@ import cn.pawday.outbox.OutboxWriter;
 import jakarta.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.time.Clock;
+import java.math.BigInteger;
 import java.util.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -90,8 +91,9 @@ import org.springframework.transaction.support.TransactionTemplate;
   var lines=new ArrayList<Line>();long shipping=0;
   if(refund.get("cancellation_id")!=null)for(var l:db.queryForList("SELECT order_item_id,item_payable_refund_fen,shipping_refund_fen FROM order_cancellation_items WHERE refund_id=? ORDER BY id",refundId)){lines.add(new Line((UUID)l.get("order_item_id"),n(l.get("item_payable_refund_fen"))));shipping+=n(l.get("shipping_refund_fen"));}
   else for(var l:db.queryForList("SELECT order_item_id,item_payable_refund_fen FROM aftersale_items WHERE refund_id=? ORDER BY id",refundId))lines.add(new Line((UUID)l.get("order_item_id"),n(l.get("item_payable_refund_fen"))));
-  var track=one("SELECT * FROM settlement_tracks WHERE suborder_id=?",sub);
-  boolean settled=track.get("status").equals("SETTLED");
+  var track=one("SELECT * FROM settlement_tracks WHERE suborder_id=? FOR UPDATE",sub);
+  // ADJUSTED is still a previously paid track. Its immutable batch reference is the authority.
+  boolean settled=track.get("settlement_id")!=null;
   long amount=n(refund.get("amount_fen"));long goods=amount-shipping;long reversedTotal=0;
   for(var line:lines){
    var allocs=db.queryForList("SELECT * FROM commission_allocations WHERE order_item_id=?",line.item());
@@ -99,8 +101,9 @@ import org.springframework.transaction.support.TransactionTemplate;
    var alloc=allocs.getFirst();long commission=n(alloc.get("commission_fen")),base=n(alloc.get("base_amount_fen"));
    if(commission<1||base<1||line.goods()<1)continue;
    long already=db.queryForObject("SELECT coalesce(sum(amount_fen),0) FROM merchant_ledger_entries WHERE entry_type='COMMISSION_REVERSAL' AND order_item_id=?",Long.class,line.item());
-   // Exact proportional share of the frozen snapshot: commission * line_goods / base, rounded half-up, capped at the remaining snapshot commission.
-   long rev=Math.min((commission*line.goods()+base/2)/base,commission-already);
+   long refunded=db.queryForObject("SELECT coalesce(sum(u.paid_amount_fen),0) FROM order_refund_unit_claims c JOIN order_item_refund_units u USING(order_item_id,unit_index) JOIN refunds r ON r.id=c.refund_id WHERE c.order_item_id=? AND r.status='SUCCEEDED' AND c.status='REFUNDED'",Long.class,line.item());
+   long target=BigInteger.valueOf(commission).multiply(BigInteger.valueOf(Math.min(base,refunded))).add(BigInteger.valueOf(base/2)).divide(BigInteger.valueOf(base)).longValueExact();
+   long rev=Math.max(0,target-already);
    if(rev<1)continue;
    reversedTotal+=rev;
    ledger(merchant,"COMMISSION_REVERSAL","CREDIT",rev,!settled,order,sub,line.item(),refundId,null,"REFUND_SUCCEEDED",settled?"已结算后退款冲销":null,null);
@@ -168,6 +171,8 @@ import org.springframework.transaction.support.TransactionTemplate;
   var held=commands.command(a,"settlement.initiate:"+merchantId,key,Map.of("merchant_id",merchantId.toString()),()->{
    auth.consumeProof(a,"settlement.execute",proof);
    one("SELECT id FROM merchant WHERE id=? FOR UPDATE",merchantId);
+   // Freeze candidate eligibility under the same track locks used by after-sale and refund writers.
+   db.queryForList("SELECT id FROM settlement_tracks WHERE merchant_id=? ORDER BY id FOR UPDATE",merchantId);
    var entries=db.queryForList("SELECT e.* FROM merchant_ledger_entries e WHERE e.merchant_id=? AND e.affects_balance AND NOT EXISTS(SELECT 1 FROM settlement_items i WHERE i.ledger_entry_id=e.id) AND (e.suborder_id IS NULL OR e.entry_type='SETTLEMENT_ADJUSTMENT' OR EXISTS(SELECT 1 FROM settlement_tracks t WHERE t.suborder_id=e.suborder_id AND (t.status='ELIGIBLE' OR (t.status='ADJUSTED' AND t.settlement_id IS NULL)))) ORDER BY e.created_at,e.id",merchantId);
    long sum=0;for(var e:entries)sum+=e.get("direction").equals("CREDIT")?n(e.get("amount_fen")):-n(e.get("amount_fen"));
    if(entries.isEmpty()||sum<1)throw new Failure(409,"NOTHING_TO_SETTLE");
