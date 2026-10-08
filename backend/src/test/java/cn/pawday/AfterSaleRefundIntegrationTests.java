@@ -27,10 +27,11 @@ class AfterSaleRefundIntegrationTests {
   @org.springframework.context.annotation.Bean @org.springframework.context.annotation.Primary Clock checkoutTestClock(){return new Clock(){public ZoneId getZone(){return ZoneOffset.UTC;}public Clock withZone(ZoneId zone){return this;}public Instant instant(){return Instant.now().plusSeconds(OFFSET.get());}};}
  }
  static class BlockingRefundGateway extends cn.pawday.payment.SimulatedPaymentGateway {
-  volatile String blocked;volatile CountDownLatch entered=new CountDownLatch(1),release=new CountDownLatch(1);
+  volatile String blocked,forcedOutcome;volatile CountDownLatch entered=new CountDownLatch(1),release=new CountDownLatch(1);
   final java.util.concurrent.atomic.AtomicInteger calls=new java.util.concurrent.atomic.AtomicInteger();
   BlockingRefundGateway(JdbcTemplate db){super(db);}
   @Override public RefundOutcome refund(RefundInstruction i){
+   if(forcedOutcome!=null)return new RefundOutcome(forcedOutcome,null,"TEST_PROVIDER_OUTAGE");
    if(i.refundNo().equals(blocked)&&calls.incrementAndGet()==1){entered.countDown();try{if(!release.await(10,TimeUnit.SECONDS))throw new AssertionError("blocked gateway timeout");}catch(InterruptedException e){Thread.currentThread().interrupt();throw new AssertionError(e);}return new RefundOutcome("FAILED",null,"STALE_RESPONSE");}
    return super.refund(i);
   }
@@ -161,6 +162,19 @@ class AfterSaleRefundIntegrationTests {
   assertEquals("RESERVED",db.queryForObject("SELECT status FROM order_refund_unit_claims WHERE id=?",String.class,claim));
   assertEquals(0,db.queryForObject("SELECT count(*) FROM simulated_payment_refund_requests WHERE refund_no=?",Integer.class,refundNo));
   refunds.recoverBatch();assertEquals("FAILED_FINAL",db.queryForObject("SELECT status FROM refunds WHERE id=?",String.class,rid));
+ }
+ @Test void failedRefundKeepsCouponUsedUntilEveryCancellationRefundSucceeds(){
+  String u=consumer(),o=ready();shipping();String c=coupon(u,"MERCHANT",500,0),i=addFor(u,o,2),a=addressFor(u);var order=req("POST","/consumer/orders",Map.of("quote_id",quote(u,i,a,List.of(c))),u,Map.of("Idempotency-Key",key()));assertEquals(200,order.status());
+  var f=new Fixture(u,o,order,order.data().get("payment").get("id").asString());var attempt=req("POST","/consumer/payments/"+f.payment()+"/attempts",Map.of("channel","WECHAT","client_platform","ANDROID"),u,Map.of("Idempotency-Key",key()));assertEquals(200,req("POST","/consumer/payments/"+f.payment()+"/simulation",Map.of("attempt_id",attempt.data().get("attempts").get(0).get("id").asString(),"outcome","SUCCEEDED"),u,Map.of()).status());
+  try{
+   blockingGateway.forcedOutcome="UNKNOWN";var first=cancelPaid(u,f,1,key());assertEquals(200,first.status());UUID rid=UUID.fromString(first.data().get("refund").get("id").asString());
+   for(int j=1;j<8;j++){db.update("UPDATE refunds SET next_retry_at=clock_timestamp()-interval '1 hour' WHERE id=?",rid);refunds.drive(rid);}
+   assertEquals("FAILED_FINAL",db.queryForObject("SELECT status FROM refunds WHERE id=?",String.class,rid));
+   blockingGateway.forcedOutcome=null;assertEquals(200,cancelPaid(u,f,1,key()).status());
+   assertEquals("USED",db.queryForObject("SELECT status FROM user_coupons WHERE id=?",String.class,UUID.fromString(c)));assertEquals(0,db.queryForObject("SELECT count(*) FROM coupon_return_events WHERE coupon_id=?",Integer.class,UUID.fromString(c)));
+   assertEquals(200,req("POST","/admin/payments/"+f.payment()+"/requery",Map.of(),admin,Map.of("Idempotency-Key",key(),"X-Reverify-Token",proof("payment.requery"))).status());
+   assertEquals("RETURNED",db.queryForObject("SELECT status FROM user_coupons WHERE id=?",String.class,UUID.fromString(c)));assertEquals(1,db.queryForObject("SELECT count(*) FROM coupon_return_events WHERE coupon_id=?",Integer.class,UUID.fromString(c)));
+  }finally{blockingGateway.forcedOutcome=null;}
  }
  @Test void unknownOutcomeStopsAutomaticRetryAndRequiresControlledResume(){
   var f=paid(2,List.of());UUID cid=UUID.randomUUID();db.update("INSERT INTO order_cancellations(id,order_id,suborder_id,actor_type,reason_code,status) VALUES (?,?,?,'CONSUMER','CONSUMER_CANCELLED','ACCEPTED')",cid,UUID.fromString(f.order().id()),UUID.fromString(sub(f)));
