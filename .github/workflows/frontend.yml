@@ -124,7 +124,7 @@ jobs:
         run: |
           cd consumer-app/flutter
           flutter pub get --enforce-lockfile
-          flutter build web --release --no-web-resources-cdn --base-href /consumer-preview/ --dart-define=PAWDAY_API_BASE=http://127.0.0.1:5173/api/v1
+          flutter build web --profile --no-web-resources-cdn --base-href /consumer-preview/ --dart-define=PAWDAY_API_BASE=http://127.0.0.1:5173/api/v1
           mkdir -p ../../merchant-web/public/consumer-preview
           cp -R build/web/. ../../merchant-web/public/consumer-preview/
       - run: pnpm exec playwright test e2e/real.spec.ts
