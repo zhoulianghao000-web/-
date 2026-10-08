@@ -87,8 +87,11 @@ class ConsumerApi {
     bool anonymous = false,
   }) {
     if (!RegExp(
-      r'^/api/v1/(public|consumer)/(reviews|content)/[0-9a-f-]{36}/media/[0-9a-f-]{36}$',
-    ).hasMatch(path)) {
+          r'^/api/v1/(public|consumer)/(reviews|content)/[0-9a-f-]{36}/media/[0-9a-f-]{36}$',
+        ).hasMatch(path) &&
+        !RegExp(
+          r'^/api/v1/consumer/conversations/[0-9a-f-]{36}/messages/[0-9a-f-]{36}/media/[0-9a-f-]{36}$',
+        ).hasMatch(path)) {
       throw const ApiFailure(403, 'INVALID_API_DESTINATION');
     }
     return (
@@ -274,13 +277,19 @@ class ConsumerApi {
   Future<MediaAsset> uploadReview(
     Uint8List bytes,
     String mime,
-    String sha256,
-  ) async {
+    String sha256, {
+    String scope = 'REVIEW',
+  }) async {
     final epoch = _epoch;
     if (bytes.isEmpty || bytes.length > 5242880) {
       throw const ApiFailure(413, 'UPLOAD_TOO_LARGE');
     }
-    if (!['image/png', 'image/jpeg', 'video/mp4'].contains(mime)) {
+    if (!['REVIEW', 'CHAT'].contains(scope) ||
+        ![
+          'image/png',
+          'image/jpeg',
+          if (scope == 'REVIEW') 'video/mp4',
+        ].contains(mime)) {
       throw const ApiFailure(400, 'UPLOAD_MIME_NOT_ALLOWED');
     }
     final grant = MediaGrantEnvelope.fromJson(
@@ -288,7 +297,7 @@ class ConsumerApi {
         'POST',
         '/media/upload-grants',
         body: MediaGrantRequest(
-          scope: 'REVIEW',
+          scope: scope,
           mime: mime,
           size_bytes: bytes.length,
           sha256: sha256,
@@ -325,8 +334,11 @@ class ConsumerApi {
 
   Future<Uint8List> mediaBytes(String path, {bool anonymous = false}) async {
     if (!RegExp(
-      r'^/api/v1/(public|consumer)/(reviews|content)/[0-9a-f-]{36}/media/[0-9a-f-]{36}$',
-    ).hasMatch(path)) {
+          r'^/api/v1/(public|consumer)/(reviews|content)/[0-9a-f-]{36}/media/[0-9a-f-]{36}$',
+        ).hasMatch(path) &&
+        !RegExp(
+          r'^/api/v1/consumer/conversations/[0-9a-f-]{36}/messages/[0-9a-f-]{36}/media/[0-9a-f-]{36}$',
+        ).hasMatch(path)) {
       throw const ApiFailure(403, 'INVALID_API_DESTINATION');
     }
     final epoch = _epoch;

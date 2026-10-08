@@ -91,6 +91,12 @@ jobs:
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m5.2.yaml
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m5.2.yaml -o /tmp/pawday-m52-bundled.yaml
           python openapi/validate_m52_contract.py --samples backend/target/m52-contract-samples.json --binary-samples backend/target/m52-binary-samples.json --report openapi/reviews-content-response-report.json
+      - name: M5.3 private support and actual RabbitMQ delivery contracts
+        run: |
+          npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m5.3.yaml
+          npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m5.3.yaml -o /tmp/pawday-m53-bundled.yaml
+          python openapi/validate_m53_contract.py --samples backend/target/m53-contract-samples.json --binary-samples backend/target/m53-binary-samples.json --report openapi/support-messages-response-report.json
+          python openapi/validate_m53_contract.py --samples backend/target/m53-delivery-contract-samples.json --report openapi/support-delivery-response-report.json
       - name: Real infrastructure diagnostics
         if: always()
         run: |
@@ -107,7 +113,7 @@ jobs:
             backend/target/surefire-reports/
             backend/target/failsafe-reports/
             backend/target/*contract-samples.json
-            backend/target/m52-binary-samples.json
+            backend/target/*binary-samples.json
             backend/target/m23-infrastructure-evidence.json
             backend/target/infrastructure-evidence/
             openapi/*response-report.json
@@ -151,6 +157,9 @@ jobs:
           python openapi/validate_m46_contract.py
           python openapi/validate_m51_contract.py
           python openapi/validate_m52_contract.py
+          python openapi/validate_m53_contract.py
+          npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m5.3.yaml
+          npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m5.3.yaml --output openapi/pawday-m5.3.redocly.bundle.json
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m5.2.yaml
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m5.2.yaml --output openapi/pawday-m5.2.redocly.bundle.json
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m5.1.yaml

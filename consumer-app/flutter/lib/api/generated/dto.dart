@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 d88a57cb25b79a9214bf261ae4de90d55f9902451881884e8ca9e668d87b51fd
+// Generated from Pawday runtime OpenAPI; SHA256 305586192a9a90c15dd7a80b6cb5a706f79f1233c1018431b4e2bb582e4de048
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -7127,6 +7127,429 @@ class ArticleDetailEnvelope {
   };
 }
 
+class Conversation {
+  final String id;
+  final String kind;
+  final String? store_id;
+  final String status;
+  final int last_sequence;
+  final int delivered_sequence;
+  final int version;
+  final String created_at;
+  final String updated_at;
+  final bool assigned_to_me;
+  final bool assigned;
+  final int read_sequence;
+  final int unread_count;
+  const Conversation({required this.id, required this.kind, required this.store_id, required this.status, required this.last_sequence, required this.delivered_sequence, required this.version, required this.created_at, required this.updated_at, required this.assigned_to_me, required this.assigned, required this.read_sequence, required this.unread_count});
+  factory Conversation.fromJson(Map<String,dynamic> json) => Conversation(
+    id: json['id'] as String,
+    kind: json['kind'] as String,
+    store_id: json['store_id'] == null ? null : json['store_id'] as String,
+    status: json['status'] as String,
+    last_sequence: (json['last_sequence'] as num).toInt(),
+    delivered_sequence: (json['delivered_sequence'] as num).toInt(),
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+    updated_at: json['updated_at'] as String,
+    assigned_to_me: json['assigned_to_me'] as bool,
+    assigned: json['assigned'] as bool,
+    read_sequence: (json['read_sequence'] as num).toInt(),
+    unread_count: (json['unread_count'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'kind': kind,
+    'store_id': store_id == null ? null : store_id!,
+    'status': status,
+    'last_sequence': last_sequence,
+    'delivered_sequence': delivered_sequence,
+    'version': version,
+    'created_at': created_at,
+    'updated_at': updated_at,
+    'assigned_to_me': assigned_to_me,
+    'assigned': assigned,
+    'read_sequence': read_sequence,
+    'unread_count': unread_count,
+  };
+}
+
+class ConversationInput {
+  final String kind;
+  final String? store_id;
+  const ConversationInput({required this.kind, required this.store_id});
+  factory ConversationInput.fromJson(Map<String,dynamic> json) => ConversationInput(
+    kind: json['kind'] as String,
+    store_id: json['store_id'] == null ? null : json['store_id'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'kind': kind,
+    'store_id': store_id == null ? null : store_id!,
+  };
+}
+
+class SupportAssignment {
+  final String principal_id;
+  final String reason;
+  const SupportAssignment({required this.principal_id, required this.reason});
+  factory SupportAssignment.fromJson(Map<String,dynamic> json) => SupportAssignment(
+    principal_id: json['principal_id'] as String,
+    reason: json['reason'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'principal_id': principal_id,
+    'reason': reason,
+  };
+}
+
+class ConversationStatusInput {
+  final String status;
+  const ConversationStatusInput({required this.status});
+  factory ConversationStatusInput.fromJson(Map<String,dynamic> json) => ConversationStatusInput(
+    status: json['status'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'status': status,
+  };
+}
+
+class SupportMessageInput {
+  final String type;
+  final String? body;
+  final List<String> asset_ids;
+  final String? target_id;
+  const SupportMessageInput({required this.type, required this.body, required this.asset_ids, required this.target_id});
+  factory SupportMessageInput.fromJson(Map<String,dynamic> json) => SupportMessageInput(
+    type: json['type'] as String,
+    body: json['body'] == null ? null : json['body'] as String,
+    asset_ids: (json['asset_ids'] as List).map((value) => value as String).toList(),
+    target_id: json['target_id'] == null ? null : json['target_id'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'type': type,
+    'body': body == null ? null : body!,
+    'asset_ids': asset_ids.map((value) => value).toList(),
+    'target_id': target_id == null ? null : target_id!,
+  };
+}
+
+class SupportMessage {
+  final String id;
+  final String conversation_id;
+  final int sequence;
+  final String sender_realm;
+  final String type;
+  final String? body;
+  final String? target_id;
+  final String created_at;
+  final bool outgoing;
+  final List<PublicationMedia> media;
+  const SupportMessage({required this.id, required this.conversation_id, required this.sequence, required this.sender_realm, required this.type, required this.body, required this.target_id, required this.created_at, required this.outgoing, required this.media});
+  factory SupportMessage.fromJson(Map<String,dynamic> json) => SupportMessage(
+    id: json['id'] as String,
+    conversation_id: json['conversation_id'] as String,
+    sequence: (json['sequence'] as num).toInt(),
+    sender_realm: json['sender_realm'] as String,
+    type: json['type'] as String,
+    body: json['body'] == null ? null : json['body'] as String,
+    target_id: json['target_id'] == null ? null : json['target_id'] as String,
+    created_at: json['created_at'] as String,
+    outgoing: json['outgoing'] as bool,
+    media: (json['media'] as List).map((value) => PublicationMedia.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'conversation_id': conversation_id,
+    'sequence': sequence,
+    'sender_realm': sender_realm,
+    'type': type,
+    'body': body == null ? null : body!,
+    'target_id': target_id == null ? null : target_id!,
+    'created_at': created_at,
+    'outgoing': outgoing,
+    'media': media.map((value) => value.toJson()).toList(),
+  };
+}
+
+class ConversationRead {
+  final int through_sequence;
+  const ConversationRead({required this.through_sequence});
+  factory ConversationRead.fromJson(Map<String,dynamic> json) => ConversationRead(
+    through_sequence: (json['through_sequence'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'through_sequence': through_sequence,
+  };
+}
+
+class SupportCard {
+  final String type;
+  final String target_id;
+  final bool available;
+  final String? label;
+  final String? destination;
+  const SupportCard({required this.type, required this.target_id, required this.available, required this.label, required this.destination});
+  factory SupportCard.fromJson(Map<String,dynamic> json) => SupportCard(
+    type: json['type'] as String,
+    target_id: json['target_id'] as String,
+    available: json['available'] as bool,
+    label: json['label'] == null ? null : json['label'] as String,
+    destination: json['destination'] == null ? null : json['destination'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'type': type,
+    'target_id': target_id,
+    'available': available,
+    'label': label == null ? null : label!,
+    'destination': destination == null ? null : destination!,
+  };
+}
+
+class NotificationPreference {
+  final String category;
+  final bool enabled;
+  const NotificationPreference({required this.category, required this.enabled});
+  factory NotificationPreference.fromJson(Map<String,dynamic> json) => NotificationPreference(
+    category: json['category'] as String,
+    enabled: json['enabled'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'category': category,
+    'enabled': enabled,
+  };
+}
+
+class NotificationPreferenceInput {
+  final bool enabled;
+  const NotificationPreferenceInput({required this.enabled});
+  factory NotificationPreferenceInput.fromJson(Map<String,dynamic> json) => NotificationPreferenceInput(
+    enabled: json['enabled'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'enabled': enabled,
+  };
+}
+
+class NotificationMessage {
+  final String id;
+  final String category;
+  final String event_type;
+  final String target_type;
+  final String target_id;
+  final bool notify_enabled;
+  final String? read_at;
+  final String created_at;
+  const NotificationMessage({required this.id, required this.category, required this.event_type, required this.target_type, required this.target_id, required this.notify_enabled, required this.read_at, required this.created_at});
+  factory NotificationMessage.fromJson(Map<String,dynamic> json) => NotificationMessage(
+    id: json['id'] as String,
+    category: json['category'] as String,
+    event_type: json['event_type'] as String,
+    target_type: json['target_type'] as String,
+    target_id: json['target_id'] as String,
+    notify_enabled: json['notify_enabled'] as bool,
+    read_at: json['read_at'] == null ? null : json['read_at'] as String,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'category': category,
+    'event_type': event_type,
+    'target_type': target_type,
+    'target_id': target_id,
+    'notify_enabled': notify_enabled,
+    'read_at': read_at == null ? null : read_at!,
+    'created_at': created_at,
+  };
+}
+
+class NotificationUnread {
+  final int unread_count;
+  const NotificationUnread({required this.unread_count});
+  factory NotificationUnread.fromJson(Map<String,dynamic> json) => NotificationUnread(
+    unread_count: (json['unread_count'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'unread_count': unread_count,
+  };
+}
+
+class NotificationDestination {
+  final String destination;
+  const NotificationDestination({required this.destination});
+  factory NotificationDestination.fromJson(Map<String,dynamic> json) => NotificationDestination(
+    destination: json['destination'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'destination': destination,
+  };
+}
+
+class ConversationEnvelope {
+  final Conversation data;
+  final Meta meta;
+  const ConversationEnvelope({required this.data, required this.meta});
+  factory ConversationEnvelope.fromJson(Map<String,dynamic> json) => ConversationEnvelope(
+    data: Conversation.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ConversationListEnvelope {
+  final List<Conversation> data;
+  final Page page;
+  final Meta meta;
+  const ConversationListEnvelope({required this.data, required this.page, required this.meta});
+  factory ConversationListEnvelope.fromJson(Map<String,dynamic> json) => ConversationListEnvelope(
+    data: (json['data'] as List).map((value) => Conversation.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class SupportMessageListEnvelope {
+  final List<SupportMessage> data;
+  final Page page;
+  final Meta meta;
+  const SupportMessageListEnvelope({required this.data, required this.page, required this.meta});
+  factory SupportMessageListEnvelope.fromJson(Map<String,dynamic> json) => SupportMessageListEnvelope(
+    data: (json['data'] as List).map((value) => SupportMessage.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class SupportMessageEnvelope {
+  final SupportMessage data;
+  final Meta meta;
+  const SupportMessageEnvelope({required this.data, required this.meta});
+  factory SupportMessageEnvelope.fromJson(Map<String,dynamic> json) => SupportMessageEnvelope(
+    data: SupportMessage.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class SupportCardEnvelope {
+  final SupportCard data;
+  final Meta meta;
+  const SupportCardEnvelope({required this.data, required this.meta});
+  factory SupportCardEnvelope.fromJson(Map<String,dynamic> json) => SupportCardEnvelope(
+    data: SupportCard.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class NotificationMessageListEnvelope {
+  final List<NotificationMessage> data;
+  final Page page;
+  final Meta meta;
+  const NotificationMessageListEnvelope({required this.data, required this.page, required this.meta});
+  factory NotificationMessageListEnvelope.fromJson(Map<String,dynamic> json) => NotificationMessageListEnvelope(
+    data: (json['data'] as List).map((value) => NotificationMessage.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class NotificationDestinationEnvelope {
+  final NotificationDestination data;
+  final Meta meta;
+  const NotificationDestinationEnvelope({required this.data, required this.meta});
+  factory NotificationDestinationEnvelope.fromJson(Map<String,dynamic> json) => NotificationDestinationEnvelope(
+    data: NotificationDestination.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class NotificationUnreadEnvelope {
+  final NotificationUnread data;
+  final Meta meta;
+  const NotificationUnreadEnvelope({required this.data, required this.meta});
+  factory NotificationUnreadEnvelope.fromJson(Map<String,dynamic> json) => NotificationUnreadEnvelope(
+    data: NotificationUnread.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class NotificationMessageEnvelope {
+  final NotificationMessage data;
+  final Meta meta;
+  const NotificationMessageEnvelope({required this.data, required this.meta});
+  factory NotificationMessageEnvelope.fromJson(Map<String,dynamic> json) => NotificationMessageEnvelope(
+    data: NotificationMessage.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class NotificationPreferenceListEnvelope {
+  final List<NotificationPreference> data;
+  final Page page;
+  final Meta meta;
+  const NotificationPreferenceListEnvelope({required this.data, required this.page, required this.meta});
+  factory NotificationPreferenceListEnvelope.fromJson(Map<String,dynamic> json) => NotificationPreferenceListEnvelope(
+    data: (json['data'] as List).map((value) => NotificationPreference.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class NotificationPreferenceEnvelope {
+  final NotificationPreference data;
+  final Meta meta;
+  const NotificationPreferenceEnvelope({required this.data, required this.meta});
+  factory NotificationPreferenceEnvelope.fromJson(Map<String,dynamic> json) => NotificationPreferenceEnvelope(
+    data: NotificationPreference.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -7367,4 +7790,37 @@ class ApiRoutes {
   static const post_admin_content__id__moderation = '/admin/content/{id}/moderation';
   static const get_public_content__id__media__asset = '/public/content/{id}/media/{asset}';
   static const get_admin_content__id__media__asset = '/admin/content/{id}/media/{asset}';
+  static const post_consumer_conversations = '/consumer/conversations';
+  static const get_consumer_conversations = '/consumer/conversations';
+  static const get_consumer_conversations__id = '/consumer/conversations/{id}';
+  static const get_consumer_conversations__id__messages = '/consumer/conversations/{id}/messages';
+  static const post_consumer_conversations__id__messages = '/consumer/conversations/{id}/messages';
+  static const post_consumer_conversations__id__read = '/consumer/conversations/{id}/read';
+  static const post_consumer_conversations__id__status = '/consumer/conversations/{id}/status';
+  static const get_consumer_conversations__id__messages__mid__media__asset = '/consumer/conversations/{id}/messages/{mid}/media/{asset}';
+  static const get_consumer_conversations__id__messages__mid__card = '/consumer/conversations/{id}/messages/{mid}/card';
+  static const get_merchant_conversations = '/merchant/conversations';
+  static const get_merchant_conversations__id = '/merchant/conversations/{id}';
+  static const get_merchant_conversations__id__messages = '/merchant/conversations/{id}/messages';
+  static const post_merchant_conversations__id__messages = '/merchant/conversations/{id}/messages';
+  static const post_merchant_conversations__id__read = '/merchant/conversations/{id}/read';
+  static const post_merchant_conversations__id__status = '/merchant/conversations/{id}/status';
+  static const get_merchant_conversations__id__messages__mid__media__asset = '/merchant/conversations/{id}/messages/{mid}/media/{asset}';
+  static const get_merchant_conversations__id__messages__mid__card = '/merchant/conversations/{id}/messages/{mid}/card';
+  static const post_merchant_conversations__id__assignment = '/merchant/conversations/{id}/assignment';
+  static const get_admin_conversations = '/admin/conversations';
+  static const get_admin_conversations__id = '/admin/conversations/{id}';
+  static const get_admin_conversations__id__messages = '/admin/conversations/{id}/messages';
+  static const post_admin_conversations__id__messages = '/admin/conversations/{id}/messages';
+  static const post_admin_conversations__id__read = '/admin/conversations/{id}/read';
+  static const post_admin_conversations__id__status = '/admin/conversations/{id}/status';
+  static const get_admin_conversations__id__messages__mid__media__asset = '/admin/conversations/{id}/messages/{mid}/media/{asset}';
+  static const get_admin_conversations__id__messages__mid__card = '/admin/conversations/{id}/messages/{mid}/card';
+  static const post_admin_conversations__id__assignment = '/admin/conversations/{id}/assignment';
+  static const get_consumer_messages = '/consumer/messages';
+  static const get_consumer_messages__id__target = '/consumer/messages/{id}/target';
+  static const get_consumer_messages_unread = '/consumer/messages/unread';
+  static const post_consumer_messages__id__read = '/consumer/messages/{id}/read';
+  static const get_consumer_notification_preferences = '/consumer/notification-preferences';
+  static const put_consumer_notification_preferences__category = '/consumer/notification-preferences/{category}';
 }

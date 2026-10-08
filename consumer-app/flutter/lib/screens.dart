@@ -131,6 +131,16 @@ class TabScreen extends ConsumerWidget {
           ],
           if (path == '/me') ...[
             ListTile(
+              leading: const Icon(Icons.forum_outlined),
+              title: const Text('人工客服'),
+              onTap: () => context.go('/support'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.notifications_outlined),
+              title: const Text('消息与提醒'),
+              onTap: () => context.go('/messages'),
+            ),
+            ListTile(
               leading: const Icon(Icons.rate_review_outlined),
               title: const Text('我的评价'),
               onTap: () => context.go('/my-reviews'),

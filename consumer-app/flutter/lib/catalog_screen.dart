@@ -395,6 +395,17 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
               Card(
                 child: ListTile(
                   title: Text(o.merchant_name),
+                  onTap: o.store_id == null
+                      ? null
+                      : () => context.push(
+                          Uri(
+                            path: '/support',
+                            queryParameters: {
+                              'store_id': o.store_id!,
+                              'sku_id': widget.sku,
+                            },
+                          ).toString(),
+                        ),
                   trailing: FilledButton(
                     onPressed: loading || adding || !o.in_stock
                         ? null
