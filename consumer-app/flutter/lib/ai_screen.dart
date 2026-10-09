@@ -28,6 +28,16 @@ class _AiState extends ConsumerState<AiScreen> {
   int generation = 0;
   final keys = <String, String>{};
   AiRepository get repo => ref.read(aiRepositoryProvider);
+  String neuteredLabel(String? value) => switch (value) {
+    'YES' => '已绝育',
+    'NO' => '未绝育',
+    _ => '未填写',
+  };
+  String fitLabel(String value) => switch (value) {
+    'SUITABLE' => '符合已核对条件',
+    'NOT_RECOMMENDED' => '不建议',
+    _ => '信息不足',
+  };
   @override
   void initState() {
     super.initState();
@@ -232,7 +242,7 @@ class _AiState extends ConsumerState<AiScreen> {
         builder: (ctx) => AlertDialog(
           title: const Text('确认宠物资料变更'),
           content: Text(
-            '绝育状态：${p.before_value} → ${p.proposed_value}\n只会在你确认后保存。',
+            '绝育状态：${neuteredLabel(p.before_value)} → ${neuteredLabel(p.proposed_value)}\n只会在你确认后保存。',
           ),
           actions: [
             TextButton(
@@ -331,7 +341,7 @@ class _AiState extends ConsumerState<AiScreen> {
                       ListTile(
                         title: Text(c.name),
                         subtitle: Text(
-                          '¥${(c.price_fen / 100).toStringAsFixed(2)} · ${c.fit_result} · 可售 ${c.available_qty}',
+                          '¥${(c.price_fen / 100).toStringAsFixed(2)} · ${fitLabel(c.fit_result)} · 可售 ${c.available_qty}',
                         ),
                         onTap: () => context.go('/categories'),
                       ),
