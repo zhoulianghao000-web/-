@@ -99,8 +99,15 @@ class SearchInfrastructureIT {
             "--pawday.search.url="+ENDPOINT,"--pawday.search.workers-enabled=true","--pawday.search.consumers-enabled=true","--pawday.search.poll-ms=50",
             "--pawday.outbox.workers-enabled=true","--pawday.outbox.consumer-enabled=false","--pawday.outbox.poll-ms=50","--pawday.storage.cleanup-enabled=false","--management.health.redis.enabled=false")) {
             UUID sku=UUID.randomUUID();var change=live.getBean(CatalogSearchSource.class).change(product(sku,5500),false,"CatalogPublished",UUID.randomUUID().toString());
-            await().atMost(Duration.ofSeconds(15)).ignoreExceptions().until(()->db.queryForObject("SELECT count(*) FROM search_sync_task WHERE source_id=? AND status='APPLIED'",Integer.class,sku)==1);
-            assertEquals("PUBLISHED",db.queryForObject("SELECT status FROM outbox_event WHERE id=?",String.class,change.event_id()));assertEquals(1,db.queryForObject("SELECT count(*) FROM processed_event WHERE consumer=? AND event_id=? AND status='PROCESSED'",Integer.class,SearchInboxConsumer.CONSUMER,change.event_id()));assertEquals(5500,((Number)doc(sku).get("price_min_fen")).intValue());
+            // Bootstrap can seed/sync the source before Rabbit delivery commits.
+            // Require every asynchronous boundary, rather than treating APPLIED
+            // alone as proof of the end-to-end broker path.
+            await().atMost(Duration.ofSeconds(15)).untilAsserted(()->{
+                assertEquals(1,db.queryForObject("SELECT count(*) FROM search_sync_task WHERE source_id=? AND status='APPLIED'",Integer.class,sku));
+                assertEquals("PUBLISHED",db.queryForObject("SELECT status FROM outbox_event WHERE id=?",String.class,change.event_id()));
+                assertEquals(1,db.queryForObject("SELECT count(*) FROM processed_event WHERE consumer=? AND event_id=? AND status='PROCESSED'",Integer.class,SearchInboxConsumer.CONSUMER,change.event_id()));
+            });
+            assertEquals(5500,((Number)doc(sku).get("price_min_fen")).intValue());
         }
     }
     @Test void concurrentSyncWorkersClaimDifferentRowsAndExpiredClaimIsFenced() throws Exception {
