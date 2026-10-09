@@ -22,8 +22,8 @@ import org.springframework.transaction.support.TransactionTemplate;
  */
 @Service public class SettlementService {
  private final JdbcTemplate db;private final TransactionTemplate tx;private final IdempotentCommandExecutor commands;
- private final OutboxWriter outbox;private final AuditWriter audit;private final AuthService auth;private final Clock clock;
- public SettlementService(JdbcTemplate db,TransactionTemplate tx,IdempotentCommandExecutor commands,OutboxWriter outbox,AuditWriter audit,AuthService auth,Clock clock){this.db=db;this.tx=tx;this.commands=commands;this.outbox=outbox;this.audit=audit;this.auth=auth;this.clock=clock;}
+ private final OutboxWriter outbox;private final AuditWriter audit;private final AuthService auth;private final Clock clock;private final DevelopmentDisbursementPolicy disbursement;
+ public SettlementService(JdbcTemplate db,TransactionTemplate tx,IdempotentCommandExecutor commands,OutboxWriter outbox,AuditWriter audit,AuthService auth,Clock clock,DevelopmentDisbursementPolicy disbursement){this.db=db;this.tx=tx;this.commands=commands;this.outbox=outbox;this.audit=audit;this.auth=auth;this.clock=clock;this.disbursement=disbursement;}
  private Map<String,Object> one(String q,Object...args){var rows=db.queryForList(q,args);if(rows.isEmpty())throw new Failure(404,"RESOURCE_NOT_FOUND");return rows.getFirst();}
  private long n(Object v){return ((Number)v).longValue();}
  private Map<String,Object> view(Map<String,Object> r){var v=new LinkedHashMap<String,Object>();r.forEach((k,x)->v.put(k,x instanceof Timestamp t?t.toInstant().toString():x));return v;}
@@ -135,6 +135,7 @@ import org.springframework.transaction.support.TransactionTemplate;
  }
 
  private Map<String,Object> attemptDisburse(UUID settlementId){
+  disbursement.requireEnabled();
   var st=one("SELECT * FROM settlements WHERE id=? FOR UPDATE",settlementId);
   String status=st.get("status").toString();
   if(status.equals("FAILED_RETRYABLE"))db.update("UPDATE settlements SET status='PROCESSING',attempt_count=attempt_count+1,next_retry_at=NULL WHERE id=?",settlementId);
@@ -159,6 +160,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
  /** Retry sweep for failed disbursements; simulated channel is idempotent per settlement number. */
  public int retryFailed(){
+  if(!disbursement.enabled())return 0;
   int count=0;
   for(var st:db.queryForList("SELECT id FROM settlements WHERE status='FAILED_RETRYABLE' AND (next_retry_at IS NULL OR next_retry_at<=clock_timestamp()) ORDER BY created_at,id LIMIT 20")){
    try{tx.executeWithoutResult(s->attemptDisburse((UUID)st.get("id")));count++;}catch(Exception e){org.slf4j.LoggerFactory.getLogger(SettlementService.class).warn("Settlement retry retained: {}",st.get("id"));}
@@ -168,6 +170,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
  public Map<String,Object> initiate(Actor a,UUID merchantId,String key,String proof,HttpServletRequest r){
   permission(a,"settlement.execute");
+  disbursement.requireEnabled();
   var held=commands.command(a,"settlement.initiate:"+merchantId,key,Map.of("merchant_id",merchantId.toString()),()->{
    auth.consumeProof(a,"settlement.execute",proof);
    one("SELECT id FROM merchant WHERE id=? FOR UPDATE",merchantId);
@@ -190,6 +193,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
  public Map<String,Object> retry(Actor a,UUID settlementId,String key,String proof,HttpServletRequest r){
   permission(a,"settlement.execute");
+  disbursement.requireEnabled();
   commands.command(a,"settlement.retry:"+settlementId,key,Map.of("settlement_id",settlementId.toString()),()->{
    auth.consumeProof(a,"settlement.execute",proof);
    var st=one("SELECT * FROM settlements WHERE id=?",settlementId);

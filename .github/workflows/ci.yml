@@ -110,6 +110,16 @@ jobs:
           python openapi/validate_m55_contract.py --samples backend/target/m55-contract-samples.json --require-new-coverage --report openapi/ai-response-report.json
       - name: M5.4 real AMap HTTPS destination handoff
         run: python scripts/check-amap-handoff.py --samples backend/target/m54-contract-samples.json --report backend/target/infrastructure-evidence/amap-handoff.json
+      - name: M6.1 production inventory and mandatory rejection gates
+        run: |
+          python -m unittest discover -s scripts/tests -v
+          python scripts/check-production-admission.py --report backend/target/readiness-evidence/inventory-lint.json
+          set +e
+          python scripts/check-production-admission.py --release --commit "$GITHUB_SHA" --report backend/target/readiness-evidence/release-blocked.json
+          gate_status=$?
+          set -e
+          test "$gate_status" -eq 2
+          python scripts/check-production-startup.py --jar backend/target/pawday-backend-0.6.1-SNAPSHOT.jar --report backend/target/readiness-evidence/production-startup.json
       - name: Real infrastructure diagnostics
         if: always()
         run: |
@@ -129,6 +139,8 @@ jobs:
             backend/target/*binary-samples.json
             backend/target/m23-infrastructure-evidence.json
             backend/target/infrastructure-evidence/
+            backend/target/readiness-evidence/
+            backend/target/pawday-backend-0.6.1-SNAPSHOT.jar
             openapi/*response-report.json
       - name: Stop only isolated integration services
         if: always()

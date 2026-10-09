@@ -1,0 +1,266 @@
+{
+  "schema_version": "pawday-production-admission/v1",
+  "stage": "M6.1",
+  "updated_at": "2026-10-09",
+  "owner_decision": "External providers, qualifications and launch data are not prepared; confirmed by the owner on 2026-10-09.",
+  "baseline_commit": "ac1ecc92b824883ccc62a6891d02495a1db69e29",
+  "secret_references": [],
+  "gates": [
+    {
+      "id": "payment_refund",
+      "status": "PENDING",
+      "provider_decision": "NOT_SELECTED_OR_NOT_ACCEPTED",
+      "source_files": [
+        "backend/src/main/java/cn/pawday/payment/PaymentGateway.java",
+        "backend/src/main/java/cn/pawday/payment/RefundService.java"
+      ],
+      "required_scenarios": [
+        "verified_callback",
+        "duplicate_callback",
+        "unknown_result_query",
+        "partial_refund_conservation"
+      ],
+      "evidence": [],
+      "blockers": [
+        "External production setup and real acceptance evidence are unavailable."
+      ]
+    },
+    {
+      "id": "settlement",
+      "status": "PENDING",
+      "provider_decision": "NOT_SELECTED_OR_NOT_ACCEPTED",
+      "source_files": [
+        "backend/src/main/java/cn/pawday/settlement/SettlementService.java"
+      ],
+      "required_scenarios": [
+        "provider_account_binding",
+        "idempotent_disbursement",
+        "ambiguous_result_recovery",
+        "ledger_reconciliation"
+      ],
+      "evidence": [],
+      "blockers": [
+        "External production setup and real acceptance evidence are unavailable."
+      ]
+    },
+    {
+      "id": "sms",
+      "status": "PENDING",
+      "provider_decision": "NOT_SELECTED_OR_NOT_ACCEPTED",
+      "source_files": [
+        "backend/src/main/java/cn/pawday/identity/SmsGateway.java"
+      ],
+      "required_scenarios": [
+        "approved_template",
+        "stable_send_key",
+        "ambiguous_receipt",
+        "outbox_recovery"
+      ],
+      "evidence": [],
+      "blockers": [
+        "External production setup and real acceptance evidence are unavailable."
+      ]
+    },
+    {
+      "id": "storage_media",
+      "status": "PENDING",
+      "provider_decision": "NOT_SELECTED_OR_NOT_ACCEPTED",
+      "source_files": [
+        "backend/src/main/java/cn/pawday/storage/ObjectStorageProvider.java"
+      ],
+      "required_scenarios": [
+        "private_upload_read_delete",
+        "mime_hash_limits",
+        "expired_grant",
+        "retention_delete"
+      ],
+      "evidence": [],
+      "blockers": [
+        "External production setup and real acceptance evidence are unavailable."
+      ]
+    },
+    {
+      "id": "ai_live",
+      "status": "PENDING",
+      "provider_decision": "NOT_SELECTED_OR_NOT_ACCEPTED",
+      "source_files": [
+        "backend/src/main/java/cn/pawday/ai/DeepSeekExplanationProvider.java"
+      ],
+      "required_scenarios": [
+        "official_inference",
+        "evidence_boundary",
+        "quota_failure_release",
+        "cost_rate_limit"
+      ],
+      "evidence": [],
+      "blockers": [
+        "External production setup and real acceptance evidence are unavailable."
+      ]
+    },
+    {
+      "id": "logistics_navigation",
+      "status": "PENDING",
+      "provider_decision": "NOT_SELECTED_OR_NOT_ACCEPTED",
+      "source_files": [
+        "backend/src/main/java/cn/pawday/ordering/LogisticsProvider.java",
+        "backend/src/main/java/cn/pawday/nearby/AmapNavigationProvider.java"
+      ],
+      "required_scenarios": [
+        "tracking_authenticity",
+        "installed_uninstalled_amap",
+        "location_denied",
+        "no_implicit_receipt"
+      ],
+      "evidence": [],
+      "blockers": [
+        "External production setup and real acceptance evidence are unavailable."
+      ]
+    },
+    {
+      "id": "operator_mfa",
+      "status": "PENDING",
+      "provider_decision": "NOT_SELECTED_OR_NOT_ACCEPTED",
+      "source_files": [
+        "backend/src/main/java/cn/pawday/identity/AuthService.java"
+      ],
+      "required_scenarios": [
+        "real_staff_enrollment",
+        "one_use_reverify",
+        "scope_denial",
+        "mfa_loss_recovery"
+      ],
+      "evidence": [],
+      "blockers": [
+        "External production setup and real acceptance evidence are unavailable."
+      ]
+    },
+    {
+      "id": "privacy_delete",
+      "status": "PENDING",
+      "provider_decision": "NOT_SELECTED_OR_NOT_ACCEPTED",
+      "source_files": [
+        "backend/src/main/java/cn/pawday/ai/AiService.java"
+      ],
+      "required_scenarios": [
+        "ownership",
+        "legal_retention_decision",
+        "object_reference_cleanup",
+        "backup_recovery_deletion_reapply"
+      ],
+      "evidence": [],
+      "blockers": [
+        "External production setup and real acceptance evidence are unavailable."
+      ]
+    },
+    {
+      "id": "backup_restore",
+      "status": "PENDING",
+      "provider_decision": "NOT_SELECTED_OR_NOT_ACCEPTED",
+      "source_files": [
+        "backend/src/main/java/cn/pawday/outbox/OutboxPublisher.java"
+      ],
+      "required_scenarios": [
+        "postgres_point_in_time",
+        "encryption_key_restore",
+        "media_restore",
+        "search_rebuild",
+        "outbox_inbox_no_duplicate"
+      ],
+      "evidence": [],
+      "blockers": [
+        "External production setup and real acceptance evidence are unavailable."
+      ]
+    },
+    {
+      "id": "observability",
+      "status": "PENDING",
+      "provider_decision": "NOT_SELECTED_OR_NOT_ACCEPTED",
+      "source_files": [
+        "backend/src/main/java/cn/pawday/security/SecurityConfiguration.java"
+      ],
+      "required_scenarios": [
+        "backlog_alert",
+        "refund_unknown_alert",
+        "settlement_mismatch_alert",
+        "alert_delivery_and_recovery"
+      ],
+      "evidence": [],
+      "blockers": [
+        "External production setup and real acceptance evidence are unavailable."
+      ]
+    },
+    {
+      "id": "devices_security",
+      "status": "PENDING",
+      "provider_decision": "NOT_SELECTED_OR_NOT_ACCEPTED",
+      "source_files": [
+        "consumer-app/flutter/pubspec.yaml"
+      ],
+      "required_scenarios": [
+        "signed_android",
+        "signed_ios",
+        "no_embedded_secrets",
+        "session_logout",
+        "device_permission_branches"
+      ],
+      "evidence": [],
+      "blockers": [
+        "External production setup and real acceptance evidence are unavailable."
+      ]
+    },
+    {
+      "id": "launch_data",
+      "status": "PENDING",
+      "provider_decision": "NOT_SELECTED_OR_NOT_ACCEPTED",
+      "source_files": [
+        "backend/src/main/java/cn/pawday/nearby/NearbyService.java"
+      ],
+      "required_scenarios": [
+        "authorized_product_sources",
+        "verified_store_sources",
+        "city_coverage",
+        "operating_policy_version"
+      ],
+      "evidence": [],
+      "blockers": [
+        "External production setup and real acceptance evidence are unavailable."
+      ]
+    },
+    {
+      "id": "capacity_recovery",
+      "status": "PENDING",
+      "provider_decision": "NOT_SELECTED_OR_NOT_ACCEPTED",
+      "source_files": [
+        "compose.integration.yaml"
+      ],
+      "required_scenarios": [
+        "agreed_load_budget",
+        "inventory_concurrency",
+        "broker_search_outage_recovery",
+        "restore_rpo_rto"
+      ],
+      "evidence": [],
+      "blockers": [
+        "External production setup and real acceptance evidence are unavailable."
+      ]
+    },
+    {
+      "id": "infrastructure_security",
+      "status": "PENDING",
+      "provider_decision": "NOT_SELECTED_OR_NOT_ACCEPTED",
+      "source_files": [
+        "backend/src/main/resources/application.yml"
+      ],
+      "required_scenarios": [
+        "tls_identity_verification",
+        "least_privilege_accounts",
+        "secret_rotation",
+        "restricted_management_network"
+      ],
+      "evidence": [],
+      "blockers": [
+        "External production setup and real acceptance evidence are unavailable."
+      ]
+    }
+  ]
+}
