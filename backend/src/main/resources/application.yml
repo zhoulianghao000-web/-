@@ -51,6 +51,11 @@ server:
 
 pawday:
   deployment-mode: ${PAWDAY_DEPLOYMENT_MODE:development}
+  operations:
+    scrape-token: ${PAWDAY_METRICS_SCRAPE_TOKEN:}
+  data-encryption:
+    active-key-id: ${PAWDAY_DATA_ACTIVE_KEY_ID:legacy}
+    keys: ${PAWDAY_DATA_KEYS:}
   ai:
     deepseek-api-key: ${PAWDAY_DEEPSEEK_API_KEY:}
     deepseek-model: ${PAWDAY_DEEPSEEK_MODEL:deepseek-flash}

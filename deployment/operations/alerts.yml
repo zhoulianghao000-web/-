@@ -1,0 +1,51 @@
+groups:
+  - name: pawday-operations
+    rules:
+      - alert: PawdayScrapeUnavailable
+        expr: up{job="pawday"} == 0
+        for: 15s
+        labels: {severity: critical}
+      - alert: PawdayDatabaseUnavailable
+        expr: pawday_operations_db_available == 0
+        for: 15s
+        labels: {severity: critical}
+      - alert: PawdayMetricsMissing
+        expr: absent(pawday_operations_db_available{job="pawday"})
+        for: 30s
+        labels: {severity: critical}
+      - alert: PawdayOutboxStalled
+        expr: pawday_outbox_backlog > 0 and pawday_outbox_oldest_age_seconds > 120
+        for: 30s
+        labels: {severity: warning}
+      - alert: PawdayOutboxDead
+        expr: pawday_outbox_events{status="DEAD"} > 0
+        for: 15s
+        labels: {severity: critical}
+      - alert: PawdayInboxDead
+        expr: pawday_inbox_dead > 0 or pawday_sms_dead > 0
+        for: 30s
+        labels: {severity: critical}
+      - alert: PawdayPaymentUnknown
+        expr: pawday_payment_unknown > 0 and pawday_payment_unknown_age_seconds > 120
+        for: 30s
+        labels: {severity: critical}
+      - alert: PawdayRefundLeaseExpired
+        expr: pawday_refund_expired_leases > 0
+        for: 30s
+        labels: {severity: critical}
+      - alert: PawdayRefundStalled
+        expr: pawday_refund_pending > 0 and pawday_refund_oldest_age_seconds > 300
+        for: 30s
+        labels: {severity: critical}
+      - alert: PawdaySettlementRetryable
+        expr: pawday_settlement_retryable > 0
+        for: 30s
+        labels: {severity: warning}
+      - alert: PawdaySettlementConservation
+        expr: pawday_settlement_debit_mismatches > 0
+        for: 15s
+        labels: {severity: critical}
+      - alert: PawdayAiLeaseExpired
+        expr: pawday_ai_quota_expired_leases > 0
+        for: 30s
+        labels: {severity: warning}

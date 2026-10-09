@@ -1,0 +1,16 @@
+# Local authenticated HTTP receiver used only by the engineering gate.
+route:
+  receiver: engineering-receiver
+  group_by: [alertname]
+  group_wait: 1s
+  group_interval: 5s
+  repeat_interval: 1h
+receivers:
+  - name: engineering-receiver
+    webhook_configs:
+      - url: http://host.docker.internal:9197/notify
+        send_resolved: true
+        http_config:
+          authorization:
+            type: Bearer
+            credentials_file: /run/secrets/webhook-token
