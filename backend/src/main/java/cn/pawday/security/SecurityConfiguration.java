@@ -24,8 +24,8 @@ public class SecurityConfiguration {
     @Bean org.springframework.security.core.userdetails.UserDetailsService disabledDefaultUserService() {
         return username->{throw new org.springframework.security.core.userdetails.UsernameNotFoundException("No framework default accounts");};
     }
-    @Bean SecurityFilterChain security(HttpSecurity http,AuthService auth,AuditWriter audit) throws Exception {
-        var filter=new BoundaryFilter(auth,audit);
+    @Bean SecurityFilterChain security(HttpSecurity http,AuthService auth,AuditWriter audit,cn.pawday.operations.ScrapeCredential scrape) throws Exception {
+        var filter=new BoundaryFilter(auth,audit,scrape);
         return http.csrf(c->c.disable()) // Only Authorization bearer; no cookie/HTTP-session credentials are accepted.
             .httpBasic(c->c.disable()).formLogin(c->c.disable()).logout(c->c.disable())
             .sessionManagement(c->c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -33,7 +33,7 @@ public class SecurityConfiguration {
                 .accessDeniedHandler((r,s,e)->filter.deny(r,s,403,"PERMISSION_DENIED",current())))
             .authorizeHttpRequests(c->c
                 .requestMatchers("/actuator/health","/actuator/health/**","/error").permitAll()
-                .requestMatchers("/actuator/prometheus","/actuator/metrics","/actuator/metrics/**").access((a,cx)->new org.springframework.security.authorization.AuthorizationDecision(a.get().getPrincipal() instanceof Actor actor && actor.realm()==Actor.Realm.ADMIN && actor.permissions().contains("outbox.read")))
+                .requestMatchers("/actuator/prometheus","/actuator/metrics","/actuator/metrics/**").access((a,cx)->new org.springframework.security.authorization.AuthorizationDecision(a.get().getPrincipal()==cn.pawday.operations.ScrapeCredential.Principal.METRICS || a.get().getPrincipal() instanceof Actor actor && actor.realm()==Actor.Realm.ADMIN && actor.permissions().contains("outbox.read")))
                 .requestMatchers("/api/v1/media/**").authenticated()
                 .requestMatchers("/api/v1/public/**").permitAll()
                 .requestMatchers("/api/v1/consumer/auth/phone/request-code","/api/v1/consumer/auth/phone/verify",
@@ -49,7 +49,8 @@ public class SecurityConfiguration {
     private static Actor current() {var a=SecurityContextHolder.getContext().getAuthentication();return a!=null && a.getPrincipal() instanceof Actor actor?actor:null;}
     static final class BoundaryFilter extends OncePerRequestFilter {
         private final AuthService auth;private final AuditWriter audit;private final JsonMapper json=JsonMapper.builder().build();
-        BoundaryFilter(AuthService auth,AuditWriter audit){this.auth=auth;this.audit=audit;}
+        private final cn.pawday.operations.ScrapeCredential scrape;
+        BoundaryFilter(AuthService auth,AuditWriter audit,cn.pawday.operations.ScrapeCredential scrape){this.auth=auth;this.audit=audit;this.scrape=scrape;}
         void deny(HttpServletRequest r,HttpServletResponse s,int status,String code,Actor actor) throws IOException {
             try {audit.write(actor,"security.denied","HTTP_REQUEST",null,Map.of(),Map.of("failure_reason",code,"http_status",status),r);}
             catch(org.springframework.dao.DataAccessException unavailable) {status=503;code="PERSISTENCE_UNAVAILABLE";}
@@ -61,7 +62,9 @@ public class SecurityConfiguration {
             r.setAttribute("request_id",requestId);r.setAttribute("correlation_id",correlation);
             s.setHeader("X-Request-Id",requestId);s.setHeader("X-Correlation-Id",correlation);
             String header=r.getHeader("Authorization");
-            if(header!=null) {
+            if(scrape.accepts(r.getRequestURI(),header)) {
+                SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(cn.pawday.operations.ScrapeCredential.Principal.METRICS,null,List.of()));
+            } else if(header!=null) {
                 if(!header.startsWith("Bearer ")) {deny(r,s,401,"TOKEN_EXPIRED",null);return;}
                 Optional<Actor> actor;
                 try {actor=auth.load(header.substring(7));}

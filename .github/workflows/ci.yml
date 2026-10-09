@@ -119,7 +119,7 @@ jobs:
           gate_status=$?
           set -e
           test "$gate_status" -eq 2
-          python scripts/check-production-startup.py --jar backend/target/pawday-backend-0.6.1-SNAPSHOT.jar --report backend/target/readiness-evidence/production-startup.json
+          python scripts/check-production-startup.py --jar backend/target/pawday-backend-0.6.2-SNAPSHOT.jar --report backend/target/readiness-evidence/production-startup.json
       - name: Real infrastructure diagnostics
         if: always()
         run: |
@@ -140,11 +140,47 @@ jobs:
             backend/target/m23-infrastructure-evidence.json
             backend/target/infrastructure-evidence/
             backend/target/readiness-evidence/
-            backend/target/pawday-backend-0.6.1-SNAPSHOT.jar
+            backend/target/pawday-backend-0.6.2-SNAPSHOT.jar
             openapi/*response-report.json
       - name: Stop only isolated integration services
         if: always()
         run: docker compose -p pawday-m23-it -f compose.integration.yaml down
+  operations-engineering:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build exact application and create synthetic ciphertext fixtures
+        run: mvn -B -ntp -f backend/pom.xml -Dtest=DataEncryptionKeyRingTests,OperationsIntegrationTests package
+      - name: Create disposable credentials and isolated local monitoring stack
+        run: |
+          python scripts/init-operations-fixture.py --test-only
+          docker compose -p pawday-m62-it -f compose.operations.yaml up -d --wait --wait-timeout 180
+          docker compose -p pawday-m62-it -f compose.operations.yaml exec -T prometheus promtool check config /etc/prometheus/prometheus.yml
+          docker compose -p pawday-m62-it -f compose.operations.yaml exec -T prometheus promtool test rules /etc/prometheus/rules-test.yml
+          docker compose -p pawday-m62-it -f compose.operations.yaml exec -T alertmanager amtool check-config /etc/alertmanager/alertmanager.yml
+      - name: Mandatory real notification, outage and isolated restore gate
+        run: python scripts/operations-engineering-gate.py --test-only --commit '${{ github.event.pull_request.head.sha || github.sha }}'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m62-operations-evidence
+          path: |
+            backend/target/operations-evidence/
+            backend/target/surefire-reports/
+      - name: Stop only this engineering stack
+        if: always()
+        run: docker compose -p pawday-m62-it -f compose.operations.yaml down
   openapi:
     runs-on: ubuntu-latest
     steps:

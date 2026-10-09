@@ -1,0 +1,134 @@
+rule_files:
+- /etc/prometheus/alerts.yml
+evaluation_interval: 5s
+tests:
+- interval: 5s
+  input_series:
+  - series: pawday_outbox_events{job="pawday",status="DEAD"}
+    values: 0 1 1 1 1 1 0 0
+  - series: pawday_operations_db_available{job="pawday"}
+    values: 1+0x8
+  alert_rule_test:
+  - eval_time: 10s
+    alertname: PawdayOutboxDead
+    exp_alerts: []
+  - eval_time: 25s
+    alertname: PawdayOutboxDead
+    exp_alerts:
+    - exp_labels:
+        job: pawday
+        status: DEAD
+        severity: critical
+      exp_annotations: {}
+  - eval_time: 35s
+    alertname: PawdayOutboxDead
+    exp_alerts: []
+- interval: 5s
+  input_series:
+  - series: up{job="pawday"}
+    values: 0+0x10
+  - series: pawday_operations_db_available{job="pawday"}
+    values: 0+0x10
+  - series: pawday_outbox_backlog{job="pawday"}
+    values: 1+0x10
+  - series: pawday_outbox_oldest_age_seconds{job="pawday"}
+    values: 200+0x10
+  - series: pawday_inbox_dead{job="pawday"}
+    values: 1+0x10
+  - series: pawday_payment_unknown{job="pawday"}
+    values: 1+0x10
+  - series: pawday_payment_unknown_age_seconds{job="pawday"}
+    values: 200+0x10
+  - series: pawday_refund_expired_leases{job="pawday"}
+    values: 1+0x10
+  - series: pawday_refund_pending{job="pawday"}
+    values: 1+0x10
+  - series: pawday_refund_oldest_age_seconds{job="pawday"}
+    values: 400+0x10
+  - series: pawday_settlement_retryable{job="pawday"}
+    values: 1+0x10
+  - series: pawday_settlement_debit_mismatches{job="pawday"}
+    values: 1+0x10
+  - series: pawday_ai_quota_expired_leases{job="pawday"}
+    values: 1+0x10
+  alert_rule_test:
+  - eval_time: 40s
+    alertname: PawdayScrapeUnavailable
+    exp_alerts:
+    - exp_labels:
+        job: pawday
+        severity: critical
+      exp_annotations: {}
+  - eval_time: 40s
+    alertname: PawdayDatabaseUnavailable
+    exp_alerts:
+    - exp_labels:
+        job: pawday
+        severity: critical
+      exp_annotations: {}
+  - eval_time: 40s
+    alertname: PawdayOutboxStalled
+    exp_alerts:
+    - exp_labels:
+        job: pawday
+        severity: warning
+      exp_annotations: {}
+  - eval_time: 40s
+    alertname: PawdayInboxDead
+    exp_alerts:
+    - exp_labels:
+        job: pawday
+        severity: critical
+      exp_annotations: {}
+  - eval_time: 40s
+    alertname: PawdayPaymentUnknown
+    exp_alerts:
+    - exp_labels:
+        job: pawday
+        severity: critical
+      exp_annotations: {}
+  - eval_time: 40s
+    alertname: PawdayRefundLeaseExpired
+    exp_alerts:
+    - exp_labels:
+        job: pawday
+        severity: critical
+      exp_annotations: {}
+  - eval_time: 40s
+    alertname: PawdayRefundStalled
+    exp_alerts:
+    - exp_labels:
+        job: pawday
+        severity: critical
+      exp_annotations: {}
+  - eval_time: 40s
+    alertname: PawdaySettlementRetryable
+    exp_alerts:
+    - exp_labels:
+        job: pawday
+        severity: warning
+      exp_annotations: {}
+  - eval_time: 40s
+    alertname: PawdaySettlementConservation
+    exp_alerts:
+    - exp_labels:
+        job: pawday
+        severity: critical
+      exp_annotations: {}
+  - eval_time: 40s
+    alertname: PawdayAiLeaseExpired
+    exp_alerts:
+    - exp_labels:
+        job: pawday
+        severity: warning
+      exp_annotations: {}
+- interval: 5s
+  input_series: []
+  alert_rule_test:
+  - eval_time: 40s
+    alertname: PawdayMetricsMissing
+    exp_alerts:
+    - exp_labels:
+        job: pawday
+        severity: critical
+      exp_annotations: {}
