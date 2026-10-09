@@ -267,12 +267,14 @@ class SettlementIntegrationTests {
   bufferDays(0);var f=paid(1);shipAndReceive(f,1);settlements.promoteDue();String p=proof("settlement.execute");
   int ledgerBefore=db.queryForObject("SELECT count(*) FROM merchant_ledger_entries",Integer.class);
   int outboxBefore=db.queryForObject("SELECT count(*) FROM outbox_event",Integer.class);
+  int settlementsBefore=db.queryForObject("SELECT count(*) FROM settlements",Integer.class);
+  int disbursementsBefore=db.queryForObject("SELECT count(*) FROM simulated_settlement_disbursements",Integer.class);
   var env=new org.springframework.mock.env.MockEnvironment().withProperty("pawday.settlement.simulation-enabled","true");env.setActiveProfiles("production","local");
   var disabled=new cn.pawday.settlement.SettlementService(db,tx,null,null,null,null,clock,new cn.pawday.settlement.DevelopmentDisbursementPolicy(env));
   var actor=new Actor(adminPrincipal,Actor.Realm.ADMIN,null,null,adminSession,Set.of("settlement.execute"),Set.of());
   assertEquals(503,assertThrows(cn.pawday.common.Api.Failure.class,()->disabled.initiate(actor,merchantId,key(),p,null)).status);
-  assertEquals(0,db.queryForObject("SELECT count(*) FROM settlements",Integer.class));
-  assertEquals(0,db.queryForObject("SELECT count(*) FROM simulated_settlement_disbursements",Integer.class));
+  assertEquals(settlementsBefore,db.queryForObject("SELECT count(*) FROM settlements",Integer.class));
+  assertEquals(disbursementsBefore,db.queryForObject("SELECT count(*) FROM simulated_settlement_disbursements",Integer.class));
   assertEquals(ledgerBefore,db.queryForObject("SELECT count(*) FROM merchant_ledger_entries",Integer.class));
   assertEquals(outboxBefore,db.queryForObject("SELECT count(*) FROM outbox_event",Integer.class));
   assertNull(db.queryForObject("SELECT used_at FROM reverify_grant WHERE token_hash=?",Timestamp.class,crypto.hash(p)));
