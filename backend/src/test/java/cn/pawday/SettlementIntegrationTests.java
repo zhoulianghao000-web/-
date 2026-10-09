@@ -20,6 +20,7 @@ import tools.jackson.databind.json.JsonMapper;
 
 @SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SettlementIntegrationTests {
+ @DynamicPropertySource static void simulatedDisbursement(DynamicPropertyRegistry r){r.add("pawday.settlement.simulation-enabled",()->true);}
  static final EmbeddedPostgres PG;
  static {try{PG=EmbeddedPostgres.builder().setPort(0).start();}catch(Exception e){throw new ExceptionInInitializerError(e);}}
  @DynamicPropertySource static void properties(DynamicPropertyRegistry r){r.add("spring.datasource.url",()->PG.getJdbcUrl("postgres","postgres"));r.add("spring.datasource.username",()->"postgres");r.add("spring.datasource.password",()->"postgres");r.add("pawday.auth.secret-key",()->"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=");r.add("management.health.redis.enabled",()->false);r.add("management.health.rabbit.enabled",()->false);r.add("pawday.outbox.workers-enabled",()->false);r.add("pawday.outbox.consumer-enabled",()->false);r.add("pawday.search.enabled",()->false);r.add("pawday.storage.cleanup-enabled",()->false);r.add("pawday.checkout.expiry-enabled",()->false);r.add("pawday.ordering.expiry-enabled",()->false);r.add("pawday.payment.simulation-enabled",()->true);r.add("pawday.payment.recovery-enabled",()->false);r.add("pawday.refund.recovery-enabled",()->false);r.add("pawday.settlement.worker-enabled",()->false);}
@@ -262,4 +263,18 @@ class SettlementIntegrationTests {
   assertReconciliationConsistent();
  }
  @AfterAll static void finish()throws Exception{Files.writeString(Path.of("target/m46-contract-samples.json"),JsonMapper.builder().build().writeValueAsString(SAMPLES));PG.close();}
+ @Test void disabledProductionDisbursementLeavesRealDatabaseFactsAndProofUntouched(){
+  bufferDays(0);var f=paid(1);shipAndReceive(f,1);settlements.promoteDue();String p=proof("settlement.execute");
+  int ledgerBefore=db.queryForObject("SELECT count(*) FROM merchant_ledger_entries",Integer.class);
+  int outboxBefore=db.queryForObject("SELECT count(*) FROM outbox_event",Integer.class);
+  var env=new org.springframework.mock.env.MockEnvironment().withProperty("pawday.settlement.simulation-enabled","true");env.setActiveProfiles("production","local");
+  var disabled=new cn.pawday.settlement.SettlementService(db,tx,null,null,null,null,clock,new cn.pawday.settlement.DevelopmentDisbursementPolicy(env));
+  var actor=new Actor(adminPrincipal,Actor.Realm.ADMIN,null,null,adminSession,Set.of("settlement.execute"),Set.of());
+  assertEquals(503,assertThrows(cn.pawday.common.Api.Failure.class,()->disabled.initiate(actor,merchantId,key(),p,null)).status);
+  assertEquals(0,db.queryForObject("SELECT count(*) FROM settlements",Integer.class));
+  assertEquals(0,db.queryForObject("SELECT count(*) FROM simulated_settlement_disbursements",Integer.class));
+  assertEquals(ledgerBefore,db.queryForObject("SELECT count(*) FROM merchant_ledger_entries",Integer.class));
+  assertEquals(outboxBefore,db.queryForObject("SELECT count(*) FROM outbox_event",Integer.class));
+  assertNull(db.queryForObject("SELECT used_at FROM reverify_grant WHERE token_hash=?",Timestamp.class,crypto.hash(p)));
+ }
 }

@@ -50,6 +50,7 @@ server:
   port: 8080
 
 pawday:
+  deployment-mode: ${PAWDAY_DEPLOYMENT_MODE:development}
   ai:
     deepseek-api-key: ${PAWDAY_DEEPSEEK_API_KEY:}
     deepseek-model: ${PAWDAY_DEEPSEEK_MODEL:deepseek-flash}
@@ -97,4 +98,6 @@ spring:
       on-profile: "local & !production"
 pawday:
   payment:
+    simulation-enabled: true
+  settlement:
     simulation-enabled: true
