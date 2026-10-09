@@ -1,1 +1,1 @@
-org.springframework.boot.env.EnvironmentPostProcessor=cn.pawday.readiness.ProductionAdmissionGuard
+org.springframework.boot.env.EnvironmentPostProcessor=cn.pawday.readiness.ProductionAdmissionGuard,cn.pawday.readiness.RecoveryStartupGuard

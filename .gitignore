@@ -34,3 +34,5 @@ openapi/m44-validation-report.json
 
 merchant-web/public/consumer-preview/
 openapi/m54-validation-report.json
+
+.local-recovery/

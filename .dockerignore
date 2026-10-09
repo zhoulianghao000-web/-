@@ -1,0 +1,7 @@
+# Recovery helper image receives only compiled test code and the tested JAR.
+**
+!backend/
+!backend/target/
+!backend/target/pawday-backend-0.6.3-SNAPSHOT.jar
+!backend/target/test-classes/
+!backend/target/test-classes/**
