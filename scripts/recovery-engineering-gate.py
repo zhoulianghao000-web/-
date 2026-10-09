@@ -44,9 +44,14 @@ def gate(commit):
  def probe(action,*,target=False,ok=True):
   return run(['docker','run','--rm','--network',network if target else NETWORK,'--label','cn.pawday.recovery.sandbox='+nonce,'-e','M63_TARGET='+('recovered-postgres' if target else 'postgres'),image,'--test-only',action],ok=ok)
  def restore(name,target_time):
-  volume=name+'-data';run(['docker','volume','create','--label','cn.pawday.recovery.sandbox='+nonce,volume]);volumes.append(volume)
-  run(['docker','run','--rm','--network','none','--mount','type=bind,source='+str(LOCAL/'bundle/base')+',target=/backup,readonly','--mount','type=volume,source='+volume+',target=/recovery',PG,'sh','-c','test ! -e /recovery/PG_VERSION && cp -a /backup/. /recovery/ && touch /recovery/recovery.signal && chown -R postgres:postgres /recovery'])
-  run(['docker','run','--detach','--name',name,'--network',network,'--network-alias','recovered-postgres','--label','cn.pawday.recovery.sandbox='+nonce,'--mount','type=volume,source='+volume+',target=/var/lib/postgresql/data','--mount','type=bind,source='+str(LOCAL/'bundle/wal')+',target=/wal,readonly',PG,'postgres','-c','archive_mode=off','-c','restore_command=cp /wal/%f %p','-c','recovery_target_time='+target_time,'-c','recovery_target_action=pause','-c','default_transaction_read_only=on']);targets.append(name)
+  volume=name+'-data';wal_volume=name+'-wal'
+  for owned in [volume,wal_volume]:
+   run(['docker','volume','create','--label','cn.pawday.recovery.sandbox='+nonce,owned]);volumes.append(owned)
+  # docker cp preserves mode 0600 but host uid differs on Linux. Copy into a
+  # private, per-target WAL volume and restore postgres ownership; never chmod
+  # the original backup or expose archive bytes to other host users.
+  run(['docker','run','--rm','--network','none','--mount','type=bind,source='+str(LOCAL/'bundle/base')+',target=/backup,readonly','--mount','type=bind,source='+str(LOCAL/'bundle/wal')+',target=/archive,readonly','--mount','type=volume,source='+volume+',target=/recovery','--mount','type=volume,source='+wal_volume+',target=/restore-wal',PG,'sh','-c','test ! -e /recovery/PG_VERSION && cp -a /backup/. /recovery/ && cp -a /archive/. /restore-wal/ && touch /recovery/recovery.signal && chown -R postgres:postgres /recovery /restore-wal'])
+  run(['docker','run','--detach','--name',name,'--network',network,'--network-alias','recovered-postgres','--label','cn.pawday.recovery.sandbox='+nonce,'--mount','type=volume,source='+volume+',target=/var/lib/postgresql/data','--mount','type=volume,source='+wal_volume+',target=/wal,readonly',PG,'postgres','-c','archive_mode=off','-c','restore_command=cp /wal/%f %p','-c','recovery_target_time='+target_time,'-c','recovery_target_action=pause','-c','default_transaction_read_only=on']);targets.append(name)
   info=json.loads(run(['docker','inspect',name]).stdout)[0];assert not info['HostConfig']['PortBindings'] and len(info['NetworkSettings']['Networks'])==1
   return name
  try:
