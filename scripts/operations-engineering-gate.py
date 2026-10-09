@@ -43,10 +43,12 @@ class Receiver(http.server.BaseHTTPRequestHandler):
         if not 0<length<65536:self.send_response(413);self.end_headers();return
         data=json.loads(self.rfile.read(length))
         # Exercise real notification retry; persist only fixed labels/status.
-        with self.lock:
-            if self.rejected<2:
-                self.rejected+=1;self.send_response(503);self.end_headers();return
-            for a in data.get('alerts',[]):self.events.append({'alert':a.get('labels',{}).get('alertname'),'status':a.get('status')})
+        state=type(self)
+        with state.lock:
+            failing=any(a.get('labels',{}).get('alertname')=='PawdayOutboxDead' and a.get('status')=='firing' for a in data.get('alerts',[]))
+            if failing and state.rejected<2:
+                state.rejected+=1;self.send_response(503);self.end_headers();return
+            for a in data.get('alerts',[]):state.events.append({'alert':a.get('labels',{}).get('alertname'),'status':a.get('status')})
         self.send_response(200);self.end_headers()
 
 def source_guard():
@@ -76,7 +78,7 @@ def gate(commit):
         if k.startswith(('PAWDAY_','SPRING_','RABBITMQ_','REDIS_','OPENSEARCH_')):env.pop(k)
     env.update(SPRING_DATASOURCE_URL='jdbc:postgresql://127.0.0.1:5546/'+DB,SPRING_DATASOURCE_USERNAME=USER,SPRING_DATASOURCE_PASSWORD='TEST_ONLY_m62_db',PAWDAY_AUTH_SECRET=base64.b64encode(bytes(32)).decode(),PAWDAY_METRICS_SCRAPE_TOKEN=(LOCAL/'scrape-token').read_text(),PAWDAY_SEARCH_ENABLED='false',PAWDAY_OUTBOX_WORKERS_ENABLED='false',PAWDAY_OUTBOX_CONSUMER_ENABLED='false')
     args=['java','-jar','backend/target/pawday-backend-0.6.2-SNAPSHOT.jar','--server.port=8087','--management.health.redis.enabled=false','--management.health.rabbit.enabled=false',
-        '--spring.datasource.hikari.connection-timeout=250','--spring.datasource.hikari.validation-timeout=250',
+        '--spring.datasource.hikari.connection-timeout=250','--spring.datasource.hikari.validation-timeout=250','--pawday.storage.local-root='+str(LOCAL/'app-media'),
         '--pawday.storage.cleanup-enabled=false','--pawday.checkout.expiry-enabled=false','--pawday.ordering.expiry-enabled=false','--pawday.payment.recovery-enabled=false','--pawday.refund.recovery-enabled=false','--pawday.settlement.worker-enabled=false','--pawday.membership.worker-enabled=false','--pawday.ai.worker-enabled=false']
     app_log=(LOCAL/'backend.log').open('wb');app=subprocess.Popen(args,cwd=ROOT,env=env,stdout=app_log,stderr=subprocess.STDOUT)
     token=env['PAWDAY_METRICS_SCRAPE_TOKEN'];target=None;network=None
