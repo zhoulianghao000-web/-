@@ -85,13 +85,17 @@ def gate(commit):
   held.rename(wal);validate_bundle(LOCAL/'bundle',manifest,commit=commit,system_id=system_id);passed('missing_and_corrupt_wal_rejected_before_target_creation')
   run(['docker','network','create','--internal','--label','cn.pawday.recovery.sandbox='+nonce,network]);created_network=True;run(['docker','network','connect','--alias','opensearch',network,SEARCH]);started=time.monotonic()
   target=restore(network+'-postgres',target_time)
-  wait_for(lambda:value(target,'SELECT pg_is_in_recovery() AND pg_is_wal_replay_paused()')=='t');assert facts(target)==before;passed('actual_time_target_paused_read_only_and_every_table_matches')
+  def replay_paused():
+   r=sql(target,'SELECT pg_is_in_recovery() AND pg_is_wal_replay_paused()',ok=False)
+   return r.returncode==0 and r.stdout.strip()==b't'
+  wait_for(replay_paused);assert facts(target)==before;passed('actual_time_target_paused_read_only_and_every_table_matches')
   assert sql(target,"UPDATE offers SET sale_price_fen=1",ok=False).returncode!=0;passed('paused_recovery_rejects_writes')
   impossible=restore(network+'-unreachable',(dt.datetime.now(dt.timezone.utc)+dt.timedelta(days=1)).isoformat())
   wait_for(lambda:b'recovery ended before configured recovery target was reached' in run(['docker','logs',impossible],ok=False).stderr);passed('unreachable_time_target_fails_without_promotion')
   # Only this randomly labelled engineering target may be promoted for offline review.
   assert value(target,'SELECT pg_promote(true,30)')=='t';passed('engineering_only_promotion_keeps_network_and_default_read_only')
-  assert probe('prepare',target=True,ok=False).returncode!=0;passed('search_rebuild_blocked_before_privacy_review')
+  rejected=probe('prepare',target=True,ok=False)
+  assert rejected.returncode!=0 and b'PRIVACY_REVIEW_REQUIRED' in rejected.stderr;passed('search_rebuild_blocked_before_privacy_review')
   registry_before=facts(target)
   stale=dict(registry,covered_until=target_time);stale_data=json.dumps(stale).encode()
   try:privacy_registry(stale_data,hmac.new(key,stale_data,hashlib.sha256).hexdigest(),key,backup_id=backup_id,system_id=system_id,required_until=required_until,now=dt.datetime.now(dt.timezone.utc).isoformat());raise RuntimeError('STALE_REGISTRY_ACCEPTED')
@@ -125,7 +129,9 @@ def gate(commit):
  finally:
   for name in targets:
    data=run(['docker','inspect',name],ok=False)
-   if data.returncode==0 and json.loads(data.stdout)[0]['Config']['Labels'].get('cn.pawday.recovery.sandbox')==nonce:run(['docker','rm','-f',name])
+   if data.returncode==0 and json.loads(data.stdout)[0]['Config']['Labels'].get('cn.pawday.recovery.sandbox')==nonce:
+    logs=run(['docker','logs',name],ok=False);(OUT/(name+'.log')).write_bytes(logs.stdout+logs.stderr)
+    run(['docker','rm','-f',name])
   if created_network:
    run(['docker','network','disconnect',network,SEARCH],ok=False);data=run(['docker','network','inspect',network],ok=False)
    if data.returncode==0 and json.loads(data.stdout)[0]['Labels'].get('cn.pawday.recovery.sandbox')==nonce:run(['docker','network','rm',network])
