@@ -265,6 +265,18 @@ class _AiState extends ConsumerState<AiScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(authProvider, (previous, next) {
+      if (previous?.principal?.session_id != next.principal?.session_id) {
+        setState(() {
+          reset();
+          preferences = null;
+          quota = null;
+          history = [];
+          nextCursor = null;
+        });
+        if (next.principal != null) Future.microtask(load);
+      }
+    });
     ref.listen(currentPetProvider, (previous, next) {
       if (previous?.id != next?.id) setState(reset);
     });

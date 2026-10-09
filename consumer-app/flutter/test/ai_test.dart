@@ -29,6 +29,7 @@ const conversation = AiConversationDetail(
 );
 
 class LoggedIn extends AuthNotifier {
+  void clearIdentity() => state = const AuthState();
   @override
   AuthState build() => const AuthState(principal: fixtures.principal);
 }
@@ -98,6 +99,24 @@ Future<void> show(WidgetTester tester, FakeAi repo) async {
 }
 
 void main() {
+  testWidgets('identity change clears an already displayed private AI answer', (
+    tester,
+  ) async {
+    final repo = FakeAi();
+    await show(tester, repo);
+    await tester.enterText(find.byType(TextField), 'PRIVATE QUESTION');
+    await tester.ensureVisible(find.byType(FilledButton));
+    await tester.tap(find.byType(FilledButton));
+    await tester.pumpAndSettle();
+    expect(find.text('你：PRIVATE QUESTION'), findsOneWidget);
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(AiScreen)),
+    );
+    (container.read(authProvider.notifier) as LoggedIn).clearIdentity();
+    await tester.pumpAndSettle();
+    expect(find.text('你：PRIVATE QUESTION'), findsNothing);
+    expect(find.text('资料不足，不能确定适合'), findsNothing);
+  });
   test('AI login return path rejects external navigation', () {
     expect(safeReturnTo('/ai?sku_id=test'), '/ai?sku_id=test');
     expect(safeReturnTo('//evil/ai'), '/home');
