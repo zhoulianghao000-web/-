@@ -2,6 +2,7 @@ import 'package:pawday_consumer/payment_repository.dart';
 import 'package:pawday_consumer/publishing_repository.dart';
 import 'package:pawday_consumer/support_repository.dart';
 import 'package:pawday_consumer/nearby_repository.dart';
+import 'package:pawday_consumer/ai_repository.dart';
 
 import 'dart:typed_data';
 
@@ -479,6 +480,30 @@ void main() {
     );
     await checkout.removeAddress(address, checkoutCommandKey());
     expect((await checkout.cart()).items.isEmpty, true);
+    final ai = AiRepository(restored);
+    final pref = await ai.preferences();
+    expect(pref.provider_available, true);
+    await ai.consent(true, pref.version);
+    final aiConversation = await ai.create(pet.id, checkoutCommandKey());
+    final aiKey = checkoutCommandKey();
+    final aiBody = AiMessageInput(
+      text: 'CI real HTTP ingredient explanation',
+      current_pet_id: pet.id,
+      selected_sku_ids: [sku],
+    );
+    final aiMessage = await ai.send(aiConversation.id, aiBody, aiKey);
+    expect(aiMessage.product_cards.single.sku_id, sku);
+    expect(aiMessage.fit_rule_version, 'pawday-fit-1');
+    expect(
+      (await ai.send(aiConversation.id, aiBody, aiKey)).message_id,
+      aiMessage.message_id,
+    );
+    expect((await ai.detail(aiConversation.id)).messages.length, 1);
+    await ai.clear(aiConversation.id);
+    await expectLater(
+      ai.detail(aiConversation.id),
+      throwsA(isA<ApiFailure>().having((e) => e.status, 'status', 404)),
+    );
     final latest = (await pets.list()).firstWhere((p) => p.id == pet.id);
     await pets.delete(latest, newPetCommandKey());
     expect((await pets.list()).any((p) => p.id == pet.id), false);

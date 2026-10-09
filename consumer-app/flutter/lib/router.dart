@@ -12,6 +12,7 @@ import 'payment_screen.dart';
 import 'points_screen.dart';
 import 'publishing_screen.dart';
 import 'support_screen.dart';
+import 'ai_screen.dart';
 
 String safeReturnTo(String? value) {
   const allowed = [
@@ -33,6 +34,7 @@ String safeReturnTo(String? value) {
     '/support',
     '/messages',
     '/conversation',
+    '/ai',
   ];
   if (value == null ||
       !value.startsWith('/') ||
@@ -97,6 +99,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             '/support',
             '/messages',
             '/conversation',
+            '/ai',
           ].contains(state.uri.path)) {
         return Uri(
           path: '/auth/login',
@@ -106,6 +109,12 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
+      GoRoute(
+        path: '/ai',
+        builder: (_, state) => AiScreen(
+          skuIds: state.uri.queryParametersAll['sku_id'] ?? const [],
+        ),
+      ),
       GoRoute(
         path: '/support',
         builder: (_, state) => SupportScreen(

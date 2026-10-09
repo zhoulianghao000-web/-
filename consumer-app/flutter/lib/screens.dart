@@ -56,6 +56,11 @@ class TabScreen extends ConsumerWidget {
         children: [
           if (path == '/home') ...[
             ListTile(
+              leading: const Icon(Icons.auto_awesome_outlined),
+              title: const Text('AI 商品资料解释'),
+              onTap: () => context.go('/ai'),
+            ),
+            ListTile(
               leading: const Icon(Icons.menu_book),
               title: const Text('食品与养宠知识'),
               onTap: () => context.go('/content'),
