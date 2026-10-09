@@ -108,6 +108,10 @@ import tools.jackson.databind.json.JsonMapper;
    Timestamp expiry=Timestamp.from(now.toInstant().atZone(ZoneOffset.UTC).plus(term).toInstant());
    db.update("UPDATE membership_subscriptions SET plan_version_id=?,starts_at=?,expires_at=?,status='ACTIVE',version=version+1 WHERE user_id=?",planVersion,now,expiry,order.get("user_id"));
   }
+  Timestamp grantStart=extend?(Timestamp)subs.getFirst().get("expires_at"):now;
+  Timestamp grantEnd=(Timestamp)one("SELECT expires_at FROM membership_subscriptions WHERE user_id=?",order.get("user_id")).get("expires_at");
+  int aiUnits=((Number)json.readValue(order.get("plan_snapshot").toString(),Map.class).get("ai_quota")).intValue();
+  db.update("INSERT INTO ai_membership_quota_grants VALUES (?,?,?,?,?) ON CONFLICT DO NOTHING",membershipOrderId,order.get("user_id"),grantStart,grantEnd,aiUnits);
   db.update("UPDATE membership_orders SET status='PAID',paid_at=?,version=version+1 WHERE id=?",now,membershipOrderId);
   outbox.append("MEMBERSHIP",order.get("user_id").toString(),"MembershipActivated",1,Map.of("user_id",order.get("user_id").toString(),"membership_order_id",membershipOrderId.toString(),"payment_id",paymentId.toString(),"renewal_extension",extend),null);
   audit.write(null,"membership.activate","MEMBERSHIP_ORDER",membershipOrderId.toString(),Map.of("status","PENDING_PAYMENT"),Map.of("status","PAID","renewal_extension",extend),null);

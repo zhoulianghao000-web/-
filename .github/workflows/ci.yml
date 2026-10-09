@@ -103,6 +103,11 @@ jobs:
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m5.4.yaml -o /tmp/pawday-m54-bundled.yaml
           python openapi/validate_m54_contract.py --samples backend/target/m54-contract-samples.json --require-new-coverage --report openapi/nearby-response-report.json
           python openapi/validate_m54_contract.py --samples backend/target/m54-delivery-contract-samples.json --report openapi/nearby-delivery-response-report.json
+      - name: M5.5 real PostgreSQL and HTTP provider fault contract gate
+        run: |
+          npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m5.5.yaml
+          npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m5.5.yaml -o /tmp/pawday-m55-bundled.yaml
+          python openapi/validate_m55_contract.py --samples backend/target/m55-contract-samples.json --require-new-coverage --report openapi/ai-response-report.json
       - name: M5.4 real AMap HTTPS destination handoff
         run: python scripts/check-amap-handoff.py --samples backend/target/m54-contract-samples.json --report backend/target/infrastructure-evidence/amap-handoff.json
       - name: Real infrastructure diagnostics
@@ -167,6 +172,7 @@ jobs:
           python openapi/validate_m52_contract.py
           python openapi/validate_m53_contract.py
           python openapi/validate_m54_contract.py
+          python openapi/validate_m55_contract.py
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m5.4.yaml
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m5.4.yaml --output openapi/pawday-m5.4.redocly.bundle.json
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m5.3.yaml

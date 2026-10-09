@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 7e664a78bacbc8a10045e047f9d9998c289b87eff007f06760e87eb00d3842f7
+// Generated from Pawday runtime OpenAPI; SHA256 fca63c72d8ca6feb52df2ef91a7d2e5bf176b2715a6548bb4c24d504f6f3c41a
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -7913,6 +7913,733 @@ class NavigationIntentEnvelope {
   };
 }
 
+class AiPreferences {
+  final bool personalization_enabled;
+  final int version;
+  final String data_usage;
+  final bool provider_available;
+  const AiPreferences({required this.personalization_enabled, required this.version, required this.data_usage, required this.provider_available});
+  factory AiPreferences.fromJson(Map<String,dynamic> json) => AiPreferences(
+    personalization_enabled: json['personalization_enabled'] as bool,
+    version: (json['version'] as num).toInt(),
+    data_usage: json['data_usage'] as String,
+    provider_available: json['provider_available'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'personalization_enabled': personalization_enabled,
+    'version': version,
+    'data_usage': data_usage,
+    'provider_available': provider_available,
+  };
+}
+
+class AiPreferenceInput {
+  final bool personalization_enabled;
+  const AiPreferenceInput({required this.personalization_enabled});
+  factory AiPreferenceInput.fromJson(Map<String,dynamic> json) => AiPreferenceInput(
+    personalization_enabled: json['personalization_enabled'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'personalization_enabled': personalization_enabled,
+  };
+}
+
+class AiQuota {
+  final int ordinary_remaining;
+  final int membership_remaining;
+  final int remaining;
+  final String policy_id;
+  final String ordinary_period;
+  final String membership_period;
+  final bool enabled;
+  const AiQuota({required this.ordinary_remaining, required this.membership_remaining, required this.remaining, required this.policy_id, required this.ordinary_period, required this.membership_period, required this.enabled});
+  factory AiQuota.fromJson(Map<String,dynamic> json) => AiQuota(
+    ordinary_remaining: (json['ordinary_remaining'] as num).toInt(),
+    membership_remaining: (json['membership_remaining'] as num).toInt(),
+    remaining: (json['remaining'] as num).toInt(),
+    policy_id: json['policy_id'] as String,
+    ordinary_period: json['ordinary_period'] as String,
+    membership_period: json['membership_period'] as String,
+    enabled: json['enabled'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'ordinary_remaining': ordinary_remaining,
+    'membership_remaining': membership_remaining,
+    'remaining': remaining,
+    'policy_id': policy_id,
+    'ordinary_period': ordinary_period,
+    'membership_period': membership_period,
+    'enabled': enabled,
+  };
+}
+
+class AiConversationInput {
+  final String? current_pet_id;
+  const AiConversationInput({required this.current_pet_id});
+  factory AiConversationInput.fromJson(Map<String,dynamic> json) => AiConversationInput(
+    current_pet_id: json['current_pet_id'] == null ? null : json['current_pet_id'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'current_pet_id': current_pet_id == null ? null : current_pet_id!,
+  };
+}
+
+class AiMessageInput {
+  final String text;
+  final String? current_pet_id;
+  final List<String> selected_sku_ids;
+  const AiMessageInput({required this.text, required this.current_pet_id, required this.selected_sku_ids});
+  factory AiMessageInput.fromJson(Map<String,dynamic> json) => AiMessageInput(
+    text: json['text'] as String,
+    current_pet_id: json['current_pet_id'] == null ? null : json['current_pet_id'] as String,
+    selected_sku_ids: (json['selected_sku_ids'] as List).map((value) => value as String).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'text': text,
+    'current_pet_id': current_pet_id == null ? null : current_pet_id!,
+    'selected_sku_ids': selected_sku_ids.map((value) => value).toList(),
+  };
+}
+
+class AiProductCard {
+  final String sku_id;
+  final String name;
+  final String catalog_standard_version_id;
+  final String offer_id;
+  final int offer_version;
+  final int inventory_version;
+  final int price_fen;
+  final int available_qty;
+  final List<String> ingredients;
+  final List<String> source_refs;
+  final String fit_result;
+  final List<FitConflict> hard_conflicts;
+  final List<String> uncertainties;
+  const AiProductCard({required this.sku_id, required this.name, required this.catalog_standard_version_id, required this.offer_id, required this.offer_version, required this.inventory_version, required this.price_fen, required this.available_qty, required this.ingredients, required this.source_refs, required this.fit_result, required this.hard_conflicts, required this.uncertainties});
+  factory AiProductCard.fromJson(Map<String,dynamic> json) => AiProductCard(
+    sku_id: json['sku_id'] as String,
+    name: json['name'] as String,
+    catalog_standard_version_id: json['catalog_standard_version_id'] as String,
+    offer_id: json['offer_id'] as String,
+    offer_version: (json['offer_version'] as num).toInt(),
+    inventory_version: (json['inventory_version'] as num).toInt(),
+    price_fen: (json['price_fen'] as num).toInt(),
+    available_qty: (json['available_qty'] as num).toInt(),
+    ingredients: (json['ingredients'] as List).map((value) => value as String).toList(),
+    source_refs: (json['source_refs'] as List).map((value) => value as String).toList(),
+    fit_result: json['fit_result'] as String,
+    hard_conflicts: (json['hard_conflicts'] as List).map((value) => FitConflict.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    uncertainties: (json['uncertainties'] as List).map((value) => value as String).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'sku_id': sku_id,
+    'name': name,
+    'catalog_standard_version_id': catalog_standard_version_id,
+    'offer_id': offer_id,
+    'offer_version': offer_version,
+    'inventory_version': inventory_version,
+    'price_fen': price_fen,
+    'available_qty': available_qty,
+    'ingredients': ingredients.map((value) => value).toList(),
+    'source_refs': source_refs.map((value) => value).toList(),
+    'fit_result': fit_result,
+    'hard_conflicts': hard_conflicts.map((value) => value.toJson()).toList(),
+    'uncertainties': uncertainties.map((value) => value).toList(),
+  };
+}
+
+class AiPetContext {
+  final String pet_id;
+  final int pet_version;
+  const AiPetContext({required this.pet_id, required this.pet_version});
+  factory AiPetContext.fromJson(Map<String,dynamic> json) => AiPetContext(
+    pet_id: json['pet_id'] as String,
+    pet_version: (json['pet_version'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'pet_id': pet_id,
+    'pet_version': pet_version,
+  };
+}
+
+class AiMessage {
+  final String message_id;
+  final String conversation_id;
+  final String text;
+  final String user_text;
+  final AiPetContext? pet_context;
+  final List<AiProductCard> product_cards;
+  final String prompt_id;
+  final String policy_id;
+  final String fit_rule_version;
+  final String mode;
+  final String? proposal_id;
+  final String created_at;
+  final AiQuota quota;
+  const AiMessage({required this.message_id, required this.conversation_id, required this.text, required this.user_text, required this.pet_context, required this.product_cards, required this.prompt_id, required this.policy_id, required this.fit_rule_version, required this.mode, required this.proposal_id, required this.created_at, required this.quota});
+  factory AiMessage.fromJson(Map<String,dynamic> json) => AiMessage(
+    message_id: json['message_id'] as String,
+    conversation_id: json['conversation_id'] as String,
+    text: json['text'] as String,
+    user_text: json['user_text'] as String,
+    pet_context: json['pet_context'] == null ? null : AiPetContext.fromJson(Map<String,dynamic>.from(json['pet_context'] as Map)),
+    product_cards: (json['product_cards'] as List).map((value) => AiProductCard.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    prompt_id: json['prompt_id'] as String,
+    policy_id: json['policy_id'] as String,
+    fit_rule_version: json['fit_rule_version'] as String,
+    mode: json['mode'] as String,
+    proposal_id: json['proposal_id'] == null ? null : json['proposal_id'] as String,
+    created_at: json['created_at'] as String,
+    quota: AiQuota.fromJson(Map<String,dynamic>.from(json['quota'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'message_id': message_id,
+    'conversation_id': conversation_id,
+    'text': text,
+    'user_text': user_text,
+    'pet_context': pet_context == null ? null : pet_context!.toJson(),
+    'product_cards': product_cards.map((value) => value.toJson()).toList(),
+    'prompt_id': prompt_id,
+    'policy_id': policy_id,
+    'fit_rule_version': fit_rule_version,
+    'mode': mode,
+    'proposal_id': proposal_id == null ? null : proposal_id!,
+    'created_at': created_at,
+    'quota': quota.toJson(),
+  };
+}
+
+class AiConversation {
+  final String id;
+  final String? pet_id;
+  final String status;
+  final String expires_at;
+  final String created_at;
+  const AiConversation({required this.id, required this.pet_id, required this.status, required this.expires_at, required this.created_at});
+  factory AiConversation.fromJson(Map<String,dynamic> json) => AiConversation(
+    id: json['id'] as String,
+    pet_id: json['pet_id'] == null ? null : json['pet_id'] as String,
+    status: json['status'] as String,
+    expires_at: json['expires_at'] as String,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'pet_id': pet_id == null ? null : pet_id!,
+    'status': status,
+    'expires_at': expires_at,
+    'created_at': created_at,
+  };
+}
+
+class AiConversationDetail {
+  final String id;
+  final String? pet_id;
+  final String status;
+  final String expires_at;
+  final String created_at;
+  final List<AiMessage> messages;
+  const AiConversationDetail({required this.id, required this.pet_id, required this.status, required this.expires_at, required this.created_at, required this.messages});
+  factory AiConversationDetail.fromJson(Map<String,dynamic> json) => AiConversationDetail(
+    id: json['id'] as String,
+    pet_id: json['pet_id'] == null ? null : json['pet_id'] as String,
+    status: json['status'] as String,
+    expires_at: json['expires_at'] as String,
+    created_at: json['created_at'] as String,
+    messages: (json['messages'] as List).map((value) => AiMessage.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'pet_id': pet_id == null ? null : pet_id!,
+    'status': status,
+    'expires_at': expires_at,
+    'created_at': created_at,
+    'messages': messages.map((value) => value.toJson()).toList(),
+  };
+}
+
+class AiCleared {
+  final String id;
+  final String status;
+  const AiCleared({required this.id, required this.status});
+  factory AiCleared.fromJson(Map<String,dynamic> json) => AiCleared(
+    id: json['id'] as String,
+    status: json['status'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'status': status,
+  };
+}
+
+class AiProposal {
+  final String id;
+  final String request_id;
+  final String? pet_id;
+  final int pet_version;
+  final String? before_value;
+  final String? proposed_value;
+  final String status;
+  final String expires_at;
+  final int version;
+  const AiProposal({required this.id, required this.request_id, required this.pet_id, required this.pet_version, required this.before_value, required this.proposed_value, required this.status, required this.expires_at, required this.version});
+  factory AiProposal.fromJson(Map<String,dynamic> json) => AiProposal(
+    id: json['id'] as String,
+    request_id: json['request_id'] as String,
+    pet_id: json['pet_id'] == null ? null : json['pet_id'] as String,
+    pet_version: (json['pet_version'] as num).toInt(),
+    before_value: json['before_value'] == null ? null : json['before_value'] as String,
+    proposed_value: json['proposed_value'] == null ? null : json['proposed_value'] as String,
+    status: json['status'] as String,
+    expires_at: json['expires_at'] as String,
+    version: (json['version'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'request_id': request_id,
+    'pet_id': pet_id == null ? null : pet_id!,
+    'pet_version': pet_version,
+    'before_value': before_value == null ? null : before_value!,
+    'proposed_value': proposed_value == null ? null : proposed_value!,
+    'status': status,
+    'expires_at': expires_at,
+    'version': version,
+  };
+}
+
+class AiRelease {
+  final String active_prompt_id;
+  final String? staged_prompt_id;
+  final int staged_percent;
+  final String policy_id;
+  final int version;
+  final bool provider_available;
+  final String fit_rule_version;
+  const AiRelease({required this.active_prompt_id, required this.staged_prompt_id, required this.staged_percent, required this.policy_id, required this.version, required this.provider_available, required this.fit_rule_version});
+  factory AiRelease.fromJson(Map<String,dynamic> json) => AiRelease(
+    active_prompt_id: json['active_prompt_id'] as String,
+    staged_prompt_id: json['staged_prompt_id'] == null ? null : json['staged_prompt_id'] as String,
+    staged_percent: (json['staged_percent'] as num).toInt(),
+    policy_id: json['policy_id'] as String,
+    version: (json['version'] as num).toInt(),
+    provider_available: json['provider_available'] as bool,
+    fit_rule_version: json['fit_rule_version'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'active_prompt_id': active_prompt_id,
+    'staged_prompt_id': staged_prompt_id == null ? null : staged_prompt_id!,
+    'staged_percent': staged_percent,
+    'policy_id': policy_id,
+    'version': version,
+    'provider_available': provider_available,
+    'fit_rule_version': fit_rule_version,
+  };
+}
+
+class AiPromptInput {
+  final String instruction;
+  const AiPromptInput({required this.instruction});
+  factory AiPromptInput.fromJson(Map<String,dynamic> json) => AiPromptInput(
+    instruction: json['instruction'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'instruction': instruction,
+  };
+}
+
+class AiPrompt {
+  final String id;
+  final String instruction;
+  final String created_at;
+  const AiPrompt({required this.id, required this.instruction, required this.created_at});
+  factory AiPrompt.fromJson(Map<String,dynamic> json) => AiPrompt(
+    id: json['id'] as String,
+    instruction: json['instruction'] as String,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'instruction': instruction,
+    'created_at': created_at,
+  };
+}
+
+class AiPromptView {
+  final String id;
+  final String instruction;
+  final String created_at;
+  final String status;
+  const AiPromptView({required this.id, required this.instruction, required this.created_at, required this.status});
+  factory AiPromptView.fromJson(Map<String,dynamic> json) => AiPromptView(
+    id: json['id'] as String,
+    instruction: json['instruction'] as String,
+    created_at: json['created_at'] as String,
+    status: json['status'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'instruction': instruction,
+    'created_at': created_at,
+    'status': status,
+  };
+}
+
+class AiEvaluationCase {
+  final String case_code;
+  final bool passed;
+  const AiEvaluationCase({required this.case_code, required this.passed});
+  factory AiEvaluationCase.fromJson(Map<String,dynamic> json) => AiEvaluationCase(
+    case_code: json['case_code'] as String,
+    passed: json['passed'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'case_code': case_code,
+    'passed': passed,
+  };
+}
+
+class AiEvaluation {
+  final String id;
+  final String prompt_id;
+  final bool passed;
+  final List<AiEvaluationCase> cases;
+  final String created_at;
+  const AiEvaluation({required this.id, required this.prompt_id, required this.passed, required this.cases, required this.created_at});
+  factory AiEvaluation.fromJson(Map<String,dynamic> json) => AiEvaluation(
+    id: json['id'] as String,
+    prompt_id: json['prompt_id'] as String,
+    passed: json['passed'] as bool,
+    cases: (json['cases'] as List).map((value) => AiEvaluationCase.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'prompt_id': prompt_id,
+    'passed': passed,
+    'cases': cases.map((value) => value.toJson()).toList(),
+    'created_at': created_at,
+  };
+}
+
+class AiPolicyInput {
+  final int ordinary_daily_limit;
+  final int member_daily_ceiling;
+  final int retention_days;
+  final int lease_seconds;
+  final bool enabled;
+  const AiPolicyInput({required this.ordinary_daily_limit, required this.member_daily_ceiling, required this.retention_days, required this.lease_seconds, required this.enabled});
+  factory AiPolicyInput.fromJson(Map<String,dynamic> json) => AiPolicyInput(
+    ordinary_daily_limit: (json['ordinary_daily_limit'] as num).toInt(),
+    member_daily_ceiling: (json['member_daily_ceiling'] as num).toInt(),
+    retention_days: (json['retention_days'] as num).toInt(),
+    lease_seconds: (json['lease_seconds'] as num).toInt(),
+    enabled: json['enabled'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'ordinary_daily_limit': ordinary_daily_limit,
+    'member_daily_ceiling': member_daily_ceiling,
+    'retention_days': retention_days,
+    'lease_seconds': lease_seconds,
+    'enabled': enabled,
+  };
+}
+
+class AiPolicy {
+  final String id;
+  final int ordinary_daily_limit;
+  final int member_daily_ceiling;
+  final int retention_days;
+  final int lease_seconds;
+  final bool enabled;
+  final String created_at;
+  const AiPolicy({required this.id, required this.ordinary_daily_limit, required this.member_daily_ceiling, required this.retention_days, required this.lease_seconds, required this.enabled, required this.created_at});
+  factory AiPolicy.fromJson(Map<String,dynamic> json) => AiPolicy(
+    id: json['id'] as String,
+    ordinary_daily_limit: (json['ordinary_daily_limit'] as num).toInt(),
+    member_daily_ceiling: (json['member_daily_ceiling'] as num).toInt(),
+    retention_days: (json['retention_days'] as num).toInt(),
+    lease_seconds: (json['lease_seconds'] as num).toInt(),
+    enabled: json['enabled'] as bool,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'ordinary_daily_limit': ordinary_daily_limit,
+    'member_daily_ceiling': member_daily_ceiling,
+    'retention_days': retention_days,
+    'lease_seconds': lease_seconds,
+    'enabled': enabled,
+    'created_at': created_at,
+  };
+}
+
+class AiStage {
+  final int percentage;
+  const AiStage({required this.percentage});
+  factory AiStage.fromJson(Map<String,dynamic> json) => AiStage(
+    percentage: (json['percentage'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'percentage': percentage,
+  };
+}
+
+class AiEmpty {
+
+  const AiEmpty();
+  factory AiEmpty.fromJson(Map<String,dynamic> json) => AiEmpty(
+
+  );
+  Map<String,dynamic> toJson() => {
+
+  };
+}
+
+class AiRules {
+  final String fit_rule_version;
+  final String authority;
+  final List<String> model_tools;
+  final bool hard_conflicts_overridable;
+  final int maximum_comparison_skus;
+  const AiRules({required this.fit_rule_version, required this.authority, required this.model_tools, required this.hard_conflicts_overridable, required this.maximum_comparison_skus});
+  factory AiRules.fromJson(Map<String,dynamic> json) => AiRules(
+    fit_rule_version: json['fit_rule_version'] as String,
+    authority: json['authority'] as String,
+    model_tools: (json['model_tools'] as List).map((value) => value as String).toList(),
+    hard_conflicts_overridable: json['hard_conflicts_overridable'] as bool,
+    maximum_comparison_skus: (json['maximum_comparison_skus'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'fit_rule_version': fit_rule_version,
+    'authority': authority,
+    'model_tools': model_tools.map((value) => value).toList(),
+    'hard_conflicts_overridable': hard_conflicts_overridable,
+    'maximum_comparison_skus': maximum_comparison_skus,
+  };
+}
+
+class AiPreferencesEnvelope {
+  final AiPreferences data;
+  final Meta meta;
+  const AiPreferencesEnvelope({required this.data, required this.meta});
+  factory AiPreferencesEnvelope.fromJson(Map<String,dynamic> json) => AiPreferencesEnvelope(
+    data: AiPreferences.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AiQuotaEnvelope {
+  final AiQuota data;
+  final Meta meta;
+  const AiQuotaEnvelope({required this.data, required this.meta});
+  factory AiQuotaEnvelope.fromJson(Map<String,dynamic> json) => AiQuotaEnvelope(
+    data: AiQuota.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AiConversationDetailEnvelope {
+  final AiConversationDetail data;
+  final Meta meta;
+  const AiConversationDetailEnvelope({required this.data, required this.meta});
+  factory AiConversationDetailEnvelope.fromJson(Map<String,dynamic> json) => AiConversationDetailEnvelope(
+    data: AiConversationDetail.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AiConversationListEnvelope {
+  final List<AiConversation> data;
+  final Page page;
+  final Meta meta;
+  const AiConversationListEnvelope({required this.data, required this.page, required this.meta});
+  factory AiConversationListEnvelope.fromJson(Map<String,dynamic> json) => AiConversationListEnvelope(
+    data: (json['data'] as List).map((value) => AiConversation.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AiClearedEnvelope {
+  final AiCleared data;
+  final Meta meta;
+  const AiClearedEnvelope({required this.data, required this.meta});
+  factory AiClearedEnvelope.fromJson(Map<String,dynamic> json) => AiClearedEnvelope(
+    data: AiCleared.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AiMessageEnvelope {
+  final AiMessage data;
+  final Meta meta;
+  const AiMessageEnvelope({required this.data, required this.meta});
+  factory AiMessageEnvelope.fromJson(Map<String,dynamic> json) => AiMessageEnvelope(
+    data: AiMessage.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AiProposalEnvelope {
+  final AiProposal data;
+  final Meta meta;
+  const AiProposalEnvelope({required this.data, required this.meta});
+  factory AiProposalEnvelope.fromJson(Map<String,dynamic> json) => AiProposalEnvelope(
+    data: AiProposal.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AiReleaseEnvelope {
+  final AiRelease data;
+  final Meta meta;
+  const AiReleaseEnvelope({required this.data, required this.meta});
+  factory AiReleaseEnvelope.fromJson(Map<String,dynamic> json) => AiReleaseEnvelope(
+    data: AiRelease.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AiRulesEnvelope {
+  final AiRules data;
+  final Meta meta;
+  const AiRulesEnvelope({required this.data, required this.meta});
+  factory AiRulesEnvelope.fromJson(Map<String,dynamic> json) => AiRulesEnvelope(
+    data: AiRules.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AiPromptViewListEnvelope {
+  final List<AiPromptView> data;
+  final Page page;
+  final Meta meta;
+  const AiPromptViewListEnvelope({required this.data, required this.page, required this.meta});
+  factory AiPromptViewListEnvelope.fromJson(Map<String,dynamic> json) => AiPromptViewListEnvelope(
+    data: (json['data'] as List).map((value) => AiPromptView.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AiPolicyListEnvelope {
+  final List<AiPolicy> data;
+  final Page page;
+  final Meta meta;
+  const AiPolicyListEnvelope({required this.data, required this.page, required this.meta});
+  factory AiPolicyListEnvelope.fromJson(Map<String,dynamic> json) => AiPolicyListEnvelope(
+    data: (json['data'] as List).map((value) => AiPolicy.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AiEvaluationListEnvelope {
+  final List<AiEvaluation> data;
+  final Page page;
+  final Meta meta;
+  const AiEvaluationListEnvelope({required this.data, required this.page, required this.meta});
+  factory AiEvaluationListEnvelope.fromJson(Map<String,dynamic> json) => AiEvaluationListEnvelope(
+    data: (json['data'] as List).map((value) => AiEvaluation.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AiPromptEnvelope {
+  final AiPrompt data;
+  final Meta meta;
+  const AiPromptEnvelope({required this.data, required this.meta});
+  factory AiPromptEnvelope.fromJson(Map<String,dynamic> json) => AiPromptEnvelope(
+    data: AiPrompt.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AiEvaluationEnvelope {
+  final AiEvaluation data;
+  final Meta meta;
+  const AiEvaluationEnvelope({required this.data, required this.meta});
+  factory AiEvaluationEnvelope.fromJson(Map<String,dynamic> json) => AiEvaluationEnvelope(
+    data: AiEvaluation.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class AiPolicyEnvelope {
+  final AiPolicy data;
+  final Meta meta;
+  const AiPolicyEnvelope({required this.data, required this.meta});
+  factory AiPolicyEnvelope.fromJson(Map<String,dynamic> json) => AiPolicyEnvelope(
+    data: AiPolicy.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -8195,4 +8922,26 @@ class ApiRoutes {
   static const get_public_nearby_places__id = '/public/nearby/places/{id}';
   static const post_public_nearby_navigation_intents = '/public/nearby/navigation-intents';
   static const post_consumer_nearby_navigation_intents = '/consumer/nearby/navigation-intents';
+  static const get_consumer_ai_preferences = '/consumer/ai/preferences';
+  static const put_consumer_ai_preferences = '/consumer/ai/preferences';
+  static const get_consumer_ai_quota = '/consumer/ai/quota';
+  static const post_consumer_ai_conversations = '/consumer/ai/conversations';
+  static const get_consumer_ai_conversations = '/consumer/ai/conversations';
+  static const get_consumer_ai_conversations__conversation_id = '/consumer/ai/conversations/{conversation_id}';
+  static const delete_consumer_ai_conversations__conversation_id = '/consumer/ai/conversations/{conversation_id}';
+  static const post_consumer_ai_conversations__conversation_id__messages = '/consumer/ai/conversations/{conversation_id}/messages';
+  static const get_consumer_ai_profile_proposals__proposal_id = '/consumer/ai/profile-proposals/{proposal_id}';
+  static const post_consumer_ai_profile_proposals__proposal_id__accept = '/consumer/ai/profile-proposals/{proposal_id}/accept';
+  static const post_consumer_ai_profile_proposals__proposal_id__reject = '/consumer/ai/profile-proposals/{proposal_id}/reject';
+  static const get_admin_ai_release = '/admin/ai/release';
+  static const get_admin_ai_rules = '/admin/ai/rules';
+  static const get_admin_ai_prompts = '/admin/ai/prompts';
+  static const get_admin_ai_policies = '/admin/ai/policies';
+  static const get_admin_ai_evaluations = '/admin/ai/evaluations';
+  static const post_admin_ai_prompts_versions = '/admin/ai/prompts/versions';
+  static const post_admin_ai_prompts__version_id__validate = '/admin/ai/prompts/{version_id}/validate';
+  static const post_admin_ai_prompts__version_id__stage = '/admin/ai/prompts/{version_id}/stage';
+  static const post_admin_ai_prompts__version_id__activate = '/admin/ai/prompts/{version_id}/activate';
+  static const post_admin_ai_prompts__version_id__rollback = '/admin/ai/prompts/{version_id}/rollback';
+  static const post_admin_ai_policies_versions = '/admin/ai/policies/versions';
 }

@@ -50,6 +50,13 @@ server:
   port: 8080
 
 pawday:
+  ai:
+    deepseek-api-key: ${PAWDAY_DEEPSEEK_API_KEY:}
+    deepseek-model: ${PAWDAY_DEEPSEEK_MODEL:deepseek-flash}
+    deepseek-url: ${PAWDAY_DEEPSEEK_URL:https://api.deepseek.com/chat/completions}
+    allow-loopback-provider: ${PAWDAY_AI_ALLOW_LOOPBACK:false}
+    timeout-seconds: ${PAWDAY_AI_TIMEOUT_SECONDS:8}
+    worker-enabled: ${PAWDAY_AI_WORKER_ENABLED:true}
   storage:
     local-root: ${PAWDAY_STORAGE_LOCAL_ROOT:.local-media}
     max-bytes: 5242880
