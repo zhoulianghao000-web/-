@@ -9,6 +9,9 @@ spring:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/pawday}
     username: ${SPRING_DATASOURCE_USERNAME:pawday}
     password: ${SPRING_DATASOURCE_PASSWORD:pawday_dev_only}
+    hikari:
+      connection-timeout: 2000
+      validation-timeout: 1000
   jackson:
     deserialization:
       fail-on-unknown-properties: true
