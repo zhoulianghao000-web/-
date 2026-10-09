@@ -127,7 +127,11 @@ def gate(commit):
   try:retention_plan(['wal/required'],['wal/required','objects/required','secrets://history']);raise RuntimeError('PINNED_WAL_RETENTION_ACCEPTED')
   except RecoveryError:pass
   passed('backup_chain_object_and_key_retention_pins_block_cleanup')
-  run(['docker','start',SOURCE]);assert facts(SOURCE)==source_final;passed('source_database_unchanged_by_all_restore_reviews')
+  run(['docker','start',SOURCE])
+  def source_ready():
+   r=sql(SOURCE,'SELECT NOT pg_is_in_recovery()',ok=False)
+   return r.returncode==0 and r.stdout.strip()==b't'
+  wait_for(source_ready);assert facts(SOURCE)==source_final;passed('source_database_unchanged_by_all_restore_reviews')
   report.update(result='PASS',tables=len(before),rows=sum(v['rows'] for v in before.values()),archive=archive_stats,target_time=target_time,system_id=system_id,backup_id=backup_id,backup_files=len(manifest['files']),registry_sha256=hashlib.sha256(registry_data).hexdigest(),registry_events=3,restore_seconds=round(time.monotonic()-started,3),runtime_application_started=False,external_workers_started=False,quarantine_released=False,limitations=['Synthetic local archive only; no production RPO/RTO promise','Independent privacy registry source capture and production KMS/object versions remain pending','No production promotion or live provider reconciliation'])
  except BaseException as e:
   report['failure_code']=str(e) if re.fullmatch('[A-Z_:]+',str(e)) else type(e).__name__;raise
