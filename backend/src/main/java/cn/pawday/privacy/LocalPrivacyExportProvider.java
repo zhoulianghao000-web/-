@@ -16,7 +16,7 @@ public final class LocalPrivacyExportProvider implements PrivacyExportProvider {
     private final Path root;private final byte[] key;private final JsonMapper json=JsonMapper.builder().build();
     public LocalPrivacyExportProvider(Path root,byte[] key){this.root=root.toAbsolutePath().normalize();this.key=key.clone();if(key.length<32)throw new IllegalArgumentException("PRIVACY_KEY_REQUIRED");}
     private void safe(Path path)throws IOException {
-        for(Path p=path;p!=null;p=p.getParent())if(Files.isSymbolicLink(p))throw new IOException("UNSAFE_EXPORT_PATH");
+        for(Path p=path;p!=null;p=p.getParent())if(Files.isSymbolicLink(p)||(Files.exists(p,LinkOption.NOFOLLOW_LINKS)&&!p.toRealPath().equals(p.toAbsolutePath().normalize())))throw new IOException("UNSAFE_EXPORT_PATH");
     }
     private Map<String,Object> validate(byte[] envelope)throws IOException {
         if(envelope.length>1500000)throw new IOException("OVERSIZE_CHECKPOINT");

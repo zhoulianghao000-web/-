@@ -47,4 +47,24 @@ class PrivacyJournalTests {
     @Test void corruptIndependentHeadBlocksOverwrite()throws Exception {Files.writeString(directory.resolve("latest.json"),"{}");remove();service(new LocalPrivacyExportProvider(directory,KEY),Clock.systemUTC(),60).runOne();assertEquals("{}",Files.readString(directory.resolve("latest.json")));assertNotNull(db.queryForObject("SELECT last_error_code FROM privacy_export_state",String.class));}
     @Test void coverageCanAdvanceWithoutInventingPrivacyEvents()throws Exception {long facts=count();service(new LocalPrivacyExportProvider(directory,KEY),Clock.systemUTC(),60).runOne();var old=db.queryForObject("SELECT covered_until FROM privacy_export_state",Timestamp.class);due();service(new LocalPrivacyExportProvider(directory,KEY),Clock.systemUTC(),60).runOne();assertEquals(facts,count());assertFalse(db.queryForObject("SELECT covered_until FROM privacy_export_state",Timestamp.class).before(old));}
     @Test void separateSigningKeyIsMandatory(){assertThrows(IllegalArgumentException.class,()->service(c->{},Clock.systemUTC(),0));assertThrows(IllegalArgumentException.class,()->new PrivacyExportService(db,tx,c->{},new byte[16],Clock.systemUTC(),60));}
+    @Test void existingVersionTwentyDatabaseUpgradesWithConservativeBaseline()throws Exception {
+        try(var old=EmbeddedPostgres.builder().setPort(0).start()) {
+            var ds=new DriverManagerDataSource(old.getJdbcUrl("postgres","postgres"),"postgres","postgres");var jdbc=new JdbcTemplate(ds);
+            Flyway.configure().dataSource(ds).target("020").load().migrate();UUID owner=UUID.randomUUID();
+            jdbc.update("INSERT INTO app_user(id,status) VALUES (?,'ACTIVE')",owner);jdbc.update("INSERT INTO ai_preferences(user_id) VALUES (?)",owner);
+            for(String state:List.of("DELETED","EXPIRED"))jdbc.update("INSERT INTO ai_conversations(id,user_id,status,expires_at) VALUES (?,?,?,now()-interval '1 day')",UUID.randomUUID(),owner,state);
+            var migration=Flyway.configure().dataSource(ds).load();migration.migrate();
+            assertEquals(3,jdbc.queryForObject("SELECT count(*) FROM privacy_journal WHERE reason_code='MIGRATION_BASELINE'",Integer.class));
+            assertEquals(3,jdbc.queryForObject("SELECT last_sequence FROM privacy_journal_head",Integer.class));
+            migration.migrate();assertEquals(3,jdbc.queryForObject("SELECT count(*) FROM privacy_journal",Integer.class));
+        }
+    }
+    @Test @SuppressWarnings("unchecked") void correctlySignedConflictingPrefixCannotOverwriteIndependentHead()throws Exception {
+        remove();var snapshot=new AtomicReference<PrivacyExportService.Checkpoint>();var files=new LocalPrivacyExportProvider(directory,KEY);
+        service(c->{snapshot.set(c);files.publish(c);},Clock.systemUTC(),60).runOne();byte[] before=Files.readAllBytes(directory.resolve("latest.json"));
+        var mapper=new JsonMapper();var payload=mapper.readValue(snapshot.get().payload(),Map.class);
+        ((Map<String,Object>)((List<?>)payload.get("events")).getFirst()).put("kind","MEDIA_DELETE".equals(((Map<?,?>)((List<?>)payload.get("events")).getFirst()).get("kind"))?"AI_CONVERSATION_DELETE":"MEDIA_DELETE");
+        byte[] changed=mapper.writeValueAsBytes(payload);var conflict=new PrivacyExportService.Checkpoint(changed,PrivacyExportService.sign(changed,KEY),PrivacyExportService.sha256(changed),snapshot.get().sequence(),snapshot.get().coveredUntil());
+        assertThrows(IllegalStateException.class,()->files.publish(conflict));assertArrayEquals(before,Files.readAllBytes(directory.resolve("latest.json")));
+    }
 }
