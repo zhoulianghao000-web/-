@@ -17,6 +17,7 @@ public final class PrivacyExportScheduler {
     public PrivacyExportScheduler(JdbcTemplate db,TransactionTemplate tx,Clock clock,
         @Value("${pawday.privacy.export-root}") String root,@Value("${pawday.storage.local-root:.local-media}") String media,
         @Value("${pawday.privacy.export-signing-key}") String signingKey) {
+        if(root.isBlank()||!Path.of(root).isAbsolute())throw new IllegalArgumentException("ABSOLUTE_INDEPENDENT_EXPORT_ROOT_REQUIRED");
         var export=Path.of(root).toAbsolutePath().normalize();var objects=Path.of(media).toAbsolutePath().normalize();
         if(export.startsWith(objects)||objects.startsWith(export))throw new IllegalArgumentException("INDEPENDENT_EXPORT_ROOT_REQUIRED");
         byte[] key=Base64.getDecoder().decode(signingKey);
