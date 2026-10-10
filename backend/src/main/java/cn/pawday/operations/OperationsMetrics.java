@@ -9,6 +9,10 @@ import org.springframework.stereotype.Component;
 public final class OperationsMetrics {
     public OperationsMetrics(MeterRegistry registry,JdbcTemplate db) {
         Gauge.builder("pawday.operations.db.available",db,j->{try{return j.queryForObject("SELECT 1",Integer.class);}catch(org.springframework.dao.DataAccessException e){return 0;}}).register(registry);
+        register(registry,db,"pawday.privacy.export.backlog","SELECT greatest(0,h.last_sequence-s.exported_sequence) FROM privacy_journal_head h CROSS JOIN privacy_export_state s");
+        register(registry,db,"pawday.privacy.export.coverage.age.seconds","SELECT coalesce(extract(epoch FROM clock_timestamp()-covered_until),extract(epoch FROM clock_timestamp()-h.installed_at)) FROM privacy_export_state s CROSS JOIN privacy_journal_head h");
+        register(registry,db,"pawday.privacy.export.failures","SELECT attempts FROM privacy_export_state");
+        register(registry,db,"pawday.privacy.export.unavailable","SELECT CASE WHEN covered_until IS NULL OR last_error_code IS NOT NULL THEN 1 ELSE 0 END FROM privacy_export_state");
         register(registry,db,"pawday.payment.unknown","SELECT count(*) FROM payment_attempts WHERE status='UNKNOWN'");
         register(registry,db,"pawday.payment.unknown.age.seconds","SELECT coalesce(extract(epoch FROM now()-min(created_at)),0) FROM payment_attempts WHERE status='UNKNOWN'");
         register(registry,db,"pawday.refund.pending","SELECT count(*) FROM refunds WHERE status IN ('CREATED','PROCESSING','FAILED_RETRYABLE')");

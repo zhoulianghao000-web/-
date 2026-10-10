@@ -117,7 +117,7 @@ jobs:
       - name: Start backend and require aggregate health
         run: |
           mkdir -p frontend-evidence
-          java -jar backend/target/pawday-backend-0.6.3-SNAPSHOT.jar > frontend-evidence/backend.log 2>&1 &
+          java -jar backend/target/pawday-backend-0.6.4-SNAPSHOT.jar > frontend-evidence/backend.log 2>&1 &
           echo "PAWDAY_REAL_SMS_DIRECTORY=$GITHUB_WORKSPACE/.local-sms" >> "$GITHUB_ENV"
           for attempt in $(seq 1 120); do
             if curl --fail --silent http://127.0.0.1:8080/actuator/health > frontend-evidence/health.json; then exit 0; fi

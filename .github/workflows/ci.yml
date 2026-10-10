@@ -119,7 +119,7 @@ jobs:
           gate_status=$?
           set -e
           test "$gate_status" -eq 2
-          python scripts/check-production-startup.py --jar backend/target/pawday-backend-0.6.3-SNAPSHOT.jar --report backend/target/readiness-evidence/production-startup.json
+          python scripts/check-production-startup.py --jar backend/target/pawday-backend-0.6.4-SNAPSHOT.jar --report backend/target/readiness-evidence/production-startup.json
       - name: Real infrastructure diagnostics
         if: always()
         run: |
@@ -140,7 +140,7 @@ jobs:
             backend/target/m23-infrastructure-evidence.json
             backend/target/infrastructure-evidence/
             backend/target/readiness-evidence/
-            backend/target/pawday-backend-0.6.3-SNAPSHOT.jar
+            backend/target/pawday-backend-0.6.4-SNAPSHOT.jar
             openapi/*response-report.json
       - name: Stop only isolated integration services
         if: always()
@@ -204,7 +204,7 @@ jobs:
           docker compose -p pawday-m63-it -f compose.recovery.yaml up -d --wait --wait-timeout 300
       - name: Mandatory actual JAR quarantine rejection and real WAL PITR gate
         run: |
-          python scripts/check-recovery-startup.py --jar backend/target/pawday-backend-0.6.3-SNAPSHOT.jar --report backend/target/recovery-evidence/recovery-startup.json
+          python scripts/check-recovery-startup.py --jar backend/target/pawday-backend-0.6.4-SNAPSHOT.jar --report backend/target/recovery-evidence/recovery-startup.json
           python scripts/recovery-engineering-gate.py --test-only --commit '${{ github.event.pull_request.head.sha || github.sha }}'
       - uses: actions/upload-artifact@v4
         if: always()

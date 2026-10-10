@@ -19,7 +19,7 @@ public final class RecoverySearchProbe {
  public static void main(String[] args)throws Exception {
   require(args.length==2&&args[0].equals("--test-only"),"TEST_ONLY_REQUIRED");
   String action=args[1],host=System.getenv("M63_TARGET");require(Set.of("postgres","recovered-postgres").contains(host),"NON_FIXTURE_TARGET_REFUSED");
-  require(action.equals("seed")==host.equals("postgres"),"NON_FIXTURE_ACTION_REFUSED");
+  require(Set.of("seed","privacy","export","export-failure").contains(action)==host.equals("postgres"),"NON_FIXTURE_ACTION_REFUSED");
   String url="jdbc:postgresql://"+host+":5432/pawday_recovery_test";
   // Every new helper connection opts into sandbox review writes. No pool/app is started.
   if(host.equals("recovered-postgres"))url+="?options=-c%20default_transaction_read_only%3Doff";
@@ -62,6 +62,26 @@ public final class RecoverySearchProbe {
    // Deliberately stale derived rows must be rebuilt from catalog/offer facts.
    for(int k:List.of(6,7))source.change(new CatalogSearchSource.Product(id(5),id(k),"STALE_BACKUP_VALUE","CAT","MULTIPLE_OR_UNKNOWN","DRY_FOOD",List.of(),1,false,0,Instant.now()),false,"CatalogPublished",null);
    new IndexBootstrap(client,aliases,db,tx,lock).initialize();while(sync.runOne()){}
+  }else if(action.equals("privacy")){
+   var p=new cn.pawday.publishing.PublishingSupport(db,null);var quota=new cn.pawday.ai.AiQuotaService(p,tx,Clock.systemUTC());var audit=new cn.pawday.audit.AuditWriter(db);
+   db.update("INSERT INTO identity_principal(id,realm,user_id) VALUES (?,'CONSUMER',?)",id(80),id(2));
+   db.update("INSERT INTO auth_session(id,principal_id,access_token_hash,device_id,expires_at,refresh_expires_at,created_at) VALUES (?,?,?,'TEST_ONLY',now()+interval '1 hour',now()+interval '1 day',now())",id(81),id(80),"e".repeat(64));
+   var actor=new Actor(id(80),Actor.Realm.CONSUMER,id(2),null,id(81),Set.of(),Set.of());
+   var unavailable=new cn.pawday.ai.ExplanationProvider(){public Plan explain(String instruction,List<Map<String,Object>> evidence){throw new IllegalStateException("NO_EXTERNAL_PROVIDER");}public boolean available(){return false;}};
+   var ai=new cn.pawday.ai.AiService(p,quota,null,unavailable,crypto,new cn.pawday.common.IdempotentCommandExecutor(db,tx,crypto),audit,null);
+   ai.clear(actor,id(40),"TEST_ONLY_M64_DELETE",null);ai.preference(actor,Map.of("personalization_enabled",false),"\"0\"","TEST_ONLY_M64_REVOKE",null);quota.sweep();
+   var owner=new Actor(id(1),Actor.Realm.ADMIN,null,null,id(60),Set.of(),Set.of());
+   org.springframework.security.core.context.SecurityContextHolder.getContext().setAuthentication(new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(owner,null,List.of()));
+   try{new cn.pawday.storage.MediaService(db,tx,new AccessGuard(db),crypto,audit,Clock.systemUTC(),new cn.pawday.storage.LocalObjectStorageProvider(java.nio.file.Path.of("/live-media")),5242880,300,60).delete(id(62),null);}
+   finally{org.springframework.security.core.context.SecurityContextHolder.clearContext();}
+   require(db.queryForObject("SELECT count(*) FROM privacy_journal",Integer.class)==4,"ONLINE_PRIVACY_FACTS_MISSING");
+  }else if(action.startsWith("export")){
+   byte[] signing="TEST_ONLY_M64_PRIVATE_EXPORT_32_BYTES".getBytes(java.nio.charset.StandardCharsets.UTF_8);
+   java.nio.file.Path directory=java.nio.file.Path.of("/independent-privacy");
+   if(action.equals("export-failure")){directory=directory.resolve("TEST_ONLY_BLOCKED");java.nio.file.Files.writeString(directory,"NOT_A_DIRECTORY");}
+   db.update("UPDATE privacy_export_state SET next_attempt_at=now()-interval '1 second'");
+   new cn.pawday.privacy.PrivacyExportService(db,tx,new cn.pawday.privacy.LocalPrivacyExportProvider(directory,signing),signing,Clock.systemUTC(),60).runOne();
+   require((db.queryForObject("SELECT last_error_code FROM privacy_export_state",String.class)==null)==action.equals("export"),"EXPORT_RESULT_MISMATCH");
   }else{
    require(Boolean.TRUE.equals(db.queryForObject("SELECT privacy_reviewed FROM m63_fixture",Boolean.class)),"PRIVACY_REVIEW_REQUIRED");
    if(action.equals("prepare")){

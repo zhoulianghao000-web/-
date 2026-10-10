@@ -4,6 +4,7 @@ No promotion/deletion command for production. Backups and registry stay private.
 """
 import argparse,base64,datetime as dt,hashlib,hmac,json,os,re,secrets,subprocess,time,uuid
 from pathlib import Path
+from privacy_export_contract import verify_export
 from recovery_contract import RecoveryError,bundle_files,validate_bundle,privacy_registry,retention_plan,privacy_replay_sql
 
 ROOT=Path(__file__).resolve().parents[1];LOCAL=ROOT/'.local-recovery';OUT=ROOT/'backend/target/recovery-evidence'
@@ -42,7 +43,7 @@ def gate(commit):
  LOCAL.mkdir(exist_ok=False);report=dict(result='FAIL',source_code_commit=commit,production_ready=False,environment='synthetic-physical-PITR',cases=[]);nonce=uuid.uuid4().hex;image='pawday-m63-probe:'+commit[:12];network='pawday-m63-restore-'+nonce;targets=[];volumes=[];created_network=False
  def passed(name):report['cases'].append(dict(name=name,result='PASS'))
  def probe(action,*,target=False,ok=True):
-  return run(['docker','run','--rm','--network',network if target else NETWORK,'--label','cn.pawday.recovery.sandbox='+nonce,'-e','M63_TARGET='+('recovered-postgres' if target else 'postgres'),image,'--test-only',action],ok=ok)
+  return run(['docker','run','--rm',*(['--mount','type=bind,source='+str(LOCAL/'independent-privacy')+',target=/independent-privacy','--mount','type=bind,source='+str(LOCAL/'live-media')+',target=/live-media'] if not target else []),'--network',network if target else NETWORK,'--label','cn.pawday.recovery.sandbox='+nonce,'-e','M63_TARGET='+('recovered-postgres' if target else 'postgres'),image,'--test-only',action],ok=ok)
  def restore(name,target_time):
   volume=name+'-data';wal_volume=name+'-wal'
   for owned in [volume,wal_volume]:
@@ -56,10 +57,13 @@ def gate(commit):
   return name
  try:
   for p in sorted((ROOT/'backend/src/main/resources/db/migration').glob('V*.sql')):sql(SOURCE,p.read_text(encoding='utf8'))
-  passed('all_twenty_actual_migrations_on_fresh_source')
+  passed('all_twenty_one_actual_migrations_on_fresh_source')
+  (LOCAL/'independent-privacy').mkdir();(LOCAL/'live-media/media').mkdir(parents=True)
   run(['docker','build','-f','deployment/recovery/Dockerfile','-t',image,'.'],timeout=300);probe('seed');passed('actual_catalog_privacy_ledger_inbox_and_pending_sms_facts')
   png=base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a5N8AAAAASUVORK5CYII=');media_backup=LOCAL/'object-snapshot/media';media_backup.mkdir(parents=True)
-  for asset in [61,62]:(media_backup/(fixed_id(asset)+'.png')).write_bytes(png)
+  for asset in [61,62]:
+   (media_backup/(fixed_id(asset)+'.png')).write_bytes(png);(LOCAL/'live-media/media'/(fixed_id(asset)+'.png')).write_bytes(png)
+  probe('export');old_export=(LOCAL/'independent-privacy/latest.json').read_bytes()
   failed=int(value(SOURCE,'SELECT failed_count FROM pg_stat_archiver'))
   run(['docker','exec',SOURCE,'touch','/archive/TEST_ONLY_PAUSE']);segment=value(SOURCE,'SELECT pg_walfile_name(pg_current_wal_lsn())');sql(SOURCE,'SELECT pg_switch_wal()')
   wait_for(lambda:int(value(SOURCE,'SELECT failed_count FROM pg_stat_archiver'))>failed);sql(SOURCE,"UPDATE offers SET version=version+1 WHERE sale_status='ACTIVE'");passed('archive_failure_visible_business_writes_continue')
@@ -74,10 +78,13 @@ def gate(commit):
   sql(SOURCE,f"UPDATE offers SET sale_price_fen=9999 WHERE id='{fixed_id(26)}'; UPDATE inventory_balances SET on_hand_qty=0 WHERE offer_id='{fixed_id(26)}'; INSERT INTO merchant_ledger_entries(id,merchant_id,entry_type,direction,amount_fen,affects_balance,source_event,created_by_type) VALUES (gen_random_uuid(),'{fixed_id(3)}','MANUAL_ADJUSTMENT','CREDIT',999,true,'TEST_ONLY_AFTER_TARGET','SYSTEM')")
   passed('committed_good_state_and_later_bad_state_separated_by_database_time')
   # Independent, newer privacy facts must not disappear when restoring an older time.
-  sql(SOURCE,f"UPDATE ai_conversations SET status='DELETED' WHERE id='{fixed_id(40)}'; UPDATE ai_messages SET user_text_ciphertext=NULL,result_ciphertext=NULL WHERE conversation_id='{fixed_id(40)}'; UPDATE ai_preferences SET personalization_enabled=false,version=version+1; UPDATE media_asset SET status='DELETED' WHERE id='{fixed_id(62)}'")
-  required_until=value(SOURCE,'SELECT clock_timestamp()');system_id=value(SOURCE,'SELECT system_identifier FROM pg_control_system()');backup_id=uuid.uuid4().hex
-  now=dt.datetime.now(dt.timezone.utc).isoformat();registry=dict(schema_version='pawday-recovery-privacy/v1',backup_id=backup_id,system_id=system_id,covered_until=now,last_sequence=3,events=[dict(sequence=i,kind=kind,subject_id=fixed_id(subject),effective_at=required_until) for i,kind,subject in [(1,'AI_CONVERSATION_DELETE',40),(2,'AI_PERSONALIZATION_REVOKE',2),(3,'MEDIA_DELETE',62)]])
-  registry_data=json.dumps(registry,sort_keys=True).encode();key=secrets.token_bytes(32);signature=hmac.new(key,registry_data,hashlib.sha256).hexdigest();(LOCAL/'independent-registry.json').write_bytes(registry_data)
+  probe('privacy');required_until=value(SOURCE,'SELECT clock_timestamp()');system_id=value(SOURCE,'SELECT system_identifier FROM pg_control_system()');backup_id=uuid.uuid4().hex
+  probe('export-failure');assert value(SOURCE,'SELECT count(*) FROM privacy_journal')=='4' and value(SOURCE,"SELECT status FROM ai_conversations WHERE id='"+fixed_id(40)+"'")=='DELETED';passed('actual_business_privacy_commands_commit_despite_independent_export_outage')
+  probe('export');export_data=(LOCAL/'independent-privacy/latest.json').read_bytes();key=b'TEST_ONLY_M64_PRIVATE_EXPORT_32_BYTES'
+  pin=json.loads(value(SOURCE,"SELECT row_to_json(s) FROM (SELECT h.journal_id,s.exported_sequence,s.checkpoint_sha256 FROM privacy_export_state s CROSS JOIN privacy_journal_head h) s"))
+  args=dict(system_id=system_id,journal_id=pin['journal_id'],required_until=required_until,minimum_sequence=pin['exported_sequence'],expected_checkpoint_sha256=pin['checkpoint_sha256'],now=dt.datetime.now(dt.timezone.utc).isoformat(),backup_id=backup_id)
+  registry=verify_export(export_data,key,**args);assert registry['last_sequence']==4;passed('independent_signed_export_retries_and_covers_all_four_committed_facts')
+  registry_data=json.dumps(registry,sort_keys=True).encode();signature=hmac.new(key,registry_data,hashlib.sha256).hexdigest()
   segment=value(SOURCE,'SELECT pg_walfile_name(pg_current_wal_lsn())');sql(SOURCE,'SELECT pg_switch_wal()');wait_for(lambda:run(['docker','exec',SOURCE,'test','-f','/archive/wal/'+segment],ok=False).returncode==0)
   source_final=facts(SOURCE);archive_stats=json.loads(value(SOURCE,"SELECT row_to_json(s) FROM (SELECT archived_count,failed_count,last_archived_time FROM pg_stat_archiver) s"));run(['docker','stop',SOURCE]);run(['docker','cp',SOURCE+':/archive/.',str(LOCAL/'bundle')]);passed('immutable_archive_capture_includes_later_commits')
   manifest=dict(schema_version='pawday-pitr/v1',source_commit=commit,system_id=system_id,backup_id=backup_id,target_time=target_time,files=bundle_files(LOCAL/'bundle'));validate_bundle(LOCAL/'bundle',manifest,commit=commit,system_id=system_id)
@@ -102,11 +109,14 @@ def gate(commit):
   rejected=probe('prepare',target=True,ok=False)
   assert rejected.returncode!=0 and b'PRIVACY_REVIEW_REQUIRED' in rejected.stderr;passed('search_rebuild_blocked_before_privacy_review')
   registry_before=facts(target)
-  stale=dict(registry,covered_until=target_time);stale_data=json.dumps(stale).encode()
-  try:privacy_registry(stale_data,hmac.new(key,stale_data,hashlib.sha256).hexdigest(),key,backup_id=backup_id,system_id=system_id,required_until=required_until,now=dt.datetime.now(dt.timezone.utc).isoformat());raise RuntimeError('STALE_REGISTRY_ACCEPTED')
+  try:verify_export(old_export,key,**args);raise RuntimeError('STALE_REGISTRY_ACCEPTED')
   except RecoveryError:pass
   assert facts(target)==registry_before;passed('authenticated_but_stale_registry_cannot_change_restore')
-  verified_registry=privacy_registry(registry_data,signature,key,backup_id=backup_id,system_id=system_id,required_until=required_until,now=dt.datetime.now(dt.timezone.utc).isoformat())
+  tampered=bytearray(export_data);tampered[len(tampered)//2]^=1
+  try:verify_export(bytes(tampered),key,**args);raise RuntimeError('TAMPERED_EXPORT_ACCEPTED')
+  except RecoveryError:pass
+  assert facts(target)==registry_before;passed('tampered_independent_export_cannot_change_restore')
+  args['now']=dt.datetime.now(dt.timezone.utc).isoformat();verified_registry=verify_export(export_data,key,**args)
   privacy_sql=privacy_replay_sql(verified_registry)
   sql(target,privacy_sql);privacy_once=facts(target);sql(target,privacy_sql);assert facts(target)==privacy_once
   sql(target,f"BEGIN; SET LOCAL transaction_read_only=off; UPDATE m63_fixture SET privacy_reviewed=true,registry_hash='{hashlib.sha256(registry_data).hexdigest()}'; COMMIT;")
@@ -132,7 +142,7 @@ def gate(commit):
    r=sql(SOURCE,'SELECT NOT pg_is_in_recovery()',ok=False)
    return r.returncode==0 and r.stdout.strip()==b't'
   wait_for(source_ready);assert facts(SOURCE)==source_final;passed('source_database_unchanged_by_all_restore_reviews')
-  report.update(result='PASS',tables=len(before),rows=sum(v['rows'] for v in before.values()),archive=archive_stats,target_time=target_time,system_id=system_id,backup_id=backup_id,backup_files=len(manifest['files']),registry_sha256=hashlib.sha256(registry_data).hexdigest(),registry_events=3,restore_seconds=round(time.monotonic()-started,3),runtime_application_started=False,external_workers_started=False,quarantine_released=False,limitations=['Synthetic local archive only; no production RPO/RTO promise','Independent privacy registry source capture and production KMS/object versions remain pending','No production promotion or live provider reconciliation'])
+  report.update(result='PASS',tables=len(before),rows=sum(v['rows'] for v in before.values()),archive=archive_stats,target_time=target_time,system_id=system_id,backup_id=backup_id,backup_files=len(manifest['files']),registry_sha256=hashlib.sha256(registry_data).hexdigest(),registry_events=4,independent_export=True,trusted_latest_pin=pin,restore_seconds=round(time.monotonic()-started,3),runtime_application_started=False,external_workers_started=False,quarantine_released=False,limitations=['Synthetic local archive only; no production RPO/RTO promise','Online privacy capture verified for AI deletion/expiry, personalization revocation and media tombstones only; production KMS/object versions and account deletion remain pending','No production promotion or live provider reconciliation'])
  except BaseException as e:
   report['failure_code']=str(e) if re.fullmatch('[A-Z_:]+',str(e)) else type(e).__name__;raise
  finally:

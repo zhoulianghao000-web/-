@@ -66,6 +66,11 @@ pawday:
     allow-loopback-provider: ${PAWDAY_AI_ALLOW_LOOPBACK:false}
     timeout-seconds: ${PAWDAY_AI_TIMEOUT_SECONDS:8}
     worker-enabled: ${PAWDAY_AI_WORKER_ENABLED:true}
+  privacy:
+    export-enabled: ${PAWDAY_PRIVACY_EXPORT_ENABLED:false}
+    export-root: ${PAWDAY_PRIVACY_EXPORT_ROOT:}
+    export-signing-key: ${PAWDAY_PRIVACY_EXPORT_SIGNING_KEY:}
+    export-poll-ms: 1000
   storage:
     local-root: ${PAWDAY_STORAGE_LOCAL_ROOT:.local-media}
     max-bytes: 5242880
