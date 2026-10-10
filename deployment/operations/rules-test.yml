@@ -132,3 +132,27 @@ tests:
         job: pawday
         severity: critical
       exp_annotations: {}
+- interval: 5s
+  input_series:
+  - series: pawday_privacy_export_failures{job="pawday"}
+    values: 1+0x10
+  - series: pawday_privacy_export_backlog{job="pawday"}
+    values: 3+0x10
+  - series: pawday_privacy_export_coverage_age_seconds{job="pawday"}
+    values: 400+0x10
+  alert_rule_test:
+  - eval_time: 40s
+    alertname: PawdayPrivacyExportFailing
+    exp_alerts:
+    - exp_labels: {job: pawday, severity: critical}
+      exp_annotations: {}
+  - eval_time: 40s
+    alertname: PawdayPrivacyExportStalled
+    exp_alerts:
+    - exp_labels: {job: pawday, severity: critical}
+      exp_annotations: {}
+  - eval_time: 40s
+    alertname: PawdayPrivacyCoverageStale
+    exp_alerts:
+    - exp_labels: {job: pawday, severity: warning}
+      exp_annotations: {}

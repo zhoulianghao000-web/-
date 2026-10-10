@@ -36,3 +36,5 @@ merchant-web/public/consumer-preview/
 openapi/m54-validation-report.json
 
 .local-recovery/
+
+.local-privacy-export/

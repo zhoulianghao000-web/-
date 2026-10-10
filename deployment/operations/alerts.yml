@@ -49,3 +49,15 @@ groups:
         expr: pawday_ai_quota_expired_leases > 0
         for: 30s
         labels: {severity: warning}
+      - alert: PawdayPrivacyExportFailing
+        expr: pawday_privacy_export_failures > 0
+        for: 30s
+        labels: {severity: critical}
+      - alert: PawdayPrivacyExportStalled
+        expr: pawday_privacy_export_backlog > 0 and pawday_privacy_export_coverage_age_seconds > 120
+        for: 30s
+        labels: {severity: critical}
+      - alert: PawdayPrivacyCoverageStale
+        expr: pawday_privacy_export_coverage_age_seconds > 300
+        for: 30s
+        labels: {severity: warning}
