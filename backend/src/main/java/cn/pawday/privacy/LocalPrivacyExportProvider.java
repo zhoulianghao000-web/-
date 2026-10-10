@@ -51,7 +51,9 @@ public final class LocalPrivacyExportProvider implements PrivacyExportProvider {
                     long previous=(Long)old.get("sequence"),next=(Long)incoming.get("sequence");
                     var a=(tools.jackson.databind.JsonNode)old.get("events");var b=(tools.jackson.databind.JsonNode)incoming.get("events");
                     for(int i=0;i<Math.min(previous,next);i++)if(!a.get(i).equals(b.get(i)))throw new IOException("EXPORT_PREFIX_CONFLICT");
-                    if(previous>next||((java.time.Instant)old.get("covered")).isAfter((java.time.Instant)incoming.get("covered")))return;
+                    // Reject instead of returning success: the DB must never
+                    // acknowledge a checkpoint that this provider did not write.
+                    if(previous>next||((java.time.Instant)old.get("covered")).isAfter((java.time.Instant)incoming.get("covered")))throw new IOException("STALE_EXPORT_CHECKPOINT");
                 }
                 Path immutable=root.resolve(checkpoint.sha256()+".json");safe(immutable);
                 if(Files.exists(immutable)) {if(!Arrays.equals(Files.readAllBytes(immutable),envelope))throw new IOException("CHECKPOINT_CONFLICT");}

@@ -67,4 +67,11 @@ class PrivacyJournalTests {
         byte[] changed=mapper.writeValueAsBytes(payload);var conflict=new PrivacyExportService.Checkpoint(changed,PrivacyExportService.sign(changed,KEY),PrivacyExportService.sha256(changed),snapshot.get().sequence(),snapshot.get().coveredUntil());
         assertThrows(IllegalStateException.class,()->files.publish(conflict));assertArrayEquals(before,Files.readAllBytes(directory.resolve("latest.json")));
     }
+    @Test @SuppressWarnings("unchecked") void regressedCoverageCannotBeAcknowledgedAsPublished()throws Exception {
+        remove();var files=new LocalPrivacyExportProvider(directory,KEY);var previous=new AtomicReference<PrivacyExportService.Checkpoint>();
+        service(c->{previous.set(c);files.publish(c);},Clock.systemUTC(),60).runOne();byte[] head=Files.readAllBytes(directory.resolve("latest.json"));
+        db.update("UPDATE ai_preferences SET personalization_enabled=false WHERE user_id=?",user);due();
+        service(c->{var mapper=new JsonMapper();var data=mapper.readValue(c.payload(),Map.class);data.put("covered_until",previous.get().coveredUntil().minusSeconds(1).toString());byte[] raw=mapper.writeValueAsBytes(data);files.publish(new PrivacyExportService.Checkpoint(raw,PrivacyExportService.sign(raw,KEY),PrivacyExportService.sha256(raw),c.sequence(),previous.get().coveredUntil().minusSeconds(1)));},Clock.systemUTC(),60).runOne();
+        assertArrayEquals(head,Files.readAllBytes(directory.resolve("latest.json")));assertEquals(previous.get().sequence(),db.queryForObject("SELECT exported_sequence FROM privacy_export_state",Long.class));assertNotNull(db.queryForObject("SELECT last_error_code FROM privacy_export_state",String.class));
+    }
 }
