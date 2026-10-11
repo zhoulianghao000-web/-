@@ -25,7 +25,7 @@ public final class RecoverySearchProbe {
   if(host.equals("recovered-postgres"))url+="?options=-c%20default_transaction_read_only%3Doff";
   var ds=new DriverManagerDataSource(url,"pawday_recovery_test","TEST_ONLY_M63");
   var db=new JdbcTemplate(ds);db.setQueryTimeout(10);var tx=new TransactionTemplate(new DataSourceTransactionManager(ds));
-  var writer=new OutboxWriter(db);var source=new CatalogSearchSource(db,tx,writer);var catalog=new ConsumerCatalogService(db,null,tx);var projection=new BusinessSearchProjection(db,source,catalog,tx);
+  var writer=new OutboxWriter(db);var source=new CatalogSearchSource(db,tx,writer);var catalog=new ConsumerCatalogService(db,null,tx,new cn.pawday.pilot.PilotMaterials(new cn.pawday.pilot.PilotPolicy(new org.springframework.core.env.StandardEnvironment())));var projection=new BusinessSearchProjection(db,source,catalog,tx);
   var client=new OpenSearchClient("http://opensearch:9200",1000,"","");var aliases=new AliasManager(client);var lock=new SearchTopologyLock(ds);
   var policy=new SearchDeliveryPolicy(5,50,30000);var sync=new SearchSyncWorker(db,tx,client,policy,writer);
   var crypto=new Crypto(Base64.getEncoder().encodeToString(new byte[32]),Clock.systemUTC(),new DataEncryptionKeyRing("legacy",""));

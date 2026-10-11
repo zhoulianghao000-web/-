@@ -1,0 +1,169 @@
+{
+  "version": "cq-v1",
+  "merchants": 2,
+  "stores": 2,
+  "consumers": 20,
+  "skus": [
+    {
+      "number": 1,
+      "sku_id": "625d1da5-bdec-3807-835f-e5ea71f59fa8",
+      "standard_id": "7509e54f-454b-34d6-857c-e0a315777190",
+      "kind": "SYNTHETIC",
+      "label": "合成测试商品",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 2,
+      "sku_id": "b68fe5ed-2a3e-3597-97ae-29f0970d2231",
+      "standard_id": "0261a239-43df-3833-a456-e6df6ad9ea0e",
+      "kind": "SYNTHETIC",
+      "label": "合成测试商品",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 3,
+      "sku_id": "99e5310c-713c-33c4-b536-404d4ad76121",
+      "standard_id": "383aed99-0323-3053-a3af-82648cb44b15",
+      "kind": "SYNTHETIC",
+      "label": "合成测试商品",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 4,
+      "sku_id": "435d93b0-8cdf-3650-8178-a8cd0f172415",
+      "standard_id": "7451a1e9-3ae2-36e8-98ac-0c6c8d6a268d",
+      "kind": "SYNTHETIC",
+      "label": "合成测试商品",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 5,
+      "sku_id": "2252b544-9c26-3753-b9a7-1e0a174e0cc6",
+      "standard_id": "3a68177a-dbed-32b1-8bc5-329531fccd3c",
+      "kind": "SYNTHETIC",
+      "label": "合成测试商品",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 6,
+      "sku_id": "8ddb23c4-fc16-3d43-a004-cda8f8eb79a7",
+      "standard_id": "bbbaad62-6b0e-317e-876e-63752d3c0892",
+      "kind": "SYNTHETIC",
+      "label": "合成测试商品",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 7,
+      "sku_id": "821508d3-1d6f-3254-8070-007070e5042a",
+      "standard_id": "52c0cb2f-3bf6-3250-b36d-ece06b3ad3c4",
+      "kind": "SYNTHETIC",
+      "label": "合成测试商品",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 8,
+      "sku_id": "410526a7-fb8e-3a83-b9b7-42609f213412",
+      "standard_id": "118f4a94-6cb0-334a-b7e1-b59eb5fae920",
+      "kind": "SYNTHETIC",
+      "label": "合成测试商品",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 9,
+      "sku_id": "3400a4ef-be93-344a-9648-4b5812cbce8e",
+      "standard_id": "45cd06af-c000-3dd8-9ac0-ed1e837f0879",
+      "kind": "SYNTHETIC",
+      "label": "合成测试商品",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 10,
+      "sku_id": "497d29e1-f7b0-3c25-a25d-e39a15a4aeeb",
+      "standard_id": "d93047ba-af5e-3868-9708-7ce1f6036cdf",
+      "kind": "SYNTHETIC",
+      "label": "合成测试商品",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 11,
+      "sku_id": "74477239-6a19-3d20-b42f-ce4b7c8ba52a",
+      "standard_id": "46f1149c-1ac2-3f50-b1bb-5d368442a957",
+      "kind": "SYNTHETIC",
+      "label": "合成测试商品",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 12,
+      "sku_id": "a8caaf53-2b92-3498-a0b6-9d56fff94c1c",
+      "standard_id": "e234cbc6-6e77-3803-a493-f101958e7325",
+      "kind": "SYNTHETIC",
+      "label": "合成测试商品",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 13,
+      "sku_id": "dec6dfb7-c5a8-3f7d-af1e-b73fdbefcb2d",
+      "standard_id": "a8eebbf3-4126-3f1d-87a9-56136051a843",
+      "kind": "SYNTHETIC",
+      "label": "合成测试商品",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 14,
+      "sku_id": "3b2c7ab9-8b75-320e-a3f3-14ec9a3c6797",
+      "standard_id": "3ef66a8b-f735-356b-b17e-ca2752ac3e4d",
+      "kind": "SYNTHETIC",
+      "label": "合成测试商品",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 15,
+      "sku_id": "6407684c-4004-3774-8035-f462ca0ecfa9",
+      "standard_id": "93d3b029-b57e-3ff7-9063-7989c672d0a1",
+      "kind": "SYNTHETIC",
+      "label": "合成测试商品",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 16,
+      "sku_id": "34add763-0e15-3294-a6db-7ee57e35ed18",
+      "standard_id": "11f1e0bc-25e9-3f5f-aeeb-faeb4b00ed34",
+      "kind": "SYNTHETIC",
+      "label": "合成测试商品",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 17,
+      "sku_id": "b59785d2-72e7-3221-a181-a33e48b9737e",
+      "standard_id": "356836db-1bd6-39eb-a498-7db5bda974dd",
+      "kind": "UNVERIFIED",
+      "label": "未核验，仅供测试（合成场景）",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 18,
+      "sku_id": "14e56ac5-c6d0-3058-8cd6-836b650cf2b2",
+      "standard_id": "40ee9c4c-f78f-3243-8ef4-2928c0c1ebd0",
+      "kind": "UNVERIFIED",
+      "label": "未核验，仅供测试（合成场景）",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 19,
+      "sku_id": "89152f58-31a2-31ef-bc53-1f9688814047",
+      "standard_id": "b7d6c33f-da68-341f-83e6-d98f4abf9bfd",
+      "kind": "UNVERIFIED",
+      "label": "未核验，仅供测试（合成场景）",
+      "origin": "GENERATED_FIXTURE"
+    },
+    {
+      "number": 20,
+      "sku_id": "95de5106-6581-3556-b716-f8535351123d",
+      "standard_id": "52b43a4f-8ac2-3283-a940-795432bbd5c3",
+      "kind": "UNVERIFIED",
+      "label": "未核验，仅供测试（合成场景）",
+      "origin": "GENERATED_FIXTURE"
+    }
+  ],
+  "production_ready": false
+}

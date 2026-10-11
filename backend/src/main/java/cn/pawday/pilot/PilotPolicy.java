@@ -14,9 +14,11 @@ public final class PilotPolicy {
  public static final String CLIENT="simulated-v1";
  public static final Set<String> PHONES;
  static {var p=new HashSet<String>();for(int i=1;i<=20;i++)p.add("+999000000"+String.format(Locale.ROOT,"%03d",i));PHONES=Set.copyOf(p);}
- private final boolean enabled;private final Path root;
- public PilotPolicy(Environment env){enabled=env.getProperty("pawday.pilot.enabled",Boolean.class,false);root=enabled?Path.of(env.getProperty("pawday.pilot.root","")).toAbsolutePath().normalize():null;}
+ private final boolean enabled;private final Path root;private volatile boolean baselineReady;
+ public PilotPolicy(Environment env){enabled=env.getProperty("pawday.pilot.enabled",Boolean.class,false);baselineReady=!enabled||!env.getProperty("pawday.demo.enabled",Boolean.class,false);root=enabled?Path.of(env.getProperty("pawday.pilot.root","")).toAbsolutePath().normalize():null;}
  public boolean enabled(){return enabled;}
+ public boolean ready(){return baselineReady;}
+ void baselineReady(){baselineReady=true;}
  public boolean paused(){return enabled&&Files.exists(root.resolve("PAUSED"));}
  public boolean allowed(String realm,String identity){return !enabled||(identity!=null&&switch(realm){case "CONSUMER"->PHONES.contains(identity);case "MERCHANT"->Set.of("local-staff-a","local-staff-b").contains(identity);case "ADMIN"->"local-admin".equals(identity);default->false;});}
  public void require(String realm,String identity){if(!allowed(realm,identity))throw new Failure(403,"PILOT_ACCOUNT_NOT_ALLOWED");if(paused())throw new Failure(503,"PILOT_PAUSED");}

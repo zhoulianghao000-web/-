@@ -40,3 +40,5 @@ openapi/m54-validation-report.json
 .local-privacy-export/
 
 /.pilot/
+
+/openapi/m662-validation-report.json

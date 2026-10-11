@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 
 /** Explicit local-only fixtures. Credentials never have defaults or appear in logs. */
+@org.springframework.core.annotation.Order(-100)
 @Component
 @Profile("local & !production")
 @ConditionalOnProperty(name="pawday.demo.enabled",havingValue="true")

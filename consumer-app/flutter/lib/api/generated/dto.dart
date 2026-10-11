@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 fca63c72d8ca6feb52df2ef91a7d2e5bf176b2715a6548bb4c24d504f6f3c41a
+// Generated from Pawday runtime OpenAPI; SHA256 ab501c838eb8e6c5542fbe829cf98c2a39e2ae18982152fd5e68980a31e7dc1d
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -1726,7 +1726,8 @@ class CatalogStandard {
   final String created_by;
   final String created_at;
   final String? published_at;
-  const CatalogStandard({required this.id, required this.sku_id, required this.version_no, required this.status, required this.ingredients, required this.nutrients, required this.allergen_ids, required this.allergens_known, required this.life_stage_ids, required this.source_refs, required this.source_updated_on, required this.created_by, required this.created_at, required this.published_at});
+  final PilotMaterial? pilot_material;
+  const CatalogStandard({required this.id, required this.sku_id, required this.version_no, required this.status, required this.ingredients, required this.nutrients, required this.allergen_ids, required this.allergens_known, required this.life_stage_ids, required this.source_refs, required this.source_updated_on, required this.created_by, required this.created_at, required this.published_at, this.pilot_material});
   factory CatalogStandard.fromJson(Map<String,dynamic> json) => CatalogStandard(
     id: json['id'] as String,
     sku_id: json['sku_id'] as String,
@@ -1742,6 +1743,7 @@ class CatalogStandard {
     created_by: json['created_by'] as String,
     created_at: json['created_at'] as String,
     published_at: json['published_at'] == null ? null : json['published_at'] as String,
+    pilot_material: json['pilot_material'] == null ? null : PilotMaterial.fromJson(Map<String,dynamic>.from(json['pilot_material'] as Map)),
   );
   Map<String,dynamic> toJson() => {
     'id': id,
@@ -1758,6 +1760,7 @@ class CatalogStandard {
     'created_by': created_by,
     'created_at': created_at,
     'published_at': published_at == null ? null : published_at!,
+    if (pilot_material != null) 'pilot_material': pilot_material == null ? null : pilot_material!.toJson(),
   };
 }
 
@@ -2660,7 +2663,8 @@ class ConsumerStandard {
   final String source_updated_on;
   final String published_at;
   final List<PublicAllergen> allergens;
-  const ConsumerStandard({required this.id, required this.spu_id, required this.sku_code, required this.weight_g, required this.package_unit, required this.name, required this.pet_category, required this.category, required this.brand, required this.catalog_standard_version_id, required this.ingredients, required this.nutrients, required this.allergens_known, required this.life_stage_ids, required this.source_refs, required this.source_updated_on, required this.published_at, required this.allergens});
+  final PilotMaterial? pilot_material;
+  const ConsumerStandard({required this.id, required this.spu_id, required this.sku_code, required this.weight_g, required this.package_unit, required this.name, required this.pet_category, required this.category, required this.brand, required this.catalog_standard_version_id, required this.ingredients, required this.nutrients, required this.allergens_known, required this.life_stage_ids, required this.source_refs, required this.source_updated_on, required this.published_at, required this.allergens, this.pilot_material});
   factory ConsumerStandard.fromJson(Map<String,dynamic> json) => ConsumerStandard(
     id: json['id'] as String,
     spu_id: json['spu_id'] as String,
@@ -2680,6 +2684,7 @@ class ConsumerStandard {
     source_updated_on: json['source_updated_on'] as String,
     published_at: json['published_at'] as String,
     allergens: (json['allergens'] as List).map((value) => PublicAllergen.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    pilot_material: json['pilot_material'] == null ? null : PilotMaterial.fromJson(Map<String,dynamic>.from(json['pilot_material'] as Map)),
   );
   Map<String,dynamic> toJson() => {
     'id': id,
@@ -2700,6 +2705,7 @@ class ConsumerStandard {
     'source_updated_on': source_updated_on,
     'published_at': published_at,
     'allergens': allergens.map((value) => value.toJson()).toList(),
+    if (pilot_material != null) 'pilot_material': pilot_material == null ? null : pilot_material!.toJson(),
   };
 }
 
@@ -2723,7 +2729,8 @@ class ConsumerProduct {
   final String published_at;
   final List<PublicAllergen> allergens;
   final List<ConsumerOffer> offers;
-  const ConsumerProduct({required this.id, required this.spu_id, required this.sku_code, required this.weight_g, required this.package_unit, required this.name, required this.pet_category, required this.category, required this.brand, required this.catalog_standard_version_id, required this.ingredients, required this.nutrients, required this.allergens_known, required this.life_stage_ids, required this.source_refs, required this.source_updated_on, required this.published_at, required this.allergens, required this.offers});
+  final PilotMaterial? pilot_material;
+  const ConsumerProduct({required this.id, required this.spu_id, required this.sku_code, required this.weight_g, required this.package_unit, required this.name, required this.pet_category, required this.category, required this.brand, required this.catalog_standard_version_id, required this.ingredients, required this.nutrients, required this.allergens_known, required this.life_stage_ids, required this.source_refs, required this.source_updated_on, required this.published_at, required this.allergens, required this.offers, this.pilot_material});
   factory ConsumerProduct.fromJson(Map<String,dynamic> json) => ConsumerProduct(
     id: json['id'] as String,
     spu_id: json['spu_id'] as String,
@@ -2744,6 +2751,7 @@ class ConsumerProduct {
     published_at: json['published_at'] as String,
     allergens: (json['allergens'] as List).map((value) => PublicAllergen.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
     offers: (json['offers'] as List).map((value) => ConsumerOffer.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    pilot_material: json['pilot_material'] == null ? null : PilotMaterial.fromJson(Map<String,dynamic>.from(json['pilot_material'] as Map)),
   );
   Map<String,dynamic> toJson() => {
     'id': id,
@@ -2765,6 +2773,7 @@ class ConsumerProduct {
     'published_at': published_at,
     'allergens': allergens.map((value) => value.toJson()).toList(),
     'offers': offers.map((value) => value.toJson()).toList(),
+    if (pilot_material != null) 'pilot_material': pilot_material == null ? null : pilot_material!.toJson(),
   };
 }
 
@@ -2810,7 +2819,8 @@ class ProductFit {
   final String catalog_standard_version_id;
   final String fit_rule_version;
   final String? life_stage_id;
-  const ProductFit({required this.sku_id, required this.pet_id, required this.pet_version, required this.result, required this.display_label, required this.hard_conflicts, required this.uncertainties, required this.catalog_standard_version_id, required this.fit_rule_version, required this.life_stage_id});
+  final PilotMaterial? pilot_material;
+  const ProductFit({required this.sku_id, required this.pet_id, required this.pet_version, required this.result, required this.display_label, required this.hard_conflicts, required this.uncertainties, required this.catalog_standard_version_id, required this.fit_rule_version, required this.life_stage_id, this.pilot_material});
   factory ProductFit.fromJson(Map<String,dynamic> json) => ProductFit(
     sku_id: json['sku_id'] as String,
     pet_id: json['pet_id'] as String,
@@ -2822,6 +2832,7 @@ class ProductFit {
     catalog_standard_version_id: json['catalog_standard_version_id'] as String,
     fit_rule_version: json['fit_rule_version'] as String,
     life_stage_id: json['life_stage_id'] == null ? null : json['life_stage_id'] as String,
+    pilot_material: json['pilot_material'] == null ? null : PilotMaterial.fromJson(Map<String,dynamic>.from(json['pilot_material'] as Map)),
   );
   Map<String,dynamic> toJson() => {
     'sku_id': sku_id,
@@ -2834,6 +2845,7 @@ class ProductFit {
     'catalog_standard_version_id': catalog_standard_version_id,
     'fit_rule_version': fit_rule_version,
     'life_stage_id': life_stage_id == null ? null : life_stage_id!,
+    if (pilot_material != null) 'pilot_material': pilot_material == null ? null : pilot_material!.toJson(),
   };
 }
 
@@ -8640,6 +8652,78 @@ class AiPolicyEnvelope {
   };
 }
 
+class PilotMaterial {
+  final String kind;
+  final String label;
+  final bool generated_fixture;
+  final bool production_approved;
+  final String baseline_version;
+  final String? media_path;
+  const PilotMaterial({required this.kind, required this.label, required this.generated_fixture, required this.production_approved, required this.baseline_version, required this.media_path});
+  factory PilotMaterial.fromJson(Map<String,dynamic> json) => PilotMaterial(
+    kind: json['kind'] as String,
+    label: json['label'] as String,
+    generated_fixture: json['generated_fixture'] as bool,
+    production_approved: json['production_approved'] as bool,
+    baseline_version: json['baseline_version'] as String,
+    media_path: json['media_path'] == null ? null : json['media_path'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'kind': kind,
+    'label': label,
+    'generated_fixture': generated_fixture,
+    'production_approved': production_approved,
+    'baseline_version': baseline_version,
+    'media_path': media_path == null ? null : media_path!,
+  };
+}
+
+class PilotBaseline {
+  final String baseline_version;
+  final String definition_sha256;
+  final int merchant_count;
+  final int store_count;
+  final int consumer_count;
+  final int sku_count;
+  final bool generated_fixture;
+  final bool production_approved;
+  const PilotBaseline({required this.baseline_version, required this.definition_sha256, required this.merchant_count, required this.store_count, required this.consumer_count, required this.sku_count, required this.generated_fixture, required this.production_approved});
+  factory PilotBaseline.fromJson(Map<String,dynamic> json) => PilotBaseline(
+    baseline_version: json['baseline_version'] as String,
+    definition_sha256: json['definition_sha256'] as String,
+    merchant_count: (json['merchant_count'] as num).toInt(),
+    store_count: (json['store_count'] as num).toInt(),
+    consumer_count: (json['consumer_count'] as num).toInt(),
+    sku_count: (json['sku_count'] as num).toInt(),
+    generated_fixture: json['generated_fixture'] as bool,
+    production_approved: json['production_approved'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'baseline_version': baseline_version,
+    'definition_sha256': definition_sha256,
+    'merchant_count': merchant_count,
+    'store_count': store_count,
+    'consumer_count': consumer_count,
+    'sku_count': sku_count,
+    'generated_fixture': generated_fixture,
+    'production_approved': production_approved,
+  };
+}
+
+class PilotBaselineEnvelope {
+  final PilotBaseline data;
+  final Meta meta;
+  const PilotBaselineEnvelope({required this.data, required this.meta});
+  factory PilotBaselineEnvelope.fromJson(Map<String,dynamic> json) => PilotBaselineEnvelope(
+    data: PilotBaseline.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -8944,4 +9028,6 @@ class ApiRoutes {
   static const post_admin_ai_prompts__version_id__activate = '/admin/ai/prompts/{version_id}/activate';
   static const post_admin_ai_prompts__version_id__rollback = '/admin/ai/prompts/{version_id}/rollback';
   static const post_admin_ai_policies_versions = '/admin/ai/policies/versions';
+  static const get_consumer_pilot_baseline = '/consumer/pilot/baseline';
+  static const get_consumer_pilot_sku_media = '/consumer/pilot/skus/{sku_id}/media';
 }
