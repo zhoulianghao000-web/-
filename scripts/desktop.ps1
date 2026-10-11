@@ -1,7 +1,9 @@
 param([ValidateSet('Start','Stop','Status','Accounts')][string]$Action='Start',[switch]$NoBrowser)
 $ErrorActionPreference='Stop'
 $taskRoot=[IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
-$round='desktop-v1';$roundRoot=Join-Path $taskRoot '.pilot/desktop-v1';$config=Join-Path $roundRoot 'config.env';$stateFile=Join-Path $roundRoot 'desktop-processes.json'
+$hash=[Security.Cryptography.SHA256]::Create()
+try{$rootId=([BitConverter]::ToString($hash.ComputeHash([Text.Encoding]::UTF8.GetBytes($taskRoot.ToLowerInvariant())))).Replace('-','').Substring(0,12).ToLowerInvariant()}finally{$hash.Dispose()}
+$round='desktop-'+$rootId;$roundRoot=Join-Path $taskRoot ('.pilot/'+$round);$config=Join-Path $roundRoot 'config.env';$stateFile=Join-Path $roundRoot 'desktop-processes.json';$project='pawday-pilot-'+$round
 $node=Join-Path $taskRoot 'runtime/node/node.exe';$java=Join-Path $taskRoot 'runtime/java/bin/java.exe';$jar=Join-Path $taskRoot 'release/pawday-backend.jar'
 function Get-LocalIdentity([int]$Port){try{Invoke-RestMethod -Uri "http://127.0.0.1:$Port/desktop-identity" -TimeoutSec 2}catch{return $null}}
 function Owns-Process($Entry){
@@ -70,21 +72,21 @@ $processes=@();$ownedInfrastructure=$false
 Push-Location $taskRoot
 try{
  Write-Host 'Starting dedicated PostgreSQL / Redis / RabbitMQ / OpenSearch...'
- $occupied=& docker compose -p pawday-pilot-desktop-v1 -f compose.pilot.yaml ps -q
+ $occupied=& docker compose -p $project -f compose.pilot.yaml ps -q
  if($occupied){throw 'This project already has containers. Use its Stop command before restarting.'}
  $ownedInfrastructure=$true
- & docker compose -p pawday-pilot-desktop-v1 -f compose.pilot.yaml up -d --wait --wait-timeout 300
+ & docker compose -p $project -f compose.pilot.yaml up -d --wait --wait-timeout 300
  if($LASTEXITCODE -ne 0){throw 'Infrastructure failed health checks.'}
  Write-Host 'Starting local application...'
  $backend=Start-Process -FilePath $java -ArgumentList @('-jar',('"'+$jar+'"')) -WorkingDirectory $taskRoot -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $roundRoot 'backend.log') -RedirectStandardError (Join-Path $roundRoot 'backend-error.log')
  $processes+=@{id=$backend.Id;started_at=$backend.StartTime.ToUniversalTime().ToString('o')}
  $healthy=$false
  for($attempt=0;$attempt -lt 150;$attempt++){
-  if($backend.HasExited){throw 'Backend exited. Check .pilot/desktop-v1/backend.log.'}
+  if($backend.HasExited){throw 'Backend exited. Check backend.log in this delivery private .pilot round.'}
   try{$health=Invoke-RestMethod -Uri 'http://127.0.0.1:8086/actuator/health' -TimeoutSec 2;if($health.status -eq 'UP'){$healthy=$true;break}}catch{}
   Start-Sleep -Seconds 1
  }
- if(-not $healthy){throw 'Backend health timeout. Check .pilot/desktop-v1/backend.log.'}
+ if(-not $healthy){throw 'Backend health timeout. Check backend.log in this delivery private .pilot round.'}
  $web=Start-Process -FilePath $node -ArgumentList @(('"'+(Join-Path $PSScriptRoot 'desktop-server.mjs')+'"'),('"'+$taskRoot+'"')) -WorkingDirectory $taskRoot -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $roundRoot 'desktop.log') -RedirectStandardError (Join-Path $roundRoot 'desktop-error.log')
  $processes+=@{id=$web.Id;started_at=$web.StartTime.ToUniversalTime().ToString('o')}
  for($attempt=0;$attempt -lt 15;$attempt++){if(Get-LocalIdentity 4172){break};Start-Sleep -Seconds 1}
@@ -94,6 +96,6 @@ try{
  Write-Host 'PawdayV1 is ready. http://127.0.0.1:4172'
 }catch{
  foreach($entry in $processes){if(Owns-Process $entry){Stop-Process -Id $entry.id -ErrorAction SilentlyContinue}}
- if($ownedInfrastructure){& docker compose -p pawday-pilot-desktop-v1 -f compose.pilot.yaml down}
+ if($ownedInfrastructure){& docker compose -p $project -f compose.pilot.yaml down}
  throw
 }finally{Pop-Location}
