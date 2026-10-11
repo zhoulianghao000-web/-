@@ -12,10 +12,15 @@ async function editFlutterText(page:Page,name:string|RegExp,value:string){
   const field=page.getByRole('textbox',{name:label});
   // These flows keep several pages open. A click during Flutter's route/focus
   // transition does not guarantee that page.keyboard targets this editor.
-  await page.bringToFront();await field.click();await field.focus();
-  await expect(field).toBeFocused();
-  // Semantics activates the text editing strategy on a rendering update.
-  await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));
+  await page.bringToFront();
+  // A pending route/data rebuild can replace the semantics editor after the
+  // click. Reacquire and focus the live editor until a rendering update keeps
+  // it active; retain the actual focus/value and backend payload assertions.
+  await expect.poll(async()=>{
+    await field.click();await field.focus();
+    await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));
+    return field.evaluate(el=>document.activeElement===el);
+  },{timeout:15000,intervals:[100,250,500]}).toBe(true);
   await expect(field).toBeFocused();await field.fill(value);
   await expect(field).toHaveValue(value);await field.press('Tab');
   await expect(field).toHaveValue(value);
