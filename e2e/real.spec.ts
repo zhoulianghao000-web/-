@@ -6,11 +6,16 @@ import {test,expect,type Page} from '@playwright/test';
 test.skip(!process.env.PAWDAY_REAL_E2E,'Run in the mandatory real-infrastructure CI job');
 test.use({actionTimeout:15000});
 async function editFlutterText(page:Page,name:string|RegExp,value:string){
-  await page.getByRole('textbox',{name,exact:typeof name==='string'}).click();
-  // Flutter activates its focused editor during rendering; early input can lose the first character.
+  const field=page.getByRole('textbox',{name,exact:typeof name==='string'});
+  // These flows keep several pages open. A click during Flutter's route/focus
+  // transition does not guarantee that page.keyboard targets this editor.
+  await page.bringToFront();await field.click();await field.focus();
+  await expect(field).toBeFocused();
+  // Semantics activates the text editing strategy on a rendering update.
   await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));
-  await page.keyboard.press('ControlOrMeta+A');await page.keyboard.insertText(value);await page.keyboard.press('Tab');
-  await expect(page.getByRole('textbox',{name,exact:typeof name==='string'})).toHaveValue(value);
+  await expect(field).toBeFocused();await field.fill(value);
+  await expect(field).toHaveValue(value);await field.press('Tab');
+  await expect(field).toHaveValue(value);
 }
 function totp(){
   const secret=process.env.PAWDAY_DEMO_ADMIN_TOTP_BASE64;
@@ -161,7 +166,7 @@ test('real administrator TOTP, catalog publication, merchant correction and revi
   const aiContext=await browser.newContext({viewport:{width:430,height:900}}),aiPage=await aiContext.newPage();await aiPage.goto(`http://127.0.0.1:5173/consumer-preview/index.html#/ai?sku_id=${selectedSku}`);await aiPage.locator('flt-semantics-placeholder').waitFor({state:'attached',timeout:30000});await aiPage.locator('flt-semantics-placeholder').evaluate((el:HTMLElement)=>el.click());
   const aiPhone='+8613900000055';await editFlutterText(aiPage,'手机号',aiPhone);await aiPage.getByRole('checkbox').click();await expect(aiPage.getByRole('checkbox')).toHaveAttribute('aria-checked','true');await expect(aiPage.getByRole('textbox',{name:'手机号',exact:true})).toHaveValue(aiPhone);const aiCodeRequest=aiPage.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/consumer/auth/phone/request-code'));await aiPage.getByRole('button',{name:'发送验证码',exact:true}).click();expect((await aiCodeRequest).ok()).toBe(true);let aiOtp='';await expect.poll(async()=>{for(const name of await readdir(sms)){const lines=(await readFile(join(sms,name),'utf8')).split(/\r?\n/);if(lines[0]===aiPhone)aiOtp=lines[1]??'';}return aiOtp.length;},{timeout:30000,intervals:[250]}).toBe(6);
   await editFlutterText(aiPage,'验证码',aiOtp);await aiPage.getByRole('button',{name:'登录',exact:true}).click();await expect(aiPage.getByRole('heading',{name:'AI 商品资料解释',exact:true})).toBeVisible();
-  await editFlutterText(aiPage,/想了解什么/,'30元以内的配料说明');const explained=aiPage.waitForResponse(r=>r.request().method()==='POST'&&r.url().includes('/consumer/ai/conversations/')&&r.url().endsWith('/messages'));await aiPage.getByRole('button',{name:'发送问题',exact:true}).click();const grounded=(await(await explained).json()).data;expect(grounded.product_cards[0].sku_id).toBe(selectedSku);expect(grounded.product_cards[0].fit_result).toBe('INSUFFICIENT_DATA');await expect(aiPage.getByText(/已根据平台核对过的商品资料整理/)).toBeVisible();await aiPage.screenshot({path:'frontend-evidence/m55-real-consumer-ai.png',fullPage:true});
+  await editFlutterText(aiPage,/想了解什么/,'30元以内的配料说明');const explained=aiPage.waitForResponse(r=>r.request().method()==='POST'&&r.url().includes('/consumer/ai/conversations/')&&r.url().endsWith('/messages'));await aiPage.getByRole('button',{name:'发送问题',exact:true}).click();const explanationResponse=await explained;expect(explanationResponse.request().postDataJSON().text).toBe('30元以内的配料说明');const grounded=(await explanationResponse.json()).data;expect(grounded.user_text).toBe('30元以内的配料说明');expect(grounded.product_cards[0].sku_id).toBe(selectedSku);expect(grounded.product_cards[0].fit_result).toBe('INSUFFICIENT_DATA');await expect(aiPage.getByText(/已根据平台核对过的商品资料整理/)).toBeVisible();await aiPage.screenshot({path:'frontend-evidence/m55-real-consumer-ai.png',fullPage:true});
   await aiPage.getByRole('button',{name:'清除当前 AI 会话',exact:true}).click();await aiPage.getByRole('button',{name:'清除会话',exact:true}).click();await expect(aiPage.getByText(/已根据平台核对过的商品资料整理/)).toHaveCount(0);await aiContext.close();
   await context.close();
 });
