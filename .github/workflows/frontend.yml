@@ -20,6 +20,10 @@ jobs:
       - run: pnpm generate:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm exec playwright test e2e/web.spec.ts
+      - name: Actual pilot staff browser label and client contract gate
+        run: VITE_PAWDAY_PILOT=true pnpm exec playwright test e2e/pilot.spec.ts
+      - name: Build explicitly marked pilot staff clients
+        run: VITE_PAWDAY_PILOT=true pnpm build
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -49,7 +53,10 @@ jobs:
         working-directory: consumer-app/flutter
       - run: flutter build web --release --dart-define=PAWDAY_API_BASE=https://api.pawday.example/api/v1
         working-directory: consumer-app/flutter
-      - run: flutter build apk --debug
+      - name: Pilot build-specific no-external-launch and environment contract tests
+        run: flutter test --dart-define=PAWDAY_PILOT=true test_pilot/pilot_mode_test.dart
+        working-directory: consumer-app/flutter
+      - run: flutter build apk --debug --dart-define=PAWDAY_PILOT=true --dart-define=PAWDAY_API_BASE=http://127.0.0.1:8086/api/v1
         working-directory: consumer-app/flutter
       - uses: actions/upload-artifact@v4
         if: always()
@@ -117,7 +124,7 @@ jobs:
       - name: Start backend and require aggregate health
         run: |
           mkdir -p frontend-evidence
-          java -jar backend/target/pawday-backend-0.6.5-SNAPSHOT.jar > frontend-evidence/backend.log 2>&1 &
+          java -jar backend/target/pawday-backend-0.6.6-SNAPSHOT.jar > frontend-evidence/backend.log 2>&1 &
           echo "PAWDAY_REAL_SMS_DIRECTORY=$GITHUB_WORKSPACE/.local-sms" >> "$GITHUB_ENV"
           for attempt in $(seq 1 120); do
             if curl --fail --silent http://127.0.0.1:8080/actuator/health > frontend-evidence/health.json; then exit 0; fi

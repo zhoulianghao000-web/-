@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 
 import 'generated/dto.dart';
+import '../pilot.dart';
 
 abstract interface class SessionVault {
   Future<String?> read(String key);
@@ -97,7 +98,8 @@ class ConsumerApi {
     return (
       uri: _url(path.substring('/api/v1'.length)),
       headers: {
-        if (!anonymous && _tokens != null)
+        if (pilotMode) 'X-Pawday-Pilot': 'simulated-v1',
+        if ((!anonymous || pilotMode) && _tokens != null)
           'Authorization': 'Bearer ${_tokens!.access_token}',
       },
     );
@@ -215,10 +217,20 @@ class ConsumerApi {
     String? idempotencyKey,
     int? version,
   }) async {
+    // Public catalog is private in pilot, but login/refresh must never carry stale bearer.
+    if (pilotMode &&
+        ![
+          '/consumer/auth/phone/request-code',
+          '/consumer/auth/phone/verify',
+          '/consumer/auth/refresh',
+        ].contains(path)) {
+      anonymous = false;
+    }
     final epoch = _epoch, access = _tokens?.access_token;
     Future<http.Response> send() async {
       final request = http.Request(method, _url(path));
       request.headers['X-Request-ID'] = const Uuid().v4();
+      if (pilotMode) request.headers['X-Pawday-Pilot'] = 'simulated-v1';
       if (!anonymous && _tokens != null) {
         request.headers['Authorization'] = 'Bearer ${_tokens!.access_token}';
       }
@@ -255,6 +267,10 @@ class ConsumerApi {
         throw const ApiFailure(401, 'SESSION_CHANGED');
       }
     }
+    if (pilotMode &&
+        response.headers['x-pawday-environment'] != 'SIMULATED_PILOT') {
+      throw const ApiFailure(409, 'PILOT_ENVIRONMENT_MISMATCH');
+    }
     if (response.statusCode < 200 || response.statusCode >= 300) {
       if (response.statusCode == 401 && !anonymous && epoch == _epoch) {
         await clear();
@@ -269,6 +285,9 @@ class ConsumerApi {
   }
 
   Uri publicMediaUri(String path) {
+    if (pilotMode) {
+      throw const ApiFailure(403, 'PILOT_AUTHENTICATED_MEDIA_REQUIRED');
+    }
     if (!RegExp(
       r'^/api/v1/public/(reviews|content)/[0-9a-f-]{36}/media/[0-9a-f-]{36}$',
     ).hasMatch(path)) {
@@ -317,6 +336,7 @@ class ConsumerApi {
       'Content-Type': mime,
       'X-Upload-Token': grant.upload_token,
       'X-Request-ID': const Uuid().v4(),
+      if (pilotMode) 'X-Pawday-Pilot': 'simulated-v1',
     });
     upload.bodyBytes = bytes;
     try {
@@ -348,7 +368,8 @@ class ConsumerApi {
     Future<http.StreamedResponse> send() {
       final req = http.Request('GET', _url(path.substring('/api/v1'.length)));
       req.headers['X-Request-ID'] = const Uuid().v4();
-      if (!anonymous && _tokens != null) {
+      if (pilotMode) req.headers['X-Pawday-Pilot'] = 'simulated-v1';
+      if ((!anonymous || pilotMode) && _tokens != null) {
         req.headers['Authorization'] = 'Bearer ${_tokens!.access_token}';
       }
       return transport.send(req).timeout(const Duration(seconds: 10));
