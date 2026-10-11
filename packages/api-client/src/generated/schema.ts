@@ -1,4 +1,4 @@
-// Generated from pawday-m5.5.yaml; SHA256 fca63c72d8ca6feb52df2ef91a7d2e5bf176b2715a6548bb4c24d504f6f3c41a
+// Generated from pawday-m6.6.2.yaml; SHA256 ab501c838eb8e6c5542fbe829cf98c2a39e2ae18982152fd5e68980a31e7dc1d
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -4608,6 +4608,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/consumer/pilot/baseline": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read pilot baseline version */
+        get: operations["get_consumer_pilot_baseline"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/pilot/skus/{sku_id}/media": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read invited pilot image */
+        get: operations["get_consumer_pilot_sku_media"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -5261,6 +5295,7 @@ export interface components {
             /** Format: date-time */
             created_at: string;
             published_at: string | null;
+            pilot_material?: components["schemas"]["PilotMaterial"];
         };
         CatalogSkuDetail: {
             /** Format: uuid */
@@ -5608,6 +5643,7 @@ export interface components {
             /** Format: date-time */
             published_at: string;
             allergens: components["schemas"]["PublicAllergen"][];
+            pilot_material?: components["schemas"]["PilotMaterial"];
         };
         ConsumerProduct: {
             /** Format: uuid */
@@ -5635,6 +5671,7 @@ export interface components {
             published_at: string;
             allergens: components["schemas"]["PublicAllergen"][];
             offers: components["schemas"]["ConsumerOffer"][];
+            pilot_material?: components["schemas"]["PilotMaterial"];
         };
         ConsumerSpu: {
             /** Format: uuid */
@@ -5664,6 +5701,7 @@ export interface components {
             /** @constant */
             fit_rule_version: "pawday-fit-1";
             life_stage_id: string | null;
+            pilot_material?: components["schemas"]["PilotMaterial"];
         };
         CompareInput: {
             sku_ids: string[];
@@ -7823,6 +7861,38 @@ export interface components {
         };
         AiPolicyEnvelope: {
             data: components["schemas"]["AiPolicy"];
+            meta: components["schemas"]["Meta"];
+        };
+        PilotMaterial: {
+            /** @enum {string} */
+            kind: "SYNTHETIC" | "UNVERIFIED";
+            label: string;
+            generated_fixture: boolean;
+            /** @constant */
+            production_approved: false;
+            /** @constant */
+            baseline_version: "cq-v1";
+            media_path: string | null;
+        };
+        PilotBaseline: {
+            /** @constant */
+            baseline_version: "cq-v1";
+            definition_sha256: string;
+            /** @constant */
+            merchant_count: 2;
+            /** @constant */
+            store_count: 2;
+            /** @constant */
+            consumer_count: 20;
+            /** @constant */
+            sku_count: 20;
+            /** @constant */
+            generated_fixture: true;
+            /** @constant */
+            production_approved: false;
+        };
+        PilotBaselineEnvelope: {
+            data: components["schemas"]["PilotBaseline"];
             meta: components["schemas"]["Meta"];
         };
     };
@@ -38595,6 +38665,160 @@ export interface operations {
                 };
             };
             /** @description Rejected without leaking unpublished or private resource data */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_consumer_pilot_baseline: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Pawday-Pilot": "simulated-v1";
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Versioned synthetic round summary without identity lists */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PilotBaselineEnvelope"];
+                };
+            };
+            /** @description Rejected without exposing private media */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without exposing private media */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without exposing private media */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without exposing private media */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without exposing private media */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without exposing private media */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_consumer_pilot_sku_media: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Pawday-Pilot": "simulated-v1";
+            };
+            path: {
+                sku_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authenticated generated image; current published reference only */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "image/png": string;
+                };
+            };
+            /** @description Rejected without exposing private media */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without exposing private media */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without exposing private media */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without exposing private media */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without exposing private media */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without exposing private media */
             503: {
                 headers: {
                     [name: string]: unknown;

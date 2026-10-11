@@ -1,0 +1,39 @@
+{
+  "result": "PASS",
+  "operations": 305,
+  "new_pilot_operations": 2,
+  "actual_http_responses_validated": 7,
+  "covered_responses": [
+    [
+      "get",
+      "/consumer/pilot/baseline",
+      "200"
+    ],
+    [
+      "get",
+      "/consumer/pilot/baseline",
+      "401"
+    ],
+    [
+      "get",
+      "/consumer/pilot/skus/{sku_id}/media",
+      "200"
+    ],
+    [
+      "get",
+      "/consumer/skus/{id}/fit",
+      "200"
+    ],
+    [
+      "get",
+      "/consumer/skus/{id}/fit",
+      "404"
+    ],
+    [
+      "get",
+      "/public/skus/{id}",
+      "200"
+    ]
+  ],
+  "binary_responses_validated": 1
+}

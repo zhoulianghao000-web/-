@@ -111,7 +111,7 @@ public class MediaService {
         }));
         if(work)cleanup(id);return metadata(id);
     }
-    private boolean jdbcUsage(UUID id){return db.queryForObject("SELECT count(*) FROM media_asset_usage WHERE asset_id=?",Integer.class,id)>0;}
+    private boolean jdbcUsage(UUID id){return db.queryForObject("SELECT (SELECT count(*) FROM media_asset_usage WHERE asset_id=?)+(SELECT count(*) FROM sku_standard_versions WHERE status='PUBLISHED' AND source_refs @> ?::jsonb)",Integer.class,id,"[\"pawday-pilot-media:"+id+"\"]")>0;}
     /** One short DB claim, provider IO, then fenced DB completion. Safe for multiple schedulers. */
     private void cleanup(UUID preferred) {
         UUID token=UUID.randomUUID();Instant now=clock.instant();

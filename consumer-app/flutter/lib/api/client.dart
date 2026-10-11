@@ -83,6 +83,63 @@ class ConsumerApi {
     }
   }
   bool get authenticated => _tokens != null;
+  Future<Uint8List> pilotProductMedia(String sku) async {
+    if (!pilotMode || !RegExp(r'^[0-9a-f-]{36}$').hasMatch(sku)) {
+      throw const ApiFailure(403, 'INVALID_API_DESTINATION');
+    }
+    if (_tokens == null) throw const ApiFailure(401, 'AUTH_REQUIRED');
+    final epoch = _epoch, access = _tokens!.access_token;
+    Future<Uint8List> read(bool retried) async {
+      final request = http.Request(
+        'GET',
+        _url('/consumer/pilot/skus/$sku/media'),
+      );
+      request.headers.addAll({
+        'Authorization': 'Bearer ${_tokens?.access_token ?? ''}',
+        'X-Pawday-Pilot': 'simulated-v1',
+        'X-Request-ID': const Uuid().v4(),
+      });
+      final response = await transport.send(request);
+      if (epoch != _epoch) {
+        await response.stream.drain<void>();
+        throw const ApiFailure(401, 'SESSION_CHANGED');
+      }
+      if (response.headers['x-pawday-environment'] != 'SIMULATED_PILOT') {
+        await response.stream.drain<void>();
+        throw const ApiFailure(409, 'PILOT_ENVIRONMENT_MISMATCH');
+      }
+      if (response.statusCode == 401 && !retried) {
+        await response.stream.drain<void>();
+        if (access == _tokens?.access_token) await refresh();
+        if (epoch != _epoch || _tokens == null) {
+          throw const ApiFailure(401, 'SESSION_CHANGED');
+        }
+        return read(true);
+      }
+      if (response.statusCode != 200 ||
+          response.headers['content-type']?.split(';').first != 'image/png') {
+        await response.stream.drain<void>();
+        throw ApiFailure(response.statusCode, 'PILOT_MEDIA_UNAVAILABLE');
+      }
+      final bytes = BytesBuilder();
+      await for (final part in response.stream) {
+        if (epoch != _epoch) throw const ApiFailure(401, 'SESSION_CHANGED');
+        if (bytes.length + part.length > 5242880) {
+          throw const ApiFailure(413, 'UPLOAD_TOO_LARGE');
+        }
+        bytes.add(part);
+      }
+      if (epoch != _epoch) throw const ApiFailure(401, 'SESSION_CHANGED');
+      return bytes.takeBytes();
+    }
+
+    try {
+      return await read(false).timeout(const Duration(seconds: 15));
+    } on TimeoutException {
+      throw const ApiFailure(0, 'NETWORK_TIMEOUT', retryable: true);
+    }
+  }
+
   ({Uri uri, Map<String, String> headers}) mediaSource(
     String path, {
     bool anonymous = false,

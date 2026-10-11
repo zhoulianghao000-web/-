@@ -9,6 +9,8 @@ import 'api/generated/dto.dart';
 import 'api/client.dart';
 import 'catalog_repository.dart';
 import 'repositories.dart';
+import 'pilot.dart';
+import 'pilot_product_media.dart';
 
 class CatalogScreen extends ConsumerStatefulWidget {
   const CatalogScreen({super.key});
@@ -112,7 +114,11 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
                           '${item.standard.name} · ${item.standard.sku_code}',
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text('配料：${item.standard.ingredients.join('、')}'),
+                        if (item.standard.pilot_material != null)
+                          Text(item.standard.pilot_material!.label),
+                        Text(
+                          '配料：${item.standard.ingredients.isEmpty ? '信息不足' : item.standard.ingredients.join('、')}',
+                        ),
                         Text('来源：${item.standard.source_refs.join('；')}'),
                         Text(
                           '适配：${item.fit?.display_label ?? '未选择宠物，不生成适配结论'}',
@@ -203,7 +209,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
               child: ListTile(
                 title: Text(item.name),
                 subtitle: Text(
-                  '${item.brand} · ${item.sku_code}\n¥${(item.offers.map((x) => x.sale_price_fen).reduce((a, b) => a < b ? a : b) / 100).toStringAsFixed(2)} 起',
+                  '${item.pilot_material?.label ?? ''}\n${item.brand} · ${item.sku_code}\n¥${(item.offers.map((x) => x.sale_price_fen).reduce((a, b) => a < b ? a : b) / 100).toStringAsFixed(2)} 起',
                 ),
                 onTap: () => Navigator.push(
                   context,
@@ -359,7 +365,12 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
           if (s != null) ...[
             Text(s.name, style: Theme.of(context).textTheme.headlineSmall),
             Text('${s.brand} · ${s.sku_code} · ${s.weight_g}g'),
-            Text('配料：${s.ingredients.join('、')}'),
+            if (s.pilot_material != null) Text(s.pilot_material!.label),
+            if (pilotMode && s.pilot_material?.media_path != null)
+              PilotProductMedia(sku: widget.sku),
+            Text(
+              '配料：${s.ingredients.isEmpty ? '信息不足' : s.ingredients.join('、')}',
+            ),
             Text(
               '过敏原：${!s.allergens_known
                   ? '资料未知'
@@ -387,7 +398,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
             const Divider(),
             OutlinedButton(
               onPressed: () => context.push('/reviews?spu_id=${s.spu_id}'),
-              child: const Text('查看真实购买评价'),
+              child: Text(pilotMode ? '查看模拟购买评价' : '查看真实购买评价'),
             ),
             const Text('当前在售商家报价'),
             if (offers.isEmpty) const Text('暂无在售报价'),
@@ -435,6 +446,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
 
 String uncertaintyLabel(String code) =>
     const {
+      'PILOT_MATERIAL_UNVERIFIED': '资料未核验，仅供测试，信息不足',
       'PRODUCT_NUTRIENTS_MISSING': '商品营养资料尚未补齐',
       'PRODUCT_INGREDIENTS_MISSING': '商品配料资料尚未补齐',
       'PRODUCT_ALLERGENS_UNKNOWN': '商品过敏原资料未知',

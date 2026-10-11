@@ -25,7 +25,7 @@ try {
  & docker compose -p $project -f compose.pilot.yaml up -d --wait --wait-timeout 300
  if($LASTEXITCODE -ne 0){throw 'Pilot infrastructure startup failed'}
  $jar=Join-Path $taskRoot 'release/pawday-backend.jar'
- if(-not(Test-Path -LiteralPath $jar)){$jar=Join-Path $taskRoot 'backend/target/pawday-backend-0.6.6-SNAPSHOT.jar'}
+ if(-not(Test-Path -LiteralPath $jar)){$jar=Join-Path $taskRoot 'backend/target/pawday-backend-0.6.7-SNAPSHOT.jar'}
  if(-not(Test-Path -LiteralPath $jar)){throw 'Build or obtain this stage JAR first.'}
  & java -jar $jar
  if($LASTEXITCODE -ne 0){throw 'Pilot application failed'}

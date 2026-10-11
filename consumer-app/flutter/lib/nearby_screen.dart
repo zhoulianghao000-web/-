@@ -208,6 +208,13 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
     body: ListView(
       padding: const EdgeInsets.all(20),
       children: [
+        if (pilotMode) const Text('重庆合成门店；认领、营业时间和服务均为测试预设，非实际核验。'),
+        if (pilotMode)
+          TextButton(
+            onPressed: () =>
+                setState(() => locationMessage = '预设导航失败：未调用高德或外部应用，请核对合成目的地。'),
+            child: const Text('模拟导航失败'),
+          ),
         if (pilotMode)
           Wrap(
             children: [
@@ -246,7 +253,7 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
         Wrap(
           spacing: 8,
           children: [
-            for (final name in ['上海', '北京', '广州', '深圳'])
+            for (final name in (pilotMode ? ['重庆'] : ['上海', '北京', '广州', '深圳']))
               ActionChip(
                 label: Text(name),
                 onPressed: busy

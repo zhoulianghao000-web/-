@@ -64,6 +64,7 @@ public class SecurityConfiguration {
             if(pilot.enabled()) {
                 s.setHeader("X-Pawday-Environment","SIMULATED_PILOT");s.setHeader("Cache-Control","no-store");
                 if(r.getRequestURI().startsWith("/api/v1/")) {
+                    if(!pilot.ready()){deny(r,s,503,"PILOT_BASELINE_INITIALIZING",null);return;}
                     if(pilot.paused()){deny(r,s,503,"PILOT_PAUSED",null);return;}
                     if(!cn.pawday.pilot.PilotPolicy.CLIENT.equals(r.getHeader("X-Pawday-Pilot"))){deny(r,s,409,"PILOT_CLIENT_REQUIRED",null);return;}
                 }
