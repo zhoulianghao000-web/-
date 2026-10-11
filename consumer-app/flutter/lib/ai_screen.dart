@@ -355,6 +355,9 @@ class _AiState extends ConsumerState<AiScreen> {
               ),
             ),
           TextField(
+            // Preferences and quota insert siblings when their requests finish.
+            // Keep this editor mounted so an in-progress question retains focus.
+            key: const ValueKey('ai-question-editor'),
             controller: text,
             maxLength: 1000,
             minLines: 2,

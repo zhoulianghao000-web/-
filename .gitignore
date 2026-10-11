@@ -42,3 +42,10 @@ openapi/m54-validation-report.json
 /.pilot/
 
 /openapi/m662-validation-report.json
+
+/runtime/
+/release/consumer-preview/
+/release/merchant-web/
+/release/admin-web/
+/release/consumer.apk
+/release/desktop-manifest.json

@@ -18,6 +18,8 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm generate:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build
+      - name: Local desktop static/proxy/origin/isolation gates
+        run: node --test scripts/tests/desktop-server.test.mjs
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm exec playwright test e2e/web.spec.ts
       - name: Actual pilot staff browser label and client contract gate
@@ -57,6 +59,14 @@ jobs:
         run: flutter test --dart-define=PAWDAY_PILOT=true test_pilot
         working-directory: consumer-app/flutter
       - run: flutter build apk --debug --dart-define=PAWDAY_PILOT=true --dart-define=PAWDAY_API_BASE=http://127.0.0.1:8086/api/v1
+        working-directory: consumer-app/flutter
+      - name: Build local pilot consumer engineering preview (not public storefront)
+        run: flutter build web --profile --no-web-resources-cdn --dart-define=PAWDAY_PILOT=true --dart-define=PAWDAY_API_BASE=http://127.0.0.1:4175/api/v1
+        working-directory: consumer-app/flutter
+      - name: Require complete font license inside both standalone consumer artifacts
+        run: |
+          unzip -p build/app/outputs/flutter-apk/app-debug.apk assets/flutter_assets/assets/fonts/OFL.txt | cmp assets/fonts/OFL.txt -
+          cmp assets/fonts/OFL.txt build/web/assets/assets/fonts/OFL.txt
         working-directory: consumer-app/flutter
       - uses: actions/upload-artifact@v4
         if: always()

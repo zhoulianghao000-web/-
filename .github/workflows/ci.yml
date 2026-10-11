@@ -299,8 +299,8 @@ jobs:
       - run: mvn -B -ntp -DskipTests package
         working-directory: backend
       - run: sudo sysctl -w vm.max_map_count=262144
-      - name: M6.6.2 real baseline PostgreSQL Redis RabbitMQ OpenSearch pilot gate
-        run: python scripts/pilot-engineering-gate.py --jar backend/target/pawday-backend-0.6.7-SNAPSHOT.jar --report backend/target/pilot-live-evidence/gate.json
+      - name: M6.6.3 real complete pilot transaction, broker/search outage and finance gate
+        run: python scripts/pilot-engineering-gate.py --full --jar backend/target/pawday-backend-0.6.7-SNAPSHOT.jar --report backend/target/pilot-live-evidence/gate.json
       - name: Validate actual pilot JSON and authenticated binary contracts
         run: |
           python -m pip install -r openapi/requirements-validation-lock.txt
@@ -308,5 +308,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: m662-pilot-evidence
+          name: m663-pilot-evidence
           path: backend/target/pilot-live-evidence/
