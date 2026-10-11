@@ -6,7 +6,7 @@ import StaffApp from './StaffApp.vue';
 import './theme.css';
 export function bootstrap(realm:Exclude<Realm,'consumer'>){
   const apiBase=import.meta.env.VITE_API_BASE_URL??`${location.origin}/api/v1`;
-  const client=new PawdayClient(realm,apiBase,fetch,()=>session.clear());
+  const client=new PawdayClient(realm,apiBase,fetch,()=>session.clear(),import.meta.env.VITE_PAWDAY_PILOT==='true');
   const session=new StaffSession(client);
   const routes:RouteRecordRaw[]=[
     {path:'/',redirect:'/dashboard'},

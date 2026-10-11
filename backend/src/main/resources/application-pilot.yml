@@ -1,0 +1,16 @@
+# Must be explicitly combined with local; startup guard verifies all boundaries.
+pawday:
+  deployment-mode: pilot
+  pilot:
+    enabled: true
+    root: ${PAWDAY_PILOT_ROOT:}
+  storage:
+    local-root: ${PAWDAY_PILOT_ROOT:}/media
+  auth:
+    local-sms-enabled: true
+    local-sms-directory: ${PAWDAY_PILOT_ROOT:}/sms
+  nearby:
+    navigation-enabled: false
+  ai:
+    deepseek-api-key: ${PAWDAY_DEEPSEEK_API_KEY:}
+    allow-loopback-provider: false

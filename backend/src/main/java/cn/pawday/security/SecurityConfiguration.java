@@ -24,8 +24,8 @@ public class SecurityConfiguration {
     @Bean org.springframework.security.core.userdetails.UserDetailsService disabledDefaultUserService() {
         return username->{throw new org.springframework.security.core.userdetails.UsernameNotFoundException("No framework default accounts");};
     }
-    @Bean SecurityFilterChain security(HttpSecurity http,AuthService auth,AuditWriter audit,cn.pawday.operations.ScrapeCredential scrape) throws Exception {
-        var filter=new BoundaryFilter(auth,audit,scrape);
+    @Bean SecurityFilterChain security(HttpSecurity http,AuthService auth,AuditWriter audit,cn.pawday.operations.ScrapeCredential scrape,cn.pawday.pilot.PilotPolicy pilot) throws Exception {
+        var filter=new BoundaryFilter(auth,audit,scrape,pilot);
         return http.csrf(c->c.disable()) // Only Authorization bearer; no cookie/HTTP-session credentials are accepted.
             .httpBasic(c->c.disable()).formLogin(c->c.disable()).logout(c->c.disable())
             .sessionManagement(c->c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -49,8 +49,8 @@ public class SecurityConfiguration {
     private static Actor current() {var a=SecurityContextHolder.getContext().getAuthentication();return a!=null && a.getPrincipal() instanceof Actor actor?actor:null;}
     static final class BoundaryFilter extends OncePerRequestFilter {
         private final AuthService auth;private final AuditWriter audit;private final JsonMapper json=JsonMapper.builder().build();
-        private final cn.pawday.operations.ScrapeCredential scrape;
-        BoundaryFilter(AuthService auth,AuditWriter audit,cn.pawday.operations.ScrapeCredential scrape){this.auth=auth;this.audit=audit;this.scrape=scrape;}
+        private final cn.pawday.operations.ScrapeCredential scrape;private final cn.pawday.pilot.PilotPolicy pilot;
+        BoundaryFilter(AuthService auth,AuditWriter audit,cn.pawday.operations.ScrapeCredential scrape,cn.pawday.pilot.PilotPolicy pilot){this.auth=auth;this.audit=audit;this.scrape=scrape;this.pilot=pilot;}
         void deny(HttpServletRequest r,HttpServletResponse s,int status,String code,Actor actor) throws IOException {
             try {audit.write(actor,"security.denied","HTTP_REQUEST",null,Map.of(),Map.of("failure_reason",code,"http_status",status),r);}
             catch(org.springframework.dao.DataAccessException unavailable) {status=503;code="PERSISTENCE_UNAVAILABLE";}
@@ -61,6 +61,13 @@ public class SecurityConfiguration {
             try {correlation=UUID.fromString(correlation).toString();}catch(Exception ignored){correlation=requestId;}
             r.setAttribute("request_id",requestId);r.setAttribute("correlation_id",correlation);
             s.setHeader("X-Request-Id",requestId);s.setHeader("X-Correlation-Id",correlation);
+            if(pilot.enabled()) {
+                s.setHeader("X-Pawday-Environment","SIMULATED_PILOT");s.setHeader("Cache-Control","no-store");
+                if(r.getRequestURI().startsWith("/api/v1/")) {
+                    if(pilot.paused()){deny(r,s,503,"PILOT_PAUSED",null);return;}
+                    if(!cn.pawday.pilot.PilotPolicy.CLIENT.equals(r.getHeader("X-Pawday-Pilot"))){deny(r,s,409,"PILOT_CLIENT_REQUIRED",null);return;}
+                }
+            }
             String header=r.getHeader("Authorization");
             if(scrape.accepts(r.getRequestURI(),header)) {
                 SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(cn.pawday.operations.ScrapeCredential.Principal.METRICS,null,List.of()));
@@ -74,6 +81,7 @@ public class SecurityConfiguration {
                 if(actor.isEmpty()) {deny(r,s,401,"TOKEN_EXPIRED",null);return;}
                 SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(actor.get(),null,List.of()));
             }
+            if(pilot.enabled()&&r.getRequestURI().startsWith("/api/v1/public/")&&current()==null){deny(r,s,401,"AUTH_REQUIRED",null);return;}
             try {chain.doFilter(r,s);}finally {SecurityContextHolder.clearContext();}
         }
     }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'repositories.dart';
+import 'pilot.dart';
 import 'screens.dart';
 import 'nearby_screen.dart';
 import 'checkout_screen.dart';
@@ -86,21 +87,22 @@ final routerProvider = Provider<GoRouter>((ref) {
       }
       if (state.uri.path == '/launch') return pendingLocation;
       if (auth.principal == null &&
-          [
-            '/pets',
-            '/sessions',
-            '/cart',
-            '/orders',
-            '/payments',
-            '/membership',
-            '/points',
-            '/my-reviews',
-            '/review-edit',
-            '/support',
-            '/messages',
-            '/conversation',
-            '/ai',
-          ].contains(state.uri.path)) {
+          ((pilotMode && state.uri.path != '/auth/login') ||
+              [
+                '/pets',
+                '/sessions',
+                '/cart',
+                '/orders',
+                '/payments',
+                '/membership',
+                '/points',
+                '/my-reviews',
+                '/review-edit',
+                '/support',
+                '/messages',
+                '/conversation',
+                '/ai',
+              ].contains(state.uri.path))) {
         return Uri(
           path: '/auth/login',
           queryParameters: {'returnTo': state.uri.toString()},

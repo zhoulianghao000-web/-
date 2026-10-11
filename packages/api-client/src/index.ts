@@ -39,7 +39,7 @@ export class PawdayClient {
   private epoch=0;
   private refreshFlight:Promise<void>|null=null;
   readonly api;
-  constructor(readonly realm:Realm, readonly baseUrl:string, private readonly network:typeof fetch=fetch, private readonly onExpired:()=>void=()=>{}) {
+  constructor(readonly realm:Realm, readonly baseUrl:string, private readonly network:typeof fetch=fetch, private readonly onExpired:()=>void=()=>{}, readonly pilot=false) {
     this.api=createClient<paths>({baseUrl,fetch:this.transport});
   }
   get authenticated(){return this.tokens!==null;}
@@ -92,6 +92,7 @@ export class PawdayClient {
     const original=input.clone();
     const send=()=>{
       const request=original.clone();request.headers.set('X-Request-ID',crypto.randomUUID());
+      if(this.pilot)request.headers.set('X-Pawday-Pilot','simulated-v1');
       if(!publicAuth&&this.tokens)request.headers.set('Authorization',`Bearer ${this.tokens.access_token}`);
       else request.headers.delete('Authorization');
       return this.network.call(globalThis,request);
@@ -109,6 +110,7 @@ export class PawdayClient {
       try{response=await send();}catch{throw new ApiError(0,'NETWORK_UNAVAILABLE','',true);}
       if(epoch!==this.epoch)throw new ApiError(401,'SESSION_CHANGED','');
     }
+    if(this.pilot&&response.headers.get('X-Pawday-Environment')!=='SIMULATED_PILOT')throw new ApiError(409,'PILOT_ENVIRONMENT_MISMATCH','');
     if(!response.ok) {
       if(sessionRejected&&!publicAuth&&epoch===this.epoch)this.clearSession();
       await this.failure(response);
@@ -121,7 +123,8 @@ export class PawdayClient {
     if(!refreshToken)throw new ApiError(401,'SESSION_EXPIRED','');
     this.refreshFlight=(async()=>{
       try {
-        const response=await this.network.call(globalThis,new Request(`${this.baseUrl}/${this.realm}/auth/refresh`,{method:'POST',headers:{'Content-Type':'application/json','X-Request-ID':crypto.randomUUID()},body:JSON.stringify({refresh_token:refreshToken})}));
+        const response=await this.network.call(globalThis,new Request(`${this.baseUrl}/${this.realm}/auth/refresh`,{method:'POST',headers:{'Content-Type':'application/json','X-Request-ID':crypto.randomUUID(),...(this.pilot?{'X-Pawday-Pilot':'simulated-v1'}:{})},body:JSON.stringify({refresh_token:refreshToken})}));
+        if(this.pilot&&response.headers.get('X-Pawday-Environment')!=='SIMULATED_PILOT')throw new ApiError(409,'PILOT_ENVIRONMENT_MISMATCH','');
         if(!response.ok)await this.failure(response);
         const value=await response.json() as components['schemas']['TokensEnvelope'];
         if(epoch!==this.epoch)throw new ApiError(401,'SESSION_CHANGED','');

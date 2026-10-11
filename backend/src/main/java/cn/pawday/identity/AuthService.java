@@ -25,13 +25,14 @@ public class AuthService {
     private final cn.pawday.outbox.OutboxWriter outbox;
     private final Clock clock;
     private final AuditWriter audit;
+    private final cn.pawday.pilot.PilotPolicy pilot;
     private final long accessSeconds,refreshSeconds,proofSeconds;
     private final String dummyHash;
-    public AuthService(JdbcTemplate db,TransactionTemplate tx,Crypto crypto,PasswordEncoder passwords,cn.pawday.outbox.OutboxWriter outbox,Clock clock,AuditWriter audit,
+    public AuthService(JdbcTemplate db,TransactionTemplate tx,Crypto crypto,PasswordEncoder passwords,cn.pawday.outbox.OutboxWriter outbox,Clock clock,AuditWriter audit,cn.pawday.pilot.PilotPolicy pilot,
         @Value("${pawday.auth.access-seconds:900}") long accessSeconds,
         @Value("${pawday.auth.refresh-seconds:2592000}") long refreshSeconds,
         @Value("${pawday.auth.reverify-seconds:300}") long proofSeconds) {
-        this.db=db;this.tx=tx;this.crypto=crypto;this.passwords=passwords;this.outbox=outbox;this.clock=clock;this.audit=audit;
+        this.db=db;this.tx=tx;this.crypto=crypto;this.passwords=passwords;this.outbox=outbox;this.clock=clock;this.audit=audit;this.pilot=pilot;
         this.accessSeconds=accessSeconds;this.refreshSeconds=refreshSeconds;this.proofSeconds=proofSeconds;
         if(accessSeconds<1 || refreshSeconds<accessSeconds || proofSeconds<1) throw new IllegalArgumentException("Invalid auth TTL policy");
         dummyHash=passwords.encode(crypto.token());
@@ -49,6 +50,7 @@ public class AuthService {
         if(attempts>10) throw new Failure(429,"RATE_LIMITED");
     }
     public Receipt requestCode(String phone,String purpose,Actor actor,HttpServletRequest r) {
+        pilot.require("CONSUMER",phone);
         rateLimit("sms-ip:"+r.getRemoteAddr());rateLimit("sms-phone:"+phone);
         UUID session=null;
         if(purpose.equals("REVERIFY")) {
@@ -78,6 +80,7 @@ public class AuthService {
         return valid;
     }
     public Tokens consumerLogin(String phone,String code,String device,HttpServletRequest r) {
+        pilot.require("CONSUMER",phone);
         rateLimit("consumer-login:"+phone);rateLimit("login-ip:"+r.getRemoteAddr());
         Tokens result=tx.execute(s-> {
             if(!consumeOtp(phone,"LOGIN",null,code)) {audit.write(null,"auth.login.failed","IDENTITY",null,Map.of(),Map.of("realm","CONSUMER"),r);return null;}
@@ -107,6 +110,7 @@ public class AuthService {
     }
     public Tokens staffLogin(Actor.Realm realm,String login,String password,String totp,String device,HttpServletRequest r) {
         if(realm==Actor.Realm.CONSUMER) throw new Failure(403,"PERMISSION_DENIED");
+        pilot.require(realm.name(),login);
         rateLimit("staff-login:"+realm+":"+login);rateLimit("login-ip:"+r.getRemoteAddr());
         Tokens tokens=tx.execute(s-> {
             var rows=db.queryForList("SELECT * FROM identity_principal WHERE realm=? AND login_name=? FOR UPDATE",realm.name(),login);
@@ -127,7 +131,7 @@ public class AuthService {
     public Optional<Actor> load(String token) {
         if(token==null || token.length()>128) return Optional.empty();
         var rows=db.queryForList("""
-            SELECT p.id,p.realm,p.user_id,p.merchant_id,s.id AS session_id FROM auth_session s
+            SELECT p.id,p.realm,p.user_id,p.merchant_id,p.login_name,u.phone_e164,s.id AS session_id FROM auth_session s
             JOIN identity_principal p ON p.id=s.principal_id
             LEFT JOIN app_user u ON u.id=p.user_id LEFT JOIN merchant m ON m.id=p.merchant_id
             WHERE s.access_token_hash=? AND s.revoked_at IS NULL AND s.expires_at>?
@@ -135,6 +139,7 @@ public class AuthService {
               AND (p.realm<>'MERCHANT' OR m.status='ACTIVE')
             """,crypto.hash(token),now());
         if(rows.isEmpty()) return Optional.empty();var row=rows.getFirst();UUID principal=(UUID)row.get("id");
+        if(pilot.paused()||!pilot.allowed((String)row.get("realm"),(String)row.get(row.get("realm").equals("CONSUMER")?"phone_e164":"login_name")))return Optional.empty();
         Set<String> roles=new HashSet<>(db.queryForList("SELECT r.code FROM principal_role pr JOIN role r ON r.id=pr.role_id AND r.scope_type=pr.realm WHERE pr.principal_id=?",String.class,principal));
         Set<String> permissions=new HashSet<>(db.queryForList("SELECT DISTINCT p.code FROM principal_role pr JOIN role r ON r.id=pr.role_id AND r.scope_type=pr.realm JOIN role_permission rp ON rp.role_id=r.id JOIN permission p ON p.id=rp.permission_id WHERE pr.principal_id=?",String.class,principal));
         return Optional.of(new Actor(principal,Actor.Realm.valueOf((String)row.get("realm")),(UUID)row.get("user_id"),(UUID)row.get("merchant_id"),(UUID)row.get("session_id"),Set.copyOf(permissions),Set.copyOf(roles)));
@@ -143,12 +148,14 @@ public class AuthService {
         rateLimit("refresh-ip:"+r.getRemoteAddr());
         Tokens result=tx.execute(s-> {
             var rows=db.queryForList("""
-                SELECT t.status AS token_status,s.*,p.realm,p.user_id,p.status AS principal_status,p.merchant_id
+                SELECT t.status AS token_status,s.*,p.realm,p.user_id,p.status AS principal_status,p.merchant_id,p.login_name
                 FROM auth_refresh_token t JOIN auth_session s ON s.id=t.session_id JOIN identity_principal p ON p.id=s.principal_id
                 WHERE t.token_hash=? FOR UPDATE OF t,s
                 """,crypto.hash(token));
             if(rows.isEmpty()) return null;var row=rows.getFirst();
             if(!row.get("realm").equals(realm.name())) return null;
+            String identity=realm==Actor.Realm.CONSUMER?db.queryForObject("SELECT phone_e164 FROM app_user WHERE id=?",String.class,row.get("user_id")):(String)row.get("login_name");
+            pilot.require(realm.name(),identity);
             UUID session=(UUID)row.get("id");
             if(!row.get("token_status").equals("ACTIVE")) {
                 db.update("UPDATE auth_session SET revoked_at=? WHERE id=?",now(),session);

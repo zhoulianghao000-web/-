@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'api/generated/dto.dart';
 import 'nearby_repository.dart';
+import 'pilot.dart';
 import 'checkout_repository.dart';
 
 const nearbyCategories = {
@@ -161,7 +162,7 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
                       Navigator.pop(context);
                       await navigate(place.id);
                     },
-                    child: const Text('交给高德导航'),
+                    child: const Text(pilotMode ? '预览测试目的地' : '交给高德导航'),
                   ),
                   TextButton(
                     onPressed: () {
@@ -187,6 +188,10 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
   }
 
   Future<void> navigate(String id) async {
+    if (pilotMode) {
+      setState(() => locationMessage = '模拟导航：仅预览门店目的地，不打开外部应用。');
+      return;
+    }
     try {
       final intent = await ref.read(nearbyRepositoryProvider).navigation(id);
       if (!mounted) return;
@@ -203,6 +208,21 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
     body: ListView(
       padding: const EdgeInsets.all(20),
       children: [
+        if (pilotMode)
+          Wrap(
+            children: [
+              for (final scenario in ['ALLOWED', 'DENIED', 'DISABLED'])
+                TextButton(
+                  onPressed: () {
+                    (ref.read(locationProvider).device as PilotGeolocation)
+                            .scenario =
+                        scenario;
+                    locate();
+                  },
+                  child: Text('模拟定位：$scenario'),
+                ),
+            ],
+          ),
         Text('发现身边的宠物服务', style: Theme.of(context).textTheme.headlineSmall),
         const Text('仅在你选择定位时获取一次位置。拒绝后仍可按城市浏览。'),
         const SizedBox(height: 16),

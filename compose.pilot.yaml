@@ -1,0 +1,82 @@
+services:
+  postgres:
+    image: postgres:17.9-alpine
+    environment:
+      POSTGRES_DB: ${PILOT_DB_NAME:?}
+      POSTGRES_USER: pawday_pilot
+      POSTGRES_PASSWORD: ${PILOT_DB_PASSWORD:?}
+    volumes:
+    - postgres-data:/var/lib/postgresql/data
+    ports:
+    - 127.0.0.1:5546:5432
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - pg_isready -U pawday_pilot -d ${PILOT_DB_NAME:?}
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  redis:
+    image: redis:8.2.10-alpine
+    volumes:
+    - redis-data:/data
+    ports:
+    - 127.0.0.1:6386:6379
+    healthcheck:
+      test:
+      - CMD
+      - redis-cli
+      - ping
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  rabbitmq:
+    image: rabbitmq:4.3.6-management
+    environment:
+      RABBITMQ_DEFAULT_USER: pawday_pilot
+      RABBITMQ_DEFAULT_PASS: ${PILOT_MQ_PASSWORD:?}
+    volumes:
+    - rabbitmq-data:/var/lib/rabbitmq
+    ports:
+    - 127.0.0.1:5676:5672
+    - 127.0.0.1:15676:15672
+    healthcheck:
+      test:
+      - CMD
+      - rabbitmq-diagnostics
+      - -q
+      - check_running
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  opensearch:
+    image: opensearchproject/opensearch:3.9.0
+    environment:
+      discovery.type: single-node
+      DISABLE_INSTALL_DEMO_CONFIG: 'true'
+      DISABLE_SECURITY_PLUGIN: 'true'
+      OPENSEARCH_JAVA_OPTS: -Xms512m -Xmx512m
+      network.host: 0.0.0.0
+      cluster.name: pawday-pilot
+    volumes:
+    - opensearch-data:/usr/share/opensearch/data
+    ports:
+    - 127.0.0.1:9206:9200
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - curl --fail --silent 'http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=2s'
+        >/dev/null
+      interval: 5s
+      timeout: 5s
+      retries: 60
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+
+volumes:
+  postgres-data:
+  redis-data:
+  rabbitmq-data:
+  opensearch-data:
