@@ -1,0 +1,2493 @@
+{
+  "schema_version": "pawday-privacy-inventory/v1",
+  "source_baseline": "e4a4eb2f5337d960948cd4142aaa1861b3c21c5d",
+  "retention_authority": "PENDING_OWNER_POLICY",
+  "deletion_authorized": false,
+  "migrations": {
+    "V001__m2_foundation.sql": "4ae66a5938bdd2971eae57a32ff7f22c29635bb6f06af88c8d07c478e2bc81a0",
+    "V002__identity_sessions_rbac_reverify.sql": "97fae117f12471ea2b2e92c2a140c8e41dca38872033953fbfce330fed7253a1",
+    "V003__outbox_inbox_delivery.sql": "1c5362354c00983a967c22e89a24e3fd1c325ba9ee308ae9aa01d118e2cda604",
+    "V004__media_assets.sql": "c7d7a4baf70b776e615ebe762600a3ac695456c6cdd235be4d86f1ed7443ee3d",
+    "V005__search_projection.sql": "9087288bb37a77daea4be33287855c07055c72814fefce0547e22cef1455fa72",
+    "V006__pet_taxonomy_profiles.sql": "2f54959c94259683609ed8203c2e1e5a16d150766d2483cd5b87f89f4352b3ef",
+    "V007__catalog_standards_and_review.sql": "cbdd43c591d36198861ad659a6de79d80b820c1adba6aad4140fc612a1ccdbc4",
+    "V008__offers_inventory_adjustments.sql": "794a99a8255711b9d21cebda32372f5efc15000f9674ebe145c27f7d7fb8ca0e",
+    "V009__cart_pricing_quotes.sql": "0e652caefed086ec69df199508ea69da79f9d5601312767dbfdeeea8edaf2b54",
+    "V010__orders_inventory_reservations.sql": "36caa84f6d3097e79d172ffc7065ecadc168ef2442b349dc5fc157558d347b17",
+    "V011__payment_attempts_and_confirmation.sql": "12f2d3c5e28231d903b32a2b0d0d549f238b4c404a980cbbb21925eb7f878c37",
+    "V012__shipment_and_receipt_facts.sql": "7c9f026c0cab895c0d103b90050fee0344bfa0d27717c836ed6196300fd2abc4",
+    "V013__paid_cancellation_aftersale_refunds.sql": "323b76dc1e05615b64567dcc0adafdcbc557cf2859c6119e3b3a0917d2f68fbb",
+    "V014__settlement_ledger.sql": "f256a33ae2e8b856cf978e03f9acde151818fd4a7200b3f396ce529a759dae30",
+    "V015__membership_points.sql": "d4703704feec436bfe4da633de046e41b69225ce392e7550f22cfdd0910f1271",
+    "V016__review_refund_leases_and_points_versions.sql": "b6f3bd9a3f5c21bac9f55abde6d17f30d7ead5c5cde2a7abf67c753a1c0b4d36",
+    "V017__reviews_content_and_reward_facts.sql": "7641760fe274eb74cf8ef511987f059287cc0d7886dbdf11a57d27a74c9e2b06",
+    "V018__support_messages.sql": "e8724a902d80c192d5540ac29cc17de1a3acf48c7e60d038ab2218609bd954ef",
+    "V019__nearby_store_profiles.sql": "9e1e56570aed7852fcb7b5b74ebf17a37f62e4349f73b767b8c2a256a499003e",
+    "V020__ai_explanations.sql": "3378234de207b063357c4c58f07acc78dfdc7b2aafefb077be981ec45ef76021",
+    "V021__privacy_fact_journal.sql": "7a932e5c6376605d79b993e90a97a0f2c43e81a05c48d877792bbaad68e2aab3"
+  },
+  "tables": [
+    {
+      "name": "aftersale_decisions",
+      "domain": "aftersale_refunds",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "aftersale_id",
+        "decision",
+        "decided_by",
+        "reason",
+        "amount_fen",
+        "created_at"
+      ]
+    },
+    {
+      "name": "aftersale_events",
+      "domain": "aftersale_refunds",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "aftersale_id",
+        "from_status",
+        "to_status",
+        "actor_type",
+        "actor_id",
+        "reason",
+        "occurred_at"
+      ]
+    },
+    {
+      "name": "aftersale_evidence",
+      "domain": "aftersale_refunds",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "aftersale_id",
+        "actor_type",
+        "actor_id",
+        "kind",
+        "content",
+        "asset_id",
+        "created_at"
+      ]
+    },
+    {
+      "name": "aftersale_items",
+      "domain": "aftersale_refunds",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "aftersale_id",
+        "order_item_id",
+        "quantity",
+        "item_payable_refund_fen",
+        "refund_id"
+      ]
+    },
+    {
+      "name": "aftersales",
+      "domain": "aftersale_refunds",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "suborder_id",
+        "order_id",
+        "user_id",
+        "merchant_id",
+        "type",
+        "reason_code",
+        "reason_text",
+        "status",
+        "return_carrier_code",
+        "return_tracking_no",
+        "version",
+        "created_at"
+      ]
+    },
+    {
+      "name": "ai_conversations",
+      "domain": "ai",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "user_id",
+        "pet_id",
+        "status",
+        "expires_at",
+        "created_at"
+      ]
+    },
+    {
+      "name": "ai_evaluations",
+      "domain": "ai",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "prompt_id",
+        "passed",
+        "cases",
+        "created_at"
+      ]
+    },
+    {
+      "name": "ai_membership_quota_grants",
+      "domain": "ai",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "membership_order_id",
+        "user_id",
+        "starts_at",
+        "expires_at",
+        "units"
+      ]
+    },
+    {
+      "name": "ai_messages",
+      "domain": "ai",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "conversation_id",
+        "user_text_ciphertext",
+        "result_ciphertext",
+        "created_at"
+      ]
+    },
+    {
+      "name": "ai_policy_versions",
+      "domain": "ai",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "ordinary_daily_limit",
+        "member_daily_ceiling",
+        "retention_days",
+        "lease_seconds",
+        "enabled",
+        "created_at"
+      ]
+    },
+    {
+      "name": "ai_preferences",
+      "domain": "ai",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "user_id",
+        "personalization_enabled",
+        "version"
+      ]
+    },
+    {
+      "name": "ai_profile_proposals",
+      "domain": "ai",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "request_id",
+        "user_id",
+        "pet_id",
+        "pet_version",
+        "before_value",
+        "proposed_value",
+        "status",
+        "expires_at",
+        "version"
+      ]
+    },
+    {
+      "name": "ai_prompt_versions",
+      "domain": "ai",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "instruction",
+        "created_at"
+      ]
+    },
+    {
+      "name": "ai_quota_ledger",
+      "domain": "ai",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "reservation_id",
+        "user_id",
+        "status",
+        "units",
+        "created_at"
+      ]
+    },
+    {
+      "name": "ai_quota_reservations",
+      "domain": "ai",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "user_id",
+        "quota_policy_version",
+        "quota_bucket_id",
+        "units",
+        "status",
+        "lease_expires_at",
+        "assistant_message_id",
+        "version"
+      ]
+    },
+    {
+      "name": "ai_release",
+      "domain": "ai",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "singleton",
+        "active_prompt_id",
+        "staged_prompt_id",
+        "staged_percent",
+        "policy_id",
+        "version"
+      ]
+    },
+    {
+      "name": "ai_release_history",
+      "domain": "ai",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "active_prompt_id",
+        "staged_prompt_id",
+        "staged_percent",
+        "policy_id",
+        "version",
+        "action",
+        "created_at"
+      ]
+    },
+    {
+      "name": "ai_requests",
+      "domain": "ai",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "user_id",
+        "conversation_id",
+        "idempotency_key",
+        "payload_hash",
+        "preference_version",
+        "prompt_id",
+        "policy_id",
+        "created_at"
+      ]
+    },
+    {
+      "name": "allergens",
+      "domain": "pets",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "name",
+        "status"
+      ]
+    },
+    {
+      "name": "app_user",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "status",
+        "phone_e164",
+        "display_name",
+        "version",
+        "created_at",
+        "updated_at",
+        "deleted_at"
+      ]
+    },
+    {
+      "name": "audit_event",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "actor_type",
+        "actor_id",
+        "actor_role_snapshot",
+        "action",
+        "object_type",
+        "object_id",
+        "before_json",
+        "after_json",
+        "request_id",
+        "correlation_id",
+        "source_ip",
+        "created_at",
+        "session_id"
+      ]
+    },
+    {
+      "name": "auth_rate_bucket",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "subject_hash",
+        "window_start",
+        "attempt_count"
+      ]
+    },
+    {
+      "name": "auth_refresh_token",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "token_hash",
+        "session_id",
+        "status",
+        "created_at",
+        "consumed_at"
+      ]
+    },
+    {
+      "name": "auth_session",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "principal_id",
+        "access_token_hash",
+        "device_id",
+        "expires_at",
+        "refresh_expires_at",
+        "revoked_at",
+        "version",
+        "created_at"
+      ]
+    },
+    {
+      "name": "brands",
+      "domain": "catalog",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "name",
+        "source_ref",
+        "status"
+      ]
+    },
+    {
+      "name": "cart_items",
+      "domain": "checkout",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "cart_id",
+        "offer_id",
+        "pet_id",
+        "quantity",
+        "active",
+        "version",
+        "created_at"
+      ]
+    },
+    {
+      "name": "carts",
+      "domain": "checkout",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "user_id",
+        "version"
+      ]
+    },
+    {
+      "name": "catalog_change_requests",
+      "domain": "catalog",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "merchant_id",
+        "submitted_by",
+        "sku_id",
+        "base_sku_version",
+        "proposal",
+        "reason",
+        "status",
+        "version",
+        "result_version_id",
+        "created_at"
+      ]
+    },
+    {
+      "name": "catalog_import_batches",
+      "domain": "catalog",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "created_by",
+        "format",
+        "status",
+        "version",
+        "created_at"
+      ]
+    },
+    {
+      "name": "catalog_import_rows",
+      "domain": "catalog",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "batch_id",
+        "row_no",
+        "payload",
+        "error_codes",
+        "base_sku_version",
+        "result_version_id"
+      ]
+    },
+    {
+      "name": "catalog_review_records",
+      "domain": "catalog",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "request_id",
+        "reviewer_id",
+        "decision",
+        "reason",
+        "created_at"
+      ]
+    },
+    {
+      "name": "catalog_search_source",
+      "domain": "search",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "DERIVED_REBUILD_REVIEW",
+      "columns": [
+        "sku_id",
+        "spu_id",
+        "revision",
+        "document",
+        "deleted",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "commission_allocations",
+      "domain": "settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "order_item_id",
+        "payment_id",
+        "policy_id",
+        "policy_version",
+        "priority",
+        "rate_basis_points",
+        "base_amount_fen",
+        "commission_fen",
+        "created_at"
+      ]
+    },
+    {
+      "name": "commission_policies",
+      "domain": "settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "name",
+        "merchant_id",
+        "category",
+        "campaign_code",
+        "rate_basis_points",
+        "priority",
+        "effective_from",
+        "effective_to",
+        "policy_version",
+        "created_by",
+        "created_at"
+      ]
+    },
+    {
+      "name": "content_article_revisions",
+      "domain": "reviews_content",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "article_id",
+        "revision_no",
+        "title",
+        "category",
+        "body",
+        "source_refs",
+        "sponsored",
+        "asset_ids",
+        "sku_ids",
+        "created_by",
+        "created_at"
+      ]
+    },
+    {
+      "name": "content_articles",
+      "domain": "reviews_content",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "current_revision_id",
+        "published_revision_id",
+        "visibility",
+        "draft_status",
+        "version",
+        "created_by",
+        "created_at",
+        "updated_at",
+        "published_at"
+      ]
+    },
+    {
+      "name": "content_moderation",
+      "domain": "reviews_content",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "article_id",
+        "revision_id",
+        "decision",
+        "reason",
+        "actor_id",
+        "created_at"
+      ]
+    },
+    {
+      "name": "conversation_message_delivery",
+      "domain": "support_notifications",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "message_id",
+        "event_id",
+        "delivered_at"
+      ]
+    },
+    {
+      "name": "conversation_messages",
+      "domain": "support_notifications",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "conversation_id",
+        "sequence",
+        "sender_id",
+        "sender_realm",
+        "type",
+        "body",
+        "asset_ids",
+        "target_id",
+        "created_at"
+      ]
+    },
+    {
+      "name": "conversation_participants",
+      "domain": "support_notifications",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "conversation_id",
+        "principal_id",
+        "active",
+        "read_sequence",
+        "joined_at"
+      ]
+    },
+    {
+      "name": "conversations",
+      "domain": "support_notifications",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "consumer_id",
+        "kind",
+        "merchant_id",
+        "store_id",
+        "assigned_principal_id",
+        "status",
+        "last_sequence",
+        "delivered_sequence",
+        "version",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "coupon_definitions",
+      "domain": "checkout",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "version",
+        "status",
+        "parameters",
+        "created_at"
+      ]
+    },
+    {
+      "name": "coupon_redemption_events",
+      "domain": "payments",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "coupon_id",
+        "order_id",
+        "payment_id",
+        "created_at"
+      ]
+    },
+    {
+      "name": "coupon_return_events",
+      "domain": "aftersale_refunds",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "coupon_id",
+        "order_id",
+        "cancellation_id",
+        "resulting_status",
+        "created_at"
+      ]
+    },
+    {
+      "name": "identity_command",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "principal_id",
+        "action",
+        "idempotency_key",
+        "payload_hash",
+        "result_json",
+        "created_at"
+      ]
+    },
+    {
+      "name": "identity_principal",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "realm",
+        "user_id",
+        "merchant_id",
+        "login_name",
+        "password_hash",
+        "mfa_secret_ciphertext",
+        "last_totp_step",
+        "status"
+      ]
+    },
+    {
+      "name": "inventory_adjustments",
+      "domain": "offers_inventory",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "merchant_id",
+        "operation",
+        "offer_id",
+        "delta_qty",
+        "reason_code",
+        "expected_version",
+        "before_on_hand_qty",
+        "resulting_on_hand_qty",
+        "resulting_reserved_qty",
+        "resulting_version",
+        "actor_id",
+        "idempotency_key",
+        "payload_hash",
+        "created_at"
+      ]
+    },
+    {
+      "name": "inventory_balances",
+      "domain": "offers_inventory",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "offer_id",
+        "on_hand_qty",
+        "reserved_qty",
+        "available_qty",
+        "version",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "inventory_reservation_events",
+      "domain": "orders",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "reservation_id",
+        "order_id",
+        "offer_id",
+        "operation",
+        "delta_reserved_qty",
+        "before_reserved_qty",
+        "resulting_reserved_qty",
+        "resulting_inventory_version",
+        "created_at"
+      ]
+    },
+    {
+      "name": "inventory_reservations",
+      "domain": "orders",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "order_id",
+        "offer_id",
+        "quantity",
+        "status",
+        "reservation_generation",
+        "expires_at",
+        "version",
+        "created_at"
+      ]
+    },
+    {
+      "name": "inventory_restock_events",
+      "domain": "aftersale_refunds",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "source_type",
+        "source_id",
+        "order_item_id",
+        "offer_id",
+        "quantity",
+        "before_on_hand_qty",
+        "resulting_on_hand_qty",
+        "resulting_inventory_version",
+        "created_at"
+      ]
+    },
+    {
+      "name": "inventory_sale_events",
+      "domain": "payments",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "reservation_id",
+        "payment_id",
+        "offer_id",
+        "quantity",
+        "before_on_hand_qty",
+        "resulting_on_hand_qty",
+        "before_reserved_qty",
+        "resulting_reserved_qty",
+        "resulting_inventory_version",
+        "created_at"
+      ]
+    },
+    {
+      "name": "media_asset",
+      "domain": "media",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "owner_id",
+        "realm",
+        "owner_session_id",
+        "scope",
+        "store_id",
+        "storage_provider",
+        "object_key",
+        "mime",
+        "size_bytes",
+        "sha256",
+        "status",
+        "upload_token_hash",
+        "upload_expires_at",
+        "claim_token",
+        "lease_expires_at",
+        "error_code",
+        "next_cleanup_at",
+        "cleanup_attempts",
+        "cleanup_claim_token",
+        "cleanup_lease_expires_at",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "media_asset_usage",
+      "domain": "reviews_content",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "asset_id",
+        "kind",
+        "revision_id",
+        "created_at"
+      ]
+    },
+    {
+      "name": "membership_orders",
+      "domain": "membership_points",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "order_no",
+        "user_id",
+        "plan_id",
+        "plan_snapshot",
+        "amount_fen",
+        "status",
+        "payment_id",
+        "version",
+        "created_at",
+        "paid_at"
+      ]
+    },
+    {
+      "name": "membership_plan_versions",
+      "domain": "checkout",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "version_code",
+        "parameters",
+        "created_at"
+      ]
+    },
+    {
+      "name": "membership_plans",
+      "domain": "membership_points",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "code",
+        "name",
+        "term",
+        "price_fen",
+        "ai_quota",
+        "benefits",
+        "status",
+        "plan_version",
+        "created_by",
+        "created_at"
+      ]
+    },
+    {
+      "name": "membership_subscriptions",
+      "domain": "checkout",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "user_id",
+        "plan_version_id",
+        "starts_at",
+        "expires_at",
+        "status",
+        "version"
+      ]
+    },
+    {
+      "name": "merchant",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "name",
+        "status"
+      ]
+    },
+    {
+      "name": "merchant_ledger_entries",
+      "domain": "settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "merchant_id",
+        "entry_type",
+        "direction",
+        "amount_fen",
+        "affects_balance",
+        "order_id",
+        "suborder_id",
+        "order_item_id",
+        "refund_id",
+        "settlement_id",
+        "source_event",
+        "reason",
+        "created_by_type",
+        "created_by",
+        "created_at"
+      ]
+    },
+    {
+      "name": "merchant_store",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "merchant_id",
+        "name"
+      ]
+    },
+    {
+      "name": "nearby_moderation_history",
+      "domain": "nearby",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "store_id",
+        "principal_id",
+        "version",
+        "publication_status",
+        "claim_status",
+        "pawday_certified",
+        "reason",
+        "created_at"
+      ]
+    },
+    {
+      "name": "nearby_store_profile",
+      "domain": "nearby",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "store_id",
+        "city",
+        "category",
+        "address",
+        "phone",
+        "business_hours",
+        "longitude",
+        "latitude",
+        "coordinate_system",
+        "services",
+        "source",
+        "publication_status",
+        "claim_status",
+        "pawday_certified",
+        "version",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "notification_messages",
+      "domain": "support_notifications",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "principal_id",
+        "event_id",
+        "category",
+        "event_type",
+        "target_type",
+        "target_id",
+        "notify_enabled",
+        "read_at",
+        "created_at"
+      ]
+    },
+    {
+      "name": "notification_preferences",
+      "domain": "support_notifications",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "principal_id",
+        "category",
+        "enabled",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "offers",
+      "domain": "offers_inventory",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "merchant_id",
+        "store_id",
+        "sku_id",
+        "sale_price_fen",
+        "member_price_fen",
+        "fulfillment_sla",
+        "sale_status",
+        "version",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "operation_config",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "config_key",
+        "version",
+        "value_json",
+        "status",
+        "effective_at",
+        "created_by",
+        "created_at"
+      ]
+    },
+    {
+      "name": "order_address_snapshots",
+      "domain": "orders",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "order_id",
+        "snapshot"
+      ]
+    },
+    {
+      "name": "order_cancellation_events",
+      "domain": "orders",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "cancellation_id",
+        "from_status",
+        "to_status",
+        "reason_code",
+        "occurred_at"
+      ]
+    },
+    {
+      "name": "order_cancellation_items",
+      "domain": "orders",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "cancellation_id",
+        "order_item_id",
+        "quantity",
+        "item_payable_refund_fen",
+        "shipping_refund_fen",
+        "allocation_snapshot",
+        "refund_id"
+      ]
+    },
+    {
+      "name": "order_cancellations",
+      "domain": "orders",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "order_id",
+        "actor_type",
+        "actor_id",
+        "reason_code",
+        "status",
+        "created_at",
+        "suborder_id",
+        "version"
+      ]
+    },
+    {
+      "name": "order_coupon_snapshots",
+      "domain": "orders",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "order_id",
+        "coupon_id",
+        "snapshot"
+      ]
+    },
+    {
+      "name": "order_item_refund_units",
+      "domain": "aftersale_refunds",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "order_item_id",
+        "unit_index",
+        "paid_amount_fen"
+      ]
+    },
+    {
+      "name": "order_items",
+      "domain": "orders",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "suborder_id",
+        "allocation_key",
+        "offer_id",
+        "sku_id",
+        "merchant_id",
+        "store_id",
+        "quantity",
+        "cancelled_qty",
+        "unit_price_fen",
+        "goods_amount_fen",
+        "discount_amount_fen",
+        "payable_amount_fen",
+        "product_snapshot"
+      ]
+    },
+    {
+      "name": "order_policy_versions",
+      "domain": "orders",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "version_no",
+        "version_code",
+        "reservation_ttl_seconds",
+        "created_by",
+        "created_at"
+      ]
+    },
+    {
+      "name": "order_refund_unit_claims",
+      "domain": "aftersale_refunds",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "order_item_id",
+        "unit_index",
+        "source_type",
+        "source_item_id",
+        "refund_id",
+        "status",
+        "created_at"
+      ]
+    },
+    {
+      "name": "orders",
+      "domain": "orders",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "order_no",
+        "user_id",
+        "quote_id",
+        "currency",
+        "goods_amount_fen",
+        "shipping_amount_fen",
+        "discount_amount_fen",
+        "payable_amount_fen",
+        "pricing_snapshot",
+        "policy_version_id",
+        "reservation_expires_at",
+        "status",
+        "version",
+        "created_at"
+      ]
+    },
+    {
+      "name": "otp_challenge",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "phone_e164",
+        "purpose",
+        "session_id",
+        "code_hash",
+        "attempts",
+        "expires_at",
+        "consumed_at",
+        "created_at",
+        "delivery_secret_ciphertext"
+      ]
+    },
+    {
+      "name": "outbox_event",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "aggregate_type",
+        "aggregate_id",
+        "event_type",
+        "event_version",
+        "payload",
+        "correlation_id",
+        "status",
+        "attempt_count",
+        "available_at",
+        "published_at",
+        "created_at",
+        "root_event_id",
+        "transport_kind",
+        "delivery_attempt",
+        "generation",
+        "claim_token",
+        "claimed_by",
+        "lease_expires_at",
+        "last_error_code",
+        "last_error_at",
+        "dead_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "outbox_replay_command",
+      "domain": "delivery",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "principal_id",
+        "idempotency_key",
+        "event_id",
+        "payload_hash",
+        "generation",
+        "created_at"
+      ]
+    },
+    {
+      "name": "payment_attempts",
+      "domain": "payments",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "payment_id",
+        "attempt_no",
+        "channel",
+        "client_platform",
+        "status",
+        "version",
+        "created_at"
+      ]
+    },
+    {
+      "name": "payment_cases",
+      "domain": "payments",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "payment_id",
+        "attempt_id",
+        "receipt_id",
+        "reason_code",
+        "refund_no",
+        "status",
+        "attempt_count",
+        "next_retry_at",
+        "last_error_code",
+        "created_at"
+      ]
+    },
+    {
+      "name": "payment_receipts",
+      "domain": "payments",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "attempt_id",
+        "provider",
+        "channel_transaction_id",
+        "amount_fen",
+        "currency",
+        "received_at"
+      ]
+    },
+    {
+      "name": "payment_requery_schedule",
+      "domain": "payments",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "attempt_id",
+        "next_query_at",
+        "failure_count"
+      ]
+    },
+    {
+      "name": "payments",
+      "domain": "orders",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "payment_no",
+        "order_id",
+        "amount_fen",
+        "currency",
+        "status",
+        "expires_at",
+        "version",
+        "created_at",
+        "successful_attempt_id",
+        "successful_receipt_id",
+        "paid_at",
+        "membership_order_id"
+      ]
+    },
+    {
+      "name": "permission",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "code",
+        "description"
+      ]
+    },
+    {
+      "name": "pet_allergens",
+      "domain": "pets",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "pet_id",
+        "allergen_id",
+        "status",
+        "source",
+        "note"
+      ]
+    },
+    {
+      "name": "pet_breeds",
+      "domain": "pets",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "species_id",
+        "name",
+        "status"
+      ]
+    },
+    {
+      "name": "pet_life_stage_definitions",
+      "domain": "pets",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "rule_version_id",
+        "stage_code",
+        "display_name",
+        "min_age_value",
+        "max_age_value",
+        "age_unit",
+        "is_unknown"
+      ]
+    },
+    {
+      "name": "pet_life_stage_rule_versions",
+      "domain": "pets",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "species_id",
+        "version_no",
+        "status",
+        "source_refs",
+        "published_at"
+      ]
+    },
+    {
+      "name": "pet_species",
+      "domain": "pets",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "parent_id",
+        "category",
+        "name",
+        "status"
+      ]
+    },
+    {
+      "name": "pet_weight_records",
+      "domain": "pets",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "pet_id",
+        "weight_g",
+        "recorded_on",
+        "source",
+        "created_at"
+      ]
+    },
+    {
+      "name": "pets",
+      "domain": "pets",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "owner_user_id",
+        "name",
+        "species_id",
+        "breed_id",
+        "birth_date",
+        "age_estimate_months",
+        "sex",
+        "neutered_status",
+        "avoidance_notes",
+        "current_weight_g",
+        "status",
+        "version",
+        "created_at"
+      ]
+    },
+    {
+      "name": "points_accounts",
+      "domain": "membership_points",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "user_id",
+        "version",
+        "created_at"
+      ]
+    },
+    {
+      "name": "points_checkins",
+      "domain": "membership_points",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "user_id",
+        "checkin_date",
+        "cycle_day",
+        "points",
+        "created_at"
+      ]
+    },
+    {
+      "name": "points_ledger",
+      "domain": "membership_points",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "user_id",
+        "entry_type",
+        "points",
+        "business_key",
+        "order_id",
+        "refund_id",
+        "redemption_id",
+        "policy_version",
+        "reason",
+        "created_by_type",
+        "created_by",
+        "created_at"
+      ]
+    },
+    {
+      "name": "points_policies",
+      "domain": "membership_points",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "earn_points_per_yuan",
+        "checkin_points",
+        "checkin_cycle_days",
+        "policy_version",
+        "created_by",
+        "created_at"
+      ]
+    },
+    {
+      "name": "points_redemptions",
+      "domain": "membership_points",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "redemption_no",
+        "user_id",
+        "reward_id",
+        "reward_snapshot",
+        "cost_points",
+        "status",
+        "created_at"
+      ]
+    },
+    {
+      "name": "points_rewards",
+      "domain": "membership_points",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "code",
+        "name",
+        "cost_points",
+        "status",
+        "reward_version",
+        "created_by",
+        "created_at"
+      ]
+    },
+    {
+      "name": "pricing_quote_discount_allocations",
+      "domain": "checkout",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "quote_id",
+        "source_id",
+        "scope",
+        "allocation_key",
+        "sequence_no",
+        "eligible_base_fen",
+        "discount_fen",
+        "rule_version",
+        "algorithm_version"
+      ]
+    },
+    {
+      "name": "pricing_quote_items",
+      "domain": "checkout",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "quote_id",
+        "allocation_key",
+        "cart_item_id",
+        "cart_item_version",
+        "offer_id",
+        "offer_version",
+        "sku_id",
+        "catalog_standard_version_id",
+        "merchant_id",
+        "quantity",
+        "unit_price_fen",
+        "goods_amount_fen",
+        "discount_amount_fen",
+        "payable_amount_fen"
+      ]
+    },
+    {
+      "name": "pricing_quote_merchant_groups",
+      "domain": "checkout",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "quote_id",
+        "merchant_id",
+        "shipping_rule_id",
+        "shipping_amount_fen",
+        "shipping_discount_fen",
+        "shipping_payable_fen"
+      ]
+    },
+    {
+      "name": "pricing_quotes",
+      "domain": "checkout",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "user_id",
+        "address_id",
+        "address_version",
+        "address_snapshot",
+        "membership_snapshot",
+        "currency",
+        "goods_amount_fen",
+        "shipping_amount_fen",
+        "discount_amount_fen",
+        "payable_amount_fen",
+        "pricing_rule_version",
+        "algorithm_version",
+        "input_hash",
+        "snapshot_hash",
+        "facts_snapshot",
+        "result_snapshot",
+        "status",
+        "expires_at",
+        "created_at",
+        "consumed_order_id",
+        "consumed_at",
+        "version"
+      ]
+    },
+    {
+      "name": "pricing_rule_versions",
+      "domain": "checkout",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "code",
+        "algorithm_version",
+        "parameters",
+        "parameters_hash",
+        "created_at"
+      ]
+    },
+    {
+      "name": "principal_role",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "principal_id",
+        "role_id",
+        "realm"
+      ]
+    },
+    {
+      "name": "principal_store_scope",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "principal_id",
+        "merchant_id",
+        "store_id"
+      ]
+    },
+    {
+      "name": "privacy_export_state",
+      "domain": "privacy_journal",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "singleton",
+        "exported_sequence",
+        "covered_until",
+        "checkpoint_sha256",
+        "claim_token",
+        "lease_until",
+        "attempts",
+        "next_attempt_at",
+        "last_error_code",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "privacy_journal",
+      "domain": "privacy_journal",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "sequence",
+        "kind",
+        "subject_id",
+        "reason_code",
+        "effective_at",
+        "retention_deadline"
+      ]
+    },
+    {
+      "name": "privacy_journal_head",
+      "domain": "privacy_journal",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "singleton",
+        "journal_id",
+        "installed_at",
+        "last_sequence"
+      ]
+    },
+    {
+      "name": "processed_event",
+      "domain": "delivery",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "consumer",
+        "event_id",
+        "status",
+        "attempt_count",
+        "generation",
+        "next_attempt_at",
+        "last_error_code",
+        "completed_at",
+        "payload_hash",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "refunds",
+      "domain": "aftersale_refunds",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "refund_no",
+        "payment_id",
+        "payment_attempt_id",
+        "cancellation_id",
+        "aftersale_id",
+        "amount_fen",
+        "channel_refund_no",
+        "status",
+        "attempt_count",
+        "next_retry_at",
+        "last_error_code",
+        "created_at",
+        "decided_at",
+        "lease_token",
+        "lease_until"
+      ]
+    },
+    {
+      "name": "reverify_grant",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "token_hash",
+        "session_id",
+        "action",
+        "expires_at",
+        "used_at",
+        "created_at"
+      ]
+    },
+    {
+      "name": "review_moderation",
+      "domain": "reviews_content",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "review_id",
+        "revision_id",
+        "decision",
+        "reason",
+        "actor_id",
+        "created_at"
+      ]
+    },
+    {
+      "name": "review_revisions",
+      "domain": "reviews_content",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "review_id",
+        "revision_no",
+        "rating",
+        "service_rating",
+        "body",
+        "asset_ids",
+        "pet_id",
+        "pet_label",
+        "created_at"
+      ]
+    },
+    {
+      "name": "review_reward_grants",
+      "domain": "reviews_content",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "order_id",
+        "user_id",
+        "policy_id",
+        "first_review_id",
+        "created_at"
+      ]
+    },
+    {
+      "name": "review_reward_policies",
+      "domain": "reviews_content",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "policy_version",
+        "base_points",
+        "media_bonus_points",
+        "refund_strategy",
+        "created_by",
+        "created_at"
+      ]
+    },
+    {
+      "name": "reviews",
+      "domain": "reviews_content",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "user_id",
+        "order_id",
+        "suborder_id",
+        "order_item_id",
+        "sku_id",
+        "spu_id",
+        "merchant_id",
+        "store_id",
+        "current_revision_id",
+        "published_revision_id",
+        "visibility",
+        "draft_status",
+        "share_pet_label",
+        "version",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "role",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "scope_type",
+        "code",
+        "name",
+        "created_at",
+        "version"
+      ]
+    },
+    {
+      "name": "role_permission",
+      "domain": "identity_audit",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "role_id",
+        "permission_id"
+      ]
+    },
+    {
+      "name": "search_admin_command",
+      "domain": "search",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "DERIVED_REBUILD_REVIEW",
+      "columns": [
+        "principal_id",
+        "idempotency_key",
+        "action",
+        "payload_hash",
+        "result_json",
+        "created_at"
+      ]
+    },
+    {
+      "name": "search_index_version",
+      "domain": "search",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "DERIVED_REBUILD_REVIEW",
+      "columns": [
+        "index_name",
+        "schema_version",
+        "status",
+        "created_at",
+        "activated_at"
+      ]
+    },
+    {
+      "name": "search_rebuild_job",
+      "domain": "search",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "DERIVED_REBUILD_REVIEW",
+      "columns": [
+        "id",
+        "event_id",
+        "target_index",
+        "status",
+        "attempt_count",
+        "available_at",
+        "claim_token",
+        "lease_expires_at",
+        "last_error_code",
+        "validated_count",
+        "source_digest",
+        "completed_at",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "search_sync_task",
+      "domain": "search",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "DERIVED_REBUILD_REVIEW",
+      "columns": [
+        "source_id",
+        "target_index",
+        "event_id",
+        "desired_revision",
+        "completed_revision",
+        "status",
+        "attempt_count",
+        "available_at",
+        "claim_token",
+        "lease_expires_at",
+        "last_error_code",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "settlement_items",
+      "domain": "settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "settlement_id",
+        "ledger_entry_id",
+        "signed_amount_fen"
+      ]
+    },
+    {
+      "name": "settlement_policies",
+      "domain": "settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "buffer_days",
+        "policy_version",
+        "created_by",
+        "created_at"
+      ]
+    },
+    {
+      "name": "settlement_tracks",
+      "domain": "settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "suborder_id",
+        "order_id",
+        "merchant_id",
+        "status",
+        "settlement_policy_id",
+        "buffer_days",
+        "eligible_at",
+        "settlement_id",
+        "version",
+        "created_at"
+      ]
+    },
+    {
+      "name": "settlements",
+      "domain": "settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "settlement_no",
+        "merchant_id",
+        "status",
+        "amount_fen",
+        "entry_count",
+        "attempt_count",
+        "last_error_code",
+        "channel_reference",
+        "initiated_by",
+        "created_at",
+        "settled_at",
+        "next_retry_at"
+      ]
+    },
+    {
+      "name": "shipment_items",
+      "domain": "fulfillment",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "shipment_id",
+        "suborder_id",
+        "order_item_id",
+        "quantity"
+      ]
+    },
+    {
+      "name": "shipment_receipts",
+      "domain": "fulfillment",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "shipment_id",
+        "user_id",
+        "confirmed_at"
+      ]
+    },
+    {
+      "name": "shipments",
+      "domain": "fulfillment",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "suborder_id",
+        "carrier_code",
+        "tracking_no",
+        "created_by",
+        "created_at"
+      ]
+    },
+    {
+      "name": "shipping_rule_versions",
+      "domain": "checkout",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "merchant_id",
+        "version_no",
+        "province_codes",
+        "base_fen",
+        "per_kg_fen",
+        "free_threshold_fen",
+        "created_by",
+        "created_at"
+      ]
+    },
+    {
+      "name": "simulated_payment_refund_requests",
+      "domain": "aftersale_refunds",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "refund_no",
+        "transaction_id",
+        "amount_fen",
+        "currency",
+        "status",
+        "channel_refund_no",
+        "created_at"
+      ]
+    },
+    {
+      "name": "simulated_payment_refunds",
+      "domain": "payments",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "refund_no",
+        "transaction_id",
+        "amount_fen",
+        "currency",
+        "status",
+        "created_at"
+      ]
+    },
+    {
+      "name": "simulated_payment_transactions",
+      "domain": "payments",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "attempt_no",
+        "channel",
+        "amount_fen",
+        "currency",
+        "status",
+        "transaction_id",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "simulated_refund_directives",
+      "domain": "aftersale_refunds",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "refund_no",
+        "outcome"
+      ]
+    },
+    {
+      "name": "simulated_settlement_directives",
+      "domain": "settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "settlement_no",
+        "outcome"
+      ]
+    },
+    {
+      "name": "simulated_settlement_disbursements",
+      "domain": "settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "settlement_no",
+        "merchant_id",
+        "amount_fen",
+        "channel_reference",
+        "created_at"
+      ]
+    },
+    {
+      "name": "sku_allergens",
+      "domain": "catalog",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "standard_version_id",
+        "allergen_id"
+      ]
+    },
+    {
+      "name": "sku_standard_versions",
+      "domain": "catalog",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "sku_id",
+        "version_no",
+        "status",
+        "ingredients",
+        "nutrients",
+        "allergens_known",
+        "life_stage_ids",
+        "source_refs",
+        "source_updated_on",
+        "created_by",
+        "created_at",
+        "published_at"
+      ]
+    },
+    {
+      "name": "skus",
+      "domain": "catalog",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "spu_id",
+        "sku_code",
+        "barcode",
+        "weight_g",
+        "package_unit",
+        "status",
+        "version"
+      ]
+    },
+    {
+      "name": "sms_delivery",
+      "domain": "delivery",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "event_id",
+        "challenge_id",
+        "status",
+        "attempt_count",
+        "available_at",
+        "claim_token",
+        "claimed_by",
+        "lease_expires_at",
+        "last_error_code",
+        "delivered_at",
+        "dead_at",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
+      "name": "spus",
+      "domain": "catalog",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "brand_id",
+        "name",
+        "pet_category",
+        "category",
+        "status"
+      ]
+    },
+    {
+      "name": "suborders",
+      "domain": "orders",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "order_id",
+        "merchant_id",
+        "suborder_no",
+        "merchant_name",
+        "fulfillment_status",
+        "goods_amount_fen",
+        "shipping_amount_fen",
+        "discount_amount_fen",
+        "payable_amount_fen",
+        "shipping_snapshot",
+        "version",
+        "created_at"
+      ]
+    },
+    {
+      "name": "user_addresses",
+      "domain": "checkout",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "user_id",
+        "recipient",
+        "phone",
+        "province_code",
+        "city_code",
+        "district_code",
+        "detail",
+        "status",
+        "version",
+        "created_at"
+      ]
+    },
+    {
+      "name": "user_coupons",
+      "domain": "checkout",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "user_id",
+        "definition_id",
+        "definition_version",
+        "scope",
+        "merchant_id",
+        "amount_fen",
+        "threshold_fen",
+        "status",
+        "expires_at",
+        "version",
+        "rule_version",
+        "reserved_order_id",
+        "reserved_from_status",
+        "reservation_expires_at"
+      ]
+    }
+  ],
+  "schema_sha256": "313c71fe9ed7726697e7601ad60ba554fd2b2ae88b90766d0fefcf719409d800",
+  "policies": [
+    {
+      "domain": "aftersale_refunds",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "ai",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "catalog",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "checkout",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "delivery",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "fulfillment",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "identity_audit",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "media",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "membership_points",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "nearby",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "offers_inventory",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "orders",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "payments",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "pets",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "privacy_journal",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "reviews_content",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "search",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "settlement",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "support_notifications",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    }
+  ],
+  "external_surfaces": [
+    {
+      "name": "object_versions",
+      "status": "PENDING"
+    },
+    {
+      "name": "search_indices",
+      "status": "PENDING"
+    },
+    {
+      "name": "rabbitmq_messages",
+      "status": "PENDING"
+    },
+    {
+      "name": "redis_identity_cache",
+      "status": "PENDING"
+    },
+    {
+      "name": "application_audit_logs",
+      "status": "PENDING"
+    },
+    {
+      "name": "backup_wal_historical_keys",
+      "status": "PENDING"
+    },
+    {
+      "name": "external_providers",
+      "status": "PENDING"
+    }
+  ]
+}

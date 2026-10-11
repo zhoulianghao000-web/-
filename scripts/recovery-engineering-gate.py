@@ -5,6 +5,7 @@ No promotion/deletion command for production. Backups and registry stay private.
 import argparse,base64,datetime as dt,hashlib,hmac,json,os,re,secrets,subprocess,time,uuid
 from pathlib import Path
 from privacy_export_contract import verify_export
+from privacy_review_contract import SCHEMA_SQL,REJOIN_SQL,review_inventory,review_rejoin
 from recovery_contract import RecoveryError,bundle_files,validate_bundle,privacy_registry,retention_plan,privacy_replay_sql
 
 ROOT=Path(__file__).resolve().parents[1];LOCAL=ROOT/'.local-recovery';OUT=ROOT/'backend/target/recovery-evidence'
@@ -58,6 +59,12 @@ def gate(commit):
  try:
   for p in sorted((ROOT/'backend/src/main/resources/db/migration').glob('V*.sql')):sql(SOURCE,p.read_text(encoding='utf8'))
   passed('all_twenty_one_actual_migrations_on_fresh_source')
+  # Metadata-only coverage from the actual migrated PostgreSQL, read-only snapshot.
+  inventory=json.loads((ROOT/'deployment/privacy/data-inventory.json').read_text(encoding='utf8'))
+  schema=json.loads(value(SOURCE,'BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY; '+SCHEMA_SQL+'; COMMIT;'))
+  coverage=review_inventory(inventory,schema,ROOT/'backend/src/main/resources/db/migration')
+  (OUT/'privacy-schema-review.json').write_text(json.dumps(coverage,indent=2)+'\n')
+  passed('actual_postgres_all_tables_and_columns_privacy_inventory_covered')
   (LOCAL/'independent-privacy').mkdir();(LOCAL/'live-media/media').mkdir(parents=True)
   run(['docker','build','-f','deployment/recovery/Dockerfile','-t',image,'.'],timeout=300);probe('seed');passed('actual_catalog_privacy_ledger_inbox_and_pending_sms_facts')
   png=base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a5N8AAAAASUVORK5CYII=');media_backup=LOCAL/'object-snapshot/media';media_backup.mkdir(parents=True)
@@ -137,12 +144,20 @@ def gate(commit):
   try:retention_plan(['wal/required'],['wal/required','objects/required','secrets://history']);raise RuntimeError('PINNED_WAL_RETENTION_ACCEPTED')
   except RecoveryError:pass
   passed('backup_chain_object_and_key_retention_pins_block_cleanup')
+  rejoin_before=facts(target)
+  snapshot=json.loads(value(target,'BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY; '+REJOIN_SQL+'; COMMIT;'))
+  rejoin=review_rejoin(snapshot,verified_registry,system_id=system_id,journal_id=pin['journal_id'])
+  assert rejoin['result']=='BLOCKED' and 'RESTORED_JOURNAL_FORK_OR_INCOMPLETE' in rejoin['reasons'] and 'PENDING_OUTBOX_REQUIRES_RECONCILIATION' in rejoin['reasons']
+  assert not any(rejoin[k] for k in ['quarantine_released','workers_authorized','exporter_authorized','deletion_authorized','production_ready'])
+  assert snapshot['active_sessions']==snapshot['active_refresh_tokens']==0 and facts(target)==rejoin_before
+  (OUT/'privacy-rejoin-review.json').write_text(json.dumps(rejoin,indent=2)+'\n')
+  passed('actual_restored_fork_and_pending_external_effects_block_rejoin_without_mutation')
   run(['docker','start',SOURCE])
   def source_ready():
    r=sql(SOURCE,'SELECT NOT pg_is_in_recovery()',ok=False)
    return r.returncode==0 and r.stdout.strip()==b't'
   wait_for(source_ready);assert facts(SOURCE)==source_final;passed('source_database_unchanged_by_all_restore_reviews')
-  report.update(result='PASS',tables=len(before),rows=sum(v['rows'] for v in before.values()),archive=archive_stats,target_time=target_time,system_id=system_id,backup_id=backup_id,backup_files=len(manifest['files']),registry_sha256=hashlib.sha256(registry_data).hexdigest(),registry_events=4,independent_export=True,trusted_latest_pin=pin,restore_seconds=round(time.monotonic()-started,3),runtime_application_started=False,external_workers_started=False,quarantine_released=False,limitations=['Synthetic local archive only; no production RPO/RTO promise','Online privacy capture verified for AI deletion/expiry, personalization revocation and media tombstones only; production KMS/object versions and account deletion remain pending','No production promotion or live provider reconciliation'])
+  report.update(result='PASS',tables=len(before),rows=sum(v['rows'] for v in before.values()),archive=archive_stats,target_time=target_time,system_id=system_id,backup_id=backup_id,backup_files=len(manifest['files']),registry_sha256=hashlib.sha256(registry_data).hexdigest(),registry_events=4,independent_export=True,privacy_inventory=coverage,rejoin_review=rejoin,trusted_latest_pin=pin,restore_seconds=round(time.monotonic()-started,3),runtime_application_started=False,external_workers_started=False,quarantine_released=False,limitations=['Synthetic local archive only; no production RPO/RTO promise','Online privacy capture verified for AI deletion/expiry, personalization revocation and media tombstones only; production KMS/object versions and account deletion remain pending','No production promotion or live provider reconciliation'])
  except BaseException as e:
   report['failure_code']=str(e) if re.fullmatch('[A-Z_:]+',str(e)) else type(e).__name__;raise
  finally:
