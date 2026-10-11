@@ -37,7 +37,7 @@ if($Action -eq 'Accounts'){
  $refresh.Add_Click($update);$form.Controls.Add($text);$form.Controls.Add($refresh);& $update;[void]$form.ShowDialog();return
 }
 if($Action -eq 'Status'){
- foreach($port in @(4172,4173,4174,4175)){$id=Get-LocalIdentity $port;Write-Host "$port : $($id.site) $($id.mode)"};return
+ foreach($port in @(4172,4273,4174,4175)){$id=Get-LocalIdentity $port;Write-Host "$port : $($id.site) $($id.mode)"};return
 }
 if($Action -eq 'Stop'){
  if(Test-Path -LiteralPath $stateFile){
@@ -56,7 +56,7 @@ if($existing -and $existing.product -eq 'PawdayV1' -and $existing.root -eq $task
  if(-not $status.healthy){throw 'Local processes exist but backend is unhealthy. Stop this delivery, check logs, then start again.'}
  if(-not $NoBrowser){Start-Process 'http://127.0.0.1:4172'};Write-Host 'PawdayV1 is already running.';return
 }
-foreach($port in @(8086,4172,4173,4174,4175,5546,6386,5676,9206,15676)){
+foreach($port in @(8086,4172,4273,4174,4175,5546,6386,5676,9206,15676)){
  $listeners=Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue
  if($listeners){throw "Local port $port is occupied. Stop only its owning environment before retrying."}
 }
@@ -90,7 +90,7 @@ try{
  $web=Start-Process -FilePath $node -ArgumentList @(('"'+(Join-Path $PSScriptRoot 'desktop-server.mjs')+'"'),('"'+$taskRoot+'"')) -WorkingDirectory $taskRoot -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $roundRoot 'desktop.log') -RedirectStandardError (Join-Path $roundRoot 'desktop-error.log')
  $processes+=@{id=$web.Id;started_at=$web.StartTime.ToUniversalTime().ToString('o')}
  for($attempt=0;$attempt -lt 15;$attempt++){if(Get-LocalIdentity 4172){break};Start-Sleep -Seconds 1}
- foreach($port in @(4172,4173,4174,4175)){$id=Get-LocalIdentity $port;if(-not $id -or $id.root -ne $taskRoot){throw "Desktop service $port failed identity check"}}
+ foreach($port in @(4172,4273,4174,4175)){$id=Get-LocalIdentity $port;if(-not $id -or $id.root -ne $taskRoot){throw "Desktop service $port failed identity check"}}
  @{root=$taskRoot;processes=$processes} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $stateFile -Encoding UTF8
  if(-not $NoBrowser){Start-Process 'http://127.0.0.1:4172'}
  Write-Host 'PawdayV1 is ready. http://127.0.0.1:4172'
