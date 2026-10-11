@@ -20,6 +20,8 @@ jobs:
       - run: pnpm generate:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm exec playwright test e2e/web.spec.ts
+      - name: Actual pilot staff browser label and client contract gate
+        run: VITE_PAWDAY_PILOT=true pnpm exec playwright test e2e/pilot.spec.ts
       - name: Build explicitly marked pilot staff clients
         run: VITE_PAWDAY_PILOT=true pnpm build
       - uses: actions/upload-artifact@v4

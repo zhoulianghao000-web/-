@@ -217,12 +217,21 @@ class ConsumerApi {
     String? idempotencyKey,
     int? version,
   }) async {
+    // Public catalog is private in pilot, but login/refresh must never carry stale bearer.
+    if (pilotMode &&
+        ![
+          '/consumer/auth/phone/request-code',
+          '/consumer/auth/phone/verify',
+          '/consumer/auth/refresh',
+        ].contains(path)) {
+      anonymous = false;
+    }
     final epoch = _epoch, access = _tokens?.access_token;
     Future<http.Response> send() async {
       final request = http.Request(method, _url(path));
       request.headers['X-Request-ID'] = const Uuid().v4();
       if (pilotMode) request.headers['X-Pawday-Pilot'] = 'simulated-v1';
-      if ((!anonymous || pilotMode) && _tokens != null) {
+      if (!anonymous && _tokens != null) {
         request.headers['Authorization'] = 'Bearer ${_tokens!.access_token}';
       }
       if (idempotencyKey != null) {

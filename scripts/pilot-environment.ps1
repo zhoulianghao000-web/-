@@ -8,7 +8,7 @@ $config=Join-Path $roundRoot 'config.env';$project="pawday-pilot-$Round"
 if($Action -eq 'Init'){
  if(Test-Path -LiteralPath $roundRoot){throw 'Round exists; preserve its credentials. Choose a new round name.'}
  [void][IO.Directory]::CreateDirectory($roundRoot)
- function New-PilotSecret([int]$Count){$bytes=New-Object byte[] $Count;[Security.Cryptography.RandomNumberGenerator]::Fill($bytes);return [Convert]::ToBase64String($bytes)}
+ function New-PilotSecret([int]$Count){$bytes=New-Object byte[] $Count;$rng=[Security.Cryptography.RandomNumberGenerator]::Create();try{$rng.GetBytes($bytes)}finally{$rng.Dispose()};return [Convert]::ToBase64String($bytes)}
  $lines=@('SPRING_PROFILES_ACTIVE=local,pilot','PAWDAY_DEPLOYMENT_MODE=pilot','PAWDAY_DEMO_ENABLED=true','PAWDAY_LOCAL_SMS_ENABLED=true',"PAWDAY_PILOT_ROOT=$roundRoot",'SERVER_ADDRESS=127.0.0.1','SERVER_PORT=8086',"PILOT_DB_NAME=pawday_pilot_$($Round.Replace('-','_'))",'SPRING_DATASOURCE_USERNAME=pawday_pilot','REDIS_HOST=127.0.0.1','REDIS_PORT=6386','RABBITMQ_HOST=127.0.0.1','RABBITMQ_PORT=5676','RABBITMQ_USER=pawday_pilot','OPENSEARCH_URL=http://127.0.0.1:9206',"PAWDAY_AUTH_SECRET=$(New-PilotSecret 32)","PAWDAY_DEMO_MERCHANT_PASSWORD=$(New-PilotSecret 24)","PAWDAY_DEMO_ADMIN_PASSWORD=$(New-PilotSecret 24)","PAWDAY_DEMO_ADMIN_TOTP_BASE64=$(New-PilotSecret 20)","PILOT_DB_PASSWORD=$(New-PilotSecret 24)","PILOT_MQ_PASSWORD=$(New-PilotSecret 24)")
  [IO.File]::WriteAllLines($config,$lines,[Text.UTF8Encoding]::new($false))
  Write-Host 'Created private ignored pilot configuration. No secrets printed.';return
