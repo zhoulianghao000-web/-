@@ -120,7 +120,9 @@ jobs:
           gate_status=$?
           set -e
           test "$gate_status" -eq 2
-          python scripts/check-production-startup.py --jar backend/target/pawday-backend-0.6.5-SNAPSHOT.jar --report backend/target/readiness-evidence/production-startup.json
+          python scripts/check-production-startup.py --jar backend/target/pawday-backend-0.6.6-SNAPSHOT.jar --report backend/target/readiness-evidence/production-startup.json
+      - name: M6.6.1 actual packaged pilot refusal probes
+        run: python scripts/check-pilot-startup.py --jar backend/target/pawday-backend-0.6.6-SNAPSHOT.jar --report backend/target/pilot-evidence/startup-refusal.json
       - name: Real infrastructure diagnostics
         if: always()
         run: |
@@ -141,8 +143,9 @@ jobs:
             backend/target/m23-infrastructure-evidence.json
             backend/target/infrastructure-evidence/
             backend/target/readiness-evidence/
+            backend/target/pilot-evidence/
             backend/target/privacy-review-schema.json
-            backend/target/pawday-backend-0.6.5-SNAPSHOT.jar
+            backend/target/pawday-backend-0.6.6-SNAPSHOT.jar
             openapi/*response-report.json
       - name: Stop only isolated integration services
         if: always()
@@ -206,7 +209,7 @@ jobs:
           docker compose -p pawday-m63-it -f compose.recovery.yaml up -d --wait --wait-timeout 300
       - name: Mandatory actual JAR quarantine rejection and real WAL PITR gate
         run: |
-          python scripts/check-recovery-startup.py --jar backend/target/pawday-backend-0.6.5-SNAPSHOT.jar --report backend/target/recovery-evidence/recovery-startup.json
+          python scripts/check-recovery-startup.py --jar backend/target/pawday-backend-0.6.6-SNAPSHOT.jar --report backend/target/recovery-evidence/recovery-startup.json
           python scripts/recovery-engineering-gate.py --test-only --commit '${{ github.event.pull_request.head.sha || github.sha }}'
       - uses: actions/upload-artifact@v4
         if: always()
@@ -278,3 +281,24 @@ jobs:
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m4.2.yaml --output openapi/pawday-m4.2.redocly.bundle.json
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m4.1.yaml
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m4.1.yaml --output openapi/pawday-m4.1.redocly.bundle.json
+
+  pilot-engineering:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - run: mvn -B -ntp -DskipTests package
+        working-directory: backend
+      - run: sudo sysctl -w vm.max_map_count=262144
+      - name: M6.6.1 real PostgreSQL Redis RabbitMQ OpenSearch pilot gate
+        run: python scripts/pilot-engineering-gate.py --jar backend/target/pawday-backend-0.6.6-SNAPSHOT.jar --report backend/target/pilot-live-evidence/gate.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m661-pilot-evidence
+          path: backend/target/pilot-live-evidence/

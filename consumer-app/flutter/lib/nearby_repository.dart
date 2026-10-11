@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'api/client.dart';
 import 'api/generated/dto.dart';
 import 'repositories.dart';
+import 'pilot.dart';
 
 class NearbyRepository {
   final ConsumerApi api;
@@ -145,7 +146,8 @@ class LocationProvider {
 }
 
 final locationProvider = Provider(
-  (ref) => LocationProvider(DeviceGeolocation()),
+  (ref) =>
+      LocationProvider(pilotMode ? PilotGeolocation() : DeviceGeolocation()),
 );
 
 typedef UriLauncher = Future<bool> Function(Uri uri);
@@ -172,6 +174,7 @@ class NavigationLauncher {
         'callnative',
       }).isEmpty;
   Future<bool> open(NavigationIntent intent) async {
+    if (pilotMode) return false;
     final first = Uri.tryParse(intent.launch_url),
         fallback = Uri.tryParse(intent.fallback_url);
     if (intent.provider != 'AMAP_URI' ||
@@ -209,3 +212,22 @@ final navigationLauncherProvider = Provider(
     (uri) => launchUrl(uri, mode: LaunchMode.externalApplication),
   ),
 );
+
+/// Local scenarios; no platform channels, permissions, settings or geolocation.
+class PilotGeolocation implements GeolocationAccess {
+  String scenario;
+  PilotGeolocation([this.scenario = 'ALLOWED']);
+  @override
+  Future<bool> enabled() async => scenario != 'DISABLED';
+  @override
+  Future<LocationPermission> check() async => scenario == 'DENIED'
+      ? LocationPermission.denied
+      : LocationPermission.whileInUse;
+  @override
+  Future<LocationPermission> request() => check();
+  @override
+  Future<Coordinates> current() async =>
+      const Coordinates(106.551556, 29.563009);
+  @override
+  Future<bool> settings() async => false;
+}

@@ -14,9 +14,9 @@ public final class ProductionAdmissionGuard implements EnvironmentPostProcessor,
     @Override public void postProcessEnvironment(ConfigurableEnvironment env, SpringApplication app) {
         var profiles = Arrays.stream(env.getActiveProfiles()).map(s -> s.toLowerCase(Locale.ROOT)).toList();
         String mode = env.getProperty("pawday.deployment-mode", "development").toLowerCase(Locale.ROOT);
-        if (!Set.of("development", "staging", "production").contains(mode))
+        if (!Set.of("development", "staging", "production", "pilot").contains(mode))
             throw new IllegalStateException(MARKER + ": INVALID_DEPLOYMENT_MODE");
-        if (!mode.equals("production") && !profiles.contains("production") && !profiles.contains("prod")) return;
+        if (!mode.equals("production") && !profiles.contains("production") && !profiles.contains("prod")) {cn.pawday.pilot.PilotPolicy.validate(env);return;}
         var reasons = new ArrayList<String>();
         // This release has no live payment/refund, SMS, storage or disbursement implementations.
         // M6.2+ must change code and pass real provider gates; an env flag cannot bypass this lock.

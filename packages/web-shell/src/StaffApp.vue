@@ -56,6 +56,7 @@ function selectStore(event:Event){try{props.session.selectStore((event.target as
 watch(()=>route.fullPath,loadPage);onMounted(loadPage);
 </script>
 <template>
+  <div v-if="session.client.pilot" role="status" class="pilot-banner">模拟试点 · 仅测试账号 · 不发生真实交易、短信或 AI 调用</div>
   <div v-if="route.meta.page==='login'" class="login-screen">
     <section class="login-story"><div class="brand">爪日 <span>Pawday</span></div><p class="eyebrow">让每一份照顾，都有回应</p><h1>{{ title }}</h1><p>{{ realm==='merchant'?'管理你的门店，让日常经营更从容。':'守护平台秩序，让每一份信任有迹可循。' }}</p><div class="paw-mark" aria-hidden="true">✦</div></section>
     <form class="login-card" @submit.prevent="login">

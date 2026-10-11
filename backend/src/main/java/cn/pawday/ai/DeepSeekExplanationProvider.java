@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import tools.jackson.databind.json.JsonMapper;
 
 @Component
+@org.springframework.boot.autoconfigure.condition.ConditionalOnProperty(name="pawday.pilot.enabled",havingValue="false",matchIfMissing=true)
 public class DeepSeekExplanationProvider implements ExplanationProvider {
  private final String key,model;private final URI endpoint;private final HttpClient http;private final int timeout;
  private final JsonMapper json=JsonMapper.builder().build();
