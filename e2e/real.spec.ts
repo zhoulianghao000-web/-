@@ -6,7 +6,10 @@ import {test,expect,type Page} from '@playwright/test';
 test.skip(!process.env.PAWDAY_REAL_E2E,'Run in the mandatory real-infrastructure CI job');
 test.use({actionTimeout:15000});
 async function editFlutterText(page:Page,name:string|RegExp,value:string){
-  const field=page.getByRole('textbox',{name,exact:typeof name==='string'});
+  // Flutter adds the decoration hint to the accessible name while focused.
+  // Match the complete label prefix across that transition, not a stale exact name.
+  const label=typeof name==='string'?new RegExp('^'+name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?:\\s|$)'):name;
+  const field=page.getByRole('textbox',{name:label});
   // These flows keep several pages open. A click during Flutter's route/focus
   // transition does not guarantee that page.keyboard targets this editor.
   await page.bringToFront();await field.click();await field.focus();
@@ -35,6 +38,20 @@ test('real merchant login, scope, refresh rotation and cross-realm rejection',as
   await page.getByRole('link',{name:'账号与设备'}).click();await expect(page.getByText('当前设备',{exact:true})).toBeVisible();await page.getByRole('button',{name:'注销其他设备',exact:true}).click();await page.getByLabel('再次输入密码').fill(password);await page.getByRole('button',{name:'验证并注销其他设备',exact:true}).click();await expect(page.getByRole('status')).toHaveText('其他设备的会话已注销。');
   await page.getByRole('button',{name:'退出登录'}).click();await expect(page).toHaveURL(/\/login$/);
 });
+test('real Flutter Web focus survives decoration hint and foreground page changes',async({browser})=>{
+  const context=await browser.newContext({viewport:{width:430,height:900}});
+  try{
+    const page=await context.newPage();await page.goto('http://127.0.0.1:5173/consumer-preview/index.html#/nearby');
+    await page.locator('flt-semantics-placeholder').waitFor({state:'attached',timeout:30000});await page.locator('flt-semantics-placeholder').evaluate((el:HTMLElement)=>el.click());
+    const other=await context.newPage();await other.goto('http://127.0.0.1:5173/consumer-preview/index.html#/nearby');
+    for(let i=0;i<12;i++){
+      await other.bringToFront();await editFlutterText(page,'浏览城市','CI-M65-CITY-'+i);
+      await expect(page.getByRole('textbox',{name:'浏览城市',exact:true})).toHaveValue('CI-M65-CITY-'+i);
+    }
+    await page.screenshot({path:'frontend-evidence/m65-real-flutter-focus.png',fullPage:true});
+  }finally{await context.close();}
+});
+
 test('real administrator TOTP, catalog publication, merchant correction and review',async({page,browser})=>{
   test.setTimeout(720000);
   const password=process.env.PAWDAY_DEMO_ADMIN_PASSWORD;if(!password)throw new Error('Real admin fixture required');
