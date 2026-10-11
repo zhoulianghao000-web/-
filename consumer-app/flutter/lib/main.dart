@@ -50,6 +50,7 @@ class _PawdayAppState extends ConsumerState<PawdayApp> {
           ),
     theme: ThemeData(
       useMaterial3: true,
+      fontFamily: pilotMode ? 'PawdaySans' : null,
       colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff245d4d)),
       scaffoldBackgroundColor: const Color(0xfff5f6ef),
     ),
