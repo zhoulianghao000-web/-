@@ -41,7 +41,14 @@ public class SupportInboxConsumer {
         if(roots.isEmpty())throw new InvalidEvent("UNKNOWN_EVENT");var root=roots.getFirst();
         if(!e.event_type().equals(root.get("event_type"))||!e.aggregate_type().equals(root.get("aggregate_type"))||!e.aggregate_id().equals(root.get("aggregate_id"))||!json.readTree(root.get("payload").toString()).equals(json.valueToTree(e.payload())))throw new InvalidEvent("EVENT_FACT_MISMATCH");
         UUID recipient,target;String category,targetType;
-        if(e.event_type().equals("SupportMessageCreated")){
+        if(e.event_type().equals("PetFoodReminderDue")){
+            if(!e.payload().keySet().equals(Set.of("plan_id","plan_version"))||!e.aggregate_type().equals("PET_FOOD_PLAN")||!e.aggregate_id().equals(e.payload().get("plan_id"))||!(e.payload().get("plan_version") instanceof Number))throw new InvalidEvent("INVALID_EVENT_PAYLOAD");
+            target=UUID.fromString(e.aggregate_id());
+            var rows=db.queryForList("SELECT f.version,f.emitted_event_id,ip.id FROM pet_food_plans f JOIN pets p ON p.id=f.pet_id JOIN identity_principal ip ON ip.user_id=p.owner_user_id AND ip.realm='CONSUMER' WHERE f.id=? AND f.active AND f.reminder_enabled AND p.status='ACTIVE' FOR UPDATE OF f",target);
+            if(rows.isEmpty())return;var plan=rows.getFirst();
+            if(((Number)plan.get("version")).longValue()!=((Number)e.payload().get("plan_version")).longValue()||!e.event_id().equals(plan.get("emitted_event_id")))return;
+            recipient=(UUID)plan.get("id");category="FOOD_REMINDER";targetType="PET_FOOD";
+        }else if(e.event_type().equals("SupportMessageCreated")){
             if(!e.payload().keySet().equals(Set.of("conversation_id","message_id","sequence")))throw new InvalidEvent("INVALID_EVENT_PAYLOAD");
             UUID cid=UUID.fromString(e.payload().get("conversation_id").toString()),mid=UUID.fromString(e.payload().get("message_id").toString());
             if(!e.aggregate_type().equals("CONVERSATION")||!e.aggregate_id().equals(cid.toString()))throw new InvalidEvent("INVALID_EVENT_PAYLOAD");

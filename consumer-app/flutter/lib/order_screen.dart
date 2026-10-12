@@ -1,3 +1,4 @@
+import 'invoice_screen.dart';
 import 'reference_ui.dart';
 
 import 'package:flutter/material.dart';
@@ -216,6 +217,16 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(sub.merchant_name),
+                      if (order.payment.status == 'SUCCEEDED')
+                        TextButton(
+                          onPressed: () => showDialog<void>(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (_) =>
+                                InvoiceForm(orderId: order.id, subId: sub.id),
+                          ),
+                          child: const Text('申请发票'),
+                        ),
                       OutlinedButton(
                         onPressed: () => context.push(
                           Uri(

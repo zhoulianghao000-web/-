@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -377,6 +378,12 @@ class PetsScreen extends ConsumerWidget {
                                                             ),
                                                       ),
                                                   child: const Text('体重记录'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () => context.push(
+                                                    '/pet-food?pet_id=${pet.id}',
+                                                  ),
+                                                  child: const Text('当前粮'),
                                                 ),
                                                 TextButton(
                                                   onPressed: () =>

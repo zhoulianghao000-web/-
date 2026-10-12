@@ -26,7 +26,8 @@
     "V020__ai_explanations.sql": "3378234de207b063357c4c58f07acc78dfdc7b2aafefb077be981ec45ef76021",
     "V021__privacy_fact_journal.sql": "7a932e5c6376605d79b993e90a97a0f2c43e81a05c48d877792bbaad68e2aab3",
     "V022__staff_password_credentials.sql": "e9987822342d3b0838692396d4f73f715888d5409bb8b4ac72a5a3c2fc06759f",
-    "V023__pet_profile_photo_and_owner_breed.sql": "a31d1066fb42b47d107d7bd7b51eaf05e85e5afa26adf18b4c0e67be40dd6f3a"
+    "V023__pet_profile_photo_and_owner_breed.sql": "a31d1066fb42b47d107d7bd7b51eaf05e85e5afa26adf18b4c0e67be40dd6f3a",
+    "V024__consumer_care_and_favorites.sql": "38262cef9e325e6f8e54a6f1625f75f34afb50e5fc3bfface8df5bd2eba7ea75"
   },
   "tables": [
     {
@@ -540,6 +541,21 @@
       ]
     },
     {
+      "name": "consumer_favorites",
+      "domain": "pets",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "user_id",
+        "spu_id",
+        "store_id",
+        "active",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
       "name": "content_article_revisions",
       "domain": "reviews_content",
       "retention_status": "PENDING_OWNER_POLICY",
@@ -830,6 +846,38 @@
         "resulting_reserved_qty",
         "resulting_inventory_version",
         "created_at"
+      ]
+    },
+    {
+      "name": "invoice_application_changes",
+      "domain": "orders",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "application_id",
+        "version",
+        "status",
+        "actor_principal_id",
+        "reason",
+        "created_at"
+      ]
+    },
+    {
+      "name": "invoice_applications",
+      "domain": "orders",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "suborder_id",
+        "title_type",
+        "private_cipher",
+        "status",
+        "reason",
+        "version",
+        "created_at",
+        "updated_at"
       ]
     },
     {
@@ -1424,6 +1472,44 @@
         "species_id",
         "name",
         "status"
+      ]
+    },
+    {
+      "name": "pet_food_changes",
+      "domain": "pets",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "plan_id",
+        "version",
+        "action",
+        "snapshot",
+        "created_at"
+      ]
+    },
+    {
+      "name": "pet_food_plans",
+      "domain": "pets",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "pet_id",
+        "sku_id",
+        "food_name",
+        "package_weight_g",
+        "daily_amount_g",
+        "started_on",
+        "baseline_on",
+        "baseline_remaining_g",
+        "reminder_enabled",
+        "remind_before_days",
+        "active",
+        "version",
+        "emitted_event_id",
+        "created_at",
+        "updated_at"
       ]
     },
     {
@@ -2345,7 +2431,7 @@
       ]
     }
   ],
-  "schema_sha256": "07b71e2c9d1552a754fc8a2765a221342283e2abb81548e945e15bd92fc6ff1c",
+  "schema_sha256": "e399a343e6d51bc728c8b9ef21d69844b3f3c3e00c11579f46267158bab980cf",
   "policies": [
     {
       "domain": "aftersale_refunds",

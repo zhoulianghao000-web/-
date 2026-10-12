@@ -28,6 +28,7 @@ const notificationLabels = {
 };
 
 const notificationEventLabels = {
+  'PetFoodReminderDue': '预计粮食即将用完，请核对余量后确认是否补购',
   'OrderCreated': '订单已创建，请及时付款',
   'OrderPaid': '付款成功，等待商家发货',
   'OrderCancelled': '订单已取消',

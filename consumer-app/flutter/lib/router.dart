@@ -14,6 +14,9 @@ import 'points_screen.dart';
 import 'publishing_screen.dart';
 import 'support_screen.dart';
 import 'ai_screen.dart';
+import 'care_screen.dart';
+import 'invoice_screen.dart';
+import 'favorites_screen.dart';
 
 String safeReturnTo(String? value) {
   const allowed = [
@@ -23,6 +26,9 @@ String safeReturnTo(String? value) {
     '/nearby',
     '/me',
     '/sessions',
+    '/pet-food',
+    '/favorites',
+    '/invoices',
     '/cart',
     '/orders',
     '/payments',
@@ -91,6 +97,9 @@ final routerProvider = Provider<GoRouter>((ref) {
               [
                 '/pets',
                 '/sessions',
+                '/pet-food',
+                '/favorites',
+                '/invoices',
                 '/cart',
                 '/orders',
                 '/payments',
@@ -111,6 +120,13 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
+      GoRoute(
+        path: '/pet-food',
+        builder: (_, state) =>
+            PetFoodScreen(petId: state.uri.queryParameters['pet_id'] ?? ''),
+      ),
+      GoRoute(path: '/favorites', builder: (_, _) => const FavoritesScreen()),
+      GoRoute(path: '/invoices', builder: (_, _) => const InvoicesScreen()),
       GoRoute(
         path: '/ai',
         builder: (_, state) => AiScreen(
@@ -194,8 +210,10 @@ final routerProvider = Provider<GoRouter>((ref) {
               routes: [
                 GoRoute(
                   path: path,
-                  builder: (_, _) => path == '/nearby'
-                      ? const NearbyScreen()
+                  builder: (_, state) => path == '/nearby'
+                      ? NearbyScreen(
+                          storeId: state.uri.queryParameters['store_id'],
+                        )
                       : TabScreen(path: path),
                 ),
               ],

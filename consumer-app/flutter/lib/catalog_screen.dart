@@ -1,3 +1,4 @@
+import 'favorites_screen.dart';
 import 'reference_ui.dart';
 
 import 'package:go_router/go_router.dart';
@@ -389,6 +390,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
           if (error != null) Text(error!),
           if (s != null) ...[
             Text(s.name, style: Theme.of(context).textTheme.headlineSmall),
+            FavoriteButton(kind: 'PRODUCT', target: s.spu_id),
             Text('${s.brand} · ${s.sku_code} · ${s.weight_g}g'),
             if (s.pilot_material != null) Text(s.pilot_material!.label),
             if (pilotMode && s.pilot_material?.media_path != null)

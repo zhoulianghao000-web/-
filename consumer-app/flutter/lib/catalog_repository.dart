@@ -29,6 +29,9 @@ class CatalogRepository {
     );
   }
 
+  Future<ConsumerSpu> product(String id) async => ConsumerSpuEnvelope.fromJson(
+    await api.request('GET', '/public/spus/$id', anonymous: true),
+  ).data;
   Future<ConsumerStandard> standard(String sku) async =>
       ConsumerStandardEnvelope.fromJson(
         await api.request('GET', '/public/skus/$sku', anonymous: true),

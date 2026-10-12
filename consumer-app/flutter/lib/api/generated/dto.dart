@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 e199ae22046aa30bd765c6799ac75f93d48d066d408abdd52cfb54e7729ed7e9
+// Generated from Pawday runtime OpenAPI; SHA256 38090f0772262f7a2a87b24e38c5e36236e3c15a92f0c6b49d1fcdfa4d3260c6
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -8733,6 +8733,436 @@ class PilotBaselineEnvelope {
   };
 }
 
+class PetFoodInput {
+  final String? sku_id;
+  final String food_name;
+  final int package_weight_g;
+  final int daily_amount_g;
+  final String started_on;
+  final bool reminder_enabled;
+  final int remind_before_days;
+  const PetFoodInput({required this.sku_id, required this.food_name, required this.package_weight_g, required this.daily_amount_g, required this.started_on, required this.reminder_enabled, required this.remind_before_days});
+  factory PetFoodInput.fromJson(Map<String,dynamic> json) => PetFoodInput(
+    sku_id: json['sku_id'] == null ? null : json['sku_id'] as String,
+    food_name: json['food_name'] as String,
+    package_weight_g: (json['package_weight_g'] as num).toInt(),
+    daily_amount_g: (json['daily_amount_g'] as num).toInt(),
+    started_on: json['started_on'] as String,
+    reminder_enabled: json['reminder_enabled'] as bool,
+    remind_before_days: (json['remind_before_days'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'sku_id': sku_id == null ? null : sku_id!,
+    'food_name': food_name,
+    'package_weight_g': package_weight_g,
+    'daily_amount_g': daily_amount_g,
+    'started_on': started_on,
+    'reminder_enabled': reminder_enabled,
+    'remind_before_days': remind_before_days,
+  };
+}
+
+class PetFoodPlan {
+  final String id;
+  final String pet_id;
+  final String? sku_id;
+  final String food_name;
+  final int package_weight_g;
+  final int daily_amount_g;
+  final String started_on;
+  final bool reminder_enabled;
+  final int remind_before_days;
+  final String baseline_on;
+  final int baseline_remaining_g;
+  final bool active;
+  final int version;
+  final String created_at;
+  final String updated_at;
+  final int estimated_remaining_g;
+  final String estimated_finish_on;
+  final String estimate_as_of;
+  final String estimate_notice;
+  const PetFoodPlan({required this.id, required this.pet_id, required this.sku_id, required this.food_name, required this.package_weight_g, required this.daily_amount_g, required this.started_on, required this.reminder_enabled, required this.remind_before_days, required this.baseline_on, required this.baseline_remaining_g, required this.active, required this.version, required this.created_at, required this.updated_at, required this.estimated_remaining_g, required this.estimated_finish_on, required this.estimate_as_of, required this.estimate_notice});
+  factory PetFoodPlan.fromJson(Map<String,dynamic> json) => PetFoodPlan(
+    id: json['id'] as String,
+    pet_id: json['pet_id'] as String,
+    sku_id: json['sku_id'] == null ? null : json['sku_id'] as String,
+    food_name: json['food_name'] as String,
+    package_weight_g: (json['package_weight_g'] as num).toInt(),
+    daily_amount_g: (json['daily_amount_g'] as num).toInt(),
+    started_on: json['started_on'] as String,
+    reminder_enabled: json['reminder_enabled'] as bool,
+    remind_before_days: (json['remind_before_days'] as num).toInt(),
+    baseline_on: json['baseline_on'] as String,
+    baseline_remaining_g: (json['baseline_remaining_g'] as num).toInt(),
+    active: json['active'] as bool,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+    updated_at: json['updated_at'] as String,
+    estimated_remaining_g: (json['estimated_remaining_g'] as num).toInt(),
+    estimated_finish_on: json['estimated_finish_on'] as String,
+    estimate_as_of: json['estimate_as_of'] as String,
+    estimate_notice: json['estimate_notice'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'pet_id': pet_id,
+    'sku_id': sku_id == null ? null : sku_id!,
+    'food_name': food_name,
+    'package_weight_g': package_weight_g,
+    'daily_amount_g': daily_amount_g,
+    'started_on': started_on,
+    'reminder_enabled': reminder_enabled,
+    'remind_before_days': remind_before_days,
+    'baseline_on': baseline_on,
+    'baseline_remaining_g': baseline_remaining_g,
+    'active': active,
+    'version': version,
+    'created_at': created_at,
+    'updated_at': updated_at,
+    'estimated_remaining_g': estimated_remaining_g,
+    'estimated_finish_on': estimated_finish_on,
+    'estimate_as_of': estimate_as_of,
+    'estimate_notice': estimate_notice,
+  };
+}
+
+class PetFoodCalibration {
+  final int remaining_g;
+  final String recorded_on;
+  const PetFoodCalibration({required this.remaining_g, required this.recorded_on});
+  factory PetFoodCalibration.fromJson(Map<String,dynamic> json) => PetFoodCalibration(
+    remaining_g: (json['remaining_g'] as num).toInt(),
+    recorded_on: json['recorded_on'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'remaining_g': remaining_g,
+    'recorded_on': recorded_on,
+  };
+}
+
+class PetFoodChange {
+  final String id;
+  final String plan_id;
+  final int version;
+  final String action;
+  final String created_at;
+  const PetFoodChange({required this.id, required this.plan_id, required this.version, required this.action, required this.created_at});
+  factory PetFoodChange.fromJson(Map<String,dynamic> json) => PetFoodChange(
+    id: json['id'] as String,
+    plan_id: json['plan_id'] as String,
+    version: (json['version'] as num).toInt(),
+    action: json['action'] as String,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'plan_id': plan_id,
+    'version': version,
+    'action': action,
+    'created_at': created_at,
+  };
+}
+
+class FavoriteInput {
+  final String kind;
+  final String target_id;
+  const FavoriteInput({required this.kind, required this.target_id});
+  factory FavoriteInput.fromJson(Map<String,dynamic> json) => FavoriteInput(
+    kind: json['kind'] as String,
+    target_id: json['target_id'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'kind': kind,
+    'target_id': target_id,
+  };
+}
+
+class Favorite {
+  final String id;
+  final String kind;
+  final String target_id;
+  final String name;
+  final bool available;
+  final String created_at;
+  const Favorite({required this.id, required this.kind, required this.target_id, required this.name, required this.available, required this.created_at});
+  factory Favorite.fromJson(Map<String,dynamic> json) => Favorite(
+    id: json['id'] as String,
+    kind: json['kind'] as String,
+    target_id: json['target_id'] as String,
+    name: json['name'] as String,
+    available: json['available'] as bool,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'kind': kind,
+    'target_id': target_id,
+    'name': name,
+    'available': available,
+    'created_at': created_at,
+  };
+}
+
+class FavoriteRemoved {
+  final String id;
+  final bool active;
+  const FavoriteRemoved({required this.id, required this.active});
+  factory FavoriteRemoved.fromJson(Map<String,dynamic> json) => FavoriteRemoved(
+    id: json['id'] as String,
+    active: json['active'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'active': active,
+  };
+}
+
+class PetFoodPlanOptionalEnvelope {
+  final PetFoodPlan? data;
+  final Meta meta;
+  const PetFoodPlanOptionalEnvelope({required this.data, required this.meta});
+  factory PetFoodPlanOptionalEnvelope.fromJson(Map<String,dynamic> json) => PetFoodPlanOptionalEnvelope(
+    data: json['data'] == null ? null : PetFoodPlan.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data == null ? null : data!.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class PetFoodPlanEnvelope {
+  final PetFoodPlan data;
+  final Meta meta;
+  const PetFoodPlanEnvelope({required this.data, required this.meta});
+  factory PetFoodPlanEnvelope.fromJson(Map<String,dynamic> json) => PetFoodPlanEnvelope(
+    data: PetFoodPlan.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class PetFoodChangeListEnvelope {
+  final List<PetFoodChange> data;
+  final Page page;
+  final Meta meta;
+  const PetFoodChangeListEnvelope({required this.data, required this.page, required this.meta});
+  factory PetFoodChangeListEnvelope.fromJson(Map<String,dynamic> json) => PetFoodChangeListEnvelope(
+    data: (json['data'] as List).map((value) => PetFoodChange.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class FavoriteListEnvelope {
+  final List<Favorite> data;
+  final Page page;
+  final Meta meta;
+  const FavoriteListEnvelope({required this.data, required this.page, required this.meta});
+  factory FavoriteListEnvelope.fromJson(Map<String,dynamic> json) => FavoriteListEnvelope(
+    data: (json['data'] as List).map((value) => Favorite.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class FavoriteEnvelope {
+  final Favorite data;
+  final Meta meta;
+  const FavoriteEnvelope({required this.data, required this.meta});
+  factory FavoriteEnvelope.fromJson(Map<String,dynamic> json) => FavoriteEnvelope(
+    data: Favorite.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class FavoriteRemovedEnvelope {
+  final FavoriteRemoved data;
+  final Meta meta;
+  const FavoriteRemovedEnvelope({required this.data, required this.meta});
+  factory FavoriteRemovedEnvelope.fromJson(Map<String,dynamic> json) => FavoriteRemovedEnvelope(
+    data: FavoriteRemoved.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class InvoiceApplication {
+  final String id;
+  final String suborder_id;
+  final String title_type;
+  final String status;
+  final String? reason;
+  final int version;
+  final String created_at;
+  final String updated_at;
+  final String order_id;
+  final String merchant_id;
+  final String merchant_name;
+  final String suborder_no;
+  final int payable_amount_fen;
+  final String issuer_notice;
+  final String? title;
+  final String? tax_number;
+  final String? email;
+  const InvoiceApplication({required this.id, required this.suborder_id, required this.title_type, required this.status, required this.reason, required this.version, required this.created_at, required this.updated_at, required this.order_id, required this.merchant_id, required this.merchant_name, required this.suborder_no, required this.payable_amount_fen, required this.issuer_notice, this.title, this.tax_number, this.email});
+  factory InvoiceApplication.fromJson(Map<String,dynamic> json) => InvoiceApplication(
+    id: json['id'] as String,
+    suborder_id: json['suborder_id'] as String,
+    title_type: json['title_type'] as String,
+    status: json['status'] as String,
+    reason: json['reason'] == null ? null : json['reason'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+    updated_at: json['updated_at'] as String,
+    order_id: json['order_id'] as String,
+    merchant_id: json['merchant_id'] as String,
+    merchant_name: json['merchant_name'] as String,
+    suborder_no: json['suborder_no'] as String,
+    payable_amount_fen: (json['payable_amount_fen'] as num).toInt(),
+    issuer_notice: json['issuer_notice'] as String,
+    title: json['title'] == null ? null : json['title'] as String,
+    tax_number: json['tax_number'] == null ? null : json['tax_number'] as String,
+    email: json['email'] == null ? null : json['email'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'suborder_id': suborder_id,
+    'title_type': title_type,
+    'status': status,
+    'reason': reason == null ? null : reason!,
+    'version': version,
+    'created_at': created_at,
+    'updated_at': updated_at,
+    'order_id': order_id,
+    'merchant_id': merchant_id,
+    'merchant_name': merchant_name,
+    'suborder_no': suborder_no,
+    'payable_amount_fen': payable_amount_fen,
+    'issuer_notice': issuer_notice,
+    if (title != null) 'title': title == null ? null : title!,
+    if (tax_number != null) 'tax_number': tax_number == null ? null : tax_number!,
+    if (email != null) 'email': email == null ? null : email!,
+  };
+}
+
+class InvoiceBatch {
+  final List<InvoiceApplication> applications;
+  const InvoiceBatch({required this.applications});
+  factory InvoiceBatch.fromJson(Map<String,dynamic> json) => InvoiceBatch(
+    applications: (json['applications'] as List).map((value) => InvoiceApplication.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'applications': applications.map((value) => value.toJson()).toList(),
+  };
+}
+
+class InvoiceInput {
+  final String order_id;
+  final List<String> suborder_ids;
+  final String title_type;
+  final String title;
+  final String? tax_number;
+  final String email;
+  const InvoiceInput({required this.order_id, required this.suborder_ids, required this.title_type, required this.title, required this.tax_number, required this.email});
+  factory InvoiceInput.fromJson(Map<String,dynamic> json) => InvoiceInput(
+    order_id: json['order_id'] as String,
+    suborder_ids: (json['suborder_ids'] as List).map((value) => value as String).toList(),
+    title_type: json['title_type'] as String,
+    title: json['title'] as String,
+    tax_number: json['tax_number'] == null ? null : json['tax_number'] as String,
+    email: json['email'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'order_id': order_id,
+    'suborder_ids': suborder_ids.map((value) => value).toList(),
+    'title_type': title_type,
+    'title': title,
+    'tax_number': tax_number == null ? null : tax_number!,
+    'email': email,
+  };
+}
+
+class InvoiceDecision {
+  final String status;
+  final String reason;
+  const InvoiceDecision({required this.status, required this.reason});
+  factory InvoiceDecision.fromJson(Map<String,dynamic> json) => InvoiceDecision(
+    status: json['status'] as String,
+    reason: json['reason'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'status': status,
+    'reason': reason,
+  };
+}
+
+class InvoiceApplicationListEnvelope {
+  final List<InvoiceApplication> data;
+  final Page page;
+  final Meta meta;
+  const InvoiceApplicationListEnvelope({required this.data, required this.page, required this.meta});
+  factory InvoiceApplicationListEnvelope.fromJson(Map<String,dynamic> json) => InvoiceApplicationListEnvelope(
+    data: (json['data'] as List).map((value) => InvoiceApplication.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class InvoiceApplicationEnvelope {
+  final InvoiceApplication data;
+  final Meta meta;
+  const InvoiceApplicationEnvelope({required this.data, required this.meta});
+  factory InvoiceApplicationEnvelope.fromJson(Map<String,dynamic> json) => InvoiceApplicationEnvelope(
+    data: InvoiceApplication.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class InvoiceBatchEnvelope {
+  final InvoiceBatch data;
+  final Meta meta;
+  const InvoiceBatchEnvelope({required this.data, required this.meta});
+  factory InvoiceBatchEnvelope.fromJson(Map<String,dynamic> json) => InvoiceBatchEnvelope(
+    data: InvoiceBatch.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -9039,4 +9469,20 @@ class ApiRoutes {
   static const post_admin_ai_policies_versions = '/admin/ai/policies/versions';
   static const get_consumer_pilot_baseline = '/consumer/pilot/baseline';
   static const get_consumer_pilot_sku_media = '/consumer/pilot/skus/{sku_id}/media';
+  static const get_consumer_pets__pet__food = '/consumer/pets/{pet}/food';
+  static const put_consumer_pets__pet__food = '/consumer/pets/{pet}/food';
+  static const get_consumer_pets__pet__food_history = '/consumer/pets/{pet}/food/history';
+  static const post_consumer_pets__pet__food_calibrations = '/consumer/pets/{pet}/food/calibrations';
+  static const post_consumer_pets__pet__food_stop = '/consumer/pets/{pet}/food/stop';
+  static const get_consumer_favorites = '/consumer/favorites';
+  static const post_consumer_favorites = '/consumer/favorites';
+  static const delete_consumer_favorites__fid = '/consumer/favorites/{fid}';
+  static const get_consumer_invoices = '/consumer/invoices';
+  static const post_consumer_invoices = '/consumer/invoices';
+  static const get_consumer_invoices__application = '/consumer/invoices/{application}';
+  static const get_merchant_invoices = '/merchant/invoices';
+  static const get_merchant_invoices__application = '/merchant/invoices/{application}';
+  static const get_admin_invoices = '/admin/invoices';
+  static const get_admin_invoices__application = '/admin/invoices/{application}';
+  static const post_merchant_invoices__application__decision = '/merchant/invoices/{application}/decision';
 }

@@ -1,3 +1,4 @@
+import 'favorites_screen.dart';
 import 'reference_ui.dart';
 
 import 'package:flutter/material.dart';
@@ -25,7 +26,8 @@ const nearbyServices = {
 };
 
 class NearbyScreen extends ConsumerStatefulWidget {
-  const NearbyScreen({super.key});
+  final String? storeId;
+  const NearbyScreen({super.key, this.storeId});
   @override
   ConsumerState<NearbyScreen> createState() => _NearbyScreenState();
 }
@@ -38,6 +40,20 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
   List<NearbyResult> rows = [];
   bool busy = false, searched = false;
   int generation = 0;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.storeId != null) Future.microtask(() => detail(widget.storeId!));
+  }
+
+  @override
+  void didUpdateWidget(covariant NearbyScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.storeId != null && widget.storeId != oldWidget.storeId) {
+      Future.microtask(() => detail(widget.storeId!));
+    }
+  }
+
   @override
   void dispose() {
     generation++;
@@ -129,9 +145,9 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
     }
   }
 
-  Future<void> detail(NearbyResult row) async {
+  Future<void> detail(String storeId) async {
     try {
-      final place = await ref.read(nearbyRepositoryProvider).place(row.id);
+      final place = await ref.read(nearbyRepositoryProvider).place(storeId);
       if (!mounted) return;
       await showModalBottomSheet<void>(
         context: context,
@@ -164,6 +180,7 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
                     '来源：商家提交 · 已核实认领${place.pawday_certified ? ' · 平台已认证' : ''}',
                   ),
                   const Text('服务与营业时间请联系门店确认。医院仅提供地点与联系方式，不提供诊断或治疗排行。'),
+                  FavoriteButton(kind: 'STORE', target: place.id),
                   const SizedBox(height: 16),
                   PawdayButton(
                     onPressed: () async {
@@ -500,7 +517,7 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
                       child: Semantics(
                         button: true,
                         child: InkWell(
-                          onTap: () => detail(row),
+                          onTap: () => detail(row.id),
                           child: Padding(
                             padding: const EdgeInsets.all(24),
                             child: Row(

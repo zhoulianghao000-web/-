@@ -19,6 +19,7 @@ export function bootstrap(realm:Exclude<Realm,'consumer'>){
     ...(realm==='admin'?[{path:'/settlements',component:{template:'<span />'},meta:{page:'settlements',permission:'settlement.read'}},{path:'/finance-policies',component:{template:'<span />'},meta:{page:'finance-policies',permission:'settlement.policy.manage'}},{path:'/membership',component:{template:'<span />'},meta:{page:'membership',permission:'points.read'}}]:[{path:'/finance',component:{template:'<span />'},meta:{page:'finance',permission:'ledger.read'}}]),
     {path:'/ai',component:{template:'<span />'},meta:{page:'ai',...(realm==='admin'?{permission:'ai.read'}:{})}},
     {path:'/nearby',component:{template:'<span />'},meta:{page:'nearby',permission:realm==='merchant'?'store.read':'nearby.read'}},
+    {path:'/invoices',component:{template:'<span />'},meta:{page:'invoices',permission:'invoice.read'}},
     {path:'/support',component:{template:'<span />'},meta:{page:'support',permission:'support.read'}},
     {path:'/reviews',component:{template:'<span />'},meta:{page:'reviews',permission:realm==='merchant'?'review.merchant.read':'review.read'}},
     ...(realm==='admin'?[{path:'/content',component:{template:'<span />'},meta:{page:'content',permission:'content.read'}}]:[]),

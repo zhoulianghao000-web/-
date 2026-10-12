@@ -24,6 +24,7 @@ public class RabbitTopology {
         var searchQueue=QueueBuilder.durable(SEARCH_QUEUE).quorum().deadLetterExchange(DLX).deadLetterRoutingKey("dead").withArgument("x-dead-letter-strategy","at-least-once").withArgument("x-overflow","reject-publish").withArgument("x-delivery-limit",-1).build();
         var supportQueue=QueueBuilder.durable(SUPPORT_QUEUE).quorum().deadLetterExchange(DLX).deadLetterRoutingKey("dead").withArgument("x-dead-letter-strategy","at-least-once").withArgument("x-overflow","reject-publish").withArgument("x-delivery-limit",-1).build();
         return new Declarables(supportQueue,exchange,dead,queue,searchQueue,dlq,catalogQueue,offerQueue,orderQueue,paymentQueue,businessQueue,
+            BindingBuilder.bind(supportQueue).to(exchange).with("PetFoodReminderDue"),
             BindingBuilder.bind(supportQueue).to(exchange).with("SupportMessageCreated"),
 BindingBuilder.bind(supportQueue).to(exchange).with("SupportAssigned"),
 BindingBuilder.bind(supportQueue).to(exchange).with("OrderCreated"),
