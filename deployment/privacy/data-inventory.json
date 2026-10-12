@@ -1,6 +1,6 @@
 {
   "schema_version": "pawday-privacy-inventory/v1",
-  "source_baseline": "28924c07a1e2b5ff86a78544306644e69ec55122",
+  "source_baseline": "c948accee1376af8a307c07dc92730d54ee7ae48",
   "retention_authority": "PENDING_OWNER_POLICY",
   "deletion_authorized": false,
   "migrations": {
