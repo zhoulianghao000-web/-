@@ -1,3 +1,5 @@
+import 'reference_ui.dart';
+
 import 'package:go_router/go_router.dart';
 
 import 'checkout_repository.dart';
@@ -163,85 +165,108 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
     });
     return Scaffold(
       appBar: AppBar(title: const Text('商品与适配')),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          TextField(
-            controller: query,
-            decoration: const InputDecoration(labelText: '商品名、品牌或 SKU'),
-            onSubmitted: loading ? null : (_) => load(reset: true),
-          ),
-          DropdownButton<String>(
-            value: category,
-            hint: const Text('全部宠物分类'),
-            items: [
-              const DropdownMenuItem<String>(value: null, child: Text('全部')),
-              ...{
-                'CAT': '猫',
-                'DOG': '狗',
-                'AQUATIC': '水族',
-                'BIRD': '鸟',
-                'SMALL_PET': '小宠',
-              }.entries.map(
-                (x) => DropdownMenuItem(value: x.key, child: Text(x.value)),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1240),
+          child: ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+              TextField(
+                controller: query,
+                decoration: const InputDecoration(labelText: '商品名、品牌或 SKU'),
+                onSubmitted: loading ? null : (_) => load(reset: true),
               ),
-            ],
-            onChanged: loading
-                ? null
-                : (v) {
-                    category = v;
-                    load(reset: true);
-                  },
-          ),
-          FilledButton(
-            onPressed: loading ? null : () => load(reset: true),
-            child: const Text('查询 / 刷新'),
-          ),
-          if (error != null)
-            Text(
-              error!,
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
-          if (loading) const LinearProgressIndicator(),
-          if (!loading && items.isEmpty) const Text('本页暂无符合条件的在售商品，可继续翻页或刷新。'),
-          for (final item in items)
-            Card(
-              child: ListTile(
-                title: Text(item.name),
-                subtitle: Text(
-                  '${item.pilot_material?.label ?? ''}\n${item.brand} · ${item.sku_code}\n¥${(item.offers.map((x) => x.sale_price_fen).reduce((a, b) => a < b ? a : b) / 100).toStringAsFixed(2)} 起',
-                ),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (_) => ProductScreen(sku: item.id),
+              DropdownButton<String>(
+                value: category,
+                hint: const Text('全部宠物分类'),
+                items: [
+                  const DropdownMenuItem<String>(
+                    value: null,
+                    child: Text('全部'),
                   ),
-                ),
-                trailing: Checkbox(
-                  value: selected.contains(item.id),
-                  onChanged: loading
-                      ? null
-                      : (value) => setState(() {
-                          if (value == true && selected.length < 4) {
-                            selected.add(item.id);
-                          } else {
-                            selected.remove(item.id);
-                          }
-                        }),
-                ),
+                  ...{
+                    'CAT': '猫',
+                    'DOG': '狗',
+                    'AQUATIC': '水族',
+                    'BIRD': '鸟',
+                    'SMALL_PET': '小宠',
+                  }.entries.map(
+                    (x) => DropdownMenuItem(value: x.key, child: Text(x.value)),
+                  ),
+                ],
+                onChanged: loading
+                    ? null
+                    : (v) {
+                        category = v;
+                        load(reset: true);
+                      },
               ),
-            ),
-          if (hasMore)
-            OutlinedButton(
-              onPressed: loading ? null : () => load(),
-              child: const Text('下一页'),
-            ),
-          OutlinedButton(
-            onPressed: !loading && selected.length >= 2 ? compare : null,
-            child: Text('比较已选商品（${selected.length}/4）'),
+              PawdayButton(
+                onPressed: loading ? null : () => load(reset: true),
+                child: const Text('查询 / 刷新'),
+              ),
+              if (error != null)
+                Text(
+                  error!,
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+              if (loading) const LinearProgressIndicator(),
+              if (!loading && items.isEmpty)
+                const Text('本页暂无符合条件的在售商品，可继续翻页或刷新。'),
+              LayoutBuilder(
+                builder: (context, box) {
+                  final columns = box.maxWidth > 850 ? 4 : 2;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: items.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: columns,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 17,
+                      mainAxisExtent: 340,
+                    ),
+                    itemBuilder: (context, index) {
+                      final item = items[index];
+                      return ReferenceProductCard(
+                        item: item,
+                        imageIndex: index,
+                        onOpen: () => Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (_) => ProductScreen(sku: item.id),
+                          ),
+                        ),
+                        selection: Checkbox(
+                          value: selected.contains(item.id),
+                          onChanged: loading
+                              ? null
+                              : (value) => setState(() {
+                                  if (value == true && selected.length < 4) {
+                                    selected.add(item.id);
+                                  } else {
+                                    selected.remove(item.id);
+                                  }
+                                }),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+              if (hasMore)
+                OutlinedButton(
+                  onPressed: loading ? null : () => load(),
+                  child: const Text('下一页'),
+                ),
+              OutlinedButton(
+                onPressed: !loading && selected.length >= 2 ? compare : null,
+                child: Text('比较已选商品（${selected.length}/4）'),
+              ),
+              const Text('适配依据平台来源与宠物档案；商品报价中的运费、优惠与结账实付待确认。'),
+            ],
           ),
-          const Text('适配依据平台来源与宠物档案；商品报价中的运费、优惠与结账实付待确认。'),
-        ],
+        ),
       ),
     );
   }
@@ -417,7 +442,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                             },
                           ).toString(),
                         ),
-                  trailing: FilledButton(
+                  trailing: PawdayButton(
                     onPressed: loading || adding || !o.in_stock
                         ? null
                         : () => addOffer(o),

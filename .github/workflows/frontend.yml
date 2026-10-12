@@ -19,7 +19,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm generate:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build
       - name: Local desktop static/proxy/origin/isolation gates
-        run: node --test scripts/tests/desktop-server.test.mjs
+        run: node --test scripts/tests/desktop-server.test.mjs scripts/tests/reference-assets.test.mjs
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm exec playwright test e2e/web.spec.ts
       - name: Actual pilot staff browser label and client contract gate
@@ -69,6 +69,8 @@ jobs:
           unzip -p build/app/outputs/flutter-apk/app-debug.apk assets/flutter_assets/assets/fonts/OFL.txt | cmp assets/fonts/OFL.txt -
           cmp assets/fonts/OFL.txt build/web/assets/assets/fonts/OFL.txt
         working-directory: consumer-app/flutter
+      - name: Verify all reference photographs in standalone Web and APK
+        run: python scripts/check-reference-artifacts.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -1,3 +1,5 @@
+import 'reference_ui.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -34,8 +36,10 @@ class _MembershipScreenState extends ConsumerState<MembershipScreen> {
     super.dispose();
   }
 
-  String keyFor(String payload) =>
-      keys.putIfAbsent(payload, () => DateTime.now().microsecondsSinceEpoch.toString() + owner.toString());
+  String keyFor(String payload) => keys.putIfAbsent(
+    payload,
+    () => DateTime.now().microsecondsSinceEpoch.toString() + owner.toString(),
+  );
 
   Future<void> load() async {
     if (busy) return;
@@ -48,7 +52,11 @@ class _MembershipScreenState extends ConsumerState<MembershipScreen> {
     bool valid() => mounted && epoch == generation && owner == user;
     try {
       final repo = ref.read(membershipRepositoryProvider);
-      final results = await Future.wait([repo.plans(), repo.current(), repo.orders()]);
+      final results = await Future.wait([
+        repo.plans(),
+        repo.current(),
+        repo.orders(),
+      ]);
       if (valid()) {
         setState(() {
           plans = results[0] as List<MembershipPlan>;
@@ -135,9 +143,13 @@ class _MembershipScreenState extends ConsumerState<MembershipScreen> {
                       const SizedBox(height: 4),
                       Text(plan.benefits.join('、')),
                       const SizedBox(height: 8),
-                      FilledButton(
+                      PawdayButton(
                         onPressed: busy ? null : () => purchase(plan),
-                        child: Text(status == 'ACTIVE' ? '续费 ${plan.term == 'MONTH' ? '月度' : '年度'}会员' : '开通'),
+                        child: Text(
+                          status == 'ACTIVE'
+                              ? '续费 ${plan.term == 'MONTH' ? '月度' : '年度'}会员'
+                              : '开通',
+                        ),
                       ),
                     ],
                   ),
@@ -148,7 +160,9 @@ class _MembershipScreenState extends ConsumerState<MembershipScreen> {
               const Text('会员订单', style: TextStyle(fontSize: 18)),
               for (final order in orders)
                 ListTile(
-                  title: Text('${order.plan_snapshot.name} · ${orderMoney(order.amount_fen)}'),
+                  title: Text(
+                    '${order.plan_snapshot.name} · ${orderMoney(order.amount_fen)}',
+                  ),
                   subtitle: Text(order.created_at),
                   trailing: Text(
                     const {

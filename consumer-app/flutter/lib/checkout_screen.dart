@@ -1,3 +1,5 @@
+import 'reference_ui.dart';
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -63,7 +65,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
             onPressed: () => Navigator.pop(c, false),
             child: const Text('返回检查'),
           ),
-          FilledButton(
+          PawdayButton(
             onPressed: () => Navigator.pop(c, true),
             child: const Text('确认下单'),
           ),
@@ -321,7 +323,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                 onPressed: () => Navigator.pop(ctx),
                 child: const Text('取消'),
               ),
-              FilledButton(
+              PawdayButton(
                 onPressed: () {
                   if (form.currentState!.validate()) {
                     Navigator.pop(
@@ -585,7 +587,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                               }
                             }),
                     ),
-                FilledButton(
+                PawdayButton(
                   onPressed: busy || selected.isEmpty || address == null
                       ? null
                       : price,
@@ -621,7 +623,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                             child: const Text('核对试算有效性'),
                           ),
                           if (q.status == 'ACTIVE')
-                            FilledButton(
+                            PawdayButton(
                               onPressed: busy ? null : submitOrder,
                               child: const Text('确认并创建订单'),
                             ),

@@ -7,28 +7,109 @@ import 'api/client.dart';
 import 'api/generated/dto.dart';
 import 'pet_screen.dart';
 import 'catalog_screen.dart';
+import 'home_screen.dart';
+import 'reference_ui.dart';
 
 class TabShell extends StatelessWidget {
   final StatefulNavigationShell shell;
   const TabShell({super.key, required this.shell});
   @override
-  Widget build(BuildContext context) => Scaffold(
-    body: shell,
-    bottomNavigationBar: NavigationBar(
-      selectedIndex: shell.currentIndex,
-      onDestinationSelected: (index) =>
-          shell.goBranch(index, initialLocation: index == shell.currentIndex),
-      destinations: const [
-        NavigationDestination(icon: Icon(Icons.home_outlined), label: '首页'),
-        NavigationDestination(
-          icon: Icon(Icons.grid_view_outlined),
-          label: '分类',
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (context, bounds) {
+      final desktop = bounds.maxWidth >= 900;
+      const labels = ['首页', '分类', '宠物', '附近', '我的'];
+      return Scaffold(
+        body: Column(
+          children: [
+            if (desktop)
+              Container(
+                height: 76,
+                decoration: const BoxDecoration(
+                  color: PawdayDesign.paper,
+                  border: Border(bottom: BorderSide(color: PawdayDesign.line)),
+                ),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 1240),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 28),
+                      child: Row(
+                        children: [
+                          const PawdayBrand(),
+                          const Spacer(),
+                          for (var i = 0; i < labels.length; i++)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                              ),
+                              child: TextButton(
+                                onPressed: () => shell.goBranch(
+                                  i,
+                                  initialLocation: i == shell.currentIndex,
+                                ),
+                                child: Text(
+                                  labels[i],
+                                  style: TextStyle(
+                                    color: shell.currentIndex == i
+                                        ? PawdayDesign.orange
+                                        : PawdayDesign.ink,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          const Spacer(),
+                          IconButton(
+                            tooltip: '购物车',
+                            onPressed: () => context.push('/cart'),
+                            icon: const Icon(Icons.shopping_cart_outlined),
+                          ),
+                          IconButton(
+                            tooltip: '我的爪日',
+                            onPressed: () => shell.goBranch(4),
+                            icon: const Icon(Icons.person_outline),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            Expanded(child: shell),
+          ],
         ),
-        NavigationDestination(icon: Icon(Icons.pets_outlined), label: '宠物'),
-        NavigationDestination(icon: Icon(Icons.place_outlined), label: '附近'),
-        NavigationDestination(icon: Icon(Icons.person_outline), label: '我的'),
-      ],
-    ),
+        bottomNavigationBar: desktop
+            ? null
+            : NavigationBar(
+                selectedIndex: shell.currentIndex,
+                onDestinationSelected: (index) => shell.goBranch(
+                  index,
+                  initialLocation: index == shell.currentIndex,
+                ),
+                destinations: const [
+                  NavigationDestination(
+                    icon: Icon(Icons.home_outlined),
+                    label: '首页',
+                  ),
+                  NavigationDestination(
+                    icon: Icon(Icons.grid_view_outlined),
+                    label: '分类',
+                  ),
+                  NavigationDestination(
+                    icon: Icon(Icons.pets_outlined),
+                    label: '宠物',
+                  ),
+                  NavigationDestination(
+                    icon: Icon(Icons.place_outlined),
+                    label: '附近',
+                  ),
+                  NavigationDestination(
+                    icon: Icon(Icons.person_outline),
+                    label: '我的',
+                  ),
+                ],
+              ),
+      );
+    },
   );
 }
 
@@ -37,6 +118,7 @@ class TabScreen extends ConsumerWidget {
   const TabScreen({super.key, required this.path});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (path == '/home') return const HomeScreen();
     if (path == '/pets') return const PetsScreen();
     if (path == '/categories') return const CatalogScreen();
     final auth = ref.watch(authProvider), pet = ref.watch(currentPetProvider);
@@ -54,49 +136,6 @@ class TabScreen extends ConsumerWidget {
         key: PageStorageKey(path),
         padding: const EdgeInsets.all(24),
         children: [
-          if (path == '/home') ...[
-            ListTile(
-              leading: const Icon(Icons.auto_awesome_outlined),
-              title: const Text('AI 商品资料解释'),
-              onTap: () => context.go('/ai'),
-            ),
-            ListTile(
-              leading: const Icon(Icons.menu_book),
-              title: const Text('食品与养宠知识'),
-              onTap: () => context.go('/content'),
-            ),
-            const Text(
-              '每一天，认真照顾。',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(height: 12),
-            const Text('从一份合适的食物，到一次安心的陪伴。'),
-            const SizedBox(height: 24),
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.pets),
-                title: Text(pet?.name ?? '选择宠物，了解它的需要'),
-                subtitle: const Text('你的当前宠物会在首页和宠物页共享'),
-                onTap: () => context.go('/pets'),
-              ),
-            ),
-            const SizedBox(height: 24),
-            const Text(
-              '陪伴，各有不同',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 10,
-              children: [
-                for (final name in ['猫', '狗', '水族 / 水宠', '鸟', '小宠'])
-                  ActionChip(
-                    label: Text(name),
-                    onPressed: () => context.go('/categories'),
-                  ),
-              ],
-            ),
-          ],
           if (path == '/categories') ...[
             const Text('为不同的伙伴，找到不同的照顾。'),
             const SizedBox(height: 20),
@@ -158,7 +197,7 @@ class TabScreen extends ConsumerWidget {
               ),
             ),
             if (!loggedIn)
-              FilledButton(
+              PawdayButton(
                 onPressed: () => context.push('/auth/login?returnTo=%2Fme'),
                 child: const Text('手机号登录'),
               ),
@@ -293,64 +332,69 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         onPressed: () => context.go('/home'),
       ),
     ),
-    body: Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 420),
-        child: ListView(
-          shrinkWrap: true,
-          padding: const EdgeInsets.all(28),
-          children: [
-            const Text(
-              '欢迎来到爪日',
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+    body: ReferenceLoginFrame(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(28),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text(
+                  '欢迎来到爪日',
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+                ),
+                const SizedBox(height: 12),
+                const Text('让每一天的照顾，都更安心。'),
+                const SizedBox(height: 28),
+                TextField(
+                  controller: phone,
+                  keyboardType: TextInputType.phone,
+                  autofillHints: const [AutofillHints.telephoneNumber],
+                  decoration: const InputDecoration(
+                    labelText: '手机号',
+                    hintText: '支持 +86 国际格式',
+                  ),
+                ),
+                const SizedBox(height: 18),
+                TextField(
+                  controller: code,
+                  keyboardType: TextInputType.number,
+                  autofillHints: const [AutofillHints.oneTimeCode],
+                  maxLength: 6,
+                  decoration: const InputDecoration(labelText: '验证码'),
+                ),
+                TextButton(
+                  onPressed: busy ? null : sendCode,
+                  child: const Text('发送验证码'),
+                ),
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  value: agreed,
+                  onChanged: busy
+                      ? null
+                      : (value) => setState(() => agreed = value ?? false),
+                  title: const Text(
+                    '同意使用手机号创建或登录账号，并处理必要的账号与设备数据。',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+                if (message != null)
+                  Text(
+                    message!,
+                    key: const Key('login-message'),
+                    style: const TextStyle(color: Color(0xffa23d2d)),
+                  ),
+                const SizedBox(height: 18),
+                PawdayButton(
+                  onPressed: busy ? null : login,
+                  child: Text(busy ? '正在处理…' : '登录'),
+                ),
+              ],
             ),
-            const SizedBox(height: 12),
-            const Text('让每一天的照顾，都更安心。'),
-            const SizedBox(height: 28),
-            TextField(
-              controller: phone,
-              keyboardType: TextInputType.phone,
-              autofillHints: const [AutofillHints.telephoneNumber],
-              decoration: const InputDecoration(
-                labelText: '手机号',
-                hintText: '支持 +86 国际格式',
-              ),
-            ),
-            const SizedBox(height: 18),
-            TextField(
-              controller: code,
-              keyboardType: TextInputType.number,
-              autofillHints: const [AutofillHints.oneTimeCode],
-              maxLength: 6,
-              decoration: const InputDecoration(labelText: '验证码'),
-            ),
-            TextButton(
-              onPressed: busy ? null : sendCode,
-              child: const Text('发送验证码'),
-            ),
-            CheckboxListTile(
-              contentPadding: EdgeInsets.zero,
-              value: agreed,
-              onChanged: busy
-                  ? null
-                  : (value) => setState(() => agreed = value ?? false),
-              title: const Text(
-                '同意使用手机号创建或登录账号，并处理必要的账号与设备数据。',
-                style: TextStyle(fontSize: 12),
-              ),
-            ),
-            if (message != null)
-              Text(
-                message!,
-                key: const Key('login-message'),
-                style: const TextStyle(color: Color(0xffa23d2d)),
-              ),
-            const SizedBox(height: 18),
-            FilledButton(
-              onPressed: busy ? null : login,
-              child: Text(busy ? '正在处理…' : '登录'),
-            ),
-          ],
+          ),
         ),
       ),
     ),

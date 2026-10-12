@@ -1,3 +1,5 @@
+import 'reference_ui.dart';
+
 import 'dart:async';
 
 import 'package:uuid/uuid.dart';
@@ -128,7 +130,7 @@ class _SupportState extends ConsumerState<SupportScreen> {
           const Text('平台人工客服或当前门店客服为你解答。'),
           if (error != null)
             Text(error!, style: const TextStyle(color: Colors.red)),
-          FilledButton(
+          PawdayButton(
             onPressed: busy ? null : () => start(null),
             child: const Text('联系爪日平台客服'),
           ),
@@ -453,7 +455,7 @@ class _ConversationState extends ConsumerState<ConversationScreen> {
                     Wrap(
                       spacing: 8,
                       children: [
-                        FilledButton(
+                        PawdayButton(
                           onPressed: busy ? null : () => send('TEXT'),
                           child: const Text('发送'),
                         ),
@@ -462,7 +464,7 @@ class _ConversationState extends ConsumerState<ConversationScreen> {
                           child: const Text('选择图片'),
                         ),
                         if (asset != null)
-                          FilledButton(
+                          PawdayButton(
                             onPressed: busy ? null : () => send('IMAGE'),
                             child: const Text('发送已上传图片'),
                           ),

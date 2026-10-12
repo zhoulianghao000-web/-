@@ -1,3 +1,5 @@
+import 'reference_ui.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -90,7 +92,7 @@ class _FulfillmentCardState extends ConsumerState<FulfillmentCard> {
               onPressed: () => Navigator.pop(c, false),
               child: const Text('暂不确认'),
             ),
-            FilledButton(
+            PawdayButton(
               onPressed: () => Navigator.pop(c, true),
               child: const Text('确认已收到'),
             ),
@@ -177,7 +179,7 @@ class _FulfillmentCardState extends ConsumerState<FulfillmentCard> {
                   child: const Text('查看物流'),
                 ),
                 if (h.confirmed_at == null)
-                  FilledButton(
+                  PawdayButton(
                     onPressed: busy ? null : () => action(h, true),
                     child: const Text('确认这个包裹收货'),
                   ),

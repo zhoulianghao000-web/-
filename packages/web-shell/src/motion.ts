@@ -26,7 +26,7 @@ export function createPageMotion(root:HTMLElement,kind:'staff'|'portal'='staff')
       }
       const select=(selector:string)=>Array.from(root.querySelectorAll(selector));
       if(kind==='portal'){
-        enter(select('header, .notice, #health'),12,0.055);
+        enter(select('.hero-copy > *, .hero-visual, #health'),12,0.055);
         enter(select('.cards > .card'),18,0.06);
         enter(select('.details, footer'),10,0.04);
       }else if(root.querySelector('.login-screen')){

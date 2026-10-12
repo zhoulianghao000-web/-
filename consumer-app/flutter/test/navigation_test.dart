@@ -38,7 +38,7 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(find.byType(NavigationDestination), findsNWidgets(5));
-    expect(find.text('每一天，认真照顾。'), findsOneWidget);
+    expect(find.textContaining('每一天，认真照顾。'), findsOneWidget);
     await tester.tap(find.widgetWithText(NavigationDestination, '分类'));
     await tester.pumpAndSettle();
     expect(find.text('商品与适配'), findsOneWidget);

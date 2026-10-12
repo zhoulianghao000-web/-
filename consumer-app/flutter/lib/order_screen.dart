@@ -1,3 +1,5 @@
+import 'reference_ui.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -97,7 +99,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
             onPressed: () => Navigator.pop(c, false),
             child: const Text('保留订单'),
           ),
-          FilledButton(
+          PawdayButton(
             onPressed: () => Navigator.pop(c, true),
             child: const Text('确认取消'),
           ),
@@ -200,7 +202,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
             const Text('当前接通开发环境模拟支付，不发生真实扣款。'),
             if (order.status == 'PENDING_PAYMENT' ||
                 order.status == 'PAYMENT_PROCESSING')
-              FilledButton(
+              PawdayButton(
                 onPressed: busy
                     ? null
                     : () => context.go('/payments?id=${order.payment.id}'),

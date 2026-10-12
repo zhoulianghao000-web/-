@@ -1,3 +1,5 @@
+import 'reference_ui.dart';
+
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -524,7 +526,7 @@ class _EditorState extends ConsumerState<ReviewEditorScreen> {
                   icon: const Icon(Icons.close),
                 ),
               ),
-            FilledButton(
+            PawdayButton(
               onPressed: busy ? null : save,
               child: const Text('提交评价审核'),
             ),

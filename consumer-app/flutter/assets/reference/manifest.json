@@ -1,0 +1,83 @@
+{
+  "reference_file": "C:\\Users\\zl\\Desktop\\宠物项目\\宠物项目网页前端\\index.html",
+  "reference_sha256": "8aa092aa5edd65d81d6bb237c77ff0043bc458eec20e0b7d643654e958eecf62",
+  "assets": [
+    {
+      "name": "hero-dogs",
+      "file": "hero-dogs.jpg",
+      "url": "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=1200&q=85",
+      "sha256": "3ec43b89695b57de26632da440ba7876a433220b982d21671e9bc316b16c2219",
+      "size": 118901
+    },
+    {
+      "name": "story-dog",
+      "file": "story-dog.jpg",
+      "url": "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=1000&q=85",
+      "sha256": "9b9ce2cc5641bd46df6ecf4f96109438d15395818fbe747032149f047a881a78",
+      "size": 82436
+    },
+    {
+      "name": "note-cat",
+      "file": "note-cat.jpg",
+      "url": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=100&h=100&q=80",
+      "sha256": "5cd7ebab76879020f2e89718016f6f664648f630594cc03deafc8da977c0bf3a",
+      "size": 5761
+    },
+    {
+      "name": "category-cat",
+      "file": "category-cat.jpg",
+      "url": "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=500&q=80",
+      "sha256": "8a5dcfaea5cee27c029e90f61189469683ac602485002292dbfce2b71966e3ce",
+      "size": 63556
+    },
+    {
+      "name": "category-dog",
+      "file": "category-dog.jpg",
+      "url": "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=500&q=80",
+      "sha256": "8ce17f864aeb8e6aaf377b67e7f33f9d39ae006fc45b22dfcd4d8d6be85e045e",
+      "size": 77816
+    },
+    {
+      "name": "category-play",
+      "file": "category-play.jpg",
+      "url": "https://images.unsplash.com/photo-1535294435445-d7249524ef2e?auto=format&fit=crop&w=500&q=80",
+      "sha256": "816ae17db17efab28fbeca79edd1681ef03d0295a1a79fa3c7a3a3ee7ae88e22",
+      "size": 12962
+    },
+    {
+      "name": "category-feed",
+      "file": "category-feed.jpg",
+      "url": "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&w=500&q=80",
+      "sha256": "4c3bbfbe6c93e5bef11b713c715c83f6beae00abc9e275909b1c8c4ac17ca2e7",
+      "size": 42074
+    },
+    {
+      "name": "product-cat",
+      "file": "product-cat.jpg",
+      "url": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=700&q=85",
+      "sha256": "7c4e42666424c5a610f1c7b134b6762c215e4ca5311fddc8c6fe9c41459eef3a",
+      "size": 40717
+    },
+    {
+      "name": "product-dog",
+      "file": "product-dog.jpg",
+      "url": "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=700&q=85",
+      "sha256": "33022b03223fe236b8db644018da2f973a127601044cd76b89b231f411e2a4c6",
+      "size": 140562
+    },
+    {
+      "name": "product-treat",
+      "file": "product-treat.jpg",
+      "url": "https://images.unsplash.com/photo-1582798358481-d199fb7347bb?auto=format&fit=crop&w=700&q=85",
+      "sha256": "933edc35175a07847fcd1cb17473f10adf7214859541d9346d944afd7205250c",
+      "size": 142563
+    },
+    {
+      "name": "product-bowl",
+      "file": "product-bowl.jpg",
+      "url": "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=700&q=85",
+      "sha256": "2d7fc9738f9ee1a626605524d898538c9d0dd2b475bb323a52ba568933cd08f6",
+      "size": 124917
+    }
+  ]
+}

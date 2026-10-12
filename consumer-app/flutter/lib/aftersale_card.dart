@@ -1,3 +1,5 @@
+import 'reference_ui.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -67,6 +69,7 @@ class _AfterSaleCardState extends ConsumerState<AfterSaleCard> {
     // Dialog exit animations still read the controller after pop.
     retired.add(c);
   }
+
   @override
   void initState() {
     super.initState();
@@ -180,7 +183,7 @@ class _AfterSaleCardState extends ConsumerState<AfterSaleCard> {
             onPressed: () => Navigator.pop(c),
             child: const Text('再想想'),
           ),
-          FilledButton(
+          PawdayButton(
             onPressed: () {
               final qty = int.tryParse(controller.text);
               if (qty == null || qty < 1 || qty > limit) return;
@@ -195,18 +198,16 @@ class _AfterSaleCardState extends ConsumerState<AfterSaleCard> {
     if (accepted == null || !mounted || owner != user) return;
     final slot = 'cancel:${widget.suborderId}:${item.order_item_id}:$accepted';
     await run(() async {
-      await ref
-          .read(afterSaleRepositoryProvider)
-          .cancelPaid(
-            widget.suborderId,
-            [
-              CancellationItemInput(
-                order_item_id: item.order_item_id,
-                quantity: accepted,
-              ),
-            ],
-            keys.putIfAbsent(slot, checkoutCommandKey),
-          );
+      await ref.read(afterSaleRepositoryProvider).cancelPaid(
+        widget.suborderId,
+        [
+          CancellationItemInput(
+            order_item_id: item.order_item_id,
+            quantity: accepted,
+          ),
+        ],
+        keys.putIfAbsent(slot, checkoutCommandKey),
+      );
       keys.remove(slot);
     });
   }
@@ -231,10 +232,7 @@ class _AfterSaleCardState extends ConsumerState<AfterSaleCard> {
                   initialValue: type,
                   decoration: const InputDecoration(labelText: '售后类型'),
                   items: const [
-                    DropdownMenuItem(
-                      value: 'REFUND_ONLY',
-                      child: Text('仅退款'),
-                    ),
+                    DropdownMenuItem(value: 'REFUND_ONLY', child: Text('仅退款')),
                     DropdownMenuItem(
                       value: 'RETURN_REFUND',
                       child: Text('退货退款'),
@@ -286,7 +284,7 @@ class _AfterSaleCardState extends ConsumerState<AfterSaleCard> {
               onPressed: () => Navigator.pop(c, false),
               child: const Text('暂不申请'),
             ),
-            FilledButton(
+            PawdayButton(
               onPressed: () {
                 final n = int.tryParse(qty.text);
                 if (n == null ||
@@ -330,7 +328,11 @@ class _AfterSaleCardState extends ConsumerState<AfterSaleCard> {
     await run(() async {
       await ref
           .read(afterSaleRepositoryProvider)
-          .apply(widget.suborderId, input, keys.putIfAbsent(slot, checkoutCommandKey));
+          .apply(
+            widget.suborderId,
+            input,
+            keys.putIfAbsent(slot, checkoutCommandKey),
+          );
       keys.remove(slot);
     });
   }
@@ -348,7 +350,7 @@ class _AfterSaleCardState extends ConsumerState<AfterSaleCard> {
             onPressed: () => Navigator.pop(c, false),
             child: const Text('暂不撤销'),
           ),
-          FilledButton(
+          PawdayButton(
             onPressed: () => Navigator.pop(c, true),
             child: const Text('确认撤销'),
           ),
@@ -400,7 +402,7 @@ class _AfterSaleCardState extends ConsumerState<AfterSaleCard> {
             onPressed: () => Navigator.pop(c, false),
             child: const Text('暂不填写'),
           ),
-          FilledButton(
+          PawdayButton(
             onPressed: () {
               final valid =
                   RegExp(r'^[A-Z0-9_]{2,24}$').hasMatch(carrier.text) &&
@@ -463,7 +465,7 @@ class _AfterSaleCardState extends ConsumerState<AfterSaleCard> {
             onPressed: () => Navigator.pop(c, false),
             child: const Text('暂不介入'),
           ),
-          FilledButton(
+          PawdayButton(
             onPressed: () {
               if (reason.text.trim().isNotEmpty) Navigator.pop(c, true);
             },
@@ -555,12 +557,12 @@ class _AfterSaleCardState extends ConsumerState<AfterSaleCard> {
                   child: const Text('撤销申请'),
                 ),
               if (a.status == 'WAITING_RETURN')
-                FilledButton(
+                PawdayButton(
                   onPressed: busy ? null : () => shipReturn(a),
                   child: const Text('填写退货运单'),
                 ),
               if (a.status == 'REJECTED' && a.decisions.isEmpty)
-                FilledButton(
+                PawdayButton(
                   onPressed: busy ? null : () => escalate(a),
                   child: const Text('申请平台介入'),
                 ),

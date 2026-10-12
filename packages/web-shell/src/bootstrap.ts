@@ -4,6 +4,7 @@ import {PawdayClient,safeReturnTo,type Realm} from '../../api-client/src';
 import {StaffSession} from './auth';
 import StaffApp from './StaffApp.vue';
 import './theme.css';
+import './reference.css';
 export function bootstrap(realm:Exclude<Realm,'consumer'>){
   const apiBase=import.meta.env.VITE_API_BASE_URL??`${location.origin}/api/v1`;
   const client=new PawdayClient(realm,apiBase,fetch,()=>session.clear(),import.meta.env.VITE_PAWDAY_PILOT==='true');

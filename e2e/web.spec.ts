@@ -127,3 +127,23 @@ test('merchant inventory command uses delta and version and preserves its key on
 test('read-only admin can inspect offers but cannot manage their state',async({page})=>{
  await fixture(page,'admin',['offer.admin.read']);await page.route('**/api/v1/admin/offers',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({data:[],page:{next_cursor:null,has_more:false},meta})}));await page.goto('http://127.0.0.1:5174/offers');await login(page);await expect(page.getByRole('heading',{name:'报价风控',exact:true})).toBeVisible();await expect(page.getByLabel('再次输入密码')).toHaveCount(0);await expect(page.getByRole('heading',{name:'创建报价'})).toHaveCount(0);
 });
+
+for(const realm of ['merchant','admin'] as const){
+ test(`${realm} reference layout retains local photography and exact primary hover on desktop and mobile`,async({page})=>{
+  await fixture(page,realm,[]);await page.setViewportSize({width:1440,height:1000});
+  await page.goto(`http://127.0.0.1:${realm==='merchant'?5173:5174}/login`);
+  const photo=page.locator('.login-pet-photo');await expect(photo).toBeVisible();
+  expect(await photo.evaluate(node=>(node as HTMLImageElement).naturalWidth)).toBeGreaterThan(100);
+  expect(new URL(await photo.getAttribute('src')??'',page.url()).origin).toBe(new URL(page.url()).origin);
+  const layout=await page.locator('.login-screen').boundingBox();expect(layout!.width).toBeLessThanOrEqual(1184);
+  const button=page.getByRole('button',{name:'登录工作台'});await expect.poll(()=>button.evaluate(node=>node.style.transform)).toBe('');
+  await button.hover();await expect.poll(()=>button.evaluate(node=>getComputedStyle(node).transform)).toBe('matrix(1, 0, 0, 1, 0, -2)');
+  expect(await button.evaluate(node=>getComputedStyle(node).backgroundColor)).toBe('rgb(53, 84, 62)');
+  await page.setViewportSize({width:390,height:844});
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  expect(await page.locator('.login-screen').evaluate(node=>getComputedStyle(node).display)).toBe('block');
+  await login(page);await expect(page).toHaveURL(/\/dashboard$/);
+  await expect(page.locator('.reference-hero-photo')).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ });
+}

@@ -1,3 +1,5 @@
+import 'reference_ui.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -157,7 +159,7 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
                     '来源：商家提交 · 已核实认领${place.pawday_certified ? ' · 平台已认证' : ''}',
                   ),
                   const Text('服务与营业时间请联系门店确认。医院仅提供地点与联系方式，不提供诊断或治疗排行。'),
-                  FilledButton(
+                  PawdayButton(
                     onPressed: () async {
                       Navigator.pop(context);
                       await navigate(place.id);
@@ -286,7 +288,7 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
         Wrap(
           spacing: 8,
           children: [
-            FilledButton(
+            PawdayButton(
               onPressed: busy ? null : () => load(),
               child: const Text('按城市浏览'),
             ),

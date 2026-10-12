@@ -1,3 +1,5 @@
+import 'reference_ui.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -151,7 +153,7 @@ class _PointsScreenState extends ConsumerState<PointsScreen> {
                       ? '购物、签到都能攒积分。'
                       : '每消费 1 元得 ${current.policy.earn_points_per_yuan} 分 · 连续签到第 ${current.current_cycle_day} 天',
                 ),
-                trailing: FilledButton(
+                trailing: PawdayButton(
                   onPressed: busy || (current?.checked_in_today ?? false)
                       ? null
                       : checkin,

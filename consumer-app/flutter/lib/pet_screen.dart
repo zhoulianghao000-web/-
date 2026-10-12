@@ -1,3 +1,5 @@
+import 'reference_ui.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -143,7 +145,7 @@ class PetsScreen extends ConsumerWidget {
                                     onPressed: () => Navigator.pop(ctx, false),
                                     child: const Text('取消'),
                                   ),
-                                  FilledButton(
+                                  PawdayButton(
                                     onPressed: () => Navigator.pop(ctx, true),
                                     child: const Text('确认删除'),
                                   ),
@@ -494,7 +496,7 @@ class _PetFormState extends ConsumerState<PetForm> {
           onPressed: busy ? null : () => Navigator.pop(context),
           child: const Text('取消'),
         ),
-        FilledButton(
+        PawdayButton(
           onPressed: busy ? null : save,
           child: Text(busy ? '保存中…' : '保存'),
         ),
@@ -607,7 +609,7 @@ class _WeightDialogState extends ConsumerState<WeightDialog> {
           onPressed: busy ? null : () => Navigator.pop(context),
           child: const Text('关闭'),
         ),
-        FilledButton(onPressed: busy ? null : save, child: const Text('记录体重')),
+        PawdayButton(onPressed: busy ? null : save, child: const Text('记录体重')),
       ],
     );
   }

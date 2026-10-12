@@ -1,3 +1,5 @@
+import 'reference_ui.dart';
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -365,7 +367,7 @@ class _AiState extends ConsumerState<AiScreen> {
             enabled: !busy,
             decoration: const InputDecoration(labelText: '想了解什么？例如 30元以内的食品'),
           ),
-          FilledButton(
+          PawdayButton(
             onPressed:
                 busy ||
                     p?.provider_available != true ||

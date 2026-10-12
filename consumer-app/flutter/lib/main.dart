@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'repositories.dart';
 import 'router.dart';
 import 'pilot.dart';
+import 'reference_ui.dart';
 
 void main() => runApp(const ProviderScope(child: PawdayApp()));
 
@@ -30,17 +31,14 @@ class _PawdayAppState extends ConsumerState<PawdayApp> {
         : Column(
             children: [
               Material(
-                color: const Color(0xfffff1b8),
+                color: PawdayDesign.green,
                 child: SafeArea(
                   bottom: false,
                   child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: Text(
                       pilotLabel,
-                      style: const TextStyle(
-                        color: Color(0xff5b3b00),
-                        fontSize: 13,
-                      ),
+                      style: const TextStyle(color: Colors.white, fontSize: 13),
                     ),
                   ),
                 ),
@@ -48,11 +46,6 @@ class _PawdayAppState extends ConsumerState<PawdayApp> {
               Expanded(child: child!),
             ],
           ),
-    theme: ThemeData(
-      useMaterial3: true,
-      fontFamily: pilotMode ? 'PawdaySans' : null,
-      colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff245d4d)),
-      scaffoldBackgroundColor: const Color(0xfff5f6ef),
-    ),
+    theme: PawdayDesign.theme,
   );
 }

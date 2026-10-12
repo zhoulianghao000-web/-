@@ -1,3 +1,5 @@
+import 'reference_ui.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -86,7 +88,7 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
             onPressed: () => Navigator.pop(c, false),
             child: const Text('返回'),
           ),
-          FilledButton(
+          PawdayButton(
             onPressed: () => Navigator.pop(c, true),
             child: const Text('确认模拟'),
           ),
@@ -151,7 +153,7 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                   DropdownMenuItem(value: 'ALIPAY', child: Text('支付宝')),
                 ],
               ),
-              FilledButton(
+              PawdayButton(
                 onPressed: busy || !current.simulation
                     ? null
                     : () {
@@ -175,7 +177,7 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                 child: const Text('安全关闭支付尝试'),
               ),
               if (current.simulation) ...[
-                FilledButton(
+                PawdayButton(
                   onPressed: busy ? null : () => simulate('SUCCEEDED'),
                   child: const Text('模拟渠道成功'),
                 ),
