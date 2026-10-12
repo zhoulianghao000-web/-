@@ -6,15 +6,16 @@
   "scripts": {
     "generate": "node scripts/generate-api.mjs",
     "generate:check": "node scripts/compose-m31-contract.mjs --check && node scripts/compose-m32-contract.mjs --check && node scripts/compose-m33-contract.mjs --check && node scripts/compose-m34-contract.mjs --check && node scripts/compose-m41-contract.mjs --check && node scripts/compose-m42-contract.mjs --check && node scripts/compose-m43-contract.mjs --check && node scripts/compose-m44-contract.mjs --check && node scripts/compose-m45-contract.mjs --check && node scripts/compose-m46-contract.mjs --check && node scripts/compose-m51-contract.mjs --check && node scripts/compose-m52-contract.mjs --check && node scripts/compose-m53-contract.mjs --check && node scripts/compose-m54-contract.mjs --check && node scripts/compose-m55-contract.mjs --check && node scripts/compose-m662-contract.mjs --check && node scripts/generate-api.mjs --check",
-    "lint": "eslint packages merchant-web/src admin-web/src tests e2e scripts --max-warnings 0",
+    "lint": "eslint packages merchant-web/src admin-web/src desktop tests e2e scripts --max-warnings 0",
     "typecheck": "vue-tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
-    "build": "vite build --config merchant-web/vite.config.ts && vite build --config admin-web/vite.config.ts",
+    "build": "vite build --config merchant-web/vite.config.ts && vite build --config admin-web/vite.config.ts && node scripts/build-portal.mjs",
     "dev:merchant": "vite --config merchant-web/vite.config.ts",
     "dev:admin": "vite --config admin-web/vite.config.ts",
     "e2e": "playwright test"
   },
   "dependencies": {
+    "gsap": "3.15.0",
     "openapi-fetch": "0.17.0",
     "vue": "3.5.43",
     "vue-router": "5.3.1"

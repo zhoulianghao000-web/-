@@ -9,7 +9,8 @@ import OrderPolicyPanel from './OrderPolicyPanel.vue';
 import ShippingPanel from './ShippingPanel.vue';
 import OfferPanel from './OfferPanel.vue';
 import CatalogPanel from './CatalogPanel.vue';
-import {computed,onMounted,ref,watch} from 'vue';
+import {computed,onMounted,onUnmounted,ref,watch} from 'vue';
+import {createPageMotion} from './motion';
 import {useRoute,useRouter} from 'vue-router';
 import {safeReturnTo,unwrap,type Audit,type Session} from '../../api-client/src';
 import {StaffSession,explainError} from './auth';
@@ -25,6 +26,11 @@ const title=computed(()=>props.realm==='merchant'?'商家工作台':'平台管�
 const loginName=ref(''),password=ref(''),error=ref(''),busy=ref(false);
 const audit=ref<Audit[]>([]),sessions=ref<Session[]>([]),listLoading=ref(false);
 const reverifyOpen=ref(false),reverifyPassword=ref(''),notice=ref('');
+const motionRoot=ref<HTMLElement|null>(null);
+let motion:ReturnType<typeof createPageMotion>|undefined;
+onMounted(()=>{if(motionRoot.value){motion=createPageMotion(motionRoot.value);motion.refresh();}});
+watch(()=>route.meta.page,()=>motion?.refresh(),{flush:'post'});
+onUnmounted(()=>motion?.destroy());
 let pageGeneration=0;
 function deviceId(){const key=`pawday.${props.realm}.device`;let id=localStorage.getItem(key);if(!id){id=crypto.randomUUID();localStorage.setItem(key,id);}return id;}
 async function login(){
@@ -56,6 +62,7 @@ function selectStore(event:Event){try{props.session.selectStore((event.target as
 watch(()=>route.fullPath,loadPage);onMounted(loadPage);
 </script>
 <template>
+  <div ref="motionRoot" class="staff-app">
   <div v-if="session.client.pilot" role="status" class="pilot-banner">模拟试点 · 仅测试账号 · 不发生真实交易、短信或 AI 调用</div>
   <div v-if="route.meta.page==='login'" class="login-screen">
     <section class="login-story"><div class="brand">爪日 <span>Pawday</span></div><p class="eyebrow">让每一份照顾，都有回应</p><h1>{{ title }}</h1><p>{{ realm==='merchant'?'管理你的门店，让日常经营更从容。':'守护平台秩序，让每一份信任有迹可循。' }}</p><div class="paw-mark" aria-hidden="true">✦</div></section>
@@ -80,5 +87,6 @@ watch(()=>route.fullPath,loadPage);onMounted(loadPage);
         <template v-else><h1>暂无访问权限</h1><p>请联系管理员调整账号权限。</p><RouterLink to="/dashboard">返回工作台</RouterLink></template>
       </section>
     </main>
+  </div>
   </div>
 </template>

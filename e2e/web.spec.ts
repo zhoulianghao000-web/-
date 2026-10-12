@@ -27,6 +27,38 @@ async function login(page:Page){
 
   await page.getByRole('button',{name:'登录工作台'}).click();
 }
+
+for(const realm of ['merchant','admin'] as const){
+ test(`${realm} motion settles without hiding keyboard login controls`,async({page})=>{
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.addInitScript(()=>{
+   const state=window as unknown as {entranceObserved:boolean};state.entranceObserved=false;
+   new MutationObserver(records=>{for(const record of records){const node=record.target;if(node instanceof HTMLElement&&node.matches('.login-card > h2')&&node.style.transform)state.entranceObserved=true;}}).observe(document,{subtree:true,attributes:true,attributeFilter:['style']});
+  });
+  const seen=await fixture(page,realm,[]);await page.goto(`http://127.0.0.1:${realm==='merchant'?5173:5174}/login`);
+  await expect.poll(()=>page.evaluate(()=>(window as unknown as {entranceObserved:boolean}).entranceObserved)).toBe(true);
+  await expect.poll(()=>page.locator('.login-card > h2').evaluate(node=>(node as HTMLElement).style.transform)).toBe('');
+  expect(seen).toHaveLength(0);await page.getByLabel('账号',{exact:true}).focus();await page.keyboard.type('test-account');await page.keyboard.press('Tab');await expect(page.getByLabel('密码',{exact:true})).toBeFocused();
+  await page.keyboard.type('TEST_ONLY_password');await page.keyboard.press('Enter');await expect(page).toHaveURL(/\/dashboard$/);
+ });
+ test(`${realm} reduced motion disables entrance and press movement`,async({page})=>{
+  await page.emulateMedia({reducedMotion:'reduce'});await fixture(page,realm,[]);
+  await page.goto(`http://127.0.0.1:${realm==='merchant'?5173:5174}/login`);
+  const heading=page.locator('.login-card > h2');await expect(heading).toBeVisible();expect(await heading.evaluate(node=>({transform:getComputedStyle(node).transform,opacity:getComputedStyle(node).opacity,inline:node.getAttribute('style')}))).toEqual({transform:'none',opacity:'1',inline:null});
+  expect(await page.getByRole('button',{name:'登录工作台'}).evaluate(node=>getComputedStyle(node).transitionDuration)).toBe('0s');
+  await login(page);await expect(page).toHaveURL(/\/dashboard$/);expect(await page.locator('.page').evaluate(node=>(node as HTMLElement).style.transform)).toBe('');
+ });
+}
+
+test('motion survives rapid navigation and a live reduced-motion preference change',async({page})=>{
+ await fixture(page,'merchant',['store.read']);await page.goto('http://127.0.0.1:5173/login');await login(page);
+ for(let i=0;i<3;i++){await page.getByRole('link',{name:'账号与设备',exact:true}).click();await page.getByRole('link',{name:'工作台',exact:true}).click();}
+ await page.emulateMedia({reducedMotion:'reduce'});await expect.poll(()=>page.locator('.page').evaluate(node=>(node as HTMLElement).style.transform)).toBe('');
+ await page.getByRole('link',{name:'账号与设备',exact:true}).click();await page.getByRole('button',{name:'注销其他设备',exact:true}).click();
+ await expect(page.getByLabel('再次输入密码')).toBeVisible();expect(await page.locator('.confirm-card').evaluate(node=>(node as HTMLElement).style.transform)).toBe('');
+ await page.getByRole('button',{name:'取消',exact:true}).click();await page.emulateMedia({reducedMotion:'no-preference'});await page.getByRole('link',{name:'工作台',exact:true}).click();
+ await expect.poll(()=>page.locator('.page').evaluate(node=>(node as HTMLElement).style.transform)).toBe('');await expect(page.getByRole('heading',{name:'今天，也一起照顾好它们'})).toBeVisible();
+});
 test('merchant login returns to requested route and preserves authorized store selection',async({page})=>{
   await fixture(page,'merchant',['store.read']);await page.goto('http://127.0.0.1:5173/stores');await expect(page).toHaveURL(/login\?returnTo/);await login(page);await expect(page).toHaveURL('http://127.0.0.1:5173/stores');
   await page.getByLabel('当前门店').selectOption('store-b');await page.getByRole('link',{name:'工作台',exact:true}).click();await expect(page.getByLabel('当前门店')).toHaveValue('store-b');

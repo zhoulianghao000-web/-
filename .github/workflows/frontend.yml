@@ -35,6 +35,7 @@ jobs:
             test-results/
             merchant-web/dist/
             admin-web/dist/
+            desktop/dist/
   flutter:
     runs-on: ubuntu-latest
     timeout-minutes: 30
