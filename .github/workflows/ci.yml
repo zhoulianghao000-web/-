@@ -90,7 +90,7 @@ jobs:
         run: |
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m5.2.yaml
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m5.2.yaml -o /tmp/pawday-m52-bundled.yaml
-          python openapi/validate_m52_contract.py --samples backend/target/m52-contract-samples.json --binary-samples backend/target/m52-binary-samples.json --report openapi/reviews-content-response-report.json
+          python openapi/validate_m52_contract.py --current-pet-profile --samples backend/target/m52-contract-samples.json --binary-samples backend/target/m52-binary-samples.json --report openapi/reviews-content-response-report.json
       - name: M5.3 private support and actual RabbitMQ delivery contracts
         run: |
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m5.3.yaml

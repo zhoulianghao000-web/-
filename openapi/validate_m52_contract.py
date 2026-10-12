@@ -9,10 +9,14 @@ from referencing.jsonschema import DRAFT202012
 HERE=Path(__file__).resolve().parent
 parser=argparse.ArgumentParser()
 parser.add_argument('--samples',type=Path)
+parser.add_argument('--current-pet-profile',action='store_true',help='Validate live Pet responses against the current profile schema while retaining M5.2 operation coverage')
 parser.add_argument('--binary-samples',type=Path)
 parser.add_argument('--report',type=Path,default=HERE/'m52-validation-report.json')
 args=parser.parse_args()
 spec=yaml.safe_load((HERE/'pawday-m5.2.yaml').read_text(encoding='utf8'))
+if args.current_pet_profile:
+ current=yaml.safe_load((HERE/'pawday-m6.6.3.yaml').read_text(encoding='utf8'))
+ spec['components']['schemas']['Pet']=current['components']['schemas']['Pet']
 validate_spec(spec)
 operations=[];ids=set()
 for path,item in spec['paths'].items():
