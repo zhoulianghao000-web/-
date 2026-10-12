@@ -3,7 +3,7 @@
 Uses only the gate-owned synthetic environment. No production or provider credentials.
 Authentication responses and local codes are never included in sampled evidence.
 """
-import base64, hashlib, hmac, struct, time, uuid
+import time, uuid
 
 def run_full_flow(request, record, fixture, env, root, compose, consumer):
     def key(): return str(uuid.uuid4())
@@ -21,21 +21,13 @@ def run_full_flow(request, record, fixture, env, root, compose, consumer):
             if value:return value
             time.sleep(.5)
         return None
-    last_step=-1
-    def totp():
-        nonlocal last_step
-        while int(time.time()//30)<=last_step:time.sleep(.3)
-        last_step=int(time.time()//30)
-        digest=hmac.new(base64.b64decode(env['PAWDAY_DEMO_ADMIN_TOTP_BASE64']),struct.pack('>Q',last_step),hashlib.sha1).digest()
-        offset=digest[-1]&15
-        return str((struct.unpack('>I',digest[offset:offset+4])[0]&0x7fffffff)%1000000).zfill(6)
     merchants={}
     for name in ['a','b']:
         merchants[name]=api('/merchant/auth/login',dict(login_name='local-staff-'+name,password=env['PAWDAY_DEMO_MERCHANT_PASSWORD'],device_id='FULL_GATE'))['access_token']
-    admin=api('/admin/auth/login',dict(login_name='local-admin',password=env['PAWDAY_DEMO_ADMIN_PASSWORD'],totp_code=totp(),device_id='FULL_GATE'))['access_token']
+    admin=api('/admin/auth/login',dict(login_name='local-admin',password=env['PAWDAY_DEMO_ADMIN_PASSWORD'],device_id='FULL_GATE'))['access_token']
     record('full_three_real_identity_realms',api('/admin/me',token=admin)['realm']=='ADMIN' and api('/merchant/me',token=merchants['a'])['realm']=='MERCHANT')
     record('full_staff_cannot_impersonate_consumer',request('/api/v1/consumer/me',token=merchants['a'])[0]==403)
-    def proof(action):return api('/admin/auth/reverify',dict(action=action,password=env['PAWDAY_DEMO_ADMIN_PASSWORD'],totp_code=totp()),admin)['reverify_token']
+    def proof(action):return api('/admin/auth/reverify',dict(action=action,password=env['PAWDAY_DEMO_ADMIN_PASSWORD']),admin)['reverify_token']
     record('full_settlement_policy_requires_reverify',request('/api/v1/admin/settlement-policies',dict(buffer_days=0),admin)[0]==403)
     post('/admin/settlement-policies',dict(buffer_days=0),admin,{'X-Reverify-Token':proof('settlement.policy.manage')})
     record('full_settlement_policy_zero_buffer_published',api('/admin/settlement-policies',token=admin)[-1]['buffer_days']==0)

@@ -1,4 +1,4 @@
-// Generated from pawday-m6.6.2.yaml; SHA256 ab501c838eb8e6c5542fbe829cf98c2a39e2ae18982152fd5e68980a31e7dc1d
+// Generated from pawday-m6.6.2.yaml; SHA256 27d5ea3ff1881567ebfa564f552cbefdd8cb382f56e846e86b6c239089d54be7
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -71,7 +71,7 @@ export interface paths {
         put?: never;
         /**
          * POST /consumer/auth/reverify
-         * @description Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry require search.manage; outbox.replay requires outbox.replay. Staff use password and administrators use a fresh TOTP.
+         * @description Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry require search.manage; outbox.replay requires outbox.replay. Staff use password.
          */
         post: operations["post_consumer_auth_reverify"];
         delete?: never;
@@ -191,7 +191,7 @@ export interface paths {
         put?: never;
         /**
          * POST /merchant/auth/login
-         * @description 商家 password；管理员 password + TOTP。已配置 TOTP 的商家也必须验证。TOTP 时间步禁止重放；不接受客户端 merchant_id。
+         * @description 员工使用 password；不接受客户端 merchant_id。
          */
         post: operations["post_merchant_auth_login"];
         delete?: never;
@@ -231,7 +231,7 @@ export interface paths {
         put?: never;
         /**
          * POST /merchant/auth/reverify
-         * @description Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry require search.manage; outbox.replay requires outbox.replay. Staff use password and administrators use a fresh TOTP.
+         * @description Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry require search.manage; outbox.replay requires outbox.replay. Staff use password.
          */
         post: operations["post_merchant_auth_reverify"];
         delete?: never;
@@ -351,7 +351,7 @@ export interface paths {
         put?: never;
         /**
          * POST /admin/auth/login
-         * @description 商家 password；管理员 password + TOTP。已配置 TOTP 的商家也必须验证。TOTP 时间步禁止重放；不接受客户端 merchant_id。
+         * @description 员工使用 password；不接受客户端 merchant_id。
          */
         post: operations["post_admin_auth_login"];
         delete?: never;
@@ -391,7 +391,7 @@ export interface paths {
         put?: never;
         /**
          * POST /admin/auth/reverify
-         * @description Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry require search.manage; outbox.replay requires outbox.replay. Staff use password and administrators use a fresh TOTP.
+         * @description Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry require search.manage; outbox.replay requires outbox.replay. Staff use password.
          */
         post: operations["post_admin_auth_reverify"];
         delete?: never;
@@ -4755,14 +4755,12 @@ export interface components {
             login_name: string;
             /** @description BCrypt 密码 UTF-8 字节长度不得超过 72。 */
             password: string;
-            totp_code?: string;
             device_id: string;
         };
         AdminLogin: {
             login_name: string;
             /** @description BCrypt 密码 UTF-8 字节长度不得超过 72。 */
             password: string;
-            totp_code: string;
             device_id: string;
         };
         Refresh: {
@@ -4773,7 +4771,6 @@ export interface components {
             action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage";
             password?: string;
             otp_code?: string;
-            totp_code?: string;
         };
         RoleRequest: {
             name: string;

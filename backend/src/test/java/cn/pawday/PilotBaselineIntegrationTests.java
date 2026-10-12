@@ -29,7 +29,7 @@ class PilotBaselineIntegrationTests {
    "--server.port=0","--spring.datasource.url="+("jdbc:postgresql://127.0.0.1:"+pg.getPort()+"/pawday_pilot_baseline_it"),"--spring.datasource.username=postgres","--spring.datasource.password=postgres",
    "--pawday.pilot.root="+root,"--pawday.storage.local-root="+root.resolve("media"),"--pawday.auth.local-sms-directory="+root.resolve("sms"),
    "--pawday.auth.secret-key=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=","--spring.data.redis.host=127.0.0.1","--spring.rabbitmq.host=127.0.0.1","--pawday.search.url=http://127.0.0.1:9206",
-   "--pawday.demo.enabled=true","--PAWDAY_DEMO_MERCHANT_PASSWORD=TEST_ONLY_pilot_merchant","--PAWDAY_DEMO_ADMIN_PASSWORD=TEST_ONLY_pilot_admin","--PAWDAY_DEMO_ADMIN_TOTP_BASE64=MTIzNDU2Nzg5MDEyMzQ1Njc4OTA=","--pawday.search.enabled=false","--pawday.outbox.workers-enabled=false","--pawday.outbox.consumer-enabled=false","--pawday.ai.worker-enabled=false",
+   "--pawday.demo.enabled=true","--PAWDAY_DEMO_MERCHANT_PASSWORD=TEST_ONLY_pilot_merchant","--PAWDAY_DEMO_ADMIN_PASSWORD=TEST_ONLY_pilot_admin","--pawday.search.enabled=false","--pawday.outbox.workers-enabled=false","--pawday.outbox.consumer-enabled=false","--pawday.ai.worker-enabled=false",
    "--management.health.redis.enabled=false","--management.health.rabbit.enabled=false");
   port=((WebServerApplicationContext)app).getWebServer().getPort();db=app.getBean(JdbcTemplate.class);crypto=app.getBean(Crypto.class);
  }

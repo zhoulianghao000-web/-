@@ -35,7 +35,7 @@ def main():
    root=Path(tmp);env.update(SPRING_PROFILES_ACTIVE='local,pilot',PAWDAY_DEPLOYMENT_MODE='pilot',PAWDAY_PILOT_ROOT=str(root),SERVER_PORT='8086',SERVER_ADDRESS='127.0.0.1',
     SPRING_DATASOURCE_URL='jdbc:postgresql://127.0.0.1:5546/pawday_pilot_gate',SPRING_DATASOURCE_USERNAME='pawday_pilot',SPRING_DATASOURCE_PASSWORD=env['PILOT_DB_PASSWORD'],
     REDIS_HOST='127.0.0.1',REDIS_PORT='6386',RABBITMQ_HOST='127.0.0.1',RABBITMQ_PORT='5676',RABBITMQ_USER='pawday_pilot',RABBITMQ_PASSWORD=env['PILOT_MQ_PASSWORD'],OPENSEARCH_URL='http://127.0.0.1:9206',
-    PAWDAY_AUTH_SECRET=base64.b64encode(secrets.token_bytes(32)).decode(),PAWDAY_DEMO_ENABLED='true',PAWDAY_DEMO_MERCHANT_PASSWORD=secrets.token_urlsafe(24),PAWDAY_DEMO_ADMIN_PASSWORD=secrets.token_urlsafe(24),PAWDAY_DEMO_ADMIN_TOTP_BASE64=base64.b64encode(secrets.token_bytes(20)).decode())
+    PAWDAY_AUTH_SECRET=base64.b64encode(secrets.token_bytes(32)).decode(),PAWDAY_DEMO_ENABLED='true',PAWDAY_DEMO_MERCHANT_PASSWORD=secrets.token_urlsafe(24),PAWDAY_DEMO_ADMIN_PASSWORD=secrets.token_urlsafe(24))
    with (target.parent/'backend.log').open('w',encoding='utf8') as log:
     process=subprocess.Popen([a.java,'-jar',str(jar)],env=env,stdout=log,stderr=subprocess.STDOUT)
     health=None

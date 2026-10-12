@@ -7,7 +7,7 @@ import java.util.*;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-/** Fixed synthetic identities. Invitation is never authority to bypass RBAC or MFA. */
+/** Fixed synthetic identities. Invitation is never authority to bypass RBAC or credential verification. */
 @Component
 public final class PilotPolicy {
  public static final String MARKER="PAWDAY_PILOT_CONFIGURATION_BLOCKED";

@@ -13,7 +13,7 @@ function failure(e:unknown){return e instanceof InputError?e.message:explainErro
 const loading=ref(false),busy=ref(false),error=ref(''),notice=ref('');
 const sku=ref(''),sale=ref(''),member=ref(''),sla=ref(''),reason=ref('');
 const delta=ref(''),reasonCode=ref<'RESTOCK'|'COUNT_CORRECTION'|'DAMAGE'>('RESTOCK');
-const password=ref(''),totp=ref(''),defaultScope=ref(false);
+const password=ref(''),defaultScope=ref(false);
 const store=computed(()=>defaultScope.value?null:props.session.state.storeId);
 const canWrite=computed(()=>props.realm==='merchant'&&props.session.can('offer.write'));
 const canAdjust=computed(()=>props.realm==='merchant'&&props.session.can('inventory.adjust'));
@@ -25,7 +25,7 @@ function integer(raw:string,min:number,max=1000000000){if(!/^-?\d+$/.test(raw))t
 function prices():Changes{return {sale_price_fen:integer(sale.value,1),member_price_fen:member.value===''?null:integer(member.value,1),fulfillment_sla:sla.value.trim()};}
 function fill(offer:Offer){selected.value=offer;sale.value=String(offer.sale_price_fen);member.value=offer.member_price_fen===null?'':String(offer.member_price_fen);sla.value=offer.fulfillment_sla;delta.value='';reason.value='';}
 async function load(){
- const g=++generation,s=identity(),sc=store.value;loading.value=true;selected.value=undefined;history.value=[];offers.value=[];password.value='';totp.value='';
+ const g=++generation,s=identity(),sc=store.value;loading.value=true;selected.value=undefined;history.value=[];offers.value=[];password.value='';
  const valid=()=>g===generation&&s===identity()&&sc===store.value;
  try {const rows:Offer[]=[];let cursor:string|null=null;
   do {const q:{limit:number;cursor?:string;store_id?:string}={limit:100,...(cursor?{cursor}:{}),...(props.realm==='merchant'&&sc?{store_id:sc}:{})};
@@ -48,9 +48,9 @@ async function view(offer:Offer){
 async function command(name:string,payload:unknown,send:(key:string,proof?:string)=>Promise<unknown>,admin=false){
  if(busy.value||loading.value)return;const s=identity(),sc=store.value;busy.value=true;error.value='';notice.value='';
  const fingerprint=JSON.stringify([s,name,payload]);let key=keys.get(fingerprint);if(!key){key=crypto.randomUUID();keys.set(fingerprint,key);}
- try {let proof:string|undefined;if(admin){const p=await props.session.client.reverify({action:'offer.admin.manage',password:password.value,totp_code:totp.value});proof=p.reverify_token;}
+ try {let proof:string|undefined;if(admin){const p=await props.session.client.reverify({action:'offer.admin.manage',password:password.value});proof=p.reverify_token;}
   await send(key,proof);if(s!==identity()||sc!==store.value)return;keys.delete(fingerprint);const target=selected.value?.id;await load();if(target){const row=offers.value.find(x=>x.id===target);if(row)await view(row);}notice.value='已保存，操作已记录。';
- }catch(e){if(s===identity()&&sc===store.value)error.value=explainError(e);}finally{password.value='';totp.value='';busy.value=false;}
+ }catch(e){if(s===identity()&&sc===store.value)error.value=explainError(e);}finally{password.value='';busy.value=false;}
 }
 async function create(){try{if(!store.value&&!defaultScope.value)throw new InputError('请选择授权门店。');const body={store_id:store.value,sku_id:sku.value.trim(),...prices()} as components['schemas']['OfferCreateInput'];await command('create',body,async key=>unwrap(await props.session.client.api.POST('/merchant/offers',{body,params:{header:{'Idempotency-Key':key}}})));}catch(e){error.value=failure(e);}}
 async function save(){if(!selected.value)return;try{const offer=selected.value,body=prices();await command('patch',[offer.id,offer.version,body],async key=>unwrap(await props.session.client.api.PATCH('/merchant/offers/{id}',{body,params:{path:{id:offer.id},header:{'If-Match':`"${offer.version}"`,'Idempotency-Key':key}}})));}catch(e){error.value=failure(e);}}
@@ -77,7 +77,7 @@ watch(()=>[identity(),props.session.state.storeId,defaultScope.value],()=>{keys.
    <article v-if="selected"><h2>报价详情</h2><p>{{ selected.sku_code }} · {{ selected.store_name??'默认履约范围' }}</p><p>状态 {{ selected.sale_status }}</p><p>售价 {{ selected.sale_price_fen }} 分 · 会员价 {{ selected.member_price_fen??'未设置' }} · {{ selected.fulfillment_sla }}</p><p>实物 {{ selected.inventory.on_hand_qty }} · 预占 {{ selected.inventory.reserved_qty }} · 可用 {{ selected.inventory.available_qty }}</p><button v-if="canWrite" class="secondary" @click="selected=undefined;history=[];sale='';member='';sla=''">返回创建报价</button></article>
    <form v-if="canWrite&&selected&&!['FROZEN','DELISTED'].includes(selected.sale_status)" @submit.prevent="save"><h2>修改报价</h2><label>售价（分）<input v-model="sale" inputmode="numeric" required /></label><label>会员价（分，可空）<input v-model="member" inputmode="numeric" /></label><label>履约承诺<input v-model="sla" required maxlength="500" /></label><button>保存报价</button></form>
    <form v-if="canAdjust&&selected&&selected.sale_status!=='DELISTED'" @submit.prevent="adjust"><h2>库存调整</h2><label>增减数量<input v-model="delta" inputmode="numeric" required placeholder="入库填正数，损耗填负数" /></label><label>调整原因<select v-model="reasonCode"><option value="RESTOCK">补货</option><option value="COUNT_CORRECTION">盘点纠正</option><option value="DAMAGE">损耗</option></select></label><button>提交库存调整</button></form>
-   <article v-if="selected&&(canWrite||canManage)"><h2>销售状态</h2><label>操作原因<textarea v-model="reason" maxlength="2000" /></label><template v-if="canManage"><label>再次输入密码<input v-model="password" type="password" autocomplete="current-password" /></label><label>新的动态验证码<input v-model="totp" inputmode="numeric" maxlength="6" autocomplete="one-time-code" /></label><button v-if="!['FROZEN','DELISTED'].includes(selected.sale_status)" @click="state('freeze')">冻结报价</button><button v-if="selected.sale_status==='FROZEN'" @click="state('unfreeze')">解冻为暂停</button><button v-if="selected.sale_status!=='DELISTED'" @click="state('delist')">永久下架此报价</button></template><template v-else><button v-if="['DRAFT','PAUSED'].includes(selected.sale_status)" @click="state('activate')">上架报价</button><button v-if="selected.sale_status==='ACTIVE'" @click="state('pause')">暂停销售</button></template></article>
+   <article v-if="selected&&(canWrite||canManage)"><h2>销售状态</h2><label>操作原因<textarea v-model="reason" maxlength="2000" /></label><template v-if="canManage"><label>再次输入密码<input v-model="password" type="password" autocomplete="current-password" /></label><button v-if="!['FROZEN','DELISTED'].includes(selected.sale_status)" @click="state('freeze')">冻结报价</button><button v-if="selected.sale_status==='FROZEN'" @click="state('unfreeze')">解冻为暂停</button><button v-if="selected.sale_status!=='DELISTED'" @click="state('delist')">永久下架此报价</button></template><template v-else><button v-if="['DRAFT','PAUSED'].includes(selected.sale_status)" @click="state('activate')">上架报价</button><button v-if="selected.sale_status==='ACTIVE'" @click="state('pause')">暂停销售</button></template></article>
   </div>
   <article v-if="selected" style="margin-top:24px"><h2>库存调整流水</h2><div class="table-wrap"><table><thead><tr><th>原因</th><th>数量变化</th><th>调整后实物</th><th>预占</th><th>库存版本</th></tr></thead><tbody><tr v-for="item in history" :key="item.id"><td>{{ item.reason_code }}</td><td>{{ item.delta_qty }}</td><td>{{ item.resulting_on_hand_qty }}</td><td>{{ item.resulting_reserved_qty }}</td><td>{{ item.resulting_version }}</td></tr></tbody></table></div></article>
  </div><p v-if="busy||loading" role="status">正在处理…</p>

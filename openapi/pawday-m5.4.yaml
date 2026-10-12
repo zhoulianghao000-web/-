@@ -216,7 +216,7 @@ paths:
       operationId: post_consumer_auth_reverify
       summary: POST /consumer/auth/reverify
       description: Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry require search.manage;
-        outbox.replay requires outbox.replay. Staff use password and administrators use a fresh TOTP.
+        outbox.replay requires outbox.replay. Staff use password.
       tags:
         - consumer
       security:
@@ -592,7 +592,7 @@ paths:
     post:
       operationId: post_merchant_auth_login
       summary: POST /merchant/auth/login
-      description: 商家 password；管理员 password + TOTP。已配置 TOTP 的商家也必须验证。TOTP 时间步禁止重放；不接受客户端 merchant_id。
+      description: 员工使用 password；不接受客户端 merchant_id。
       tags:
         - merchant
       security: []
@@ -721,7 +721,7 @@ paths:
       operationId: post_merchant_auth_reverify
       summary: POST /merchant/auth/reverify
       description: Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry require search.manage;
-        outbox.replay requires outbox.replay. Staff use password and administrators use a fresh TOTP.
+        outbox.replay requires outbox.replay. Staff use password.
       tags:
         - merchant
       security:
@@ -1088,7 +1088,7 @@ paths:
     post:
       operationId: post_admin_auth_login
       summary: POST /admin/auth/login
-      description: 商家 password；管理员 password + TOTP。已配置 TOTP 的商家也必须验证。TOTP 时间步禁止重放；不接受客户端 merchant_id。
+      description: 员工使用 password；不接受客户端 merchant_id。
       tags:
         - admin
       security: []
@@ -1217,7 +1217,7 @@ paths:
       operationId: post_admin_auth_reverify
       summary: POST /admin/auth/reverify
       description: Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry require search.manage;
-        outbox.replay requires outbox.replay. Staff use password and administrators use a fresh TOTP.
+        outbox.replay requires outbox.replay. Staff use password.
       tags:
         - admin
       security:
@@ -23089,7 +23089,7 @@ components:
         reverify_token:
           type: string
           pattern: ^[A-Za-z0-9_-]{43}$
-        action: &a19
+        action: &a18
           type: string
           enum:
             - access.role.write
@@ -23260,10 +23260,10 @@ components:
       additionalProperties: false
       properties:
         phone_e164: *a15
-        code: &a16
+        code: &a19
           type: string
           pattern: ^[0-9]{6}$
-        device_id: &a17
+        device_id: &a16
           type: string
           minLength: 1
           maxLength: 128
@@ -23274,7 +23274,7 @@ components:
     StaffLogin:
       type: object
       additionalProperties: false
-      properties: &a18
+      properties: &a17
         login_name:
           type: string
           minLength: 1
@@ -23284,8 +23284,7 @@ components:
           minLength: 1
           maxLength: 200
           description: BCrypt 密码 UTF-8 字节长度不得超过 72。
-        totp_code: *a16
-        device_id: *a17
+        device_id: *a16
       required:
         - login_name
         - password
@@ -23293,11 +23292,10 @@ components:
     AdminLogin:
       type: object
       additionalProperties: false
-      properties: *a18
+      properties: *a17
       required:
         - login_name
         - password
-        - totp_code
         - device_id
     Refresh:
       type: object
@@ -23313,12 +23311,11 @@ components:
       type: object
       additionalProperties: false
       properties:
-        action: *a19
+        action: *a18
         password:
           type: string
           maxLength: 200
-        otp_code: *a16
-        totp_code: *a16
+        otp_code: *a19
       required:
         - action
     RoleRequest:

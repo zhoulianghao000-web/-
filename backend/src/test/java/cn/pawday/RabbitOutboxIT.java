@@ -56,14 +56,14 @@ class RabbitOutboxIT {
     @Autowired JdbcTemplate db;@Autowired TransactionTemplate tx;@Autowired OutboxWriter writer;@Autowired OutboxRepository repo;@Autowired RabbitPublisher rabbitPublisher;@Autowired OutboxPublisher publisher;@Autowired InboxConsumer consumer;@Autowired RabbitInboxListener listener;@Autowired SmsDeliveryWorker sms;
     @Autowired DeliveryPolicy policy;@Autowired Crypto crypto;@Autowired Provider provider;@Autowired AuthService auth;@Autowired AuditWriter audit;@Autowired PasswordEncoder passwords;@Autowired TestClock clock;@Autowired RabbitAdmin admin;@Autowired CachingConnectionFactory springConnection;
     @LocalServerPort int httpPort;final JsonMapper json=JsonMapper.builder().build();final HttpClient http=HttpClient.newHttpClient();
-    Connection connection;Channel channel;UUID adminId;static String passwordHash;static final String STAFF_PASSWORD="TEST_ONLY_M22_admin_password";static final byte[] MFA="12345678901234567890".getBytes(StandardCharsets.US_ASCII);
+    Connection connection;Channel channel;UUID adminId;static String passwordHash;static final String STAFF_PASSWORD="TEST_ONLY_M22_admin_password";
     @BeforeEach void setup() throws Exception {
         // No assumption/skip and no mock: a missing real broker fails this mandatory profile.
         var factory=new com.rabbitmq.client.ConnectionFactory();factory.setHost(HOST);factory.setPort(PORT);factory.setUsername(USER);factory.setPassword(PASSWORD);factory.setConnectionTimeout(3000);connection=factory.newConnection();channel=connection.createChannel();admin.initialize();channel.queuePurge(RabbitTopology.QUEUE);channel.queuePurge(RabbitTopology.DLQ);
         db.execute("ALTER TABLE audit_event DISABLE TRIGGER audit_event_no_truncate");db.execute("ALTER TABLE inventory_adjustments DISABLE TRIGGER inventory_adjustment_no_truncate");
         try {db.execute("TRUNCATE outbox_replay_command,processed_event,sms_delivery,outbox_event,identity_command,reverify_grant,auth_refresh_token,auth_session,otp_challenge,auth_rate_bucket,principal_store_scope,principal_role,identity_principal,merchant_store,merchant,app_user,role_permission,role,audit_event CASCADE");}finally{db.execute("ALTER TABLE audit_event ENABLE TRIGGER audit_event_no_truncate");db.execute("ALTER TABLE inventory_adjustments ENABLE TRIGGER inventory_adjustment_no_truncate");}
         provider.reset();clock.time=Instant.now();adminId=UUID.randomUUID();UUID role=UUID.randomUUID();if(passwordHash==null)passwordHash=passwords.encode(STAFF_PASSWORD);
-        db.update("INSERT INTO identity_principal(id,realm,login_name,password_hash,mfa_secret_ciphertext) VALUES (?,'ADMIN','test-m22-admin',?,?)",adminId,passwordHash,crypto.encrypt(MFA));
+        db.update("INSERT INTO identity_principal(id,realm,login_name,password_hash) VALUES (?,'ADMIN','test-m22-admin',?)",adminId,passwordHash);
         db.update("INSERT INTO role(id,scope_type,code,name) VALUES (?,'ADMIN','TEST M22','TEST M22 admin')",role);db.update("INSERT INTO role_permission SELECT ?,id FROM permission WHERE code IN ('outbox.read','outbox.replay','audit.read')",role);db.update("INSERT INTO principal_role VALUES (?,?,'ADMIN')",adminId,role);
     }
     @AfterEach void cleanup() throws Exception {if(channel!=null && channel.isOpen())channel.close();if(connection!=null && connection.isOpen())connection.close();}
@@ -197,8 +197,8 @@ class RabbitOutboxIT {
         if(safe.get("data")!=null && safe.get("data").isObject()){var data=(tools.jackson.databind.node.ObjectNode)safe.get("data");for(String key:List.of("access_token","refresh_token","reverify_token"))if(data.has(key))data.put(key,"A".repeat(43));}
         SAMPLES.add(Map.of("method",method.toLowerCase(),"path",path,"status",response.statusCode(),"response",safe));return new HttpResult(response.statusCode(),parsed);
     }
-    String login() throws Exception {var response=api("POST","/admin/auth/login",Map.of("login_name","test-m22-admin","password",STAFF_PASSWORD,"device_id","TEST-IT","totp_code",crypto.totp(MFA,clock.instant().getEpochSecond()/30)),null,Map.of());assertEquals(200,response.status());return response.data().get("access_token").asString();}
-    String proof(String token,String action) throws Exception {clock.time=clock.time.plusSeconds(60);var response=api("POST","/admin/auth/reverify",Map.of("action",action,"password",STAFF_PASSWORD,"totp_code",crypto.totp(MFA,clock.instant().getEpochSecond()/30)),token,Map.of());assertEquals(200,response.status());return response.data().get("reverify_token").asString();}
+    String login() throws Exception {var response=api("POST","/admin/auth/login",Map.of("login_name","test-m22-admin","password",STAFF_PASSWORD,"device_id","TEST-IT"),null,Map.of());assertEquals(200,response.status());return response.data().get("access_token").asString();}
+    String proof(String token,String action) throws Exception {clock.time=clock.time.plusSeconds(60);var response=api("POST","/admin/auth/reverify",Map.of("action",action,"password",STAFF_PASSWORD),token,Map.of());assertEquals(200,response.status());return response.data().get("reverify_token").asString();}
     @Test void deadPublisherEventIsInDlqAndAdminCanSafelyReplay() throws Exception {
         UUID id=failToDead();publisher.publishOne();var dead=next(RabbitTopology.DLQ);channel.basicAck(dead.getEnvelope().getDeliveryTag(),false);
         String token=login(),grant=proof(token,"outbox.replay");String path="/admin/operations/outbox/"+id+"/replay";var body=Map.of("expected_generation",0,"reason_code","TEST_BROKER_RESTORED");var headers=Map.of("X-Reverify-Token",grant,"Idempotency-Key","test-replay-command-0001");
@@ -240,8 +240,8 @@ class RabbitOutboxIT {
         db.update("DELETE FROM role_permission WHERE permission_id=(SELECT id FROM permission WHERE code='outbox.read')");assertEquals(403,api("GET","/admin/operations/outbox/stats",null,token,Map.of()).status());
     }
     @Test void explicitAuditDenylistPreservesBusinessCodes(){
-        String data=json.writeValueAsString(audit.redact(Map.of("code","PRICING_V1_1","reason_code","BROKER_NACK","rule_code","COUPON_A","otp_code","123456","totp_code","654321","access_token","TEST_SECRET")));
-        assertTrue(data.contains("PRICING_V1_1"));assertTrue(data.contains("BROKER_NACK"));assertTrue(data.contains("COUPON_A"));assertFalse(data.contains("123456"));assertFalse(data.contains("654321"));assertFalse(data.contains("TEST_SECRET"));
+        String data=json.writeValueAsString(audit.redact(Map.of("code","PRICING_V1_1","reason_code","BROKER_NACK","rule_code","COUPON_A","otp_code","123456","access_token","TEST_SECRET")));
+        assertTrue(data.contains("PRICING_V1_1"));assertTrue(data.contains("BROKER_NACK"));assertTrue(data.contains("COUPON_A"));assertFalse(data.contains("123456"));assertFalse(data.contains("TEST_SECRET"));
     }
     @Test void failedRetryTransportMakesOriginalInboxReplayable() throws Exception {
         UUID id=event(99);publisher.publishOne();receive();assertEquals("FAILED_RETRYABLE",db.queryForObject("SELECT status FROM processed_event WHERE event_id=?",String.class,id));

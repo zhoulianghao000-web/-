@@ -43,11 +43,11 @@ REQUIRED = {
     "location_denied",
     "no_implicit_receipt"
   ],
-  "operator_mfa": [
+  "operator_access": [
     "real_staff_enrollment",
     "one_use_reverify",
     "scope_denial",
-    "mfa_loss_recovery"
+    "staff_account_recovery"
   ],
   "privacy_delete": [
     "ownership",

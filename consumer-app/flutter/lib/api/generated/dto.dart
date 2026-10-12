@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 ab501c838eb8e6c5542fbe829cf98c2a39e2ae18982152fd5e68980a31e7dc1d
+// Generated from Pawday runtime OpenAPI; SHA256 27d5ea3ff1881567ebfa564f552cbefdd8cb382f56e846e86b6c239089d54be7
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -261,19 +261,16 @@ class PhoneLogin {
 class StaffLogin {
   final String login_name;
   final String password;
-  final String? totp_code;
   final String device_id;
-  const StaffLogin({required this.login_name, required this.password, this.totp_code, required this.device_id});
+  const StaffLogin({required this.login_name, required this.password, required this.device_id});
   factory StaffLogin.fromJson(Map<String,dynamic> json) => StaffLogin(
     login_name: json['login_name'] as String,
     password: json['password'] as String,
-    totp_code: json['totp_code'] == null ? null : json['totp_code'] as String,
     device_id: json['device_id'] as String,
   );
   Map<String,dynamic> toJson() => {
     'login_name': login_name,
     'password': password,
-    if (totp_code != null) 'totp_code': totp_code == null ? null : totp_code!,
     'device_id': device_id,
   };
 }
@@ -281,19 +278,16 @@ class StaffLogin {
 class AdminLogin {
   final String login_name;
   final String password;
-  final String totp_code;
   final String device_id;
-  const AdminLogin({required this.login_name, required this.password, required this.totp_code, required this.device_id});
+  const AdminLogin({required this.login_name, required this.password, required this.device_id});
   factory AdminLogin.fromJson(Map<String,dynamic> json) => AdminLogin(
     login_name: json['login_name'] as String,
     password: json['password'] as String,
-    totp_code: json['totp_code'] as String,
     device_id: json['device_id'] as String,
   );
   Map<String,dynamic> toJson() => {
     'login_name': login_name,
     'password': password,
-    'totp_code': totp_code,
     'device_id': device_id,
   };
 }
@@ -313,19 +307,16 @@ class Reverify {
   final String action;
   final String? password;
   final String? otp_code;
-  final String? totp_code;
-  const Reverify({required this.action, this.password, this.otp_code, this.totp_code});
+  const Reverify({required this.action, this.password, this.otp_code});
   factory Reverify.fromJson(Map<String,dynamic> json) => Reverify(
     action: json['action'] as String,
     password: json['password'] == null ? null : json['password'] as String,
     otp_code: json['otp_code'] == null ? null : json['otp_code'] as String,
-    totp_code: json['totp_code'] == null ? null : json['totp_code'] as String,
   );
   Map<String,dynamic> toJson() => {
     'action': action,
     if (password != null) 'password': password == null ? null : password!,
     if (otp_code != null) 'otp_code': otp_code == null ? null : otp_code!,
-    if (totp_code != null) 'totp_code': totp_code == null ? null : totp_code!,
   };
 }
 

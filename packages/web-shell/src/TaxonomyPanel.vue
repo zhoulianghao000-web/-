@@ -6,7 +6,7 @@ const props=defineProps<{session:StaffSession}>();
 type Species=components['schemas']['Species'];
 const species=ref<Species[]>([]),error=ref(''),notice=ref(''),busy=ref(false);
 const kind=ref<'species'|'breeds'|'allergens'>('species'),name=ref(''),parent=ref('');
-const password=ref(''),totp=ref(''),source=ref(''),ruleSpecies=ref(''),unit=ref<'DAY'|'MONTH'|'YEAR'>('MONTH');
+const password=ref(''),source=ref(''),ruleSpecies=ref(''),unit=ref<'DAY'|'MONTH'|'YEAR'>('MONTH');
 const stages=ref([{code:'',name:'',min:0,max:null as number|null}]);
 let generation=0;
 let pending:{fingerprint:string;key:string}|undefined;
@@ -15,9 +15,9 @@ async function mutate(fingerprint:string,action:(headers:{'Idempotency-Key':stri
  if(busy.value)return;busy.value=true;error.value='';notice.value='';
  const sessionId=props.session.state.principal?.session_id;
  if(!pending||pending.fingerprint!==fingerprint)pending={fingerprint,key:crypto.randomUUID()};
- try{const proof=await props.session.client.reverify({action:'pet.taxonomy.write',password:password.value,totp_code:totp.value});await action({'Idempotency-Key':pending.key,'X-Reverify-Token':proof.reverify_token});if(sessionId===props.session.state.principal?.session_id){pending=undefined;notice.value='已保存，操作已记录。';await load();}}
+ try{const proof=await props.session.client.reverify({action:'pet.taxonomy.write',password:password.value});await action({'Idempotency-Key':pending.key,'X-Reverify-Token':proof.reverify_token});if(sessionId===props.session.state.principal?.session_id){pending=undefined;notice.value='已保存，操作已记录。';await load();}}
  catch(e){if(sessionId===props.session.state.principal?.session_id)error.value=explainError(e);}
- finally{password.value='';totp.value='';busy.value=false;}
+ finally{password.value='';busy.value=false;}
 }
 async function create(){
  const payload={name:name.value,...(kind.value==='species'?{parent_id:parent.value}:kind.value==='breeds'?{species_id:parent.value}:{})};
@@ -39,12 +39,12 @@ onMounted(load);
   <p v-if="error" role="alert" class="error">{{ error }}</p><p v-if="notice" role="status" class="notice">{{ notice }}</p>
   <div class="cards"><article v-for="item in species" :key="item.id"><h2>{{ item.name }}</h2><p>{{ item.parent_id?'具体物种':'父分类' }}</p><ul><li v-for="stage in item.life_stages" :key="stage.id">{{ stage.display_name }} · {{ stage.is_unknown?'信息不足':`${stage.min_age_value} 至 ${stage.max_age_value??'无上限'} ${stage.age_unit==='MONTH'?'月':stage.age_unit==='YEAR'?'年':'天'}` }}</li></ul></article></div>
   <template v-if="session.can('pet.taxonomy.write')">
-   <section class="confirm-card"><h2>操作验证</h2><p>每次保存须提供密码和新的动态验证码。</p><label>再次输入密码<input v-model="password" type="password" autocomplete="current-password" :disabled="busy" /></label><label>新的动态验证码<input v-model="totp" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" :disabled="busy" /></label></section>
-   <form class="confirm-card" @submit.prevent="create"><h2>维护分类词典</h2><label>类型<select v-model="kind" :disabled="busy"><option value="species">物种</option><option value="breeds">品种</option><option value="allergens">过敏原</option></select></label><label>名称<input v-model="name" required maxlength="160" :disabled="busy" /></label><label v-if="kind!=='allergens'">{{ kind==='species'?'所属父分类':'所属物种' }}<select v-model="parent" required :disabled="busy"><option value="" disabled>请选择</option><option v-for="item in species.filter(s=>kind==='breeds'||!s.parent_id)" :key="item.id" :value="item.id">{{ item.name }}</option></select></label><button :disabled="busy||!password||!totp">保存词典项</button></form>
+   <section class="confirm-card"><h2>操作验证</h2><p>每次保存须再次输入密码。</p><label>再次输入密码<input v-model="password" type="password" autocomplete="current-password" :disabled="busy" /></label></section>
+   <form class="confirm-card" @submit.prevent="create"><h2>维护分类词典</h2><label>类型<select v-model="kind" :disabled="busy"><option value="species">物种</option><option value="breeds">品种</option><option value="allergens">过敏原</option></select></label><label>名称<input v-model="name" required maxlength="160" :disabled="busy" /></label><label v-if="kind!=='allergens'">{{ kind==='species'?'所属父分类':'所属物种' }}<select v-model="parent" required :disabled="busy"><option value="" disabled>请选择</option><option v-for="item in species.filter(s=>kind==='breeds'||!s.parent_id)" :key="item.id" :value="item.id">{{ item.name }}</option></select></label><button :disabled="busy||!password">保存词典项</button></form>
    <form class="confirm-card" @submit.prevent="publish">
 <h2>发布年龄规则的新版本</h2><p>按审核过的来源填写。区间包含下限、不包含上限；留空上限表示无上限。</p><label>物种<select v-model="ruleSpecies" required :disabled="busy"><option value="" disabled>请选择</option><option v-for="item in species" :key="item.id" :value="item.id">{{ item.name }}</option></select></label><label>来源依据（每行一条）<textarea v-model="source" required :disabled="busy" /></label><label>年龄单位<select v-model="unit" :disabled="busy"><option value="DAY">天</option><option value="MONTH">月</option><option value="YEAR">年</option></select></label>
     <fieldset v-for="(stage,index) in stages" :key="index" :disabled="busy"><legend>阶段 {{ index+1 }}</legend><label>阶段标识<input v-model="stage.code" required maxlength="80" /></label><label>显示名称<input v-model="stage.name" required maxlength="160" /></label><label>年龄下限<input v-model.number="stage.min" type="number" min="0" required /></label><label>年龄上限<input v-model.number="stage.max" type="number" min="1" /></label><button v-if="stages.length>1" type="button" class="secondary" @click="stages.splice(index,1)">移除此阶段</button></fieldset>
-    <button type="button" class="secondary" :disabled="busy||stages.length>=29" @click="stages.push({code:'',name:'',min:0,max:null})">增加阶段</button><p>信息不足阶段会自动保留。</p><button :disabled="busy||!password||!totp">发布新版本</button>
+    <button type="button" class="secondary" :disabled="busy||stages.length>=29" @click="stages.push({code:'',name:'',min:0,max:null})">增加阶段</button><p>信息不足阶段会自动保留。</p><button :disabled="busy||!password">发布新版本</button>
    </form>
   </template>
  </div>

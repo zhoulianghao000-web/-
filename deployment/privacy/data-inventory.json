@@ -1,6 +1,6 @@
 {
   "schema_version": "pawday-privacy-inventory/v1",
-  "source_baseline": "e4a4eb2f5337d960948cd4142aaa1861b3c21c5d",
+  "source_baseline": "50413dac2aa0d2ba5440987da7ba3a805ef726a1",
   "retention_authority": "PENDING_OWNER_POLICY",
   "deletion_authorized": false,
   "migrations": {
@@ -24,7 +24,8 @@
     "V018__support_messages.sql": "e8724a902d80c192d5540ac29cc17de1a3acf48c7e60d038ab2218609bd954ef",
     "V019__nearby_store_profiles.sql": "9e1e56570aed7852fcb7b5b74ebf17a37f62e4349f73b767b8c2a256a499003e",
     "V020__ai_explanations.sql": "3378234de207b063357c4c58f07acc78dfdc7b2aafefb077be981ec45ef76021",
-    "V021__privacy_fact_journal.sql": "7a932e5c6376605d79b993e90a97a0f2c43e81a05c48d877792bbaad68e2aab3"
+    "V021__privacy_fact_journal.sql": "7a932e5c6376605d79b993e90a97a0f2c43e81a05c48d877792bbaad68e2aab3",
+    "V022__staff_password_credentials.sql": "dd82ea185fab98e0dc9990ae4454af1e31b926652c2a14b43a4c0c72f4571117"
   },
   "tables": [
     {
@@ -718,8 +719,6 @@
         "merchant_id",
         "login_name",
         "password_hash",
-        "mfa_secret_ciphertext",
-        "last_totp_step",
         "status"
       ]
     },
@@ -2343,7 +2342,7 @@
       ]
     }
   ],
-  "schema_sha256": "313c71fe9ed7726697e7601ad60ba554fd2b2ae88b90766d0fefcf719409d800",
+  "schema_sha256": "1c065f4855d3578da0db7a55053250281dd22829b77d780b3883486db7f26ae9",
   "policies": [
     {
       "domain": "aftersale_refunds",

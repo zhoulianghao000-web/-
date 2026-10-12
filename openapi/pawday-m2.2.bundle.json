@@ -344,7 +344,7 @@
       "post": {
         "operationId": "post_consumer_auth_reverify",
         "summary": "POST /consumer/auth/reverify",
-        "description": "Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry require search.manage; outbox.replay requires outbox.replay. Staff use password and administrators use a fresh TOTP.",
+        "description": "Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry require search.manage; outbox.replay requires outbox.replay. Staff use password.",
         "tags": [
           "consumer"
         ],
@@ -965,7 +965,7 @@
       "post": {
         "operationId": "post_merchant_auth_login",
         "summary": "POST /merchant/auth/login",
-        "description": "商家 password；管理员 password + TOTP。已配置 TOTP 的商家也必须验证。TOTP 时间步禁止重放；不接受客户端 merchant_id。",
+        "description": "员工使用 password；不接受客户端 merchant_id。",
         "tags": [
           "merchant"
         ],
@@ -1173,7 +1173,7 @@
       "post": {
         "operationId": "post_merchant_auth_reverify",
         "summary": "POST /merchant/auth/reverify",
-        "description": "Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry require search.manage; outbox.replay requires outbox.replay. Staff use password and administrators use a fresh TOTP.",
+        "description": "Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry require search.manage; outbox.replay requires outbox.replay. Staff use password.",
         "tags": [
           "merchant"
         ],
@@ -1794,7 +1794,7 @@
       "post": {
         "operationId": "post_admin_auth_login",
         "summary": "POST /admin/auth/login",
-        "description": "商家 password；管理员 password + TOTP。已配置 TOTP 的商家也必须验证。TOTP 时间步禁止重放；不接受客户端 merchant_id。",
+        "description": "员工使用 password；不接受客户端 merchant_id。",
         "tags": [
           "admin"
         ],
@@ -2002,7 +2002,7 @@
       "post": {
         "operationId": "post_admin_auth_reverify",
         "summary": "POST /admin/auth/reverify",
-        "description": "Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry require search.manage; outbox.replay requires outbox.replay. Staff use password and administrators use a fresh TOTP.",
+        "description": "Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry require search.manage; outbox.replay requires outbox.replay. Staff use password.",
         "tags": [
           "admin"
         ],
@@ -3699,6 +3699,16 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaGrantEnvelope"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -3749,26 +3759,6 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -3789,12 +3779,22 @@
               }
             }
           },
-          "201": {
-            "description": "Success",
+          "429": {
+            "description": "Rate limited",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MediaGrantEnvelope"
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
                 }
               }
             }
@@ -3833,6 +3833,16 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaAssetEnvelope"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -3883,26 +3893,6 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -3923,12 +3913,22 @@
               }
             }
           },
-          "200": {
-            "description": "Success",
+          "429": {
+            "description": "Rate limited",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MediaAssetEnvelope"
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
                 }
               }
             }
@@ -3992,6 +3992,36 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
+          "200": {
+            "description": "Authenticated binary image",
+            "headers": {
+              "X-Content-Type-Options": {
+                "schema": {
+                  "type": "string",
+                  "const": "nosniff"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/jpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -4042,26 +4072,6 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -4082,32 +4092,22 @@
               }
             }
           },
-          "200": {
-            "description": "Authenticated binary image",
-            "headers": {
-              "X-Content-Type-Options": {
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
                 "schema": {
-                  "type": "string",
-                  "const": "nosniff"
-                }
-              },
-              "Cache-Control": {
-                "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ErrorEnvelope"
                 }
               }
-            },
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
             "content": {
-              "image/png": {
+              "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              },
-              "image/jpeg": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
+                  "$ref": "#/components/schemas/ErrorEnvelope"
                 }
               }
             }
@@ -4147,6 +4147,16 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaAssetEnvelope"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -4197,26 +4207,6 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -4237,12 +4227,22 @@
               }
             }
           },
-          "200": {
-            "description": "Success",
+          "429": {
+            "description": "Rate limited",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MediaAssetEnvelope"
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
                 }
               }
             }
@@ -4280,6 +4280,16 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaAssetEnvelope"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -4330,26 +4340,6 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -4370,12 +4360,22 @@
               }
             }
           },
-          "202": {
-            "description": "Success",
+          "429": {
+            "description": "Rate limited",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MediaAssetEnvelope"
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
                 }
               }
             }
@@ -4409,6 +4409,16 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchStatusEnvelope"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -4459,26 +4469,6 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -4499,12 +4489,22 @@
               }
             }
           },
-          "200": {
-            "description": "Success",
+          "429": {
+            "description": "Rate limited",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SearchStatusEnvelope"
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
                 }
               }
             }
@@ -4528,6 +4528,16 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchCommandReceiptEnvelope"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -4578,26 +4588,6 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -4618,12 +4608,22 @@
               }
             }
           },
-          "202": {
-            "description": "Success",
+          "429": {
+            "description": "Rate limited",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SearchCommandReceiptEnvelope"
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
                 }
               }
             }
@@ -4680,6 +4680,16 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchCommandReceiptEnvelope"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -4730,26 +4740,6 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -4770,12 +4760,22 @@
               }
             }
           },
-          "202": {
-            "description": "Success",
+          "429": {
+            "description": "Rate limited",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SearchCommandReceiptEnvelope"
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
                 }
               }
             }
@@ -4832,6 +4832,16 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchCommandReceiptEnvelope"
+                }
+              }
+            }
+          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -4882,26 +4892,6 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -4922,12 +4912,22 @@
               }
             }
           },
-          "202": {
-            "description": "Success",
+          "429": {
+            "description": "Rate limited",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SearchCommandReceiptEnvelope"
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
                 }
               }
             }
@@ -5405,10 +5405,6 @@
             "maxLength": 200,
             "description": "BCrypt 密码 UTF-8 字节长度不得超过 72。"
           },
-          "totp_code": {
-            "type": "string",
-            "pattern": "^[0-9]{6}$"
-          },
           "device_id": {
             "type": "string",
             "minLength": 1,
@@ -5436,10 +5432,6 @@
             "maxLength": 200,
             "description": "BCrypt 密码 UTF-8 字节长度不得超过 72。"
           },
-          "totp_code": {
-            "type": "string",
-            "pattern": "^[0-9]{6}$"
-          },
           "device_id": {
             "type": "string",
             "minLength": 1,
@@ -5449,7 +5441,6 @@
         "required": [
           "login_name",
           "password",
-          "totp_code",
           "device_id"
         ]
       },
@@ -5487,10 +5478,6 @@
             "maxLength": 200
           },
           "otp_code": {
-            "type": "string",
-            "pattern": "^[0-9]{6}$"
-          },
-          "totp_code": {
             "type": "string",
             "pattern": "^[0-9]{6}$"
           }

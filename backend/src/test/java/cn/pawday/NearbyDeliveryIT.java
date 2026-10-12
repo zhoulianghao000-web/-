@@ -36,7 +36,7 @@ class NearbyDeliveryIT {
  String key(){return UUID.randomUUID().toString();}
  String identity(String realm,UUID m,List<String> permissions){UUID principal=UUID.randomUUID(),role=UUID.randomUUID();
   if(realm.equals("CONSUMER")){UUID user=UUID.randomUUID();db.update("INSERT INTO app_user(id,status) VALUES (?,'ACTIVE')",user);db.update("INSERT INTO identity_principal(id,realm,user_id) VALUES (?,'CONSUMER',?)",principal,user);}
-  else db.update("INSERT INTO identity_principal(id,realm,merchant_id,login_name,password_hash,mfa_secret_ciphertext) VALUES (?,?,?,?,?,?)",principal,realm,m,key(),"TEST-ONLY",realm.equals("ADMIN")?crypto.encrypt(new byte[20]):null);
+  else db.update("INSERT INTO identity_principal(id,realm,merchant_id,login_name,password_hash) VALUES (?,?,?,?,?)",principal,realm,m,key(),"TEST-ONLY");
   db.update("INSERT INTO role(id,scope_type,code,name) VALUES (?,?,?,'Nearby test')",role,realm,key());for(String permission:permissions)db.update("INSERT INTO role_permission SELECT ?,id FROM permission WHERE code=?",role,permission);db.update("INSERT INTO principal_role VALUES (?,?,?)",principal,role,realm);
   UUID session=UUID.randomUUID();String token=crypto.token();Instant now=Instant.now();db.update("INSERT INTO auth_session(id,principal_id,access_token_hash,device_id,expires_at,refresh_expires_at,created_at) VALUES (?,?,?,'M54-IT',?,?,?)",session,principal,crypto.hash(token),Timestamp.from(now.plusSeconds(86400)),Timestamp.from(now.plusSeconds(86400)),Timestamp.from(now));if(realm.equals("ADMIN"))adminSession=session;if(realm.equals("MERCHANT"))db.update("INSERT INTO principal_store_scope VALUES (?,?,?)",principal,m,store);return token;
  }

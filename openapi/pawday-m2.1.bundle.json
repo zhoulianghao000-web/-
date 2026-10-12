@@ -344,7 +344,7 @@
       "post": {
         "operationId": "post_consumer_auth_reverify",
         "summary": "POST /consumer/auth/reverify",
-        "description": "消费者使用绑定会话的 REVERIFY OTP；员工密码，管理员附带新 TOTP。action=access.role.write 另要求同名权限。",
+        "description": "消费者使用绑定会话的 REVERIFY OTP；员工使用密码。action=access.role.write 另要求同名权限。",
         "tags": [
           "consumer"
         ],
@@ -965,7 +965,7 @@
       "post": {
         "operationId": "post_merchant_auth_login",
         "summary": "POST /merchant/auth/login",
-        "description": "商家 password；管理员 password + TOTP。已配置 TOTP 的商家也必须验证。TOTP 时间步禁止重放；不接受客户端 merchant_id。",
+        "description": "员工使用 password；不接受客户端 merchant_id。",
         "tags": [
           "merchant"
         ],
@@ -1173,7 +1173,7 @@
       "post": {
         "operationId": "post_merchant_auth_reverify",
         "summary": "POST /merchant/auth/reverify",
-        "description": "消费者使用绑定会话的 REVERIFY OTP；员工密码，管理员附带新 TOTP。action=access.role.write 另要求同名权限。",
+        "description": "消费者使用绑定会话的 REVERIFY OTP；员工使用密码。action=access.role.write 另要求同名权限。",
         "tags": [
           "merchant"
         ],
@@ -1794,7 +1794,7 @@
       "post": {
         "operationId": "post_admin_auth_login",
         "summary": "POST /admin/auth/login",
-        "description": "商家 password；管理员 password + TOTP。已配置 TOTP 的商家也必须验证。TOTP 时间步禁止重放；不接受客户端 merchant_id。",
+        "description": "员工使用 password；不接受客户端 merchant_id。",
         "tags": [
           "admin"
         ],
@@ -2002,7 +2002,7 @@
       "post": {
         "operationId": "post_admin_auth_reverify",
         "summary": "POST /admin/auth/reverify",
-        "description": "消费者使用绑定会话的 REVERIFY OTP；员工密码，管理员附带新 TOTP。action=access.role.write 另要求同名权限。",
+        "description": "消费者使用绑定会话的 REVERIFY OTP；员工使用密码。action=access.role.write 另要求同名权限。",
         "tags": [
           "admin"
         ],
@@ -3759,10 +3759,6 @@
             "maxLength": 200,
             "description": "BCrypt 密码 UTF-8 字节长度不得超过 72。"
           },
-          "totp_code": {
-            "type": "string",
-            "pattern": "^[0-9]{6}$"
-          },
           "device_id": {
             "type": "string",
             "minLength": 1,
@@ -3790,10 +3786,6 @@
             "maxLength": 200,
             "description": "BCrypt 密码 UTF-8 字节长度不得超过 72。"
           },
-          "totp_code": {
-            "type": "string",
-            "pattern": "^[0-9]{6}$"
-          },
           "device_id": {
             "type": "string",
             "minLength": 1,
@@ -3803,7 +3795,6 @@
         "required": [
           "login_name",
           "password",
-          "totp_code",
           "device_id"
         ]
       },
@@ -3837,10 +3828,6 @@
             "maxLength": 200
           },
           "otp_code": {
-            "type": "string",
-            "pattern": "^[0-9]{6}$"
-          },
-          "totp_code": {
             "type": "string",
             "pattern": "^[0-9]{6}$"
           }

@@ -214,8 +214,7 @@ paths:
       operationId: post_consumer_auth_reverify
       summary: POST /consumer/auth/reverify
       description: Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry
-        require search.manage; outbox.replay requires outbox.replay. Staff use password
-        and administrators use a fresh TOTP.
+        require search.manage; outbox.replay requires outbox.replay. Staff use password.
       tags:
       - consumer
       security:
@@ -591,8 +590,7 @@ paths:
     post:
       operationId: post_merchant_auth_login
       summary: POST /merchant/auth/login
-      description: 商家 password；管理员 password + TOTP。已配置 TOTP 的商家也必须验证。TOTP 时间步禁止重放；不接受客户端
-        merchant_id。
+      description: 员工使用 password；不接受客户端 merchant_id。
       tags:
       - merchant
       security: []
@@ -721,8 +719,7 @@ paths:
       operationId: post_merchant_auth_reverify
       summary: POST /merchant/auth/reverify
       description: Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry
-        require search.manage; outbox.replay requires outbox.replay. Staff use password
-        and administrators use a fresh TOTP.
+        require search.manage; outbox.replay requires outbox.replay. Staff use password.
       tags:
       - merchant
       security:
@@ -1089,8 +1086,7 @@ paths:
     post:
       operationId: post_admin_auth_login
       summary: POST /admin/auth/login
-      description: 商家 password；管理员 password + TOTP。已配置 TOTP 的商家也必须验证。TOTP 时间步禁止重放；不接受客户端
-        merchant_id。
+      description: 员工使用 password；不接受客户端 merchant_id。
       tags:
       - admin
       security: []
@@ -1219,8 +1215,7 @@ paths:
       operationId: post_admin_auth_reverify
       summary: POST /admin/auth/reverify
       description: Session-bound one-use action proof. search.rebuild/search.reconcile/search.retry
-        require search.manage; outbox.replay requires outbox.replay. Staff use password
-        and administrators use a fresh TOTP.
+        require search.manage; outbox.replay requires outbox.replay. Staff use password.
       tags:
       - admin
       security:
@@ -3241,7 +3236,6 @@ components:
           minLength: 1
           maxLength: 200
           description: BCrypt 密码 UTF-8 字节长度不得超过 72。
-        totp_code: *id011
         device_id: *id012
       required:
       - login_name
@@ -3254,7 +3248,6 @@ components:
       required:
       - login_name
       - password
-      - totp_code
       - device_id
     Refresh:
       type: object
@@ -3275,7 +3268,6 @@ components:
           type: string
           maxLength: 200
         otp_code: *id011
-        totp_code: *id011
       required:
       - action
     RoleRequest:

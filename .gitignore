@@ -18,7 +18,6 @@
 **/embedded-pg/
 
 .env.local
-.local-authenticator.txt
 release/*.jar
 
 
