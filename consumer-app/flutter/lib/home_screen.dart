@@ -306,10 +306,14 @@ class _HomeHero extends StatelessWidget {
       final mobile = box.maxWidth <= 620;
       final copy = Padding(
         padding: EdgeInsets.fromLTRB(
-          mobile ? 27 : 58,
-          mobile ? 38 : 70,
-          mobile ? 27 : 30,
-          mobile ? 28 : 60,
+          mobile
+              ? 27
+              : box.maxWidth < 1000
+              ? 40
+              : 88,
+          mobile ? 38 : 92,
+          mobile ? 27 : 0,
+          mobile ? 28 : 84,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -337,20 +341,18 @@ class _HomeHero extends StatelessWidget {
               ),
               style: TextStyle(
                 fontSize: mobile
-                    ? 40
-                    : box.maxWidth < 1000
-                    ? 42
-                    : 56,
+                    ? 43
+                    : (MediaQuery.sizeOf(context).width * .052).clamp(42, 68),
                 fontWeight: FontWeight.w800,
-                height: 1.2,
-                letterSpacing: -1.8,
+                height: 1.15,
+                letterSpacing: mobile ? -2.8 : -4,
               ),
             ),
             const SizedBox(height: 17),
-            const Text(
+            Text(
               '从一顿好好吃饭，到一场尽情玩耍。\n为毛孩子的每个日常，认真挑选安心又可爱的好物。',
               style: TextStyle(
-                fontSize: 13,
+                fontSize: mobile ? 12 : 15,
                 height: 1.9,
                 color: Color(0xff647067),
               ),
@@ -393,14 +395,16 @@ class _HomeHero extends StatelessWidget {
             ),
             if (!mobile)
               Positioned(
-                left: -65,
+                left: -90,
                 top: -25,
                 bottom: -25,
                 child: Container(
-                  width: 90,
+                  width: 190,
                   decoration: BoxDecoration(
                     color: const Color(0xffe7eadb),
-                    borderRadius: BorderRadius.circular(100),
+                    borderRadius: const BorderRadius.all(
+                      Radius.elliptical(95, 275),
+                    ),
                   ),
                 ),
               ),
@@ -493,8 +497,8 @@ class _HomeHero extends StatelessWidget {
               ? Column(children: [copy, photo])
               : Row(
                   children: [
-                    Expanded(child: copy),
-                    Expanded(child: photo),
+                    Expanded(flex: 20, child: copy),
+                    Expanded(flex: 21, child: photo),
                   ],
                 ),
         ),

@@ -79,7 +79,11 @@ abstract final class PawdayDesign {
           ),
           shape: const WidgetStatePropertyAll(StadiumBorder()),
           textStyle: const WidgetStatePropertyAll(
-            TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+            TextStyle(
+              fontFamily: 'PawdaySans',
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
       ),
@@ -175,7 +179,20 @@ class PawdayButton extends StatelessWidget {
                 ),
               ],
       ),
-      child: FilledButton(onPressed: onPressed, child: child),
+      child: FilledButton(
+        style: FilledButton.styleFrom(
+          padding: MediaQuery.sizeOf(context).width <= 620
+              ? const EdgeInsets.symmetric(horizontal: 17, vertical: 13)
+              : const EdgeInsets.symmetric(horizontal: 22, vertical: 15),
+          textStyle: TextStyle(
+            fontFamily: 'PawdaySans',
+            fontSize: MediaQuery.sizeOf(context).width <= 620 ? 11 : 13,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        onPressed: onPressed,
+        child: child,
+      ),
     ),
   );
 }

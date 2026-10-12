@@ -30,15 +30,21 @@ class _PawdayAppState extends ConsumerState<PawdayApp> {
         ? child!
         : Column(
             children: [
-              Material(
-                color: PawdayDesign.green,
-                child: SafeArea(
-                  bottom: false,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Text(
-                      pilotLabel,
-                      style: const TextStyle(color: Colors.white, fontSize: 13),
+              SizedBox(
+                width: double.infinity,
+                child: Material(
+                  color: PawdayDesign.green,
+                  child: SafeArea(
+                    bottom: false,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        pilotLabel,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                        ),
+                      ),
                     ),
                   ),
                 ),
