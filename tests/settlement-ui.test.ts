@@ -19,10 +19,10 @@ it('failed settlement reverify never initiates a batch and clears credentials',a
   return new Response(JSON.stringify({error:{code:'INVALID_CREDENTIALS',message:'INVALID_CREDENTIALS',retryable:false,details:{}},meta}),{status:401,headers:{'Content-Type':'application/json'}});});
  const wrapper=mount(SettlementPanel,{props:{session:adminSession(network)}});await flushPromises();
  expect(wrapper.text()).toContain('STEST1');expect(wrapper.text()).toContain('一致');
- const inputs=wrapper.findAll('input');await inputs[0]!.setValue(id);await inputs[1]!.setValue('TEST wrong');await inputs[2]!.setValue('123456');
+ const inputs=wrapper.findAll('input');await inputs[0]!.setValue(id);await inputs[1]!.setValue('TEST wrong');
  await wrapper.find('form').trigger('submit');await flushPromises();
  expect(calls.some(r=>r.method==='POST'&&r.url.includes('/settlements'))).toBe(false);
- expect((inputs[1]!.element as HTMLInputElement).value).toBe('');expect((inputs[2]!.element as HTMLInputElement).value).toBe('');
+ expect((inputs[1]!.element as HTMLInputElement).value).toBe('');
  expect(wrapper.find('[role="alert"]').exists()).toBe(true);wrapper.unmount();
 });
 it('merchant finance panel discards private rows delivered after session clear',async()=>{

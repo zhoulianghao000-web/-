@@ -4,9 +4,9 @@ export class StaffSession {
   readonly state=reactive({principal:null as Principal|null,stores:[] as Store[],storeId:'',loading:false,error:''});
   constructor(readonly client:PawdayClient){}
   can(permission?:string){return !!this.state.principal&&(!permission||this.state.principal.permissions.includes(permission));}
-  async login(name:string,password:string,totp:string,deviceId:string){
+  async login(name:string,password:string,deviceId:string){
     this.state.loading=true;this.state.error='';
-    try{this.state.principal=await this.client.staffLogin({login_name:name,password,device_id:deviceId,...(totp?{totp_code:totp}:{})});await this.loadScope();}
+    try{this.state.principal=await this.client.staffLogin({login_name:name,password,device_id:deviceId});await this.loadScope();}
     catch(error){this.client.clearSession();this.clear();throw error;}finally{this.state.loading=false;}
   }
   async loadScope(){

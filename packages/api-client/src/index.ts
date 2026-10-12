@@ -139,8 +139,7 @@ export class PawdayClient {
     if(this.realm==='consumer')throw new ApiError(403,'REALM_MISMATCH','');
     let tokens:Tokens;
     if(this.realm==='admin'){
-      if(!body.totp_code)throw new ApiError(400,'MFA_REQUIRED','');
-      tokens=unwrap(await this.api.POST('/admin/auth/login',{body:{...body,totp_code:body.totp_code}})).data;
+      tokens=unwrap(await this.api.POST('/admin/auth/login',{body})).data;
     } else tokens=unwrap(await this.api.POST('/merchant/auth/login',{body})).data;
     if(epoch!==this.epoch)throw new ApiError(401,'SESSION_CHANGED','');
     this.setSession(tokens);

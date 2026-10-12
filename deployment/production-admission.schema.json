@@ -71,7 +71,7 @@
             "storage_media",
             "ai_live",
             "logistics_navigation",
-            "operator_mfa",
+            "operator_access",
             "privacy_delete",
             "backup_restore",
             "observability",

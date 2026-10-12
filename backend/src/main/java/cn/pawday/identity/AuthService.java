@@ -97,25 +97,20 @@ public class AuthService {
         });
         if(result==null) throw new Failure(401,"INVALID_CREDENTIALS");return result;
     }
-    private boolean staffCredentials(Map<String,Object> row,String password,String totp) {
+    private boolean staffCredentials(Map<String,Object> row,String password) {
         if(password.getBytes(java.nio.charset.StandardCharsets.UTF_8).length>72) return false;
         boolean matched=passwords.matches(password,row==null?dummyHash:(String)row.get("password_hash"));
         if(row==null || !matched || !row.get("status").equals("ACTIVE")) return false;
-        if(row.get("mfa_secret_ciphertext")!=null) {
-            long step=crypto.matchTotp((String)row.get("mfa_secret_ciphertext"),totp);
-            if(step<0) return false;
-            return db.update("UPDATE identity_principal SET last_totp_step=? WHERE id=? AND last_totp_step<?",step,row.get("id"),step)==1;
-        }
-        return !row.get("realm").equals("ADMIN");
+        return true;
     }
-    public Tokens staffLogin(Actor.Realm realm,String login,String password,String totp,String device,HttpServletRequest r) {
+    public Tokens staffLogin(Actor.Realm realm,String login,String password,String device,HttpServletRequest r) {
         if(realm==Actor.Realm.CONSUMER) throw new Failure(403,"PERMISSION_DENIED");
         pilot.require(realm.name(),login);
         rateLimit("staff-login:"+realm+":"+login);rateLimit("login-ip:"+r.getRemoteAddr());
         Tokens tokens=tx.execute(s-> {
             var rows=db.queryForList("SELECT * FROM identity_principal WHERE realm=? AND login_name=? FOR UPDATE",realm.name(),login);
             var row=rows.isEmpty()?null:rows.getFirst();
-            if(!staffCredentials(row,password,totp)) {audit.write(null,"auth.login.failed","IDENTITY",null,Map.of(),Map.of("realm",realm.name()),r);return null;}
+            if(!staffCredentials(row,password)) {audit.write(null,"auth.login.failed","IDENTITY",null,Map.of(),Map.of("realm",realm.name()),r);return null;}
             if(realm==Actor.Realm.MERCHANT && db.queryForObject("SELECT count(*) FROM merchant WHERE id=? AND status='ACTIVE'",Integer.class,row.get("merchant_id"))==0) return null;
             Tokens value=newSession((UUID)row.get("id"),null,device);
             audit.write(load(value.access_token()).orElseThrow(),"auth.login.succeeded","AUTH_SESSION",value.session_id().toString(),Map.of(),Map.of("realm",realm.name()),r);return value;
@@ -175,7 +170,7 @@ public class AuthService {
         });
         if(result==null) throw new Failure(401,"INVALID_REFRESH_TOKEN");return result;
     }
-    public Proof reverify(Actor actor,String action,String password,String otp,String totp,HttpServletRequest r) {
+    public Proof reverify(Actor actor,String action,String password,String otp,HttpServletRequest r) {
         if(!Set.of("access.role.write","session.revoke-others","outbox.replay","search.rebuild","search.reconcile","search.retry","pet.taxonomy.write","catalog.standard.write","offer.admin.manage","pricing.shipping.manage","order.policy.manage","payment.requery","aftersale.arbitrate","settlement.policy.manage","settlement.execute","ledger.adjust","membership.plan.manage","points.policy.manage","points.reward.manage","points.adjust","review.moderate","review.policy.manage","content.moderate","support.assign","nearby.moderate","ai.manage").contains(action)) throw new Failure(422,"REVERIFY_ACTION_NOT_ALLOWED");
         if(!action.equals("session.revoke-others") && !actor.permissions().contains(action.startsWith("search.")?"search.manage":action)) throw new Failure(403,"PERMISSION_DENIED");
         rateLimit("reverify:"+actor.principalId());
@@ -184,7 +179,7 @@ public class AuthService {
             if(actor.realm()==Actor.Realm.CONSUMER) {
                 String phone=db.queryForObject("SELECT phone_e164 FROM app_user WHERE id=?",String.class,actor.userId());valid=consumeOtp(phone,"REVERIFY",actor.sessionId(),otp==null?"":otp);
             } else {
-                var row=db.queryForMap("SELECT * FROM identity_principal WHERE id=? FOR UPDATE",actor.principalId());valid=staffCredentials(row,password==null?"":password,totp);
+                var row=db.queryForMap("SELECT * FROM identity_principal WHERE id=? FOR UPDATE",actor.principalId());valid=staffCredentials(row,password==null?"":password);
             }
             if(!valid) {audit.write(actor,"auth.reverify.failed","AUTH_SESSION",actor.sessionId().toString(),Map.of(),Map.of("action",action),r);return null;}
             String proof=crypto.token();Instant expires=clock.instant().plusSeconds(proofSeconds);

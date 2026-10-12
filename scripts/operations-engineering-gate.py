@@ -99,10 +99,11 @@ def gate(commit):
         app.terminate();app.wait(timeout=30);app_log.close();passed('quiesced_source_before_backup')
         fixture=json.loads((ROOT/'backend/target/m62-test-ciphertexts.json').read_text());assert fixture['test_only'] is True
         principal='00000000-0000-0000-0000-000000000061';session='00000000-0000-0000-0000-000000000062';merchant='00000000-0000-0000-0000-000000000063';asset='00000000-0000-0000-0000-000000000064'
+        sql(SOURCE,f"INSERT INTO identity_principal(id,realm,login_name,password_hash) VALUES ('{principal}','ADMIN','TEST_ONLY_RESTORE','TEST_ONLY')")
         for index,name in enumerate(['legacy','old','current']):
             cipher=fixture[name];assert all(c.isalnum() or c in '+/=:_-' for c in cipher)
             ident=principal if index==0 else str(uuid.uuid4())
-            sql(SOURCE,f"INSERT INTO identity_principal(id,realm,login_name,password_hash,mfa_secret_ciphertext) VALUES ('{ident}','ADMIN','TEST_ONLY_{name}','TEST_ONLY','{cipher}')")
+            sql(SOURCE,f"INSERT INTO otp_challenge(id,phone_e164,purpose,code_hash,expires_at,created_at,delivery_secret_ciphertext) VALUES ('{ident}','TEST_ONLY_{name}','LOGIN','TEST_ONLY',now()+interval '5 minutes',now(),'{cipher}')")
         sql(SOURCE,f"INSERT INTO auth_session(id,principal_id,access_token_hash,device_id,expires_at,refresh_expires_at,created_at) VALUES ('{session}','{principal}','{'a'*64}','TEST_ONLY',now()+interval '1 hour',now()+interval '1 day',now()); INSERT INTO merchant VALUES ('{merchant}','TEST_ONLY','ACTIVE'); INSERT INTO merchant_ledger_entries(id,merchant_id,entry_type,direction,amount_fen,affects_balance,source_event,created_by_type) VALUES (gen_random_uuid(),'{merchant}','MANUAL_ADJUSTMENT','CREDIT',12345,true,'TEST_ONLY_RESTORE','SYSTEM'); INSERT INTO processed_event(consumer,event_id,status,payload_hash) VALUES ('TEST_ONLY_RESTORE','{event}','PROCESSED','{'b'*64}')")
         media=LOCAL/'source-objects';obj=media/f'media/{asset}.png';obj.parent.mkdir(parents=True);obj.write_bytes(base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a5N8AAAAASUVORK5CYII='))
         sql(SOURCE,f"INSERT INTO media_asset(id,owner_id,realm,owner_session_id,scope,storage_provider,object_key,mime,size_bytes,sha256,status,upload_expires_at,next_cleanup_at,created_at,updated_at) VALUES ('{asset}','{principal}','ADMIN','{session}','ARTICLE','local','media/{asset}.png','image/png',{obj.stat().st_size},'{digest(obj)}','READY',now(),now(),now(),now())")
@@ -133,7 +134,7 @@ def gate(commit):
             if name.startswith('media/'):
                 dst=restored/name;dst.parent.mkdir(parents=True,exist_ok=True);dst.write_bytes((bundle/name).read_bytes());assert digest(dst)==manifest['files'][name]['sha256']
         assert sql(target,f"SELECT sha256 FROM media_asset WHERE id='{asset}'").stdout.strip().decode()==digest(restored/f'media/{asset}.png');passed('restored_media_bytes_match_database_reference')
-        cipher_rows=sql(target,"SELECT mfa_secret_ciphertext FROM identity_principal WHERE login_name LIKE 'TEST_ONLY_%' ORDER BY CASE login_name WHEN 'TEST_ONLY_legacy' THEN 1 WHEN 'TEST_ONLY_old' THEN 2 ELSE 3 END").stdout
+        cipher_rows=sql(target,"SELECT delivery_secret_ciphertext FROM otp_challenge WHERE phone_e164 LIKE 'TEST_ONLY_%' ORDER BY CASE phone_e164 WHEN 'TEST_ONLY_legacy' THEN 1 WHEN 'TEST_ONLY_old' THEN 2 ELSE 3 END").stdout
         cp=os.pathsep.join(['backend/target/classes','backend/target/test-classes'])
         key_result=json.loads(run(['java','-cp',cp,'cn.pawday.CipherRestoreProbe'],data=cipher_rows).stdout);assert key_result['result']=='PASS' and key_result['missing_key_rejected'];passed('restored_legacy_old_active_ciphertexts_and_missing_key_rejection')
         sql(target,f"INSERT INTO processed_event(consumer,event_id,status,payload_hash) VALUES ('TEST_ONLY_RESTORE','{event}','PROCESSED','{'b'*64}') ON CONFLICT DO NOTHING")

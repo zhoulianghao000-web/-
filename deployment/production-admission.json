@@ -117,7 +117,7 @@
       ]
     },
     {
-      "id": "operator_mfa",
+      "id": "operator_access",
       "status": "PENDING",
       "provider_decision": "NOT_SELECTED_OR_NOT_ACCEPTED",
       "source_files": [
@@ -127,7 +127,7 @@
         "real_staff_enrollment",
         "one_use_reverify",
         "scope_denial",
-        "mfa_loss_recovery"
+        "staff_account_recovery"
       ],
       "evidence": [],
       "blockers": [

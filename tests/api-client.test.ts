@@ -8,7 +8,7 @@ const json=(data:unknown,status=200)=>new Response(JSON.stringify({data,meta}),{
 const denied=(status:number,code:string)=>new Response(JSON.stringify({error:{code,message:code,retryable:false,details:{}},meta}),{status,headers:{'Content-Type':'application/json'}});
 describe('realm-bound generated API transport',()=>{
   it('wrong reverify credentials do not rotate or discard a valid session',async()=>{
-    const network=vi.fn<typeof fetch>(async()=>denied(401,'INVALID_CREDENTIALS'));const client=new PawdayClient('admin','http://localhost/api/v1',network);client.setSession(tokens);await expect(client.reverify({action:'session.revoke-others',password:'wrong',totp_code:'123456'})).rejects.toMatchObject({code:'INVALID_CREDENTIALS'});expect(network).toHaveBeenCalledTimes(1);expect(client.authenticated).toBe(true);
+    const network=vi.fn<typeof fetch>(async()=>denied(401,'INVALID_CREDENTIALS'));const client=new PawdayClient('admin','http://localhost/api/v1',network);client.setSession(tokens);await expect(client.reverify({action:'session.revoke-others',password:'wrong'})).rejects.toMatchObject({code:'INVALID_CREDENTIALS'});expect(network).toHaveBeenCalledTimes(1);expect(client.authenticated).toBe(true);
   });
   it('discards a late successful principal after logout',async()=>{
     let resolve:((r:Response)=>void)|undefined;const client=new PawdayClient('merchant','http://localhost/api/v1',async()=>new Promise(r=>{resolve=r;}));client.setSession(tokens);const pending=client.me();client.clearSession();resolve?.(json(principal));await expect(pending).rejects.toMatchObject({code:'SESSION_CHANGED'});expect(client.authenticated).toBe(false);
@@ -43,9 +43,10 @@ describe('realm-bound generated API transport',()=>{
     let loginAuth:string|null='unexpected';const network:typeof fetch=async input=>{const r=input as Request;if(r.url.endsWith('/login')){loginAuth=r.headers.get('Authorization');return json(tokens);}return json(principal);};
     const client=new PawdayClient('merchant','http://localhost/api/v1',network);client.setSession(tokens);await client.staffLogin({login_name:'staff',password:'private',device_id:'device'});expect(loginAuth).toBeNull();
   });
-  it('requires administrator MFA before issuing a login request',async()=>{
-    const network=vi.fn<typeof fetch>();const client=new PawdayClient('admin','http://localhost/api/v1',network);
-    await expect(client.staffLogin({login_name:'admin',password:'private',device_id:'device'})).rejects.toMatchObject({code:'MFA_REQUIRED'});expect(network).not.toHaveBeenCalled();
+  it('administrator password login reaches the API and preserves the identity boundary',async()=>{
+    const network=vi.fn<typeof fetch>(async input=>(input as Request).url.endsWith('/login')?json(tokens):json({...principal,realm:'ADMIN'}));const client=new PawdayClient('admin','http://localhost/api/v1',network);
+    await client.staffLogin({login_name:'admin',password:'private',device_id:'device'});expect(network).toHaveBeenCalledTimes(2);expect(client.authenticated).toBe(true);
+    const body=await (network.mock.calls[0]![0] as Request).clone().json();expect(body).toEqual({login_name:'admin',password:'private',device_id:'device'});
   });
   it('preserves version-conflict detail and request ID without replaying a mutation',async()=>{
     const network=vi.fn<typeof fetch>(async()=>denied(409,'VERSION_CONFLICT'));const client=new PawdayClient('admin','http://localhost/api/v1',network);client.setSession(tokens);
@@ -71,7 +72,7 @@ describe('scope, intent and mutation handling',()=>{
   it('keeps the exact caller-owned idempotency key and version',()=>{expect(mutationHeaders('stable-key','one-use-proof',4)).toEqual({'Idempotency-Key':'stable-key','X-Reverify-Token':'one-use-proof','If-Match':'"4"'});});
   it('rejects a store belonging to another merchant and clears session',async()=>{
     const network:typeof fetch=async input=>{const path=(input as Request).url;return path.endsWith('/login')?json(tokens):path.endsWith('/me')?json(principal):json([{id:meta.request_id,name:'wrong store',merchant_id:meta.correlation_id}]);};
-    const client=new PawdayClient('merchant','http://localhost/api/v1',network);const session=new StaffSession(client);await expect(session.login('x','x','','device')).rejects.toMatchObject({code:'STORE_SCOPE_MISMATCH'});expect(session.state.principal).toBeNull();expect(client.authenticated).toBe(false);
+    const client=new PawdayClient('merchant','http://localhost/api/v1',network);const session=new StaffSession(client);await expect(session.login('x','x','device')).rejects.toMatchObject({code:'STORE_SCOPE_MISMATCH'});expect(session.state.principal).toBeNull();expect(client.authenticated).toBe(false);
   });
   it('cannot choose a store outside the server-authorized list',()=>{
     const session=new StaffSession(new PawdayClient('merchant','http://localhost/api/v1'));session.state.stores=[{id:'a',name:'A',merchant_id:'merchant'}];expect(()=>session.selectStore('b')).toThrow(ApiError);session.selectStore('a');expect(session.state.storeId).toBe('a');

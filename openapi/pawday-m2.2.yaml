@@ -212,7 +212,7 @@ paths:
     post:
       operationId: post_consumer_auth_reverify
       summary: POST /consumer/auth/reverify
-      description: 验证绑定当前会话/action；outbox.replay 需要同名权限，管理员密码 + 新 TOTP；其余沿用 M2.1。
+      description: 验证绑定当前会话/action；outbox.replay 需要同名权限，管理员密码；其余沿用 M2.1。
       tags:
       - consumer
       security:
@@ -588,8 +588,7 @@ paths:
     post:
       operationId: post_merchant_auth_login
       summary: POST /merchant/auth/login
-      description: 商家 password；管理员 password + TOTP。已配置 TOTP 的商家也必须验证。TOTP 时间步禁止重放；不接受客户端
-        merchant_id。
+      description: 员工使用 password；不接受客户端 merchant_id。
       tags:
       - merchant
       security: []
@@ -717,7 +716,7 @@ paths:
     post:
       operationId: post_merchant_auth_reverify
       summary: POST /merchant/auth/reverify
-      description: 验证绑定当前会话/action；outbox.replay 需要同名权限，管理员密码 + 新 TOTP；其余沿用 M2.1。
+      description: 验证绑定当前会话/action；outbox.replay 需要同名权限，管理员密码；其余沿用 M2.1。
       tags:
       - merchant
       security:
@@ -1084,8 +1083,7 @@ paths:
     post:
       operationId: post_admin_auth_login
       summary: POST /admin/auth/login
-      description: 商家 password；管理员 password + TOTP。已配置 TOTP 的商家也必须验证。TOTP 时间步禁止重放；不接受客户端
-        merchant_id。
+      description: 员工使用 password；不接受客户端 merchant_id。
       tags:
       - admin
       security: []
@@ -1213,7 +1211,7 @@ paths:
     post:
       operationId: post_admin_auth_reverify
       summary: POST /admin/auth/reverify
-      description: 验证绑定当前会话/action；outbox.replay 需要同名权限，管理员密码 + 新 TOTP；其余沿用 M2.1。
+      description: 验证绑定当前会话/action；outbox.replay 需要同名权限，管理员密码；其余沿用 M2.1。
       tags:
       - admin
       security:
@@ -2477,7 +2475,6 @@ components:
           minLength: 1
           maxLength: 200
           description: BCrypt 密码 UTF-8 字节长度不得超过 72。
-        totp_code: *id008
         device_id: *id009
       required:
       - login_name
@@ -2490,7 +2487,6 @@ components:
       required:
       - login_name
       - password
-      - totp_code
       - device_id
     Refresh:
       type: object
@@ -2511,7 +2507,6 @@ components:
           type: string
           maxLength: 200
         otp_code: *id008
-        totp_code: *id008
       required:
       - action
     RoleRequest:

@@ -9,7 +9,7 @@ import tools.jackson.databind.json.JsonMapper;
 
 @Component
 public class AuditWriter {
-    private static final Set<String> SENSITIVE_FIELDS=Set.of("password","passwordhash","accesstoken","refreshtoken","reverifytoken","uploadtoken","token","secret","deliverysecretciphertext","mfasecretciphertext","otp","otpcode","totp","totpcode","verificationcode","smscode","credential","credentials","authorization","cookie","signature","privatekey","identitycard","bankcard","address","shippingaddress");
+    private static final Set<String> SENSITIVE_FIELDS=Set.of("password","passwordhash","accesstoken","refreshtoken","reverifytoken","uploadtoken","token","secret","deliverysecretciphertext","otp","otpcode","verificationcode","smscode","credential","credentials","authorization","cookie","signature","privatekey","identitycard","bankcard","address","shippingaddress");
     private final JdbcTemplate jdbc;
     private final JsonMapper json=JsonMapper.builder().build();
     public AuditWriter(JdbcTemplate jdbc) { this.jdbc=jdbc; }

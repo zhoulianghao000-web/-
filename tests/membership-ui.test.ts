@@ -28,7 +28,7 @@ it('plan publish requires reverify and failed reverify never posts the plan',asy
   return new Response(JSON.stringify({error:{code:'INVALID_CREDENTIALS',message:'INVALID_CREDENTIALS',retryable:false,details:{}},meta}),{status:401,headers:{'Content-Type':'application/json'}});});
  const wrapper=mount(MembershipPanel,{props:{session:adminSession(network)}});await flushPromises();
  const form=wrapper.findAll('form')[0]!;const inputs=form.findAll('input');
- await inputs[0]!.setValue('MEMBER_MONTH');await inputs[1]!.setValue('月度会员');await inputs[2]!.setValue(1500);await inputs[3]!.setValue(20);await inputs[4]!.setValue('会员价');await inputs[5]!.setValue('TEST wrong');await inputs[6]!.setValue('123456');
+ await inputs[0]!.setValue('MEMBER_MONTH');await inputs[1]!.setValue('月度会员');await inputs[2]!.setValue(1500);await inputs[3]!.setValue(20);await inputs[4]!.setValue('会员价');await inputs[5]!.setValue('TEST wrong');
  await form.trigger('submit');await flushPromises();
  expect(calls.some(r=>r.method==='POST'&&r.url.includes('/admin/membership-plans'))).toBe(false);
  expect(wrapper.find('[role="alert"]').exists()).toBe(true);wrapper.unmount();
@@ -47,7 +47,7 @@ it('points adjustment posts with idempotency key after reverify and refreshes th
  const section=wrapper.findAll('form').at(-1)!;const userInput=wrapper.findAll('input').find(i=>i.attributes('minlength')==='36')!;
  await userInput.setValue(id);await wrapper.findAll('button').find(b=>b.text().includes('读取积分'))!.trigger('click');await flushPromises();
  expect(wrapper.text()).toContain('25');
- const inputs=section.findAll('input');await inputs[0]!.setValue(25);await inputs[1]!.setValue('TEST goodwill');await inputs[2]!.setValue('TEST pass');await inputs[3]!.setValue('123456');
+ const inputs=section.findAll('input');await inputs[0]!.setValue(25);await inputs[1]!.setValue('TEST goodwill');await inputs[2]!.setValue('TEST pass');
  await section.trigger('submit');await flushPromises();
  const posted=calls.find(r=>r.method==='POST'&&r.url.includes('/points-adjustments'));
  expect(posted).toBeTruthy();expect(posted!.headers.get('Idempotency-Key')).toBeTruthy();expect(posted!.headers.get('X-Reverify-Token')).toBe('proof');

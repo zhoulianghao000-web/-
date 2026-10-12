@@ -20,14 +20,12 @@ import org.springframework.transaction.support.TransactionTemplate;
 @ConditionalOnProperty(name="pawday.demo.enabled",havingValue="true")
 public class LocalDemoInitializer implements ApplicationRunner {
     private final JdbcTemplate db;private final TransactionTemplate tx;private final Environment env;
-    private final PasswordEncoder encoder;private final Crypto crypto;private final AuditWriter audit;
-    public LocalDemoInitializer(JdbcTemplate db,TransactionTemplate tx,Environment env,PasswordEncoder encoder,Crypto crypto,AuditWriter audit) {
-        this.db=db;this.tx=tx;this.env=env;this.encoder=encoder;this.crypto=crypto;this.audit=audit;
+    private final PasswordEncoder encoder;private final AuditWriter audit;
+    public LocalDemoInitializer(JdbcTemplate db,TransactionTemplate tx,Environment env,PasswordEncoder encoder,AuditWriter audit) {
+        this.db=db;this.tx=tx;this.env=env;this.encoder=encoder;this.audit=audit;
     }
     @Override public void run(ApplicationArguments args) {
         String merchantPassword=password("PAWDAY_DEMO_MERCHANT_PASSWORD"),adminPassword=password("PAWDAY_DEMO_ADMIN_PASSWORD");
-        byte[] secret=Base64.getDecoder().decode(env.getRequiredProperty("PAWDAY_DEMO_ADMIN_TOTP_BASE64"));
-        if(secret.length<20) throw new IllegalArgumentException("Local demo TOTP requires at least 20 bytes");
         tx.executeWithoutResult(status->{
             db.queryForList("SELECT pg_advisory_xact_lock(hashtextextended('pawday-local-demo',0))");
             UUID merchantRole=role("MERCHANT","LOCAL_STORE_READER",List.of("store.read","store.nearby.write","catalog.standard.read","catalog.request.write","offer.read","offer.write","inventory.adjust","order.read","order.ship","order.cancel.handle","aftersale.handle","settlement.read","ledger.read","review.merchant.read","support.read","support.reply","support.assign"));
@@ -41,7 +39,7 @@ public class LocalDemoInitializer implements ApplicationRunner {
                 db.update("INSERT INTO principal_store_scope(principal_id,merchant_id,store_id) VALUES (?,?,?) ON CONFLICT DO NOTHING",principal,merchant,store);
             }
             UUID admin=id("admin");
-            db.update("INSERT INTO identity_principal(id,realm,login_name,password_hash,mfa_secret_ciphertext) VALUES (?,'ADMIN','local-admin',?,?) ON CONFLICT(id) DO NOTHING",admin,encoder.encode(adminPassword),crypto.encrypt(secret));
+            db.update("INSERT INTO identity_principal(id,realm,login_name,password_hash) VALUES (?,'ADMIN','local-admin',?) ON CONFLICT(id) DO NOTHING",admin,encoder.encode(adminPassword));
             db.update("INSERT INTO principal_role(principal_id,role_id,realm) VALUES (?,?,'ADMIN') ON CONFLICT DO NOTHING",admin,adminRole);
             audit.write(null,"local.demo.ensure","LOCAL_FIXTURE",null,Map.of(),Map.of("fixture_version","M2.1"),null);
         });

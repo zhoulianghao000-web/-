@@ -18,19 +18,11 @@ function Read-Config{
 if($Action -eq 'Accounts'){
  $values=Read-Config
  Add-Type -AssemblyName System.Windows.Forms
- function Get-Code([string]$Secret){
-  $bytes=New-Object byte[] 8;$step=[long][Math]::Floor(([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())/30)
-  for($i=7;$i -ge 0;$i--){$bytes[$i]=[byte]($step -band 255);$step=$step -shr 8}
-  $hmac=New-Object Security.Cryptography.HMACSHA1;$hmac.Key=[Convert]::FromBase64String($Secret)
-  try{$hash=$hmac.ComputeHash($bytes)}finally{$hmac.Dispose()};$off=$hash[19] -band 15
-  $num=(([long]($hash[$off] -band 127)) -shl 24) -bor (([long]$hash[$off+1]) -shl 16) -bor (([long]$hash[$off+2]) -shl 8) -bor ([long]$hash[$off+3])
-  return ($num % 1000000).ToString('D6')
- }
  $form=New-Object Windows.Forms.Form;$form.Text='PawdayV1 - Private LOCAL test accounts';$form.Width=800;$form.Height=540;$form.StartPosition='CenterScreen'
  $text=New-Object Windows.Forms.TextBox;$text.Multiline=$true;$text.ReadOnly=$true;$text.ScrollBars='Both';$text.Dock='Fill';$text.Font=New-Object Drawing.Font('Consolas',11)
- $refresh=New-Object Windows.Forms.Button;$refresh.Text='Refresh local codes (admin codes are single-use)';$refresh.Dock='Bottom';$refresh.Height=40
+ $refresh=New-Object Windows.Forms.Button;$refresh.Text='Refresh local SMS codes';$refresh.Dock='Bottom';$refresh.Height=40
  $update={
-  $lines=@('SIMULATED LOCAL ENVIRONMENT ONLY - do not share screenshots.', '', 'Merchant: local-staff-a / local-staff-b', ('Password: '+$values.PAWDAY_DEMO_MERCHANT_PASSWORD), '', 'Admin: local-admin', ('Password: '+$values.PAWDAY_DEMO_ADMIN_PASSWORD), ('TOTP (single-use): '+(Get-Code $values.PAWDAY_DEMO_ADMIN_TOTP_BASE64)), '', 'Consumers: +999000000001 ... +999000000020', 'Request a code in the app, then refresh this local window.', '', 'Latest LOCAL simulated SMS:')
+  $lines=@('SIMULATED LOCAL ENVIRONMENT ONLY - do not share screenshots.', '', 'Merchant: local-staff-a / local-staff-b', ('Password: '+$values.PAWDAY_DEMO_MERCHANT_PASSWORD), '', 'Admin: local-admin', ('Password: '+$values.PAWDAY_DEMO_ADMIN_PASSWORD), '', 'Consumers: +999000000001 ... +999000000020', 'Request a code in the app, then refresh this local window.', '', 'Latest LOCAL simulated SMS:')
   $sms=Join-Path $roundRoot 'sms';if(Test-Path -LiteralPath $sms){Get-ChildItem -LiteralPath $sms -Filter '*.txt' | Sort-Object LastWriteTime -Descending | Select-Object -First 5 | ForEach-Object {$parts=[IO.File]::ReadAllLines($_.FullName);if($parts.Length -ge 2){$lines+=($parts[0]+'   '+$parts[1]+'   '+$_.LastWriteTime.ToString('HH:mm:ss'))}}}
   $text.Lines=$lines
  }.GetNewClosure()

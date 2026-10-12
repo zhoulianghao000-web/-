@@ -63,7 +63,6 @@ class IdentitySecurityIntegrationTests {
     @Autowired cn.pawday.outbox.InboxConsumer eventConsumer;@Autowired cn.pawday.outbox.SmsDeliveryWorker smsWorker;
     static String fixtureHash;
     static final String PASSWORD="TEST-ONLY-strong-password-21";
-    static final byte[] MFA="12345678901234567890".getBytes(StandardCharsets.US_ASCII);
     UUID merchantA,merchantB,storeA,storeAOther,storeB,staffA,staffB,admin,reader,merchantRole,adminRole;
     final JsonMapper json=JsonMapper.builder().build();
     final HttpClient client=HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(5)).build();
@@ -90,8 +89,8 @@ class IdentitySecurityIntegrationTests {
     }
     Response call(String method,String path,Object body,String token){return call(method,path,body,token,Map.of());}
     Response consumer(String phone){assertEquals(200,call("POST","/consumer/auth/phone/request-code",Map.of("phone_e164",phone,"purpose","LOGIN"),null).status());var r=call("POST","/consumer/auth/phone/verify",Map.of("phone_e164",phone,"code",inbox.codes.get(phone),"device_id","TEST-DEVICE"),null);assertEquals(200,r.status());return r;}
-    Response staff(String realm,String login){Map<String,Object> body=new HashMap<>(Map.of("login_name",login,"password",PASSWORD,"device_id","TEST-DEVICE"));if(realm.equals("admin"))body.put("totp_code",crypto.totp(MFA,clock.instant().getEpochSecond()/30));var r=call("POST","/"+realm+"/auth/login",body,null);assertEquals(200,r.status());return r;}
-    String proof(Response adminSession,String action){clock.advance(60);var r=call("POST","/admin/auth/reverify",Map.of("action",action,"password",PASSWORD,"totp_code",crypto.totp(MFA,clock.instant().getEpochSecond()/30)),adminSession.token());assertEquals(200,r.status());return r.data().get("reverify_token").asString();}
+    Response staff(String realm,String login){Map<String,Object> body=new HashMap<>(Map.of("login_name",login,"password",PASSWORD,"device_id","TEST-DEVICE"));var r=call("POST","/"+realm+"/auth/login",body,null);assertEquals(200,r.status());return r;}
+    String proof(Response adminSession,String action){var r=call("POST","/admin/auth/reverify",Map.of("action",action,"password",PASSWORD),adminSession.token());assertEquals(200,r.status());return r.data().get("reverify_token").asString();}
     Map<String,Object> roleBody(String name){return Map.of("name",name,"permission_codes",List.of("access.role.read"));}
     Map<String,String> writeHeaders(String proof,String key){return proof==null?Map.of("Idempotency-Key",key):Map.of("X-Reverify-Token",proof,"Idempotency-Key",key);}
     @BeforeEach void fixture(){
@@ -104,7 +103,7 @@ class IdentitySecurityIntegrationTests {
         db.update("INSERT INTO merchant(id,name,status) VALUES (?,'TEST merchant A','ACTIVE'),(?,'TEST merchant B','ACTIVE')",merchantA,merchantB);
         db.update("INSERT INTO merchant_store(id,merchant_id,name) VALUES (?,?,'TEST A'),(?,?,'TEST A unassigned'),(?,?,'TEST B')",storeA,merchantA,storeAOther,merchantA,storeB,merchantB);
         db.update("INSERT INTO identity_principal(id,realm,merchant_id,login_name,password_hash) VALUES (?,'MERCHANT',?,'test-merchant-a',?),(?,'MERCHANT',?,'test-merchant-b',?)",staffA,merchantA,fixtureHash,staffB,merchantB,fixtureHash);
-        db.update("INSERT INTO identity_principal(id,realm,login_name,password_hash,mfa_secret_ciphertext) VALUES (?,'ADMIN','test-admin',?,?),(?,'ADMIN','test-reader',?,?)",admin,fixtureHash,crypto.encrypt(MFA),reader,fixtureHash,crypto.encrypt(MFA));
+        db.update("INSERT INTO identity_principal(id,realm,login_name,password_hash) VALUES (?,'ADMIN','test-admin',?),(?,'ADMIN','test-reader',?)",admin,fixtureHash,reader,fixtureHash);
         db.update("INSERT INTO role(id,scope_type,code,name) VALUES (?,'MERCHANT','test-store-read','TEST store reader'),(?,'ADMIN','test-admin','TEST admin')",merchantRole,adminRole);
         db.update("INSERT INTO role_permission(role_id,permission_id) SELECT ?,id FROM permission WHERE code='store.read'",merchantRole);
         db.update("INSERT INTO role_permission(role_id,permission_id) SELECT ?,id FROM permission WHERE code IN ('access.role.read','access.role.write','audit.read')",adminRole);
@@ -112,7 +111,7 @@ class IdentitySecurityIntegrationTests {
         db.update("INSERT INTO principal_store_scope(principal_id,merchant_id,store_id) VALUES (?,?,?),(?,?,?)",staffA,merchantA,storeA,staffB,merchantB,storeB);
     }
     @Test void migrationsAndHealthAreReal() throws Exception {
-        assertEquals(21,db.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success",Integer.class));
+        assertEquals(22,db.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success",Integer.class));
         var r=client.send(HttpRequest.newBuilder(URI.create("http://127.0.0.1:"+port+"/actuator/health")).GET().build(),HttpResponse.BodyHandlers.ofString());assertEquals(200,r.statusCode());assertEquals("UP",json.readTree(r.body()).get("status").asString());
     }
     @Test void anonymousCannotUseAnyPrivateRealm(){for(String realm:List.of("consumer","merchant","admin"))assertEquals(401,call("GET","/"+realm+"/me",null,null).status());}
@@ -131,12 +130,11 @@ class IdentitySecurityIntegrationTests {
     @Test void otpCannotReplayOrSurviveFiveWrongAttempts(){var c=consumer("+8613800000001");String correct=inbox.codes.get("+8613800000001");assertEquals(401,call("POST","/consumer/auth/phone/verify",Map.of("phone_e164","+8613800000001","code",correct,"device_id","TEST"),null).status());call("POST","/consumer/auth/phone/request-code",Map.of("phone_e164","+8613800000002","purpose","LOGIN"),null);String wrong=inbox.codes.get("+8613800000002").equals("000000")?"111111":"000000";for(int i=0;i<5;i++)assertEquals(401,call("POST","/consumer/auth/phone/verify",Map.of("phone_e164","+8613800000002","code",wrong,"device_id","TEST"),null).status());assertEquals(401,call("POST","/consumer/auth/phone/verify",Map.of("phone_e164","+8613800000002","code",inbox.codes.get("+8613800000002"),"device_id","TEST"),null).status());}
     @Test void otpExpiresAndReverifyPurposeCannotAuthenticate(){call("POST","/consumer/auth/phone/request-code",Map.of("phone_e164","+8613800000001","purpose","LOGIN"),null);clock.advance(301);assertEquals(401,call("POST","/consumer/auth/phone/verify",Map.of("phone_e164","+8613800000001","code",inbox.codes.get("+8613800000001"),"device_id","TEST"),null).status());var c=consumer("+8613800000002");assertEquals(200,call("POST","/consumer/auth/phone/request-code",Map.of("phone_e164","+8613800000002","purpose","REVERIFY"),c.token()).status());assertEquals(401,call("POST","/consumer/auth/phone/verify",Map.of("phone_e164","+8613800000002","code",inbox.codes.get("+8613800000002"),"device_id","TEST"),null).status());}
     @Test void smsIsRateLimitedWithoutLoggingCodes(){for(int i=0;i<10;i++)assertEquals(200,call("POST","/consumer/auth/phone/request-code",Map.of("phone_e164","+8613800000001","purpose","LOGIN"),null).status());assertEquals(429,call("POST","/consumer/auth/phone/request-code",Map.of("phone_e164","+8613800000001","purpose","LOGIN"),null).status());}
-    @Test void adminRequiresMfaAndRejectsTotpReplay(){var body=Map.of("login_name","test-admin","password",PASSWORD,"device_id","TEST");assertEquals(401,call("POST","/admin/auth/login",body,null).status());staff("admin","test-admin");assertEquals(401,call("POST","/admin/auth/login",Map.of("login_name","test-admin","password",PASSWORD,"device_id","TEST","totp_code",crypto.totp(MFA,clock.instant().getEpochSecond()/30)),null).status());}
-    @Test void totpMatchesRfc6238Vector(){assertEquals("287082",crypto.totp(MFA,1));}
-    @Test void credentialSecretsNeverPersistInPlaintext(){var c=consumer("+8613800000001");assertNotEquals(c.token(),db.queryForObject("SELECT access_token_hash FROM auth_session",String.class));assertNotEquals(inbox.codes.get("+8613800000001"),db.queryForObject("SELECT code_hash FROM otp_challenge",String.class));assertNotEquals(Base64.getEncoder().encodeToString(MFA),db.queryForObject("SELECT mfa_secret_ciphertext FROM identity_principal WHERE id=?",String.class,admin));}
+    @Test void administratorPasswordLoginRejectsWrongAndMissingCredentials(){assertEquals(200,staff("admin","test-admin").status());assertEquals(401,call("POST","/admin/auth/login",Map.of("login_name","test-admin","password","TEST-ONLY wrong","device_id","TEST"),null).status());assertEquals(400,call("POST","/admin/auth/login",Map.of("login_name","test-admin","device_id","TEST"),null).status());}
+    @Test void credentialSecretsNeverPersistInPlaintext(){var c=consumer("+8613800000001");assertNotEquals(c.token(),db.queryForObject("SELECT access_token_hash FROM auth_session",String.class));assertNotEquals(inbox.codes.get("+8613800000001"),db.queryForObject("SELECT code_hash FROM otp_challenge",String.class));}
     @Test void roleWriteRequiresPermissionBeforeReverify(){var readerSession=staff("admin","test-reader");assertEquals(403,call("POST","/admin/access/roles",roleBody("TEST denied"),readerSession.token(),writeHeaders(null,"test-idempotency-0001")).status());assertEquals(403,call("GET","/admin/audit",null,readerSession.token()).status());}
     @Test void missingWrongActionAndExpiredProofAreRejected(){var a=staff("admin","test-admin");assertEquals(403,call("POST","/admin/access/roles",roleBody("TEST denied"),a.token(),writeHeaders(null,"test-idempotency-0001")).status());String wrong=proof(a,"session.revoke-others");assertEquals(403,call("POST","/admin/access/roles",roleBody("TEST denied"),a.token(),writeHeaders(wrong,"test-idempotency-0002")).status());String expired=proof(a,"access.role.write");clock.advance(301);assertEquals(403,call("POST","/admin/access/roles",roleBody("TEST denied"),a.token(),writeHeaders(expired,"test-idempotency-0003")).status());}
-    @Test void proofCannotMoveToAnotherSession(){var a=staff("admin","test-admin");String grant=proof(a,"access.role.write");clock.advance(60);var b=staff("admin","test-admin");assertEquals(403,call("POST","/admin/access/roles",roleBody("TEST denied"),b.token(),writeHeaders(grant,"test-idempotency-0001")).status());}
+    @Test void proofCannotMoveToAnotherSession(){var a=staff("admin","test-admin");String grant=proof(a,"access.role.write");var b=staff("admin","test-admin");assertEquals(403,call("POST","/admin/access/roles",roleBody("TEST denied"),b.token(),writeHeaders(grant,"test-idempotency-0001")).status());}
     @Test void proofIsOneUseButOriginalIdempotencyKeyCanReplay(){var a=staff("admin","test-admin");String grant=proof(a,"access.role.write");var headers=writeHeaders(grant,"test-idempotency-0001");var first=call("POST","/admin/access/roles",roleBody("TEST new role"),a.token(),headers);assertEquals(201,first.status());var retry=call("POST","/admin/access/roles",roleBody("TEST new role"),a.token(),headers);assertEquals(first.data().get("id"),retry.data().get("id"));assertEquals(409,call("POST","/admin/access/roles",roleBody("TEST changed"),a.token(),headers).status());assertEquals(403,call("POST","/admin/access/roles",roleBody("TEST second"),a.token(),writeHeaders(grant,"test-idempotency-0002")).status());}
     @Test void roleWriterCannotGrantPermissionsTheyDoNotHave(){var a=staff("admin","test-admin");String grant=proof(a,"access.role.write");assertEquals(403,call("POST","/admin/access/roles",Map.of("name","TEST escalation","permission_codes",List.of("finance.commission.write")),a.token(),writeHeaders(grant,"test-idempotency-0001")).status());}
     @Test void versionConflictRollsBackGrantConsumption(){var a=staff("admin","test-admin");String grant=proof(a,"access.role.write");var headers=new HashMap<>(writeHeaders(grant,"test-idempotency-0001"));headers.put("If-Match","\"99\"");assertEquals(409,call("PATCH","/admin/access/roles/"+adminRole,roleBody("TEST stale"),a.token(),headers).status());assertEquals(201,call("POST","/admin/access/roles",roleBody("TEST proof still usable"),a.token(),writeHeaders(grant,"test-idempotency-0002")).status());}
@@ -164,13 +162,11 @@ class IdentitySecurityIntegrationTests {
         assertEquals(403,call("GET","/admin/audit",null,a.token()).status());
         assertEquals(200,call("GET","/admin/access/roles",null,a.token()).status());
     }
-    @Test void merchantMfaRefreshReverifyAndLogoutUseMerchantBoundary(){
-        db.update("UPDATE identity_principal SET mfa_secret_ciphertext=? WHERE id=?",crypto.encrypt(MFA),staffA);
-        assertEquals(401,call("POST","/merchant/auth/login",Map.of("login_name","test-merchant-a","password",PASSWORD,"device_id","TEST"),null).status());
-        var login=call("POST","/merchant/auth/login",Map.of("login_name","test-merchant-a","password",PASSWORD,"device_id","TEST","totp_code",crypto.totp(MFA,clock.instant().getEpochSecond()/30)),null);assertEquals(200,login.status());
+    @Test void merchantRefreshReverifyAndLogoutUseMerchantBoundary(){
+        assertEquals(401,call("POST","/merchant/auth/login",Map.of("login_name","test-merchant-a","password","TEST-ONLY wrong","device_id","TEST"),null).status());
+        var login=call("POST","/merchant/auth/login",Map.of("login_name","test-merchant-a","password",PASSWORD,"device_id","TEST"),null);assertEquals(200,login.status());
         var rotated=call("POST","/merchant/auth/refresh",Map.of("refresh_token",login.data().get("refresh_token").asString()),null);assertEquals(200,rotated.status());
-        clock.advance(60);
-        var p=call("POST","/merchant/auth/reverify",Map.of("action","session.revoke-others","password",PASSWORD,"totp_code",crypto.totp(MFA,clock.instant().getEpochSecond()/30)),rotated.token());assertEquals(200,p.status());
+        var p=call("POST","/merchant/auth/reverify",Map.of("action","session.revoke-others","password",PASSWORD),rotated.token());assertEquals(200,p.status());
         assertEquals(200,call("POST","/merchant/auth/sessions/revoke-others",null,rotated.token(),Map.of("X-Reverify-Token",p.data().get("reverify_token").asString())).status());
         assertEquals(200,call("GET","/merchant/auth/sessions",null,rotated.token()).status());
         assertEquals(200,call("POST","/merchant/auth/logout",null,rotated.token()).status());
@@ -178,7 +174,7 @@ class IdentitySecurityIntegrationTests {
     }
     @Test void localFixturesAreExplicitIdempotentAndCanActuallyLogin(){
         var tx=new org.springframework.transaction.support.TransactionTemplate(new org.springframework.jdbc.datasource.DataSourceTransactionManager(db.getDataSource()));
-        var env=new MockEnvironment().withProperty("pawday.demo.enabled","true").withProperty("PAWDAY_DEMO_MERCHANT_PASSWORD",PASSWORD).withProperty("PAWDAY_DEMO_ADMIN_PASSWORD",PASSWORD).withProperty("PAWDAY_DEMO_ADMIN_TOTP_BASE64",Base64.getEncoder().encodeToString(MFA));
+        var env=new MockEnvironment().withProperty("pawday.demo.enabled","true").withProperty("PAWDAY_DEMO_MERCHANT_PASSWORD",PASSWORD).withProperty("PAWDAY_DEMO_ADMIN_PASSWORD",PASSWORD);
         for(String[] profiles:List.of(new String[]{},new String[]{"local","production"},new String[]{"local"})) {
             env.setActiveProfiles(profiles);
             try(var context=new org.springframework.context.annotation.AnnotationConfigApplicationContext()) {

@@ -50,7 +50,7 @@ class AfterSaleRefundIntegrationTests {
  record Response(int status,JsonNode body){JsonNode data(){return body.get("data");}String id(){return data().get("id").asString();}}
 
  String key(){return UUID.randomUUID().toString();}
- String identity(String realm,UUID m,List<String> permissions){UUID p=UUID.randomUUID(),role=UUID.randomUUID();if(realm.equals("CONSUMER")){UUID u=UUID.randomUUID();db.update("INSERT INTO app_user(id,status) VALUES (?,'ACTIVE')",u);db.update("INSERT INTO identity_principal(id,realm,user_id) VALUES (?,'CONSUMER',?)",p,u);}else db.update("INSERT INTO identity_principal(id,realm,merchant_id,login_name,password_hash,mfa_secret_ciphertext) VALUES (?,?,?,?,?,?)",p,realm,m,key(),"TEST-ONLY",realm.equals("ADMIN")?crypto.encrypt(new byte[20]):null);
+ String identity(String realm,UUID m,List<String> permissions){UUID p=UUID.randomUUID(),role=UUID.randomUUID();if(realm.equals("CONSUMER")){UUID u=UUID.randomUUID();db.update("INSERT INTO app_user(id,status) VALUES (?,'ACTIVE')",u);db.update("INSERT INTO identity_principal(id,realm,user_id) VALUES (?,'CONSUMER',?)",p,u);}else db.update("INSERT INTO identity_principal(id,realm,merchant_id,login_name,password_hash) VALUES (?,?,?,?,?)",p,realm,m,key(),"TEST-ONLY");
   db.update("INSERT INTO role(id,scope_type,code,name) VALUES (?,?,?,'Aftersale test')",role,realm,key());for(String permission:permissions)db.update("INSERT INTO role_permission SELECT ?,id FROM permission WHERE code=?",role,permission);db.update("INSERT INTO principal_role VALUES (?,?,?)",p,role,realm);UUID session=UUID.randomUUID();String t=crypto.token();db.update("INSERT INTO auth_session(id,principal_id,access_token_hash,device_id,expires_at,refresh_expires_at,created_at) VALUES (?,?,?,'AFTERSALE-IT',?,?,?)",session,p,crypto.hash(t),Timestamp.from(clock.instant().plusSeconds(900)),Timestamp.from(clock.instant().plusSeconds(2592000)),Timestamp.from(clock.instant()));if(realm.equals("ADMIN")){adminSession=session;adminPrincipal=p;}if(realm.equals("MERCHANT"))db.update("INSERT INTO principal_store_scope VALUES (?,?,?)",p,m,store);return t;
  }
  @BeforeEach void setup(){OFFSET.set(0);merchantId=UUID.randomUUID();store=UUID.randomUUID();db.update("INSERT INTO merchant(id,name,status) VALUES (?,?,'ACTIVE')",merchantId,key());db.update("INSERT INTO merchant_store(id,merchant_id,name) VALUES (?,?,'TEST scope')",store,merchantId);
@@ -293,7 +293,7 @@ class AfterSaleRefundIntegrationTests {
   assertEquals(1,db.queryForObject("SELECT count(*) FROM audit_event WHERE action='aftersale.arbitrate' AND object_id=?",Integer.class,aid));
  }
  @Test void arbitrationReverifyActionIsAllowlisted(){
-  var r=req("POST","/admin/auth/reverify",Map.of("action","aftersale.arbitrate","password","TEST-ONLY wrong password","totp_code","000000"),admin,Map.of());
+  var r=req("POST","/admin/auth/reverify",Map.of("action","aftersale.arbitrate","password","TEST-ONLY wrong password"),admin,Map.of());
   assertNotEquals("REVERIFY_ACTION_NOT_ALLOWED",r.body().get("error").get("code").asText(),r.body().toString());
  }
  @Test void concurrentAfterSaleApplicationsCannotExceedShippedQuantity()throws Exception{var f=paid(1,List.of());String h=ship(f,1);receive(f,h);

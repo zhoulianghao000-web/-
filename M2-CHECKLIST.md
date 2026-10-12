@@ -5,7 +5,7 @@
 - [x] 三身份域、RBAC、二次验证、审计与身份负向回归
 - [x] 事务 Outbox、publisher confirm、Inbox 幂等、Retry/DLQ/受控重放
 - [x] 异步 OTP 与稳定外部幂等键；真实 RabbitMQ 停机恢复门禁
-- [ ] 正式短信供应商、员工开户及 MFA 恢复生产适配
+- [ ] 正式短信供应商、员工开户及账号恢复生产适配
 
 ## M2.3
 
@@ -28,7 +28,7 @@
 
 ## M2.4 / 总门禁
 
-- [x] Merchant/Admin Vue 工程：真实身份、门店 scope、RBAC、MFA/reverify/审计
+- [x] Merchant/Admin Vue 工程：真实身份、门店 scope、RBAC、密码登录/reverify/审计
 - [x] 共享 TypeScript API 客户端：生成 DTO、错误、refresh、request ID、幂等/冲突
 - [x] Flutter 五 Tab：游客、手机号登录、session/refresh、returnTo、current pet context
 - [x] 后端、真实数据库迁移与全部基础设施门禁

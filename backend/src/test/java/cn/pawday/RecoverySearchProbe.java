@@ -28,12 +28,13 @@ public final class RecoverySearchProbe {
   var writer=new OutboxWriter(db);var source=new CatalogSearchSource(db,tx,writer);var catalog=new ConsumerCatalogService(db,null,tx,new cn.pawday.pilot.PilotMaterials(new cn.pawday.pilot.PilotPolicy(new org.springframework.core.env.StandardEnvironment())));var projection=new BusinessSearchProjection(db,source,catalog,tx);
   var client=new OpenSearchClient("http://opensearch:9200",1000,"","");var aliases=new AliasManager(client);var lock=new SearchTopologyLock(ds);
   var policy=new SearchDeliveryPolicy(5,50,30000);var sync=new SearchSyncWorker(db,tx,client,policy,writer);
-  var crypto=new Crypto(Base64.getEncoder().encodeToString(new byte[32]),Clock.systemUTC(),new DataEncryptionKeyRing("legacy",""));
+  var crypto=new Crypto(Base64.getEncoder().encodeToString(new byte[32]),new DataEncryptionKeyRing("legacy",""));
   var rebuild=new SearchRebuildWorker(db,tx,client,aliases,sync,policy,crypto,writer,lock);
   if(action.equals("seed")){
    tx.executeWithoutResult(s->{
     db.execute("CREATE TABLE m63_fixture (singleton boolean PRIMARY KEY CHECK(singleton),privacy_reviewed boolean NOT NULL DEFAULT false,registry_hash varchar(64))");db.update("INSERT INTO m63_fixture(singleton) VALUES (true)");
-    db.update("INSERT INTO identity_principal(id,realm,login_name,password_hash,mfa_secret_ciphertext) VALUES (?,'ADMIN','TEST_ONLY_M63','TEST_ONLY',?)",id(1),crypto.encrypt(new byte[20]));
+    db.update("INSERT INTO otp_challenge(id,phone_e164,purpose,code_hash,expires_at,created_at,delivery_secret_ciphertext) VALUES (?,'+999000000001','LOGIN','TEST_ONLY',now()+interval '5 minutes',now(),?)",id(33),crypto.encrypt(new byte[20]));
+    db.update("INSERT INTO identity_principal(id,realm,login_name,password_hash) VALUES (?,'ADMIN','TEST_ONLY_M63','TEST_ONLY')",id(1));
     db.update("INSERT INTO app_user(id,status,display_name) VALUES (?,'ACTIVE','TEST_ONLY')",id(2));
     db.update("INSERT INTO merchant VALUES (?,'TEST_ONLY','ACTIVE')",id(3));
     db.update("INSERT INTO brands VALUES (?,'TEST_ONLY_M63','TEST_ONLY','ACTIVE')",id(4));
@@ -96,7 +97,7 @@ public final class RecoverySearchProbe {
     var docs=client.documents(aliases.current());require(docs.size()==2&&Boolean.TRUE.equals(docs.get(id(7)).get("deleted")),"RETIRED_SKU_RESURRECTED");
     var d=docs.get(id(6));require("TEST_ONLY_M63".equals(d.get("brand"))&&((Number)d.get("price_min_fen")).longValue()==2000&&Boolean.TRUE.equals(d.get("in_stock")),"FACT_DERIVATION_MISMATCH");
     require(((Number)client.request("GET","/pawday-product-read/_count",null).get("count")).intValue()==1,"PUBLIC_ALIAS_TOMBSTONE_FILTER_FAILED");
-    require(crypto.decrypt(db.queryForObject("SELECT mfa_secret_ciphertext FROM identity_principal WHERE id=?",String.class,id(1))).length==20,"RESTORED_CIPHER_FAILURE");
+    require(crypto.decrypt(db.queryForObject("SELECT delivery_secret_ciphertext FROM otp_challenge WHERE id=?",String.class,id(33))).length==20,"RESTORED_CIPHER_FAILURE");
    }else throw new IllegalArgumentException("UNKNOWN_ACTION");
   }
   System.out.println(new JsonMapper().writeValueAsString(Map.of("result","PASS","action",action,"test_only",true)));
