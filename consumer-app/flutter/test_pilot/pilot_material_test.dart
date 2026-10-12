@@ -117,6 +117,10 @@ void main() {
     );
     await tester.pumpAndSettle();
     final before = calls;
+    await tester.ensureVisible(find.text('测试场景工具'));
+    await tester.tap(find.text('测试场景工具'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('模拟导航失败'));
     await tester.tap(find.text('模拟导航失败'));
     await tester.pumpAndSettle();
     expect(find.textContaining('预设导航失败'), findsOneWidget);
