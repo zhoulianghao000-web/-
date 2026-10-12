@@ -1,4 +1,4 @@
-// Generated from pawday-m6.7.yaml; SHA256 38090f0772262f7a2a87b24e38c5e36236e3c15a92f0c6b49d1fcdfa4d3260c6
+// Generated from pawday-m6.8.yaml; SHA256 dc80d98039e3979e92c0a929db15c85155c7cb5fb55502628335af17b087b72a
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -4866,6 +4866,160 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/public/products/facets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** GET /public/products/facets */
+        get: operations["get_public_products_facets"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/purchase-requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** GET /consumer/purchase-requests */
+        get: operations["get_consumer_purchase_requests"];
+        put?: never;
+        /** POST /consumer/purchase-requests */
+        post: operations["post_consumer_purchase_requests"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/purchase-requests/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** GET /consumer/purchase-requests/{id} */
+        get: operations["get_consumer_purchase_requests__id"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/purchase-requests/{id}/history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** GET /consumer/purchase-requests/{id}/history */
+        get: operations["get_consumer_purchase_requests__id__history"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/purchase-requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** GET /admin/purchase-requests */
+        get: operations["get_admin_purchase_requests"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/purchase-requests/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** GET /admin/purchase-requests/{id} */
+        get: operations["get_admin_purchase_requests__id"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/purchase-requests/{id}/history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** GET /admin/purchase-requests/{id}/history */
+        get: operations["get_admin_purchase_requests__id__history"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/purchase-requests/{id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** POST /consumer/purchase-requests/{id}/cancel */
+        post: operations["post_consumer_purchase_requests__id__cancel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/purchase-requests/{id}/decision": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** POST /admin/purchase-requests/{id}/decision */
+        post: operations["post_admin_purchase_requests__id__decision"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -4908,7 +5062,7 @@ export interface components {
         Proof: {
             reverify_token: string;
             /** @enum {string} */
-            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle";
+            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage";
             /** Format: date-time */
             expires_at: string;
         };
@@ -4992,7 +5146,7 @@ export interface components {
         };
         Reverify: {
             /** @enum {string} */
-            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle";
+            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage";
             password?: string;
             otp_code?: string;
         };
@@ -5973,7 +6127,7 @@ export interface components {
         };
         ConsumerProductListEnvelope: {
             data: components["schemas"]["ConsumerProduct"][];
-            page: components["schemas"]["Page"];
+            page: components["schemas"]["ProductSearchPage"];
             meta: components["schemas"]["Meta"];
         };
         ProductFitEnvelope: {
@@ -8297,6 +8451,101 @@ export interface components {
         };
         InvoiceBatchEnvelope: {
             data: components["schemas"]["InvoiceBatch"];
+            meta: components["schemas"]["Meta"];
+        };
+        ProductSearchPage: {
+            next_cursor: string | null;
+            has_more: boolean;
+        };
+        SearchOption: {
+            value: string;
+            label: string;
+        };
+        ProductSearchFacets: {
+            brands: components["schemas"]["SearchOption"][];
+            food_types: components["schemas"]["SearchOption"][];
+            package_units: components["schemas"]["SearchOption"][];
+            life_stages: components["schemas"]["SearchOption"][];
+            allergens: components["schemas"]["SearchOption"][];
+        };
+        PurchaseRequestContext: {
+            q?: string;
+            pet_category?: string;
+            brand_id?: string;
+            price_min_fen?: string;
+            price_max_fen?: string;
+            life_stage_id?: string;
+            food_type?: string;
+            weight_min_g?: string;
+            weight_max_g?: string;
+            package_unit?: string;
+            exclude_allergen_ids?: string;
+            in_stock?: string;
+            sort?: string;
+        };
+        PurchaseRequestInput: {
+            title: string;
+            description: string;
+            search_context: components["schemas"]["PurchaseRequestContext"];
+        };
+        PurchaseRequestAck: {
+            /** Format: uuid */
+            id: string;
+            /** @enum {string} */
+            status: "OPEN" | "REVIEWING" | "RESOLVED" | "REJECTED" | "CANCELLED";
+            version: number;
+        };
+        PurchaseRequest: {
+            /** Format: uuid */
+            id: string;
+            /** @enum {string} */
+            status: "OPEN" | "REVIEWING" | "RESOLVED" | "REJECTED" | "CANCELLED";
+            version: number;
+            title: string;
+            description: string;
+            search_context: components["schemas"]["PurchaseRequestContext"];
+            response: string | null;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+        };
+        PurchaseRequestChange: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            request_id: string;
+            /** @enum {string} */
+            status: "OPEN" | "REVIEWING" | "RESOLVED" | "REJECTED" | "CANCELLED";
+            version: number;
+            /** Format: date-time */
+            created_at: string;
+        };
+        PurchaseRequestDecision: {
+            /** @enum {string} */
+            status: "REVIEWING" | "RESOLVED" | "REJECTED";
+            response: string;
+        };
+        ProductSearchFacetsEnvelope: {
+            data: components["schemas"]["ProductSearchFacets"];
+            meta: components["schemas"]["Meta"];
+        };
+        PurchaseRequestListEnvelope: {
+            data: components["schemas"]["PurchaseRequest"][];
+            page: components["schemas"]["Page"];
+            meta: components["schemas"]["Meta"];
+        };
+        PurchaseRequestEnvelope: {
+            data: components["schemas"]["PurchaseRequest"];
+            meta: components["schemas"]["Meta"];
+        };
+        PurchaseRequestChangeListEnvelope: {
+            data: components["schemas"]["PurchaseRequestChange"][];
+            page: components["schemas"]["Page"];
+            meta: components["schemas"]["Meta"];
+        };
+        PurchaseRequestAckEnvelope: {
+            data: components["schemas"]["PurchaseRequestAck"];
             meta: components["schemas"]["Meta"];
         };
     };
@@ -17823,6 +18072,17 @@ export interface operations {
             query?: {
                 q?: string;
                 pet_category?: "CAT" | "DOG" | "AQUATIC" | "BIRD" | "SMALL_PET";
+                brand_id?: string;
+                price_min_fen?: number;
+                price_max_fen?: number;
+                life_stage_id?: string;
+                food_type?: string;
+                weight_min_g?: number;
+                weight_max_g?: number;
+                package_unit?: string;
+                exclude_allergen_ids?: string;
+                in_stock?: boolean;
+                sort?: "RELEVANCE" | "PRICE_ASC" | "PRICE_DESC" | "SALES_DESC" | "RATING_DESC";
                 cursor?: string;
                 limit?: number;
             };
@@ -17841,7 +18101,7 @@ export interface operations {
                     "application/json": components["schemas"]["ConsumerProductListEnvelope"];
                 };
             };
-            /** @description Rejected or service unavailable */
+            /** @description Invalid filter/cursor, changed results require refresh, or search unavailable/candidate limit reached */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -17877,7 +18137,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected or service unavailable */
+            /** @description Invalid filter/cursor, changed results require refresh, or search unavailable/candidate limit reached */
             409: {
                 headers: {
                     [name: string]: unknown;
@@ -17904,7 +18164,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected or service unavailable */
+            /** @description Invalid filter/cursor, changed results require refresh, or search unavailable/candidate limit reached */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -18202,6 +18462,17 @@ export interface operations {
             query?: {
                 q?: string;
                 pet_category?: "CAT" | "DOG" | "AQUATIC" | "BIRD" | "SMALL_PET";
+                brand_id?: string;
+                price_min_fen?: number;
+                price_max_fen?: number;
+                life_stage_id?: string;
+                food_type?: string;
+                weight_min_g?: number;
+                weight_max_g?: number;
+                package_unit?: string;
+                exclude_allergen_ids?: string;
+                in_stock?: boolean;
+                sort?: "RELEVANCE" | "PRICE_ASC" | "PRICE_DESC" | "SALES_DESC" | "RATING_DESC";
                 cursor?: string;
                 limit?: number;
             };
@@ -18220,7 +18491,7 @@ export interface operations {
                     "application/json": components["schemas"]["ConsumerProductListEnvelope"];
                 };
             };
-            /** @description Rejected or service unavailable */
+            /** @description Invalid filter/cursor, changed results require refresh, or search unavailable/candidate limit reached */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -18256,7 +18527,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected or service unavailable */
+            /** @description Invalid filter/cursor, changed results require refresh, or search unavailable/candidate limit reached */
             409: {
                 headers: {
                     [name: string]: unknown;
@@ -18283,7 +18554,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected or service unavailable */
+            /** @description Invalid filter/cursor, changed results require refresh, or search unavailable/candidate limit reached */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -40625,6 +40896,879 @@ export interface operations {
                 };
             };
             /** @description Rejected without leaking foreign private facts */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_public_products_facets: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Persisted authorized result; no procurement promise or notification */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductSearchFacetsEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_consumer_purchase_requests: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+                status?: "OPEN" | "REVIEWING" | "RESOLVED" | "REJECTED" | "CANCELLED";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Persisted authorized result; no procurement promise or notification */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequestListEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    post_consumer_purchase_requests: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PurchaseRequestInput"];
+            };
+        };
+        responses: {
+            /** @description Persisted authorized result; no procurement promise or notification */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequestAckEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_consumer_purchase_requests__id: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Persisted authorized result; no procurement promise or notification */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequestEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_consumer_purchase_requests__id__history: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Persisted authorized result; no procurement promise or notification */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequestChangeListEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_admin_purchase_requests: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+                status?: "OPEN" | "REVIEWING" | "RESOLVED" | "REJECTED" | "CANCELLED";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Persisted authorized result; no procurement promise or notification */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequestListEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_admin_purchase_requests__id: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Persisted authorized result; no procurement promise or notification */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequestEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_admin_purchase_requests__id__history: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Persisted authorized result; no procurement promise or notification */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequestChangeListEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    post_consumer_purchase_requests__id__cancel: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Persisted authorized result; no procurement promise or notification */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequestAckEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    post_admin_purchase_requests__id__decision: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+                "X-Reverify-Token": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PurchaseRequestDecision"];
+            };
+        };
+        responses: {
+            /** @description Persisted authorized result; no procurement promise or notification */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PurchaseRequestAckEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without foreign private facts */
             503: {
                 headers: {
                     [name: string]: unknown;

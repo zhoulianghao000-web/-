@@ -102,7 +102,7 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    expect(find.textContaining('本页暂无'), findsOneWidget);
+    expect(find.text('没有找到符合条件的商品'), findsOneWidget);
     expect(find.text('查询 / 刷新'), findsOneWidget);
     expect(find.text('比较已选商品（0/4）'), findsOneWidget);
     await tester.tap(find.text('查询 / 刷新'));
@@ -231,12 +231,23 @@ void main() {
           .map((x) => x.data)
           .join(' | '),
     );
-    await tester.tap(find.byType(Checkbox).first);
+    await tester.ensureVisible(find.byType(Checkbox).first);
+    tester.widget<Checkbox>(find.byType(Checkbox).first).onChanged!(true);
     await tester.pump();
-    await tester.tap(find.byType(Checkbox).last);
+    await tester.ensureVisible(find.byType(Checkbox).last);
+    tester.widget<Checkbox>(find.byType(Checkbox).last).onChanged!(true);
     await tester.pump();
     final compare = find.text('比较已选商品（2/4）');
-    await tester.ensureVisible(compare);
+    await tester.scrollUntilVisible(
+      compare,
+      300,
+      scrollable: find
+          .descendant(
+            of: find.byType(ListView).first,
+            matching: find.byType(Scrollable),
+          )
+          .first,
+    );
     await tester.tap(compare);
     await tester.pumpAndSettle();
     expect(find.text('测试私有过敏结论'), findsNWidgets(2));

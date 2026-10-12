@@ -111,6 +111,11 @@ jobs:
           python openapi/validate_m663_contract.py --samples backend/target/pilot-evidence/baseline-http.json --binary-samples backend/target/pilot-evidence/baseline-binary.json --require-new-coverage --report openapi/pilot-baseline-response-report.json
       - name: V1 food and favorites actual HTTP contract gate
         run: python openapi/validate_m67_contract.py --samples backend/target/m67-contract-samples.json --additional-samples backend/target/m53-delivery-contract-samples.json --require-new-coverage --report openapi/consumer-care-response-report.json
+      - name: V1 search and purchase requests actual response gate
+        run: |
+          npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m6.8.yaml
+          npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m6.8.yaml -o /tmp/pawday-m68-bundled.yaml
+          python openapi/validate_m68_contract.py --samples backend/target/m68-contract-samples.json --additional-samples backend/target/m68-search-contract-samples.json --require-new-coverage --report openapi/search-requests-response-report.json
       - name: M5.4 real AMap HTTPS destination handoff
         run: python scripts/check-amap-handoff.py --samples backend/target/m54-contract-samples.json --report backend/target/infrastructure-evidence/amap-handoff.json
       - name: M6.1 production inventory and mandatory rejection gates

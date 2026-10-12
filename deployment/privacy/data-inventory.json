@@ -27,7 +27,8 @@
     "V021__privacy_fact_journal.sql": "7a932e5c6376605d79b993e90a97a0f2c43e81a05c48d877792bbaad68e2aab3",
     "V022__staff_password_credentials.sql": "e9987822342d3b0838692396d4f73f715888d5409bb8b4ac72a5a3c2fc06759f",
     "V023__pet_profile_photo_and_owner_breed.sql": "a31d1066fb42b47d107d7bd7b51eaf05e85e5afa26adf18b4c0e67be40dd6f3a",
-    "V024__consumer_care_and_favorites.sql": "38262cef9e325e6f8e54a6f1625f75f34afb50e5fc3bfface8df5bd2eba7ea75"
+    "V024__consumer_care_and_favorites.sql": "38262cef9e325e6f8e54a6f1625f75f34afb50e5fc3bfface8df5bd2eba7ea75",
+    "V025__purchase_requests.sql": "39f85fe56dbaa3adac0b69681ded2fdda409d2de3ff8d6c2611ed255aaca1561"
   },
   "tables": [
     {
@@ -1872,6 +1873,39 @@
       ]
     },
     {
+      "name": "purchase_request_changes",
+      "domain": "catalog",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "request_id",
+        "actor_id",
+        "status",
+        "version",
+        "request_cipher",
+        "response_cipher",
+        "created_at"
+      ]
+    },
+    {
+      "name": "purchase_requests",
+      "domain": "catalog",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "user_id",
+        "request_cipher",
+        "content_hash",
+        "status",
+        "response_cipher",
+        "version",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    {
       "name": "refunds",
       "domain": "aftersale_refunds",
       "retention_status": "PENDING_OWNER_POLICY",
@@ -2431,7 +2465,7 @@
       ]
     }
   ],
-  "schema_sha256": "e399a343e6d51bc728c8b9ef21d69844b3f3c3e00c11579f46267158bab980cf",
+  "schema_sha256": "3b925d6096e858f0c65f4c9d881d511b12bf735681ed826d7a11adb06e31e1c7",
   "policies": [
     {
       "domain": "aftersale_refunds",

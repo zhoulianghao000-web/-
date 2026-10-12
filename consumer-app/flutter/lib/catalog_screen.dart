@@ -1,4 +1,5 @@
 import 'favorites_screen.dart';
+import 'purchase_request_screen.dart';
 import 'reference_ui.dart';
 
 import 'package:go_router/go_router.dart';
@@ -28,25 +29,136 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
   String? category, cursor, error;
   bool loading = false, hasMore = false;
   int generation = 0;
+  final priceMin = TextEditingController(),
+      priceMax = TextEditingController(),
+      weightMin = TextEditingController(),
+      weightMax = TextEditingController();
+  String? brand, stage, food, unit, stock;
+  String sort = 'RELEVANCE';
+  final excluded = <String>{};
+  Map<String, String> applied = const {};
+  ProductSearchFacets? facets;
+  String? facetError;
+  Future<void> loadFacets() async {
+    try {
+      final f = await ref.read(catalogRepositoryProvider).facets();
+      if (mounted) {
+        setState(() {
+          facets = f;
+          facetError = null;
+        });
+      }
+    } catch (_) {
+      if (mounted) setState(() => facetError = '筛选选项暂时无法加载，可重试或使用关键词查询。');
+    }
+  }
+
+  Map<String, String> draft() {
+    int? fen(String text) {
+      if (text.trim().isEmpty) return null;
+      if (!RegExp(r'^\d{1,8}(\.\d{1,2})?$').hasMatch(text.trim())) {
+        throw const FormatException('价格最多保留两位小数');
+      }
+      final pieces = text.trim().split('.');
+      final n =
+          int.parse(pieces[0]) * 100 +
+          (pieces.length == 2 ? int.parse(pieces[1].padRight(2, '0')) : 0);
+      if (n > 1000000000) throw const FormatException('价格超出范围');
+      return n;
+    }
+
+    int? grams(String text) {
+      if (text.trim().isEmpty) return null;
+      final n = int.tryParse(text.trim());
+      if (n == null || n < 0 || n > 100000000) {
+        throw const FormatException('规格请输入有效整数克数');
+      }
+      return n;
+    }
+
+    final lo = fen(priceMin.text),
+        hi = fen(priceMax.text),
+        wl = grams(weightMin.text),
+        wh = grams(weightMax.text);
+    if (lo != null && hi != null && lo > hi ||
+        wl != null && wh != null && wl > wh) {
+      throw const FormatException('最低值不能大于最高值');
+    }
+    return {
+      'sort': sort,
+      'brand_id': ?brand,
+      'life_stage_id': ?stage,
+      'food_type': ?food,
+      'package_unit': ?unit,
+      'in_stock': ?stock,
+      if (lo != null) 'price_min_fen': '$lo',
+      if (hi != null) 'price_max_fen': '$hi',
+      if (wl != null) 'weight_min_g': '$wl',
+      if (wh != null) 'weight_max_g': '$wh',
+      if (excluded.isNotEmpty)
+        'exclude_allergen_ids': (excluded.toList()..sort()).join(','),
+    };
+  }
+
+  void resetFilters() {
+    query.clear();
+    priceMin.clear();
+    priceMax.clear();
+    weightMin.clear();
+    weightMax.clear();
+    setState(() {
+      category = null;
+      brand = null;
+      stage = null;
+      food = null;
+      unit = null;
+      stock = null;
+      sort = 'RELEVANCE';
+      excluded.clear();
+    });
+    load(reset: true);
+  }
+
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => load(reset: true));
+    Future.microtask(() {
+      loadFacets();
+      load(reset: true);
+    });
   }
 
   @override
   void dispose() {
     generation++;
     query.dispose();
+    priceMin.dispose();
+    priceMax.dispose();
+    weightMin.dispose();
+    weightMax.dispose();
     super.dispose();
   }
 
   Future<void> load({bool reset = false}) async {
+    Map<String, String> next = applied;
+    if (reset) {
+      try {
+        next = {
+          ...draft(),
+          'pet_category': ?category,
+          if (query.text.trim().isNotEmpty) 'q': query.text.trim(),
+        };
+      } on FormatException catch (e) {
+        setState(() => error = e.message.toString());
+        return;
+      }
+    }
     final epoch = ++generation;
     setState(() {
       loading = true;
       error = null;
       if (reset) {
+        applied = Map.unmodifiable(next);
         items.clear();
         selected.clear();
         cursor = null;
@@ -55,7 +167,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
     try {
       final page = await ref
           .read(catalogRepositoryProvider)
-          .browse(category: category, cursor: cursor, query: query.text.trim());
+          .browse(cursor: cursor, filters: applied);
       if (!mounted || epoch != generation) return;
       setState(() {
         items.addAll(page.data);
@@ -63,7 +175,15 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
         hasMore = page.page.has_more;
       });
     } catch (e) {
-      if (mounted && epoch == generation) setState(() => error = e.toString());
+      if (mounted && epoch == generation) {
+        setState(
+          () => error = e is ApiFailure && e.code == 'SEARCH_RESULTS_CHANGED'
+              ? '结果已变化，请重新查询后继续翻页。'
+              : e is ApiFailure && e.code == 'SEARCH_CANDIDATE_LIMIT'
+              ? '当前搜索服务达到容量上限，请稍后重试。'
+              : '查询暂时不可用，请重试。',
+        );
+      }
     } finally {
       if (mounted && epoch == generation) setState(() => loading = false);
     }
@@ -177,43 +297,288 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
                 decoration: const InputDecoration(labelText: '商品名、品牌或 SKU'),
                 onSubmitted: loading ? null : (_) => load(reset: true),
               ),
-              DropdownButton<String>(
-                value: category,
-                hint: const Text('全部宠物分类'),
-                items: [
-                  const DropdownMenuItem<String>(
-                    value: null,
-                    child: Text('全部'),
+              const SizedBox(height: 20),
+              ExpansionTile(
+                title: const Text('筛选与排序'),
+                subtitle: const Text('品牌、价格、年龄阶段、规格、过敏原与库存'),
+                childrenPadding: const EdgeInsets.symmetric(vertical: 16),
+                children: [
+                  if (facetError != null)
+                    Wrap(
+                      spacing: 12,
+                      children: [
+                        Text(facetError!),
+                        TextButton(
+                          onPressed: loadFacets,
+                          child: const Text('重试选项'),
+                        ),
+                      ],
+                    ),
+                  LayoutBuilder(
+                    builder: (context, box) {
+                      final width = box.maxWidth < 600
+                          ? box.maxWidth
+                          : (box.maxWidth - 24) / 2;
+                      Widget select(
+                        String label,
+                        String? value,
+                        List<DropdownMenuItem<String>> options,
+                        void Function(String?) change,
+                      ) => SizedBox(
+                        width: width,
+                        child: DropdownButtonFormField<String>(
+                          key: ValueKey('$label:$value'),
+                          initialValue: value,
+                          isExpanded: true,
+                          decoration: InputDecoration(labelText: label),
+                          items: [
+                            const DropdownMenuItem<String>(
+                              value: null,
+                              child: Text('全部'),
+                            ),
+                            ...options,
+                          ],
+                          onChanged: loading ? null : change,
+                        ),
+                      );
+                      List<DropdownMenuItem<String>> opts(
+                        List<SearchOption>? xs,
+                      ) => [
+                        for (final x in xs ?? <SearchOption>[])
+                          DropdownMenuItem(
+                            value: x.value,
+                            child: Text(
+                              x.label,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                      ];
+                      Widget number(String label, TextEditingController c) =>
+                          SizedBox(
+                            width: width,
+                            child: TextField(
+                              controller: c,
+                              enabled: !loading,
+                              keyboardType: TextInputType.numberWithOptions(
+                                decimal: true,
+                              ),
+                              decoration: InputDecoration(labelText: label),
+                            ),
+                          );
+                      return Wrap(
+                        spacing: 24,
+                        runSpacing: 24,
+                        children: [
+                          select('宠物类别', category, [
+                            for (final x in {
+                              'CAT': '猫',
+                              'DOG': '狗',
+                              'AQUATIC': '水族',
+                              'BIRD': '鸟',
+                              'SMALL_PET': '小宠',
+                            }.entries)
+                              DropdownMenuItem(
+                                value: x.key,
+                                child: Text(x.value),
+                              ),
+                          ], (v) => setState(() => category = v)),
+                          select(
+                            '品牌',
+                            brand,
+                            opts(facets?.brands),
+                            (v) => setState(() => brand = v),
+                          ),
+                          select(
+                            '年龄阶段',
+                            stage,
+                            opts(facets?.life_stages),
+                            (v) => setState(() => stage = v),
+                          ),
+                          select(
+                            '粮食类型',
+                            food,
+                            opts(facets?.food_types),
+                            (v) => setState(() => food = v),
+                          ),
+                          number('最低商品价（元）', priceMin),
+                          number('最高商品价（元）', priceMax),
+                          number('最小包装规格（克）', weightMin),
+                          number('最大包装规格（克）', weightMax),
+                          select(
+                            '包装单位',
+                            unit,
+                            opts(facets?.package_units),
+                            (v) => setState(() => unit = v),
+                          ),
+                          select('库存', stock, const [
+                            DropdownMenuItem(
+                              value: 'true',
+                              child: Text('只看有货'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'false',
+                              child: Text('只看缺货'),
+                            ),
+                          ], (v) => setState(() => stock = v)),
+                          SizedBox(
+                            width: width,
+                            child: DropdownButtonFormField<String>(
+                              key: ValueKey(sort),
+                              initialValue: sort,
+                              isExpanded: true,
+                              decoration: const InputDecoration(
+                                labelText: '排序',
+                              ),
+                              items: [
+                                for (final x in {
+                                  'RELEVANCE': '综合',
+                                  'PRICE_ASC': '价格从低到高',
+                                  'PRICE_DESC': '价格从高到低',
+                                  'SALES_DESC': '销量优先',
+                                  'RATING_DESC': '好评优先',
+                                }.entries)
+                                  DropdownMenuItem(
+                                    value: x.key,
+                                    child: Text(x.value),
+                                  ),
+                              ],
+                              onChanged: loading
+                                  ? null
+                                  : (v) => setState(() => sort = v!),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
-                  ...{
-                    'CAT': '猫',
-                    'DOG': '狗',
-                    'AQUATIC': '水族',
-                    'BIRD': '鸟',
-                    'SMALL_PET': '小宠',
-                  }.entries.map(
-                    (x) => DropdownMenuItem(value: x.key, child: Text(x.value)),
+                  const SizedBox(height: 24),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '排除过敏原（仅保留已明确记录过敏原信息的商品）',
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
+                    children: [
+                      for (final a in facets?.allergens ?? <SearchOption>[])
+                        FilterChip(
+                          label: Text(a.label),
+                          selected: excluded.contains(a.value),
+                          onSelected: loading
+                              ? null
+                              : (on) => setState(() {
+                                  if (on && excluded.length < 20) {
+                                    excluded.add(a.value);
+                                  } else {
+                                    excluded.remove(a.value);
+                                  }
+                                }),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    '未知配料或过敏原不会被当作安全。价格按符合库存条件的最低商品报价筛选，不含运费和优惠。综合按关键词、公开评价与服务评分、已支付净销量、价格排序；没有依据的评分不补造。',
                   ),
                 ],
-                onChanged: loading
-                    ? null
-                    : (v) {
-                        category = v;
-                        load(reset: true);
-                      },
               ),
-              PawdayButton(
-                onPressed: loading ? null : () => load(reset: true),
-                child: const Text('查询 / 刷新'),
+              const SizedBox(height: 20),
+              Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: [
+                  PawdayButton(
+                    onPressed: loading ? null : () => load(reset: true),
+                    child: const Text('查询 / 刷新'),
+                  ),
+                  TextButton(
+                    onPressed: loading ? null : resetFilters,
+                    child: const Text('清空筛选'),
+                  ),
+                  TextButton(
+                    onPressed: () => context.push('/purchase-requests'),
+                    child: const Text('我的求购'),
+                  ),
+                ],
               ),
+              const SizedBox(height: 24),
               if (error != null)
                 Text(
                   error!,
                   style: TextStyle(color: Theme.of(context).colorScheme.error),
                 ),
               if (loading) const LinearProgressIndicator(),
-              if (!loading && items.isEmpty)
-                const Text('本页暂无符合条件的在售商品，可继续翻页或刷新。'),
+              if (!loading && error == null && items.isEmpty)
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(28),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '没有找到符合条件的商品',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        const Text('可以检查关键词、放宽筛选，或告诉我们你想买什么。没有结果不代表商品一定缺货。'),
+                        const SizedBox(height: 20),
+                        Wrap(
+                          spacing: 12,
+                          runSpacing: 12,
+                          children: [
+                            TextButton(
+                              onPressed: resetFilters,
+                              child: const Text('放宽条件重新查找'),
+                            ),
+                            PawdayButton(
+                              onPressed: () {
+                                if (ref.read(authProvider).principal == null) {
+                                  context.push(
+                                    '/auth/login?returnTo=%2Fcategories',
+                                  );
+                                  return;
+                                }
+                                showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (_) => PurchaseRequestForm(
+                                    searchContext: applied,
+                                  ),
+                                );
+                              },
+                              child: const Text('我想买这个商品'),
+                            ),
+                          ],
+                        ),
+                        if (facets?.brands.isNotEmpty == true) ...[
+                          const SizedBox(height: 16),
+                          const Text('也可以试试这些品牌：'),
+                          Wrap(
+                            spacing: 12,
+                            children: [
+                              for (final b in facets!.brands.take(5))
+                                ActionChip(
+                                  label: Text(b.label),
+                                  onPressed: () {
+                                    resetFilters();
+                                    query.text = b.label;
+                                    load(reset: true);
+                                  },
+                                ),
+                            ],
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
               LayoutBuilder(
                 builder: (context, box) {
                   final columns = box.maxWidth > 850 ? 4 : 2;

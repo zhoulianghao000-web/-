@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 38090f0772262f7a2a87b24e38c5e36236e3c15a92f0c6b49d1fcdfa4d3260c6
+// Generated from Pawday runtime OpenAPI; SHA256 dc80d98039e3979e92c0a929db15c85155c7cb5fb55502628335af17b087b72a
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -2947,12 +2947,12 @@ class ConsumerOfferListEnvelope {
 
 class ConsumerProductListEnvelope {
   final List<ConsumerProduct> data;
-  final Page page;
+  final ProductSearchPage page;
   final Meta meta;
   const ConsumerProductListEnvelope({required this.data, required this.page, required this.meta});
   factory ConsumerProductListEnvelope.fromJson(Map<String,dynamic> json) => ConsumerProductListEnvelope(
     data: (json['data'] as List).map((value) => ConsumerProduct.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
-    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    page: ProductSearchPage.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
     meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
   );
   Map<String,dynamic> toJson() => {
@@ -9163,6 +9163,286 @@ class InvoiceBatchEnvelope {
   };
 }
 
+class ProductSearchPage {
+  final String? next_cursor;
+  final bool has_more;
+  const ProductSearchPage({required this.next_cursor, required this.has_more});
+  factory ProductSearchPage.fromJson(Map<String,dynamic> json) => ProductSearchPage(
+    next_cursor: json['next_cursor'] == null ? null : json['next_cursor'] as String,
+    has_more: json['has_more'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'next_cursor': next_cursor == null ? null : next_cursor!,
+    'has_more': has_more,
+  };
+}
+
+class SearchOption {
+  final String value;
+  final String label;
+  const SearchOption({required this.value, required this.label});
+  factory SearchOption.fromJson(Map<String,dynamic> json) => SearchOption(
+    value: json['value'] as String,
+    label: json['label'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'value': value,
+    'label': label,
+  };
+}
+
+class ProductSearchFacets {
+  final List<SearchOption> brands;
+  final List<SearchOption> food_types;
+  final List<SearchOption> package_units;
+  final List<SearchOption> life_stages;
+  final List<SearchOption> allergens;
+  const ProductSearchFacets({required this.brands, required this.food_types, required this.package_units, required this.life_stages, required this.allergens});
+  factory ProductSearchFacets.fromJson(Map<String,dynamic> json) => ProductSearchFacets(
+    brands: (json['brands'] as List).map((value) => SearchOption.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    food_types: (json['food_types'] as List).map((value) => SearchOption.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    package_units: (json['package_units'] as List).map((value) => SearchOption.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    life_stages: (json['life_stages'] as List).map((value) => SearchOption.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    allergens: (json['allergens'] as List).map((value) => SearchOption.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'brands': brands.map((value) => value.toJson()).toList(),
+    'food_types': food_types.map((value) => value.toJson()).toList(),
+    'package_units': package_units.map((value) => value.toJson()).toList(),
+    'life_stages': life_stages.map((value) => value.toJson()).toList(),
+    'allergens': allergens.map((value) => value.toJson()).toList(),
+  };
+}
+
+class PurchaseRequestContext {
+  final String? q;
+  final String? pet_category;
+  final String? brand_id;
+  final String? price_min_fen;
+  final String? price_max_fen;
+  final String? life_stage_id;
+  final String? food_type;
+  final String? weight_min_g;
+  final String? weight_max_g;
+  final String? package_unit;
+  final String? exclude_allergen_ids;
+  final String? in_stock;
+  final String? sort;
+  const PurchaseRequestContext({this.q, this.pet_category, this.brand_id, this.price_min_fen, this.price_max_fen, this.life_stage_id, this.food_type, this.weight_min_g, this.weight_max_g, this.package_unit, this.exclude_allergen_ids, this.in_stock, this.sort});
+  factory PurchaseRequestContext.fromJson(Map<String,dynamic> json) => PurchaseRequestContext(
+    q: json['q'] == null ? null : json['q'] as String,
+    pet_category: json['pet_category'] == null ? null : json['pet_category'] as String,
+    brand_id: json['brand_id'] == null ? null : json['brand_id'] as String,
+    price_min_fen: json['price_min_fen'] == null ? null : json['price_min_fen'] as String,
+    price_max_fen: json['price_max_fen'] == null ? null : json['price_max_fen'] as String,
+    life_stage_id: json['life_stage_id'] == null ? null : json['life_stage_id'] as String,
+    food_type: json['food_type'] == null ? null : json['food_type'] as String,
+    weight_min_g: json['weight_min_g'] == null ? null : json['weight_min_g'] as String,
+    weight_max_g: json['weight_max_g'] == null ? null : json['weight_max_g'] as String,
+    package_unit: json['package_unit'] == null ? null : json['package_unit'] as String,
+    exclude_allergen_ids: json['exclude_allergen_ids'] == null ? null : json['exclude_allergen_ids'] as String,
+    in_stock: json['in_stock'] == null ? null : json['in_stock'] as String,
+    sort: json['sort'] == null ? null : json['sort'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    if (q != null) 'q': q == null ? null : q!,
+    if (pet_category != null) 'pet_category': pet_category == null ? null : pet_category!,
+    if (brand_id != null) 'brand_id': brand_id == null ? null : brand_id!,
+    if (price_min_fen != null) 'price_min_fen': price_min_fen == null ? null : price_min_fen!,
+    if (price_max_fen != null) 'price_max_fen': price_max_fen == null ? null : price_max_fen!,
+    if (life_stage_id != null) 'life_stage_id': life_stage_id == null ? null : life_stage_id!,
+    if (food_type != null) 'food_type': food_type == null ? null : food_type!,
+    if (weight_min_g != null) 'weight_min_g': weight_min_g == null ? null : weight_min_g!,
+    if (weight_max_g != null) 'weight_max_g': weight_max_g == null ? null : weight_max_g!,
+    if (package_unit != null) 'package_unit': package_unit == null ? null : package_unit!,
+    if (exclude_allergen_ids != null) 'exclude_allergen_ids': exclude_allergen_ids == null ? null : exclude_allergen_ids!,
+    if (in_stock != null) 'in_stock': in_stock == null ? null : in_stock!,
+    if (sort != null) 'sort': sort == null ? null : sort!,
+  };
+}
+
+class PurchaseRequestInput {
+  final String title;
+  final String description;
+  final PurchaseRequestContext search_context;
+  const PurchaseRequestInput({required this.title, required this.description, required this.search_context});
+  factory PurchaseRequestInput.fromJson(Map<String,dynamic> json) => PurchaseRequestInput(
+    title: json['title'] as String,
+    description: json['description'] as String,
+    search_context: PurchaseRequestContext.fromJson(Map<String,dynamic>.from(json['search_context'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'title': title,
+    'description': description,
+    'search_context': search_context.toJson(),
+  };
+}
+
+class PurchaseRequestAck {
+  final String id;
+  final String status;
+  final int version;
+  const PurchaseRequestAck({required this.id, required this.status, required this.version});
+  factory PurchaseRequestAck.fromJson(Map<String,dynamic> json) => PurchaseRequestAck(
+    id: json['id'] as String,
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'status': status,
+    'version': version,
+  };
+}
+
+class PurchaseRequest {
+  final String id;
+  final String status;
+  final int version;
+  final String title;
+  final String description;
+  final PurchaseRequestContext search_context;
+  final String? response;
+  final String created_at;
+  final String updated_at;
+  const PurchaseRequest({required this.id, required this.status, required this.version, required this.title, required this.description, required this.search_context, required this.response, required this.created_at, required this.updated_at});
+  factory PurchaseRequest.fromJson(Map<String,dynamic> json) => PurchaseRequest(
+    id: json['id'] as String,
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+    title: json['title'] as String,
+    description: json['description'] as String,
+    search_context: PurchaseRequestContext.fromJson(Map<String,dynamic>.from(json['search_context'] as Map)),
+    response: json['response'] == null ? null : json['response'] as String,
+    created_at: json['created_at'] as String,
+    updated_at: json['updated_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'status': status,
+    'version': version,
+    'title': title,
+    'description': description,
+    'search_context': search_context.toJson(),
+    'response': response == null ? null : response!,
+    'created_at': created_at,
+    'updated_at': updated_at,
+  };
+}
+
+class PurchaseRequestChange {
+  final String id;
+  final String request_id;
+  final String status;
+  final int version;
+  final String created_at;
+  const PurchaseRequestChange({required this.id, required this.request_id, required this.status, required this.version, required this.created_at});
+  factory PurchaseRequestChange.fromJson(Map<String,dynamic> json) => PurchaseRequestChange(
+    id: json['id'] as String,
+    request_id: json['request_id'] as String,
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'request_id': request_id,
+    'status': status,
+    'version': version,
+    'created_at': created_at,
+  };
+}
+
+class PurchaseRequestDecision {
+  final String status;
+  final String response;
+  const PurchaseRequestDecision({required this.status, required this.response});
+  factory PurchaseRequestDecision.fromJson(Map<String,dynamic> json) => PurchaseRequestDecision(
+    status: json['status'] as String,
+    response: json['response'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'status': status,
+    'response': response,
+  };
+}
+
+class ProductSearchFacetsEnvelope {
+  final ProductSearchFacets data;
+  final Meta meta;
+  const ProductSearchFacetsEnvelope({required this.data, required this.meta});
+  factory ProductSearchFacetsEnvelope.fromJson(Map<String,dynamic> json) => ProductSearchFacetsEnvelope(
+    data: ProductSearchFacets.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class PurchaseRequestListEnvelope {
+  final List<PurchaseRequest> data;
+  final Page page;
+  final Meta meta;
+  const PurchaseRequestListEnvelope({required this.data, required this.page, required this.meta});
+  factory PurchaseRequestListEnvelope.fromJson(Map<String,dynamic> json) => PurchaseRequestListEnvelope(
+    data: (json['data'] as List).map((value) => PurchaseRequest.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class PurchaseRequestEnvelope {
+  final PurchaseRequest data;
+  final Meta meta;
+  const PurchaseRequestEnvelope({required this.data, required this.meta});
+  factory PurchaseRequestEnvelope.fromJson(Map<String,dynamic> json) => PurchaseRequestEnvelope(
+    data: PurchaseRequest.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class PurchaseRequestChangeListEnvelope {
+  final List<PurchaseRequestChange> data;
+  final Page page;
+  final Meta meta;
+  const PurchaseRequestChangeListEnvelope({required this.data, required this.page, required this.meta});
+  factory PurchaseRequestChangeListEnvelope.fromJson(Map<String,dynamic> json) => PurchaseRequestChangeListEnvelope(
+    data: (json['data'] as List).map((value) => PurchaseRequestChange.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class PurchaseRequestAckEnvelope {
+  final PurchaseRequestAck data;
+  final Meta meta;
+  const PurchaseRequestAckEnvelope({required this.data, required this.meta});
+  factory PurchaseRequestAckEnvelope.fromJson(Map<String,dynamic> json) => PurchaseRequestAckEnvelope(
+    data: PurchaseRequestAck.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -9485,4 +9765,14 @@ class ApiRoutes {
   static const get_admin_invoices = '/admin/invoices';
   static const get_admin_invoices__application = '/admin/invoices/{application}';
   static const post_merchant_invoices__application__decision = '/merchant/invoices/{application}/decision';
+  static const get_public_products_facets = '/public/products/facets';
+  static const get_consumer_purchase_requests = '/consumer/purchase-requests';
+  static const post_consumer_purchase_requests = '/consumer/purchase-requests';
+  static const get_consumer_purchase_requests__id = '/consumer/purchase-requests/{id}';
+  static const get_consumer_purchase_requests__id__history = '/consumer/purchase-requests/{id}/history';
+  static const get_admin_purchase_requests = '/admin/purchase-requests';
+  static const get_admin_purchase_requests__id = '/admin/purchase-requests/{id}';
+  static const get_admin_purchase_requests__id__history = '/admin/purchase-requests/{id}/history';
+  static const post_consumer_purchase_requests__id__cancel = '/consumer/purchase-requests/{id}/cancel';
+  static const post_admin_purchase_requests__id__decision = '/admin/purchase-requests/{id}/decision';
 }

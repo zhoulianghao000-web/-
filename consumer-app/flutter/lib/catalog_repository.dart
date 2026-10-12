@@ -11,8 +11,10 @@ class CatalogRepository {
     String? category,
     String? cursor,
     String? query,
+    Map<String, String> filters = const {},
   }) async {
     final params = <String, String>{
+      ...filters,
       'pet_category': ?category,
       'cursor': ?cursor,
       if (query != null && query.isNotEmpty) 'q': query,
@@ -29,6 +31,10 @@ class CatalogRepository {
     );
   }
 
+  Future<ProductSearchFacets> facets() async =>
+      ProductSearchFacetsEnvelope.fromJson(
+        await api.request('GET', '/public/products/facets', anonymous: true),
+      ).data;
   Future<ConsumerSpu> product(String id) async => ConsumerSpuEnvelope.fromJson(
     await api.request('GET', '/public/spus/$id', anonymous: true),
   ).data;

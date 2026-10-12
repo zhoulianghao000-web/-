@@ -175,6 +175,11 @@ class TabScreen extends ConsumerWidget {
           ],
           if (path == '/me') ...[
             ListTile(
+              leading: const Icon(Icons.shopping_bag_outlined),
+              title: const Text('我的求购'),
+              onTap: () => context.push('/purchase-requests'),
+            ),
+            ListTile(
               leading: const Icon(Icons.receipt_long_outlined),
               title: const Text('发票申请'),
               onTap: () => context.push('/invoices'),

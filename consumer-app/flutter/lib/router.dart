@@ -17,6 +17,7 @@ import 'ai_screen.dart';
 import 'care_screen.dart';
 import 'invoice_screen.dart';
 import 'favorites_screen.dart';
+import 'purchase_request_screen.dart';
 
 String safeReturnTo(String? value) {
   const allowed = [
@@ -29,6 +30,7 @@ String safeReturnTo(String? value) {
     '/pet-food',
     '/favorites',
     '/invoices',
+    '/purchase-requests',
     '/cart',
     '/orders',
     '/payments',
@@ -100,6 +102,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                 '/pet-food',
                 '/favorites',
                 '/invoices',
+                '/purchase-requests',
                 '/cart',
                 '/orders',
                 '/payments',
@@ -127,6 +130,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(path: '/favorites', builder: (_, _) => const FavoritesScreen()),
       GoRoute(path: '/invoices', builder: (_, _) => const InvoicesScreen()),
+      GoRoute(
+        path: '/purchase-requests',
+        builder: (_, _) => const PurchaseRequestsScreen(),
+      ),
       GoRoute(
         path: '/ai',
         builder: (_, state) => AiScreen(
