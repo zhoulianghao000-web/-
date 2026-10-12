@@ -258,7 +258,7 @@ class ConsumerApi {
     if ((!path.startsWith('/consumer/') &&
             !publicTaxonomy &&
             route != '/media/upload-grants' &&
-            !RegExp(r'^/media/[0-9a-f-]{36}/content$').hasMatch(route)) ||
+            !RegExp(r'^/media/[0-9a-f-]{36}(/content)?$').hasMatch(route)) ||
         path.contains('..') ||
         path.contains('\\')) {
       throw const ApiFailure(403, 'REALM_MISMATCH');
@@ -363,7 +363,7 @@ class ConsumerApi {
     if (bytes.isEmpty || bytes.length > 5242880) {
       throw const ApiFailure(413, 'UPLOAD_TOO_LARGE');
     }
-    if (!['REVIEW', 'CHAT'].contains(scope) ||
+    if (!['REVIEW', 'CHAT', 'AVATAR'].contains(scope) ||
         ![
           'image/png',
           'image/jpeg',
@@ -413,7 +413,11 @@ class ConsumerApi {
   }
 
   Future<Uint8List> mediaBytes(String path, {bool anonymous = false}) async {
-    if (!RegExp(
+    if (anonymous && path.startsWith('/api/v1/media/')) {
+      throw const ApiFailure(403, 'PRIVATE_MEDIA_REQUIRED');
+    }
+    if (!RegExp(r'^/api/v1/media/[0-9a-f-]{36}/content$').hasMatch(path) &&
+        !RegExp(
           r'^/api/v1/(public|consumer)/(reviews|content)/[0-9a-f-]{36}/media/[0-9a-f-]{36}$',
         ).hasMatch(path) &&
         !RegExp(

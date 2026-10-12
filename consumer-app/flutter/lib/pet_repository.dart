@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
@@ -8,6 +11,19 @@ import 'repositories.dart';
 class PetRepository {
   final ConsumerApi api;
   PetRepository(this.api);
+  Future<MediaAsset> uploadPhoto(Uint8List bytes, String mime) =>
+      api.uploadReview(
+        bytes,
+        mime,
+        sha256.convert(bytes).toString(),
+        scope: 'AVATAR',
+      );
+  Future<Uint8List> photo(String asset) =>
+      api.mediaBytes('/api/v1/media/$asset/content');
+  Future<void> discardPhoto(String asset) async {
+    await api.request('DELETE', '/media/$asset');
+  }
+
   Future<List<Species>> taxonomy() async => SpeciesListEnvelope.fromJson(
     await api.request(
       'GET',
@@ -132,3 +148,16 @@ final weightsProvider = FutureProvider.family<List<Weight>, Pet>((
   return result;
 });
 String newPetCommandKey() => const Uuid().v4();
+
+final petPhotoProvider = FutureProvider.autoDispose.family<Uint8List, String>((
+  ref,
+  asset,
+) async {
+  final session = ref.watch(authProvider).principal?.session_id;
+  if (session == null) throw const ApiFailure(401, 'UNAUTHENTICATED');
+  final bytes = await ref.watch(petRepositoryProvider).photo(asset);
+  if (ref.read(authProvider).principal?.session_id != session) {
+    throw const ApiFailure(401, 'SESSION_CHANGED');
+  }
+  return bytes;
+});

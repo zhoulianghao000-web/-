@@ -148,10 +148,15 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
                     place.name,
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
+                  const SizedBox(height: 16),
                   Text('${nearbyCategories[place.category]} · ${place.city}'),
+                  const SizedBox(height: 16),
                   Text(place.address),
+                  const SizedBox(height: 16),
                   Text('电话：${place.phone}'),
+                  const SizedBox(height: 16),
                   Text('营业信息：${place.business_hours}'),
+                  const SizedBox(height: 16),
                   Text(
                     '可用服务：${place.services.map((s) => nearbyServices[s]).join('、')}',
                   ),
@@ -159,6 +164,7 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
                     '来源：商家提交 · 已核实认领${place.pawday_certified ? ' · 平台已认证' : ''}',
                   ),
                   const Text('服务与营业时间请联系门店确认。医院仅提供地点与联系方式，不提供诊断或治疗排行。'),
+                  const SizedBox(height: 16),
                   PawdayButton(
                     onPressed: () async {
                       Navigator.pop(context);
@@ -206,137 +212,434 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('附近')),
-    body: ListView(
-      padding: const EdgeInsets.all(20),
-      children: [
-        if (pilotMode) const Text('重庆合成门店；认领、营业时间和服务均为测试预设，非实际核验。'),
-        if (pilotMode)
-          TextButton(
-            onPressed: () =>
-                setState(() => locationMessage = '预设导航失败：未调用高德或外部应用，请核对合成目的地。'),
-            child: const Text('模拟导航失败'),
-          ),
-        if (pilotMode)
-          Wrap(
-            children: [
-              for (final scenario in ['ALLOWED', 'DENIED', 'DISABLED'])
-                TextButton(
-                  onPressed: () {
-                    (ref.read(locationProvider).device as PilotGeolocation)
-                            .scenario =
-                        scenario;
-                    locate();
-                  },
-                  child: Text('模拟定位：$scenario'),
+    body: SingleChildScrollView(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1200),
+          child: Padding(
+            padding: EdgeInsets.all(
+              MediaQuery.sizeOf(context).width < 600 ? 20 : 40,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'AROUND YOU',
+                  style: TextStyle(
+                    color: PawdayDesign.green,
+                    fontSize: 11,
+                    letterSpacing: 2,
+                  ),
                 ),
-            ],
-          ),
-        Text('发现身边的宠物服务', style: Theme.of(context).textTheme.headlineSmall),
-        const Text('仅在你选择定位时获取一次位置。拒绝后仍可按城市浏览。'),
-        const SizedBox(height: 16),
-        TextField(
-          controller: city,
-          decoration: const InputDecoration(
-            labelText: '浏览城市',
-            hintText: '例如：上海',
-          ),
-          onChanged: (_) {
-            generation++;
-            setState(() {
-              position = null;
-              busy = false;
-              next = null;
-              rows = [];
-              searched = false;
-            });
-          },
-        ),
-        Wrap(
-          spacing: 8,
-          children: [
-            for (final name in (pilotMode ? ['重庆'] : ['上海', '北京', '广州', '深圳']))
-              ActionChip(
-                label: Text(name),
-                onPressed: busy
-                    ? null
-                    : () {
-                        setState(() {
-                          position = null;
-                          city.text = name;
-                        });
-                        voidLoad();
-                      },
-              ),
-          ],
-        ),
-        DropdownButtonFormField<String>(
-          initialValue: category,
-          decoration: const InputDecoration(labelText: '地点类别'),
-          items: [
-            const DropdownMenuItem(value: null, child: Text('全部')),
-            for (final entry in nearbyCategories.entries)
-              DropdownMenuItem(value: entry.key, child: Text(entry.value)),
-          ],
-          onChanged: busy
-              ? null
-              : (value) {
-                  setState(() => category = value);
-                  if (searched) voidLoad();
-                },
-        ),
-        Wrap(
-          spacing: 8,
-          children: [
-            PawdayButton(
-              onPressed: busy ? null : () => load(),
-              child: const Text('按城市浏览'),
+                const SizedBox(height: 12),
+                const Text(
+                  '发现身边的宠物服务',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w600,
+                    height: 1.3,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  '从日常用品到洗护寄养，找到下一站。',
+                  style: TextStyle(color: PawdayDesign.muted, height: 1.6),
+                ),
+                const SizedBox(height: 24),
+                Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: PawdayDesign.white,
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: PawdayDesign.line),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      LayoutBuilder(
+                        builder: (context, box) {
+                          final cityField = TextField(
+                            controller: city,
+                            decoration: InputDecoration(
+                              labelText: '浏览城市',
+                              hintText: pilotMode ? '例如：重庆' : '例如：上海',
+                              prefixIcon: const Icon(
+                                Icons.location_city_outlined,
+                              ),
+                            ),
+                            onChanged: (_) {
+                              generation++;
+                              setState(() {
+                                position = null;
+                                busy = false;
+                                next = null;
+                                rows = [];
+                                searched = false;
+                              });
+                            },
+                          );
+                          final categoryField = DropdownButtonFormField<String>(
+                            initialValue: category,
+                            isExpanded: true,
+                            decoration: const InputDecoration(
+                              labelText: '地点类别',
+                            ),
+                            items: [
+                              const DropdownMenuItem(
+                                value: null,
+                                child: Text('全部'),
+                              ),
+                              for (final entry in nearbyCategories.entries)
+                                DropdownMenuItem(
+                                  value: entry.key,
+                                  child: Text(entry.value),
+                                ),
+                            ],
+                            onChanged: busy
+                                ? null
+                                : (value) {
+                                    setState(() => category = value);
+                                    if (searched) voidLoad();
+                                  },
+                          );
+                          return box.maxWidth >= 620
+                              ? Row(
+                                  children: [
+                                    Expanded(flex: 3, child: cityField),
+                                    const SizedBox(width: 20),
+                                    Expanded(flex: 2, child: categoryField),
+                                  ],
+                                )
+                              : Column(
+                                  children: [
+                                    cityField,
+                                    const SizedBox(height: 20),
+                                    categoryField,
+                                  ],
+                                );
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          const Text(
+                            '快捷城市',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: PawdayDesign.muted,
+                            ),
+                          ),
+                          for (final name
+                              in (pilotMode
+                                  ? ['重庆']
+                                  : ['上海', '北京', '广州', '深圳']))
+                            ActionChip(
+                              label: Text(name),
+                              onPressed: busy
+                                  ? null
+                                  : () {
+                                      setState(() {
+                                        position = null;
+                                        city.text = name;
+                                      });
+                                      voidLoad();
+                                    },
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Wrap(
+                        spacing: 12,
+                        runSpacing: 12,
+                        children: [
+                          PawdayButton(
+                            onPressed: busy ? null : () => load(),
+                            child: const Text('按城市浏览'),
+                          ),
+                          OutlinedButton(
+                            onPressed: busy ? null : locate,
+                            child: const Text('使用本次位置'),
+                          ),
+                          if (issue == LocationIssue.deniedForever)
+                            TextButton(
+                              onPressed: () async {
+                                final opened = await ref
+                                    .read(locationProvider)
+                                    .settings();
+                                if (!opened && mounted) {
+                                  setState(
+                                    () => locationMessage =
+                                        '请在浏览器或系统设置中开启位置权限，然后点击定位重试。',
+                                  );
+                                }
+                              },
+                              child: const Text('打开应用设置'),
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        '仅在你选择定位时获取一次位置。拒绝后仍可按城市浏览。',
+                        style: TextStyle(
+                          color: PawdayDesign.muted,
+                          fontSize: 12,
+                          height: 1.7,
+                        ),
+                      ),
+                      if (locationMessage != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Semantics(
+                            liveRegion: true,
+                            child: Text(
+                              locationMessage!,
+                              style: const TextStyle(
+                                color: PawdayDesign.green,
+                                height: 1.6,
+                              ),
+                            ),
+                          ),
+                        ),
+                      if (error != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Semantics(
+                            liveRegion: true,
+                            child: Text(
+                              error!,
+                              style: const TextStyle(
+                                color: Color(0xff9c3725),
+                                height: 1.6,
+                              ),
+                            ),
+                          ),
+                        ),
+                      if (busy)
+                        const Padding(
+                          padding: EdgeInsets.only(top: 16),
+                          child: LinearProgressIndicator(),
+                        ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 28),
+                if (!searched && !busy)
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: const Color(0xffeaf0e1),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.travel_explore,
+                          color: PawdayDesign.green,
+                          size: 30,
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '先选择城市，开启附近探索',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                '查看门店地址、可用服务和营业信息。定位结果按直线距离排序，出发前请与门店确认。',
+                                style: TextStyle(
+                                  height: 1.8,
+                                  color: PawdayDesign.green,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                if (searched)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Text(
+                      position == null ? '城市内的公开门店' : '本次位置附近 · 按直线距离排序',
+                      style: const TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                if (searched && rows.isEmpty && !busy)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 24),
+                    child: Text(
+                      '该范围暂无已公开门店。可以切换城市、类别或重试定位。',
+                      style: TextStyle(height: 1.8, color: PawdayDesign.muted),
+                    ),
+                  ),
+                for (final row in rows)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Material(
+                      color: PawdayDesign.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side: const BorderSide(color: PawdayDesign.line),
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: Semantics(
+                        button: true,
+                        child: InkWell(
+                          onTap: () => detail(row),
+                          child: Padding(
+                            padding: const EdgeInsets.all(24),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xffeaf0e1),
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                  child: const Icon(
+                                    Icons.storefront_outlined,
+                                    color: PawdayDesign.green,
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        row.name,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        '${nearbyCategories[row.category]} · ${row.distance_m == null ? row.city : '约 ${row.distance_m} 米直线距离'}',
+                                        style: const TextStyle(
+                                          color: PawdayDesign.green,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        row.address,
+                                        style: const TextStyle(
+                                          color: PawdayDesign.muted,
+                                          height: 1.6,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      Wrap(
+                                        spacing: 8,
+                                        runSpacing: 8,
+                                        children: [
+                                          for (final service in row.services)
+                                            Chip(
+                                              label: Text(
+                                                nearbyServices[service] ??
+                                                    service,
+                                              ),
+                                              visualDensity:
+                                                  VisualDensity.compact,
+                                            ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.chevron_right,
+                                  color: PawdayDesign.green,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                if (next != null)
+                  TextButton(
+                    onPressed: busy ? null : () => load(more: true),
+                    child: const Text('更多门店'),
+                  ),
+                if (pilotMode) ...[
+                  const SizedBox(height: 24),
+                  const Text(
+                    '重庆合成门店；认领、营业时间和服务均为测试预设，非实际核验。',
+                    style: TextStyle(
+                      color: PawdayDesign.muted,
+                      fontSize: 12,
+                      height: 1.7,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  ExpansionTile(
+                    tilePadding: EdgeInsets.zero,
+                    title: const Text('测试场景工具', style: TextStyle(fontSize: 14)),
+                    subtitle: const Text(
+                      '模拟定位与导航异常，不调用真实设备或外部导航',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        child: Wrap(
+                          spacing: 12,
+                          runSpacing: 12,
+                          children: [
+                            for (final scenario in [
+                              'ALLOWED',
+                              'DENIED',
+                              'DISABLED',
+                            ])
+                              OutlinedButton(
+                                onPressed: busy
+                                    ? null
+                                    : () {
+                                        (ref.read(locationProvider).device
+                                                    as PilotGeolocation)
+                                                .scenario =
+                                            scenario;
+                                        locate();
+                                      },
+                                child: Text('模拟定位：$scenario'),
+                              ),
+                            TextButton(
+                              onPressed: () => setState(
+                                () => locationMessage =
+                                    '预设导航失败：未调用高德或外部应用，请核对合成目的地。',
+                              ),
+                              child: const Text('模拟导航失败'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ],
             ),
-            OutlinedButton(
-              onPressed: busy ? null : locate,
-              child: const Text('使用本次位置'),
-            ),
-            if (issue == LocationIssue.deniedForever)
-              TextButton(
-                onPressed: () async {
-                  final opened = await ref.read(locationProvider).settings();
-                  if (!opened && mounted) {
-                    setState(
-                      () => locationMessage = '请在浏览器或系统设置中开启位置权限，然后点击定位重试。',
-                    );
-                  }
-                },
-                child: const Text('打开应用设置'),
-              ),
-          ],
+          ),
         ),
-        if (locationMessage != null) Text(locationMessage!),
-        if (error != null)
-          Text(error!, style: const TextStyle(color: Colors.red)),
-        if (busy) const LinearProgressIndicator(),
-        if (searched && rows.isEmpty && !busy)
-          const Padding(
-            padding: EdgeInsets.all(20),
-            child: Text('该范围暂无已公开门店。可以切换城市、类别或重试定位。'),
-          ),
-        for (final row in rows)
-          Card(
-            child: ListTile(
-              title: Text(row.name),
-              subtitle: Text(
-                '${nearbyCategories[row.category]} · ${row.distance_m == null ? row.city : '约 ${row.distance_m} 米直线距离'}\n${row.address}\n${row.services.map((s) => nearbyServices[s]).join('、')}',
-              ),
-              isThreeLine: true,
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => detail(row),
-            ),
-          ),
-        if (next != null)
-          TextButton(
-            onPressed: busy ? null : () => load(more: true),
-            child: const Text('更多门店'),
-          ),
-      ],
+      ),
     ),
   );
   void voidLoad() {

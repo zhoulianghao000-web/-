@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 27d5ea3ff1881567ebfa564f552cbefdd8cb382f56e846e86b6c239089d54be7
+// Generated from Pawday runtime OpenAPI; SHA256 e199ae22046aa30bd765c6799ac75f93d48d066d408abdd52cfb54e7729ed7e9
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -987,7 +987,9 @@ class PetRequest {
   final String neutered_status;
   final List<AllergenEntry> allergens;
   final List<String> avoidance_notes;
-  const PetRequest({required this.name, required this.species_id, this.breed_id, this.birth_date, this.age_estimate_months, required this.sex, required this.neutered_status, required this.allergens, required this.avoidance_notes});
+  final String? custom_breed_name;
+  final String? photo_asset_id;
+  const PetRequest({required this.name, required this.species_id, this.breed_id, this.birth_date, this.age_estimate_months, required this.sex, required this.neutered_status, required this.allergens, required this.avoidance_notes, this.custom_breed_name, this.photo_asset_id});
   factory PetRequest.fromJson(Map<String,dynamic> json) => PetRequest(
     name: json['name'] as String,
     species_id: json['species_id'] as String,
@@ -998,6 +1000,8 @@ class PetRequest {
     neutered_status: json['neutered_status'] as String,
     allergens: (json['allergens'] as List).map((value) => AllergenEntry.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
     avoidance_notes: (json['avoidance_notes'] as List).map((value) => value as String).toList(),
+    custom_breed_name: json['custom_breed_name'] == null ? null : json['custom_breed_name'] as String,
+    photo_asset_id: json['photo_asset_id'] == null ? null : json['photo_asset_id'] as String,
   );
   Map<String,dynamic> toJson() => {
     'name': name,
@@ -1009,6 +1013,8 @@ class PetRequest {
     'neutered_status': neutered_status,
     'allergens': allergens.map((value) => value.toJson()).toList(),
     'avoidance_notes': avoidance_notes.map((value) => value).toList(),
+    if (custom_breed_name != null) 'custom_breed_name': custom_breed_name == null ? null : custom_breed_name!,
+    if (photo_asset_id != null) 'photo_asset_id': photo_asset_id == null ? null : photo_asset_id!,
   };
 }
 
@@ -1022,7 +1028,9 @@ class PetPatch {
   final String? neutered_status;
   final List<AllergenEntry>? allergens;
   final List<String>? avoidance_notes;
-  const PetPatch({this.name, this.species_id, this.breed_id, this.birth_date, this.age_estimate_months, this.sex, this.neutered_status, this.allergens, this.avoidance_notes});
+  final String? custom_breed_name;
+  final String? photo_asset_id;
+  const PetPatch({this.name, this.species_id, this.breed_id, this.birth_date, this.age_estimate_months, this.sex, this.neutered_status, this.allergens, this.avoidance_notes, this.custom_breed_name, this.photo_asset_id});
   factory PetPatch.fromJson(Map<String,dynamic> json) => PetPatch(
     name: json['name'] == null ? null : json['name'] as String,
     species_id: json['species_id'] == null ? null : json['species_id'] as String,
@@ -1033,6 +1041,8 @@ class PetPatch {
     neutered_status: json['neutered_status'] == null ? null : json['neutered_status'] as String,
     allergens: json['allergens'] == null ? null : (json['allergens'] as List).map((value) => AllergenEntry.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
     avoidance_notes: json['avoidance_notes'] == null ? null : (json['avoidance_notes'] as List).map((value) => value as String).toList(),
+    custom_breed_name: json['custom_breed_name'] == null ? null : json['custom_breed_name'] as String,
+    photo_asset_id: json['photo_asset_id'] == null ? null : json['photo_asset_id'] as String,
   );
   Map<String,dynamic> toJson() => {
     if (name != null) 'name': name == null ? null : name!,
@@ -1044,6 +1054,8 @@ class PetPatch {
     if (neutered_status != null) 'neutered_status': neutered_status == null ? null : neutered_status!,
     if (allergens != null) 'allergens': allergens == null ? null : allergens!.map((value) => value.toJson()).toList(),
     if (avoidance_notes != null) 'avoidance_notes': avoidance_notes == null ? null : avoidance_notes!.map((value) => value).toList(),
+    if (custom_breed_name != null) 'custom_breed_name': custom_breed_name == null ? null : custom_breed_name!,
+    if (photo_asset_id != null) 'photo_asset_id': photo_asset_id == null ? null : photo_asset_id!,
   };
 }
 
@@ -1061,7 +1073,9 @@ class Pet {
   final int version;
   final String? life_stage_id;
   final bool life_stage_unknown;
-  const Pet({required this.name, required this.species_id, this.breed_id, this.birth_date, this.age_estimate_months, required this.sex, required this.neutered_status, this.allergens, this.avoidance_notes, required this.id, required this.version, this.life_stage_id, required this.life_stage_unknown});
+  final String? custom_breed_name;
+  final String? photo_asset_id;
+  const Pet({required this.name, required this.species_id, this.breed_id, this.birth_date, this.age_estimate_months, required this.sex, required this.neutered_status, this.allergens, this.avoidance_notes, required this.id, required this.version, this.life_stage_id, required this.life_stage_unknown, this.custom_breed_name, this.photo_asset_id});
   factory Pet.fromJson(Map<String,dynamic> json) => Pet(
     name: json['name'] as String,
     species_id: json['species_id'] as String,
@@ -1076,6 +1090,8 @@ class Pet {
     version: (json['version'] as num).toInt(),
     life_stage_id: json['life_stage_id'] == null ? null : json['life_stage_id'] as String,
     life_stage_unknown: json['life_stage_unknown'] as bool,
+    custom_breed_name: json['custom_breed_name'] == null ? null : json['custom_breed_name'] as String,
+    photo_asset_id: json['photo_asset_id'] == null ? null : json['photo_asset_id'] as String,
   );
   Map<String,dynamic> toJson() => {
     'name': name,
@@ -1091,6 +1107,8 @@ class Pet {
     'version': version,
     if (life_stage_id != null) 'life_stage_id': life_stage_id == null ? null : life_stage_id!,
     'life_stage_unknown': life_stage_unknown,
+    if (custom_breed_name != null) 'custom_breed_name': custom_breed_name == null ? null : custom_breed_name!,
+    if (photo_asset_id != null) 'photo_asset_id': photo_asset_id == null ? null : photo_asset_id!,
   };
 }
 

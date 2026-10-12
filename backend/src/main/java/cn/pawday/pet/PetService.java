@@ -18,7 +18,7 @@ import tools.jackson.databind.json.JsonMapper;
 public class PetService {
  private final JdbcTemplate db; private final TransactionTemplate tx; private final AuditWriter audit;
  private final cn.pawday.common.IdempotentCommandExecutor commands; private final Clock clock; private final JsonMapper json=JsonMapper.builder().build();
- private static final Set<String> FIELDS=Set.of("name","species_id","breed_id","birth_date","age_estimate_months","sex","neutered_status","allergens","avoidance_notes");
+ private static final Set<String> FIELDS=Set.of("name","species_id","breed_id","birth_date","age_estimate_months","sex","neutered_status","allergens","avoidance_notes","custom_breed_name","photo_asset_id");
  public PetService(JdbcTemplate db,TransactionTemplate tx,AuditWriter audit,cn.pawday.common.IdempotentCommandExecutor commands,Clock clock){this.db=db;this.tx=tx;this.audit=audit;this.commands=commands;this.clock=clock;}
  static void check(boolean valid){if(!valid)throw new Failure(400,"VALIDATION_ERROR");}
  public static String text(Object value,int max){check(value instanceof String && !((String)value).isBlank() && ((String)value).length()<=max);return ((String)value).trim();}
@@ -34,7 +34,7 @@ public class PetService {
  private Map<String,Object> owned(Actor a,UUID id){consumer(a);var rows=db.queryForList("SELECT * FROM pets WHERE id=? AND owner_user_id=? AND status='ACTIVE' FOR UPDATE",id,a.userId());if(rows.isEmpty())throw new Failure(404,"RESOURCE_NOT_FOUND");return rows.getFirst();}
  public Map<String,Object> get(Actor a,UUID id){return tx.execute(s->view(owned(a,id)));}
  private Map<String,Object> view(Map<String,Object> row){
-  Map<String,Object> out=new LinkedHashMap<>();for(String f:List.of("id","name","species_id","breed_id","sex","neutered_status","version","age_estimate_months"))out.put(f,row.get(f));
+  Map<String,Object> out=new LinkedHashMap<>();for(String f:List.of("id","name","species_id","breed_id","sex","neutered_status","version","age_estimate_months","custom_breed_name","photo_asset_id"))out.put(f,row.get(f));
   out.put("birth_date",row.get("birth_date")==null?null:row.get("birth_date").toString());out.put("avoidance_notes",json.readValue(row.get("avoidance_notes").toString(),List.class));
   out.put("allergens",db.query("SELECT allergen_id,status,source,note FROM pet_allergens WHERE pet_id=? ORDER BY allergen_id",(r,i)->{Map<String,Object> item=new LinkedHashMap<>();item.put("allergen_id",r.getObject(1));item.put("status",r.getString(2));item.put("source",r.getString(3));if(r.getString(4)!=null)item.put("note",r.getString(4));return item;},row.get("id")));
   var stages=db.queryForList("SELECT d.* FROM pet_life_stage_definitions d JOIN pet_life_stage_rule_versions v ON v.id=d.rule_version_id WHERE v.species_id=? AND v.status='PUBLISHED' ORDER BY d.is_unknown,d.stage_code",row.get("species_id"));
@@ -47,13 +47,19 @@ public class PetService {
   }
   out.put("life_stage_id",stageId);out.put("life_stage_unknown",unknown);return out;
  }
- private Map<String,Object> validate(Map<String,Object> b,Map<String,Object> before){
+ private Map<String,Object> validate(Actor actor,Map<String,Object> b,Map<String,Object> before){
   check(b.keySet().equals(FIELDS)||FIELDS.containsAll(b.keySet()));for(String f:List.of("name","species_id","sex","neutered_status","allergens","avoidance_notes"))check(b.containsKey(f)&&b.get(f)!=null);
   Map<String,Object> v=new LinkedHashMap<>(b);v.put("name",text(b.get("name"),160));UUID species=uuid(b.get("species_id"));v.put("species_id",species);
   if(!species.toString().equals(String.valueOf(before.get("species_id")))&&db.queryForObject("SELECT count(*) FROM pet_species s WHERE s.id=? AND s.status='ACTIVE' AND NOT EXISTS(SELECT 1 FROM pet_species p WHERE p.id=s.parent_id AND p.status<>'ACTIVE')",Integer.class,species)==0)throw new Failure(422,"SPECIES_UNAVAILABLE");
   UUID breed=b.get("breed_id")==null?null:uuid(b.get("breed_id"));v.put("breed_id",breed);
   boolean sameBreed=breed!=null&&breed.toString().equals(String.valueOf(before.get("breed_id")))&&species.toString().equals(String.valueOf(before.get("species_id")));
   if(breed!=null&&!sameBreed&&db.queryForObject("SELECT count(*) FROM pet_breeds WHERE id=? AND species_id=? AND status='ACTIVE'",Integer.class,breed,species)==0)throw new Failure(422,"BREED_SPECIES_MISMATCH");
+  String custom=b.get("custom_breed_name")==null?null:text(b.get("custom_breed_name"),80);check(breed==null||custom==null);v.put("custom_breed_name",custom);
+  UUID photo=b.get("photo_asset_id")==null?null:uuid(b.get("photo_asset_id"));v.put("photo_asset_id",photo);
+  if(photo!=null){var assets=db.queryForList("SELECT owner_id,realm,scope,status,mime FROM media_asset WHERE id=? FOR SHARE",photo);
+   if(assets.isEmpty()||!actor.principalId().equals(assets.getFirst().get("owner_id"))||!"CONSUMER".equals(assets.getFirst().get("realm"))||!"AVATAR".equals(assets.getFirst().get("scope")))throw new Failure(404,"RESOURCE_NOT_FOUND");
+   if(!"READY".equals(assets.getFirst().get("status")))throw new Failure(409,"MEDIA_NOT_READY");check(Set.of("image/png","image/jpeg").contains(assets.getFirst().get("mime")));
+  }
   v.put("birth_date",b.get("birth_date")==null?null:date(b.get("birth_date")));v.put("age_estimate_months",b.get("age_estimate_months")==null?null:number(b.get("age_estimate_months"),0,2400));check(v.get("birth_date")==null||v.get("age_estimate_months")==null);
   v.put("sex",choice(b.get("sex"),"MALE","FEMALE","UNKNOWN"));v.put("neutered_status",choice(b.get("neutered_status"),"YES","NO","UNKNOWN"));
   check(b.get("avoidance_notes") instanceof List<?>);var notes=(List<?>)b.get("avoidance_notes");check(notes.size()<=50);notes.forEach(n->text(n,2000));
@@ -65,9 +71,10 @@ public class PetService {
   consumer(a);check(!body.isEmpty()&&FIELDS.containsAll(body.keySet()));
   return command(a,id==null?"pet.create":"pet.update:"+id,key,Arrays.asList(expected,body),()->{
    Map<String,Object> before=id==null?Map.of():view(owned(a,id));if(id!=null&& !Objects.equals(((Number)before.get("version")).longValue(),expected))throw new Failure(409,"CONCURRENT_MODIFICATION");
-   Map<String,Object> merged=new LinkedHashMap<>();for(String f:FIELDS)if(before.containsKey(f))merged.put(f,before.get(f));merged.putAll(body);var v=validate(merged,before);UUID petId=id==null?UUID.randomUUID():id;
+   Map<String,Object> merged=new LinkedHashMap<>();for(String f:FIELDS)if(before.containsKey(f))merged.put(f,before.get(f));merged.putAll(body);var v=validate(a,merged,before);UUID petId=id==null?UUID.randomUUID():id;
    if(id==null)db.update("INSERT INTO pets(id,owner_user_id,name,species_id,breed_id,birth_date,age_estimate_months,sex,neutered_status,avoidance_notes) VALUES (?,?,?,?,?,?,?,?,?,?::jsonb)",petId,a.userId(),v.get("name"),v.get("species_id"),v.get("breed_id"),v.get("birth_date"),v.get("age_estimate_months"),v.get("sex"),v.get("neutered_status"),json.writeValueAsString(v.get("avoidance_notes")));
    else db.update("UPDATE pets SET name=?,species_id=?,breed_id=?,birth_date=?,age_estimate_months=?,sex=?,neutered_status=?,avoidance_notes=?::jsonb,version=version+1 WHERE id=?",v.get("name"),v.get("species_id"),v.get("breed_id"),v.get("birth_date"),v.get("age_estimate_months"),v.get("sex"),v.get("neutered_status"),json.writeValueAsString(v.get("avoidance_notes")),petId);
+   db.update("UPDATE pets SET custom_breed_name=?,photo_asset_id=? WHERE id=?",v.get("custom_breed_name"),v.get("photo_asset_id"),petId);
    db.update("DELETE FROM pet_allergens WHERE pet_id=?",petId);for(Object raw:(List<?>)v.get("allergens")){var item=(Map<?,?>)raw;db.update("INSERT INTO pet_allergens(pet_id,allergen_id,status,source,note) VALUES (?,?,?,?,?)",petId,uuid(item.get("allergen_id")),item.get("status"),item.get("source"),item.get("note"));}
    audit.write(a,id==null?"pet.create":"pet.update","PET",petId.toString(),id==null?Map.of():Map.of("version",expected),Map.of("version",id==null?0:expected+1),r);return view(owned(a,petId));
   });

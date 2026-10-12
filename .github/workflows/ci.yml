@@ -43,7 +43,7 @@ jobs:
           python openapi/validate_m23_contract.py --samples backend/target/m22-contract-samples.json --report openapi/delivery-response-report.json
           python openapi/validate_m23_contract.py --samples backend/target/m23-storage-contract-samples.json --report openapi/storage-response-report.json
           python openapi/validate_m23_contract.py --samples backend/target/m23-search-contract-samples.json --report openapi/search-response-report.json
-          python openapi/validate_m31_contract.py --samples backend/target/m31-contract-samples.json --report openapi/pet-response-report.json
+          python openapi/validate_m663_contract.py --samples backend/target/m31-contract-samples.json --report openapi/pet-response-report.json
           python openapi/validate_m32_contract.py --samples backend/target/m32-contract-samples.json --report openapi/catalog-response-report.json
           python openapi/validate_m33_contract.py --samples backend/target/m33-contract-samples.json --report openapi/offer-response-report.json
           python openapi/validate_m34_contract.py --samples backend/target/m34-contract-samples.json --report openapi/consumer-catalog-response-report.json
@@ -108,7 +108,7 @@ jobs:
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m5.5.yaml
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m5.5.yaml -o /tmp/pawday-m55-bundled.yaml
           python openapi/validate_m55_contract.py --samples backend/target/m55-contract-samples.json --require-new-coverage --report openapi/ai-response-report.json
-          python openapi/validate_m662_contract.py --samples backend/target/pilot-evidence/baseline-http.json --binary-samples backend/target/pilot-evidence/baseline-binary.json --require-new-coverage --report openapi/pilot-baseline-response-report.json
+          python openapi/validate_m663_contract.py --samples backend/target/pilot-evidence/baseline-http.json --binary-samples backend/target/pilot-evidence/baseline-binary.json --require-new-coverage --report openapi/pilot-baseline-response-report.json
       - name: M5.4 real AMap HTTPS destination handoff
         run: python scripts/check-amap-handoff.py --samples backend/target/m54-contract-samples.json --report backend/target/infrastructure-evidence/amap-handoff.json
       - name: M6.1 production inventory and mandatory rejection gates
@@ -263,6 +263,8 @@ jobs:
           python openapi/validate_m54_contract.py
           python openapi/validate_m55_contract.py
           python openapi/validate_m662_contract.py
+          npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m6.6.3.yaml
+          npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m6.6.3.yaml --output openapi/pawday-m6.6.3.redocly.bundle.json
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m6.6.2.yaml
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m6.6.2.yaml --output openapi/pawday-m6.6.2.redocly.bundle.json
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m5.4.yaml
@@ -304,7 +306,7 @@ jobs:
       - name: Validate actual pilot JSON and authenticated binary contracts
         run: |
           python -m pip install -r openapi/requirements-validation-lock.txt
-          python openapi/validate_m662_contract.py --samples backend/target/pilot-live-evidence/http-samples.json --binary-samples backend/target/pilot-live-evidence/binary-samples.json --require-new-coverage --report backend/target/pilot-live-evidence/contract.json
+          python openapi/validate_m663_contract.py --samples backend/target/pilot-live-evidence/http-samples.json --binary-samples backend/target/pilot-live-evidence/binary-samples.json --require-new-coverage --report backend/target/pilot-live-evidence/contract.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:

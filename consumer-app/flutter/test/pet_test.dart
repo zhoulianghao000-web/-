@@ -54,6 +54,7 @@ class SignedIn extends AuthNotifier {
 
 class ScreenPets extends PetRepository {
   ScreenPets(super.api);
+  Map<String, dynamic>? savedBody;
   List<Pet> values = [Pet.fromJson(petJson())];
   @override
   Future<List<Pet>> list() async => values;
@@ -82,7 +83,8 @@ class ScreenPets extends PetRepository {
     Pet? existing,
     required String key,
   }) async {
-    final pet = Pet.fromJson({...petJson(id: 'new'), 'name': body['name']});
+    savedBody = body;
+    final pet = Pet.fromJson({...petJson(id: 'new'), ...body});
     values = [pet];
     return pet;
   }

@@ -1,4 +1,4 @@
-// Generated from pawday-m6.6.2.yaml; SHA256 27d5ea3ff1881567ebfa564f552cbefdd8cb382f56e846e86b6c239089d54be7
+// Generated from pawday-m6.6.3.yaml; SHA256 e199ae22046aa30bd765c6799ac75f93d48d066d408abdd52cfb54e7729ed7e9
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -5031,6 +5031,13 @@ export interface components {
             neutered_status: "YES" | "NO" | "UNKNOWN";
             allergens: components["schemas"]["AllergenEntry"][];
             avoidance_notes: string[];
+            /** @description Owner supplied breed/type label, mutually exclusive with breed_id. Not verified taxonomy or medical evidence. */
+            custom_breed_name?: string | null;
+            /**
+             * Format: uuid
+             * @description Own READY CONSUMER AVATAR image reference; no file bodies in pet records.
+             */
+            photo_asset_id?: string | null;
         };
         PetPatch: {
             name?: string;
@@ -5044,6 +5051,13 @@ export interface components {
             neutered_status?: "YES" | "NO" | "UNKNOWN";
             allergens?: components["schemas"]["AllergenEntry"][];
             avoidance_notes?: string[];
+            /** @description Owner supplied breed/type label, mutually exclusive with breed_id. Not verified taxonomy or medical evidence. */
+            custom_breed_name?: string | null;
+            /**
+             * Format: uuid
+             * @description Own READY CONSUMER AVATAR image reference; no file bodies in pet records.
+             */
+            photo_asset_id?: string | null;
         };
         Pet: {
             name: string;
@@ -5062,6 +5076,13 @@ export interface components {
             version: number;
             life_stage_id?: string | null;
             life_stage_unknown: boolean;
+            /** @description Owner supplied breed/type label, mutually exclusive with breed_id. Not verified taxonomy or medical evidence. */
+            custom_breed_name?: string | null;
+            /**
+             * Format: uuid
+             * @description Own READY CONSUMER AVATAR image reference; no file bodies in pet records.
+             */
+            photo_asset_id?: string | null;
         };
         Breed: {
             id: string;
