@@ -25,7 +25,7 @@
     "V019__nearby_store_profiles.sql": "9e1e56570aed7852fcb7b5b74ebf17a37f62e4349f73b767b8c2a256a499003e",
     "V020__ai_explanations.sql": "3378234de207b063357c4c58f07acc78dfdc7b2aafefb077be981ec45ef76021",
     "V021__privacy_fact_journal.sql": "7a932e5c6376605d79b993e90a97a0f2c43e81a05c48d877792bbaad68e2aab3",
-    "V022__staff_password_credentials.sql": "dd82ea185fab98e0dc9990ae4454af1e31b926652c2a14b43a4c0c72f4571117"
+    "V022__staff_password_credentials.sql": "e9987822342d3b0838692396d4f73f715888d5409bb8b4ac72a5a3c2fc06759f"
   },
   "tables": [
     {

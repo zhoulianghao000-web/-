@@ -58,7 +58,7 @@ def gate(commit):
   return name
  try:
   for p in sorted((ROOT/'backend/src/main/resources/db/migration').glob('V*.sql')):sql(SOURCE,p.read_text(encoding='utf8'))
-  passed('all_twenty_one_actual_migrations_on_fresh_source')
+  passed('all_actual_migrations_on_fresh_source')
   # Metadata-only coverage from the actual migrated PostgreSQL, read-only snapshot.
   inventory=json.loads((ROOT/'deployment/privacy/data-inventory.json').read_text(encoding='utf8'))
   schema=json.loads(value(SOURCE,'BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY; '+SCHEMA_SQL+'; COMMIT;'))
