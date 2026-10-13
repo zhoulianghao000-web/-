@@ -6,6 +6,23 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 jobs:
+  security-engineering:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build pinned and patched engineering runtime images
+        run: docker compose -p pawday-security-build -f compose.integration.yaml build
+      - name: Secret and complete container dependency vulnerability gates
+        run: python scripts/security-engineering-gate.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v1-security-evidence
+          path: backend/target/security-evidence/
   storage-search-and-real-infrastructure:
     runs-on: ubuntu-latest
     timeout-minutes: 30

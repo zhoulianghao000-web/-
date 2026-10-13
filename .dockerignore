@@ -2,3 +2,5 @@
 !deployment/
 !deployment/images/
 !deployment/images/*.Dockerfile
+!deployment/images/patch-opensearch-libraries.py
+!deployment/images/opensearch-library-patches.json
