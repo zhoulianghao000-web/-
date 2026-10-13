@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:pawday_consumer/catalog_screen.dart';
+import 'package:pawday_consumer/catalog_repository.dart';
 import 'package:pawday_consumer/purchase_request_screen.dart';
 import 'package:pawday_consumer/repositories.dart';
 import 'package:pawday_consumer/reference_ui.dart';
@@ -14,6 +15,28 @@ import 'api_test.dart' as fixture;
 import 'pet_test.dart' show SignedIn, page;
 
 void main() {
+  test(
+    'facet repository reaches the allowed public endpoint and parses options',
+    () async {
+      final calls = <Uri>[];
+      final api = fixture.apiWith((r) async {
+        calls.add(r.url);
+        return fixture.ok({
+          'brands': [
+            {'value': 'brand', 'label': 'TEST brand'},
+          ],
+          'food_types': [],
+          'package_units': [],
+          'life_stages': [],
+          'allergens': [],
+        });
+      });
+      addTearDown(api.dispose);
+      final facets = await CatalogRepository(api).facets();
+      expect(calls.single.path, '/api/v1/public/products/facets');
+      expect(facets.brands.single.label, 'TEST brand');
+    },
+  );
   Future<void> mount(
     WidgetTester t,
     Widget child,

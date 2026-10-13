@@ -247,6 +247,7 @@ class ConsumerApi {
         route == '/public/nearby/navigation-intents' ||
         RegExp(r'^/public/nearby/places/[0-9a-f-]{36}$').hasMatch(route) ||
         route == '/public/products' ||
+        route == '/public/products/facets' ||
         route == '/public/content' ||
         RegExp(r'^/public/content/[0-9a-f-]{36}(/media/[0-9a-f-]{36})?$')
             .hasMatch(route) ||
