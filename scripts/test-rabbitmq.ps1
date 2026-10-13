@@ -8,7 +8,9 @@ $env:PAWDAY_IT_RABBIT_HOST='127.0.0.1'
 $env:PAWDAY_IT_RABBIT_PORT='5675'
 $env:PAWDAY_IT_RABBIT_USER='pawday_it'
 $env:PAWDAY_IT_RABBIT_PASSWORD='TEST_ONLY_m22_broker'
-& docker run -d --name $container -p 127.0.0.1:5675:5672 -e RABBITMQ_DEFAULT_USER=pawday_it -e RABBITMQ_DEFAULT_PASS=TEST_ONLY_m22_broker rabbitmq:4.3.6-management
+& docker compose -p pawday-m23-it -f (Join-Path $PSScriptRoot '../compose.integration.yaml') build rabbitmq
+if($LASTEXITCODE -ne 0){throw 'Patched RabbitMQ build failed'}
+& docker run -d --name $container -p 127.0.0.1:5675:5672 -e RABBITMQ_DEFAULT_USER=pawday_it -e RABBITMQ_DEFAULT_PASS=TEST_ONLY_m22_broker pawday-rabbitmq:4.3.6-security20261013
 if($LASTEXITCODE -ne 0){throw 'Real RabbitMQ test broker failed to start'}
 try {
     $ready=$false

@@ -112,7 +112,12 @@ export class PawdayClient {
     }
     if(this.pilot&&response.headers.get('X-Pawday-Environment')!=='SIMULATED_PILOT')throw new ApiError(409,'PILOT_ENVIRONMENT_MISMATCH','');
     if(!response.ok) {
-      if(sessionRejected&&!publicAuth&&epoch===this.epoch)this.clearSession();
+      // A rotated session may be valid even when the retried operation is forbidden.
+      if(response.status===401&&sessionRejected&&!publicAuth&&epoch===this.epoch){
+        let invalidCredentials=false;
+        try{invalidCredentials=(await response.clone().json()).error?.code==='INVALID_CREDENTIALS';}catch{/* Unknown 401 expires the session. */}
+        if(!invalidCredentials)this.clearSession();
+      }
       await this.failure(response);
     }
     return response;

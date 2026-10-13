@@ -1,0 +1,9 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Versioned SQL migration SHA-256 checksums, not API credentials"
+condition = "AND"
+regexTarget = "line"
+paths = ['''(^|[/\\])deployment[/\\]privacy[/\\]data-inventory\.json$''']
+regexes = ['''^\s*"V[0-9]{3}__[^"\r\n]+\.sql": "[0-9a-f]{64}",?\s*$''']

@@ -20,6 +20,11 @@ jobs:
       - run: pnpm generate:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build
       - name: Local desktop static/proxy/origin/isolation gates
         run: node --test scripts/tests/desktop-server.test.mjs scripts/tests/reference-assets.test.mjs
+      - name: Desktop ownership and recovery decision gates
+        shell: pwsh
+        run: ./scripts/tests/desktop-lifecycle.Tests.ps1
+      - name: Known Web dependency vulnerability gate
+        run: pnpm audit --audit-level=low
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm exec playwright test e2e/web.spec.ts
       - name: Actual pilot staff browser label and client contract gate

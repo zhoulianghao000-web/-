@@ -7,6 +7,15 @@ const principal={id:meta.request_id,realm:'MERCHANT' as const,merchant_id:meta.r
 const json=(data:unknown,status=200)=>new Response(JSON.stringify({data,meta}),{status,headers:{'Content-Type':'application/json'}});
 const denied=(status:number,code:string)=>new Response(JSON.stringify({error:{code,message:code,retryable:false,details:{}},meta}),{status,headers:{'Content-Type':'application/json'}});
 describe('realm-bound generated API transport',()=>{
+  it.each([403,409,503])('preserves rotated session when retry returns %s',async status=>{
+    const network=vi.fn<typeof fetch>(async input=>{const r=input as Request;if(r.url.endsWith('/refresh'))return json({...tokens,access_token:'c'.repeat(43)});return r.headers.get('Authorization')===`Bearer ${tokens.access_token}`?denied(401,'TOKEN_EXPIRED'):denied(status,'OPERATION_REJECTED');});
+    const client=new PawdayClient('merchant','http://localhost/api/v1',network);client.setSession(tokens);
+    await expect(client.me()).rejects.toMatchObject({status,code:'OPERATION_REJECTED'});expect(client.authenticated).toBe(true);expect(network).toHaveBeenCalledTimes(3);
+  });
+  it('expires the rotated session if retry is still unauthorized',async()=>{
+    const client=new PawdayClient('merchant','http://localhost/api/v1',async input=>(input as Request).url.endsWith('/refresh')?json({...tokens,access_token:'c'.repeat(43)}):denied(401,'TOKEN_EXPIRED'));client.setSession(tokens);
+    await expect(client.me()).rejects.toMatchObject({status:401});expect(client.authenticated).toBe(false);
+  });
   it('wrong reverify credentials do not rotate or discard a valid session',async()=>{
     const network=vi.fn<typeof fetch>(async()=>denied(401,'INVALID_CREDENTIALS'));const client=new PawdayClient('admin','http://localhost/api/v1',network);client.setSession(tokens);await expect(client.reverify({action:'session.revoke-others',password:'wrong'})).rejects.toMatchObject({code:'INVALID_CREDENTIALS'});expect(network).toHaveBeenCalledTimes(1);expect(client.authenticated).toBe(true);
   });

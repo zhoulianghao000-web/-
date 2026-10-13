@@ -9,7 +9,7 @@ from privacy_review_contract import SCHEMA_SQL,REJOIN_SQL,review_inventory,revie
 from recovery_contract import RecoveryError,bundle_files,validate_bundle,privacy_registry,retention_plan,privacy_replay_sql
 
 ROOT=Path(__file__).resolve().parents[1];LOCAL=ROOT/'.local-recovery';OUT=ROOT/'backend/target/recovery-evidence'
-SOURCE='pawday-m63-it-postgres-1';SEARCH='pawday-m63-it-opensearch-1';DB=USER='pawday_recovery_test';PG='postgres:17.9-alpine';NETWORK='pawday-m63-it_recovery'
+SOURCE='pawday-m63-it-postgres-1';SEARCH='pawday-m63-it-opensearch-1';DB=USER='pawday_recovery_test';PG='pawday-postgres:17.11-security20261013';NETWORK='pawday-m63-it_recovery'
 def run(args,*,data=None,ok=True,timeout=180):
  r=subprocess.run(args,cwd=ROOT,input=data,capture_output=True,timeout=timeout)
  if ok and r.returncode:raise RuntimeError('RECOVERY_COMMAND_FAILED:'+args[0])

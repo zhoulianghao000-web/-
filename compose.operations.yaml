@@ -1,7 +1,12 @@
 # Isolated synthetic engineering fixtures, never a production template.
 services:
   postgres:
-    image: postgres:17.9-alpine
+    image: pawday-postgres:17.11-security20261013
+    build:
+      context: .
+      dockerfile: deployment/images/alpine-runtime.Dockerfile
+      args:
+        BASE_IMAGE: postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
     environment:
       POSTGRES_DB: pawday_ops_test
       POSTGRES_USER: pawday_ops_test

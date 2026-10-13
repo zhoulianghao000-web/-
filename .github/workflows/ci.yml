@@ -56,6 +56,10 @@ jobs:
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m4.1.yaml
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m4.1.yaml -o /tmp/pawday-m41-bundled.yaml
           python openapi/validate_m41_contract.py --samples backend/target/m41-contract-samples.json --report openapi/checkout-response-report.json
+      - name: Runtime Java and locked Flutter known vulnerability gate
+        run: |
+          mvn -B -ntp -f backend/pom.xml dependency:list -DincludeScope=runtime -DoutputFile=target/security-runtime-dependencies.txt
+          python scripts/check-dependency-vulnerabilities.py --maven-dependencies backend/target/security-runtime-dependencies.txt --report backend/target/readiness-evidence/dependency-audit.json
       - name: M4.2 orders runtime and actual HTTP contract
         run: |
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m4.2.yaml

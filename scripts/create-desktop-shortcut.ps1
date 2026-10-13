@@ -1,7 +1,7 @@
 param([Parameter(Mandatory=$true)][string]$DeliveryRoot)
 $ErrorActionPreference='Stop'
 $taskRoot=(Resolve-Path -LiteralPath $DeliveryRoot).Path
-$entry=Join-Path $taskRoot 'scripts/desktop.ps1';if(-not(Test-Path -LiteralPath $entry)){throw 'Extract the complete delivery first.'}
+$entry=Join-Path $taskRoot 'scripts/launch-desktop.ps1';if(-not(Test-Path -LiteralPath $entry)){throw 'Extract the complete delivery first.'}
 $desktop=[Environment]::GetFolderPath('DesktopDirectory')
 $icon=Join-Path $taskRoot 'desktop/pawday.ico'
 Add-Type -AssemblyName System.Drawing
@@ -22,7 +22,7 @@ if(Test-Path -LiteralPath $linkPath){
 }
 $link=$shell.CreateShortcut($linkPath)
 $link.TargetPath=Join-Path $env:SystemRoot 'System32/WindowsPowerShell/v1.0/powershell.exe'
-$link.Arguments='-NoProfile -ExecutionPolicy Bypass -File "'+$entry+'" -Action Start'
+$link.Arguments='-NoProfile -ExecutionPolicy Bypass -File "'+$entry+'"'
 $link.WorkingDirectory=$taskRoot;$link.IconLocation=$icon+',0';$link.Description='PawdayV1 - local simulated engineering edition';$link.Save()
 $verified=$shell.CreateShortcut($linkPath)
 if($verified.WorkingDirectory -ne $taskRoot -or -not(Test-Path -LiteralPath $linkPath)){throw 'Shortcut verification failed'}

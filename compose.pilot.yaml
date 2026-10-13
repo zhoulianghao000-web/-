@@ -1,6 +1,11 @@
 services:
   postgres:
-    image: postgres:17.9-alpine
+    image: pawday-postgres:17.11-security20261013
+    build:
+      context: .
+      dockerfile: deployment/images/alpine-runtime.Dockerfile
+      args:
+        BASE_IMAGE: postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
     environment:
       POSTGRES_DB: ${PILOT_DB_NAME:?}
       POSTGRES_USER: pawday_pilot
@@ -17,7 +22,12 @@ services:
       timeout: 5s
       retries: 20
   redis:
-    image: redis:8.2.10-alpine
+    image: pawday-redis:8.2.10-security20261013
+    build:
+      context: .
+      dockerfile: deployment/images/alpine-runtime.Dockerfile
+      args:
+        BASE_IMAGE: redis:8.2.10-alpine@sha256:b51665e66f00759be7c3152ad5ac3c66fb2f619c13ef62dea7cc1f9914524635
     volumes:
     - redis-data:/data
     ports:
@@ -31,7 +41,12 @@ services:
       timeout: 3s
       retries: 20
   rabbitmq:
-    image: rabbitmq:4.3.6-management
+    image: pawday-rabbitmq:4.3.6-security20261013
+    build:
+      context: .
+      dockerfile: deployment/images/alpine-runtime.Dockerfile
+      args:
+        BASE_IMAGE: rabbitmq:4.3.6-management-alpine@sha256:3ef7f7e89fed709a78f79b8b5f4e30e1312a1d4089da752e23595566d9d61a95
     environment:
       RABBITMQ_DEFAULT_USER: pawday_pilot
       RABBITMQ_DEFAULT_PASS: ${PILOT_MQ_PASSWORD:?}
@@ -50,7 +65,10 @@ services:
       timeout: 5s
       retries: 30
   opensearch:
-    image: opensearchproject/opensearch:3.9.0
+    image: pawday-opensearch:3.9.0-security20261013
+    build:
+      context: .
+      dockerfile: deployment/images/opensearch.Dockerfile
     environment:
       discovery.type: single-node
       DISABLE_INSTALL_DEMO_CONFIG: 'true'

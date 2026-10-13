@@ -43,7 +43,8 @@ public class SecurityConfiguration {
                 .requestMatchers("/api/v1/merchant/**").access((a,cx)->new org.springframework.security.authorization.AuthorizationDecision(hasRealm(a.get().getPrincipal(),Actor.Realm.MERCHANT)))
                 .requestMatchers("/api/v1/admin/**").access((a,cx)->new org.springframework.security.authorization.AuthorizationDecision(hasRealm(a.get().getPrincipal(),Actor.Realm.ADMIN)))
                 .anyRequest().denyAll())
-            .addFilterBefore(filter,UsernamePasswordAuthenticationFilter.class).build();
+            .addFilterBefore(filter,UsernamePasswordAuthenticationFilter.class)
+            .addFilterAfter(new RequestSizeFilter(),UsernamePasswordAuthenticationFilter.class).build();
     }
     private static boolean hasRealm(Object principal,Actor.Realm realm) {return principal instanceof Actor actor && actor.realm()==realm;}
     private static Actor current() {var a=SecurityContextHolder.getContext().getAuthentication();return a!=null && a.getPrincipal() instanceof Actor actor?actor:null;}

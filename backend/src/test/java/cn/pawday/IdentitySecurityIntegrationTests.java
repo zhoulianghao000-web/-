@@ -30,6 +30,20 @@ import tools.jackson.databind.json.JsonMapper;
 @SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(IdentitySecurityIntegrationTests.FixtureBeans.class)
 class IdentitySecurityIntegrationTests {
+    @Test void actualHttpRejectsOversizedJsonBeforeOtpOrBusinessMutation() throws Exception {
+        long before=db.queryForObject("SELECT count(*) FROM otp_challenge",Long.class);
+        var request=HttpRequest.newBuilder(URI.create("http://127.0.0.1:"+port+"/api/v1/consumer/auth/phone/request-code"))
+            .header("Content-Type","application/json").POST(HttpRequest.BodyPublishers.ofByteArray(new byte[3*1024*1024+1])).build();
+        var response=client.send(request,HttpResponse.BodyHandlers.ofString());
+        assertEquals(413,response.statusCode());assertEquals("REQUEST_BODY_TOO_LARGE",json.readTree(response.body()).path("error").path("code").asString());
+        assertTrue(response.headers().firstValue("X-Request-Id").isPresent());assertEquals(before,db.queryForObject("SELECT count(*) FROM otp_challenge",Long.class));
+    }
+    @Test void actualChunkedJsonCannotBypassRequestLimit() throws Exception {
+        var request=HttpRequest.newBuilder(URI.create("http://127.0.0.1:"+port+"/api/v1/admin/auth/login"))
+            .header("Content-Type","application/json").POST(HttpRequest.BodyPublishers.ofInputStream(()->new java.io.ByteArrayInputStream(new byte[3*1024*1024+1]))).build();
+        var response=client.send(request,HttpResponse.BodyHandlers.ofString());assertEquals(413,response.statusCode());
+        assertEquals("REQUEST_BODY_TOO_LARGE",json.readTree(response.body()).path("error").path("code").asString());
+    }
     static final EmbeddedPostgres PG;
     static {try {PG=EmbeddedPostgres.builder().setPort(0).start();}catch(Exception e){throw new ExceptionInInitializerError(e);}}
     @DynamicPropertySource static void properties(DynamicPropertyRegistry r) {

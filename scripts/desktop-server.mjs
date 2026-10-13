@@ -6,8 +6,9 @@ import {pathToFileURL} from 'node:url';
 
 const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json','.png':'image/png','.ico':'image/x-icon','.svg':'image/svg+xml','.wasm':'application/wasm','.woff2':'font/woff2','.ttf':'font/ttf','.apk':'application/vnd.android.package-archive'};
 const inside=(base,file)=>{const rel=relative(base,file);return !rel.startsWith('..')&&!isAbsolute(rel);};
+const securityHeaders={'X-Frame-Options':'DENY','Content-Security-Policy':"frame-ancestors 'none'; base-uri 'self'; form-action 'self'",'Referrer-Policy':'no-referrer'};
 function reply(res,status,body,type='application/json; charset=utf-8'){
-  res.writeHead(status,{'Content-Type':type,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(typeof body==='string'?body:JSON.stringify(body));
+  res.writeHead(status,{'Content-Type':type,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff',...securityHeaders});res.end(typeof body==='string'?body:JSON.stringify(body));
 }
 export async function createDesktopServers({root,ports=[4172,4273,4174,4175],backendPort=8086}){
   root=await realpath(root);const servers=[];
@@ -20,6 +21,7 @@ export async function createDesktopServers({root,ports=[4172,4273,4174,4175],bac
         try{
           const port=server.address().port,host=`127.0.0.1:${port}`;
           if(req.headers.host!==host||req.headers.origin&&req.headers.origin!==`http://${host}`){reply(res,403,{error:'LOCAL_ORIGIN_REQUIRED'});return;}
+          if(['iframe','frame','object','embed'].includes(req.headers['sec-fetch-dest'])){reply(res,403,{error:'LOCAL_EMBEDDING_DENIED'});return;}
           const url=new URL(req.url,`http://${host}`);
           if(url.pathname==='/desktop-identity'){reply(res,200,{product:'PawdayV1',site,mode:'SIMULATED_PILOT',root});return;}
           if(url.pathname==='/desktop-status'){
@@ -29,12 +31,15 @@ export async function createDesktopServers({root,ports=[4172,4273,4174,4175],bac
           }
           if(site!=='portal'&&url.pathname.startsWith('/api/v1/')){
             if(!['GET','POST','PUT','PATCH','DELETE'].includes(req.method)){reply(res,405,{error:'METHOD_NOT_ALLOWED'});return;}
+            const maxBytes=req.method==='PUT'&&/^\/api\/v1\/media\/[0-9a-fA-F-]{36}\/content$/.test(url.pathname)?5*1024*1024:3*1024*1024;
+            if(Number(req.headers['content-length']??0)>maxBytes){reply(res,413,{error:'BODY_TOO_LARGE'});return;}
             const headers={...req.headers,host:`127.0.0.1:${backendPort}`};delete headers.connection;delete headers['transfer-encoding'];delete headers['content-length'];
             const upstream=http.request({hostname:'127.0.0.1',port:backendPort,path:url.pathname+url.search,method:req.method,headers,timeout:15000},r=>{
-              const safeHeaders={...r.headers,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'};delete safeHeaders.connection;
+              if(res.headersSent||res.writableEnded){r.resume();return;}
+              const safeHeaders={...r.headers,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff',...securityHeaders};delete safeHeaders.connection;
               res.writeHead(r.statusCode,safeHeaders);r.pipe(res);
             });
-            let size=0;req.on('data',chunk=>{size+=chunk.length;if(size>64*1024*1024){upstream.destroy();if(!res.headersSent)reply(res,413,{error:'BODY_TOO_LARGE'});}});
+            let size=0,rejected=false;req.on('data',chunk=>{size+=chunk.length;if(size>maxBytes&&!rejected){rejected=true;req.unpipe(upstream);upstream.destroy();if(!res.headersSent)reply(res,413,{error:'BODY_TOO_LARGE'});req.resume();}});
             upstream.on('timeout',()=>upstream.destroy());upstream.on('error',()=>{if(!res.headersSent)reply(res,502,{error:'LOCAL_BACKEND_UNAVAILABLE'});else res.destroy();});
             req.on('aborted',()=>upstream.destroy());req.pipe(upstream);return;
           }
@@ -54,7 +59,7 @@ export async function createDesktopServers({root,ports=[4172,4273,4174,4175],bac
           const allowed=site==='portal'&&path==='/consumer.apk'?resolve(root,'release/consumer.apk'):base;
           if(!actual||!(actual===allowed||inside(allowed,actual))){reply(res,404,{error:'NOT_FOUND'});return;}
           const info=await stat(actual);if(!info.isFile()){reply(res,404,{error:'NOT_FOUND'});return;}
-          res.writeHead(200,{'Content-Type':types[extname(actual)]||'application/octet-stream','Content-Length':info.size,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff',...(path==='/consumer.apk'?{'Content-Disposition':'attachment; filename="PawdayV1-Consumer-debug.apk"'}:{})});
+          res.writeHead(200,{'Content-Type':types[extname(actual)]||'application/octet-stream','Content-Length':info.size,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff',...securityHeaders,...(path==='/consumer.apk'?{'Content-Disposition':'attachment; filename="PawdayV1-Consumer-debug.apk"'}:{})});
           if(req.method==='HEAD')res.end();else createReadStream(actual).on('error',()=>res.destroy()).pipe(res);
         }catch{if(!res.headersSent)reply(res,400,{error:'INVALID_LOCAL_REQUEST'});else res.destroy();}
       });

@@ -6,11 +6,8 @@ try{$rootId=([BitConverter]::ToString($hash.ComputeHash([Text.Encoding]::UTF8.Ge
 $round='desktop-'+$rootId;$roundRoot=Join-Path $taskRoot ('.pilot/'+$round);$config=Join-Path $roundRoot 'config.env';$stateFile=Join-Path $roundRoot 'desktop-processes.json';$project='pawday-pilot-'+$round
 $node=Join-Path $taskRoot 'runtime/node/node.exe';$java=Join-Path $taskRoot 'runtime/java/bin/java.exe';$jar=Join-Path $taskRoot 'release/pawday-backend.jar'
 function Get-LocalIdentity([int]$Port){try{Invoke-RestMethod -Uri "http://127.0.0.1:$Port/desktop-identity" -TimeoutSec 2}catch{return $null}}
-function Owns-Process($Entry){
- $proc=Get-Process -Id $Entry.id -ErrorAction SilentlyContinue
- if(-not $proc){return $false}
- try{return $proc.StartTime.ToUniversalTime().ToString('o') -eq $Entry.started_at}catch{return $false}
-}
+. (Join-Path $PSScriptRoot 'desktop-lifecycle.ps1')
+function Owns-Process($Entry){return Test-PawdayOwnedProcess $Entry}
 function Read-Config{
  if(-not(Test-Path -LiteralPath $config)){throw 'Initialize this local environment first.'}
  $values=@{};foreach($line in [IO.File]::ReadAllLines($config)){$pair=$line.Split(@('='),2,[StringSplitOptions]::None);if($pair.Length -ne 2 -or $pair[0] -notmatch '^[A-Z][A-Z0-9_]*$'){throw 'Invalid private configuration'};$values[$pair[0]]=$pair[1]};return $values
@@ -31,6 +28,11 @@ if($Action -eq 'Accounts'){
 if($Action -eq 'Status'){
  foreach($port in @(4172,4273,4174,4175)){$id=Get-LocalIdentity $port;Write-Host "$port : $($id.site) $($id.mode)"};return
 }
+$lock=New-Object Threading.Mutex($false,('Local\PawdayV1-'+$rootId))
+$locked=$false
+try{
+ try{$locked=$lock.WaitOne(0)}catch [Threading.AbandonedMutexException]{$locked=$true}
+ if(-not $locked){throw 'PawdayV1 is already starting or stopping. Please wait for that operation.'}
 if($Action -eq 'Stop'){
  if(Test-Path -LiteralPath $stateFile){
   $state=Get-Content -Raw -LiteralPath $stateFile | ConvertFrom-Json
@@ -43,29 +45,38 @@ if($Action -eq 'Stop'){
 }
 foreach($file in @($node,$java,$jar,(Join-Path $taskRoot 'release/desktop-manifest.json'))){if(-not(Test-Path -LiteralPath $file)){throw 'Incomplete delivery. Extract the complete Development package.'}}
 $existing=Get-LocalIdentity 4172
-if($existing -and $existing.product -eq 'PawdayV1' -and $existing.root -eq $taskRoot){
- $status=Invoke-RestMethod -Uri 'http://127.0.0.1:4172/desktop-status' -TimeoutSec 5
- if(-not $status.healthy){throw 'Local processes exist but backend is unhealthy. Stop this delivery, check logs, then start again.'}
+$status=$null
+if($existing){try{$status=Invoke-RestMethod -Uri 'http://127.0.0.1:4172/desktop-status' -TimeoutSec 5}catch{}}
+$disposition=Get-PawdayStartDisposition $existing ([bool]($status -and $status.healthy)) $taskRoot
+if($disposition -eq 'CONFLICT'){throw 'Port 4172 belongs to another delivery. Its processes will not be stopped.'}
+if($disposition -eq 'RUNNING'){
+ foreach($port in @(4172,4273,4174,4175)){$identity=Get-LocalIdentity $port;if(-not $identity -or $identity.root -ne $taskRoot){throw 'An existing web service has a different owner.'}}
  if(-not $NoBrowser){Start-Process 'http://127.0.0.1:4172'};Write-Host 'PawdayV1 is already running.';return
 }
-foreach($port in @(8086,4172,4273,4174,4175,5546,6386,5676,9206,15676)){
- $listeners=Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue
- if($listeners){throw "Local port $port is occupied. Stop only its owning environment before retrying."}
+Start-PawdayDockerEngine
+# Recover only recorded processes belonging to this delivery, never arbitrary port owners.
+if(Test-Path -LiteralPath $stateFile){
+ $state=Get-Content -Raw -LiteralPath $stateFile | ConvertFrom-Json
+ if($state.root -ne $taskRoot){throw 'Process ownership does not match this delivery'}
+ Write-Host 'Recovering the local Pawday application...'
+ foreach($entry in $state.processes){if(Owns-Process $entry){Stop-Process -Id $entry.id -ErrorAction Stop}}
+ Remove-Item -LiteralPath $stateFile
 }
-& docker info --format '{{.ServerVersion}}' *> $null
-if($LASTEXITCODE -ne 0){throw 'Start Docker Desktop and wait for its engine before launching PawdayV1.'}
 if(-not(Test-Path -LiteralPath $config)){& (Join-Path $PSScriptRoot 'pilot-environment.ps1') -Round $round -Action Init}
 $values=Read-Config
 # Do not inherit credentials or provider addresses from another deployment.
 Get-ChildItem Env: | Where-Object Name -match '^(PAWDAY_|SPRING_|REDIS_|RABBITMQ_|OPENSEARCH_|SERVER_|PILOT_)' | ForEach-Object {[Environment]::SetEnvironmentVariable($_.Name,$null,'Process')}
 foreach($key in $values.Keys){[Environment]::SetEnvironmentVariable($key,$values[$key],'Process')}
 $env:SPRING_DATASOURCE_URL="jdbc:postgresql://127.0.0.1:5546/$($values.PILOT_DB_NAME)";$env:SPRING_DATASOURCE_PASSWORD=$values.PILOT_DB_PASSWORD;$env:RABBITMQ_PASSWORD=$values.PILOT_MQ_PASSWORD
+$ownPorts=Get-PawdayInfrastructurePorts $project (Join-Path $taskRoot 'compose.pilot.yaml')
+foreach($port in @(8086,4172,4273,4174,4175,5546,6386,5676,9206,15676)){
+ $listeners=Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue
+ if($listeners -and -not $ownPorts.ContainsKey($port)){throw "Local port $port is occupied by another process. It was not stopped."}
+}
 $processes=@();$ownedInfrastructure=$false
 Push-Location $taskRoot
 try{
  Write-Host 'Starting dedicated PostgreSQL / Redis / RabbitMQ / OpenSearch...'
- $occupied=& docker compose -p $project -f compose.pilot.yaml ps -q
- if($occupied){throw 'This project already has containers. Use its Stop command before restarting.'}
  $ownedInfrastructure=$true
  & docker compose -p $project -f compose.pilot.yaml up -d --wait --wait-timeout 300
  if($LASTEXITCODE -ne 0){throw 'Infrastructure failed health checks.'}
@@ -91,3 +102,4 @@ try{
  if($ownedInfrastructure){& docker compose -p $project -f compose.pilot.yaml down}
  throw
 }finally{Pop-Location}
+}finally{if($locked){$lock.ReleaseMutex()};$lock.Dispose()}

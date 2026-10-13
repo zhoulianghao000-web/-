@@ -119,7 +119,7 @@ def gate(commit):
         (bundle/'database.dump').write_bytes(original);verify_bundle(bundle,commit);passed('corrupt_bundle_rejected_before_restore')
         restore_started=time.monotonic();nonce=uuid.uuid4().hex;network='pawday-restore-'+nonce;target=network+'-postgres'
         run(['docker','network','create','--internal','--label','cn.pawday.restore.sandbox='+nonce,network])
-        run(['docker','run','--detach','--name',target,'--network',network,'--label','cn.pawday.restore.sandbox='+nonce,'-e','POSTGRES_DB='+DB,'-e','POSTGRES_USER='+USER,'-e','POSTGRES_PASSWORD=TEST_ONLY_RESTORE','postgres:17.9-alpine'])
+        run(['docker','run','--detach','--name',target,'--network',network,'--label','cn.pawday.restore.sandbox='+nonce,'-e','POSTGRES_DB='+DB,'-e','POSTGRES_USER='+USER,'-e','POSTGRES_PASSWORD=TEST_ONLY_RESTORE','pawday-postgres:17.11-security20261013'])
         # The image first starts a socket-only bootstrap server, then restarts it.
         # Probe TCP so bootstrap readiness cannot race the first restore query.
         wait_for(lambda:run(['docker','exec',target,'pg_isready','-h','127.0.0.1','-U',USER,'-d',DB],ok=False).returncode==0)
