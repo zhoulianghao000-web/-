@@ -37,8 +37,14 @@ final consumerRepositoryProvider = Provider(
 class AuthState {
   final Principal? principal;
   final bool restoring;
+  final bool guestBrowsing;
   final String? error;
-  const AuthState({this.principal, this.restoring = false, this.error});
+  const AuthState({
+    this.principal,
+    this.restoring = false,
+    this.guestBrowsing = false,
+    this.error,
+  });
 }
 
 final authProvider = NotifierProvider<AuthNotifier, AuthState>(
@@ -47,6 +53,12 @@ final authProvider = NotifierProvider<AuthNotifier, AuthState>(
 
 class AuthNotifier extends Notifier<AuthState> {
   int _generation = 0;
+  void continueAsGuest() {
+    if (state.restoring || state.principal != null) return;
+    ++_generation;
+    state = const AuthState(guestBrowsing: true);
+  }
+
   @override
   AuthState build() {
     final api = ref.read(consumerApiProvider);

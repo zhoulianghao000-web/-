@@ -6,6 +6,7 @@ import 'catalog_repository.dart';
 import 'catalog_screen.dart';
 import 'reference_ui.dart';
 import 'repositories.dart';
+import 'pilot.dart';
 
 final homeProductsProvider = FutureProvider.autoDispose((ref) {
   ref.watch(authProvider.select((auth) => auth.principal?.user_id));
@@ -155,61 +156,70 @@ class HomeScreen extends ConsumerWidget {
                         ],
                       ),
                       const SizedBox(height: 24),
-                      ref
-                          .watch(homeProductsProvider)
-                          .when(
-                            loading: () => const LinearProgressIndicator(),
-                            error: (_, _) => Row(
-                              children: [
-                                const Expanded(child: Text('好物暂时无法加载，请稍后重试。')),
-                                TextButton(
-                                  onPressed: () =>
-                                      ref.invalidate(homeProductsProvider),
-                                  child: const Text('重试'),
-                                ),
-                              ],
-                            ),
-                            data: (page) {
-                              final items = page.data.take(4).toList();
-                              if (items.isEmpty) {
-                                return const Padding(
-                                  padding: EdgeInsets.all(24),
-                                  child: Text('暂无在售商品，稍后再来看看。'),
-                                );
-                              }
-                              return LayoutBuilder(
-                                builder: (context, box) {
-                                  final columns = box.maxWidth > 850 ? 4 : 2;
-                                  return GridView.builder(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: items.length,
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: columns,
-                                          crossAxisSpacing: mobile ? 10 : 17,
-                                          mainAxisSpacing: 17,
-                                          mainAxisExtent: mobile ? 320 : 355,
-                                        ),
-                                    itemBuilder: (context, index) =>
-                                        ReferenceProductCard(
-                                          item: items[index],
-                                          imageIndex: index,
-                                          onOpen: () => Navigator.push(
-                                            context,
-                                            MaterialPageRoute<void>(
-                                              builder: (_) => ProductScreen(
-                                                sku: items[index].id,
+                      if (pilotMode &&
+                          ref.watch(authProvider).principal == null)
+                        GuestPreviewNotice(
+                          onLogin: () =>
+                              context.push('/auth/login?returnTo=%2Fhome'),
+                        )
+                      else
+                        ref
+                            .watch(homeProductsProvider)
+                            .when(
+                              loading: () => const LinearProgressIndicator(),
+                              error: (_, _) => Row(
+                                children: [
+                                  const Expanded(
+                                    child: Text('好物暂时无法加载，请稍后重试。'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () =>
+                                        ref.invalidate(homeProductsProvider),
+                                    child: const Text('重试'),
+                                  ),
+                                ],
+                              ),
+                              data: (page) {
+                                final items = page.data.take(4).toList();
+                                if (items.isEmpty) {
+                                  return const Padding(
+                                    padding: EdgeInsets.all(24),
+                                    child: Text('暂无在售商品，稍后再来看看。'),
+                                  );
+                                }
+                                return LayoutBuilder(
+                                  builder: (context, box) {
+                                    final columns = box.maxWidth > 850 ? 4 : 2;
+                                    return GridView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: items.length,
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: columns,
+                                            crossAxisSpacing: mobile ? 10 : 17,
+                                            mainAxisSpacing: 17,
+                                            mainAxisExtent: mobile ? 320 : 355,
+                                          ),
+                                      itemBuilder: (context, index) =>
+                                          ReferenceProductCard(
+                                            item: items[index],
+                                            imageIndex: index,
+                                            onOpen: () => Navigator.push(
+                                              context,
+                                              MaterialPageRoute<void>(
+                                                builder: (_) => ProductScreen(
+                                                  sku: items[index].id,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                  );
-                                },
-                              );
-                            },
-                          ),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
                       SizedBox(height: mobile ? 65 : 100),
                       const _BrandStory(),
                       SizedBox(height: mobile ? 55 : 75),

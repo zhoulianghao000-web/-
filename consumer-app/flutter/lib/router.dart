@@ -95,7 +95,9 @@ final routerProvider = Provider<GoRouter>((ref) {
       }
       if (state.uri.path == '/launch') return pendingLocation;
       if (auth.principal == null &&
-          ((pilotMode && state.uri.path != '/auth/login') ||
+          ((pilotMode &&
+                  !auth.guestBrowsing &&
+                  state.uri.path != '/auth/login') ||
               [
                 '/pets',
                 '/sessions',
@@ -218,8 +220,15 @@ final routerProvider = Provider<GoRouter>((ref) {
                 GoRoute(
                   path: path,
                   builder: (_, state) => path == '/nearby'
-                      ? NearbyScreen(
-                          storeId: state.uri.queryParameters['store_id'],
+                      ? Consumer(
+                          builder: (context, ref, _) =>
+                              pilotMode &&
+                                  ref.watch(authProvider).principal == null
+                              ? const GuestPreviewScreen(title: '发现身边的宠物服务')
+                              : NearbyScreen(
+                                  storeId:
+                                      state.uri.queryParameters['store_id'],
+                                ),
                         )
                       : TabScreen(path: path),
                 ),

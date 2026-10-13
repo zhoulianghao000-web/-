@@ -579,3 +579,34 @@ class ReferenceProductCard extends StatelessWidget {
     );
   }
 }
+
+class GuestPreviewNotice extends StatelessWidget {
+  final VoidCallback onLogin;
+  const GuestPreviewNotice({super.key, required this.onLogin});
+  @override
+  Widget build(BuildContext context) => Card(
+    child: Padding(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(
+            Icons.explore_outlined,
+            color: PawdayDesign.green,
+            size: 32,
+          ),
+          const SizedBox(height: 16),
+          const Text(
+            '先逛逛，慢慢了解爪日',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 12),
+          const Text('你当前以游客身份体验。测试商品和门店资料仅向指定测试账号展示，登录后可查看并管理宠物、购物车和订单。'),
+          const SizedBox(height: 20),
+          PawdayButton(onPressed: onLogin, child: const Text('登录后继续体验')),
+        ],
+      ),
+    ),
+  );
+}

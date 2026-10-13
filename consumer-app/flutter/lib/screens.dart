@@ -9,6 +9,7 @@ import 'pet_screen.dart';
 import 'catalog_screen.dart';
 import 'home_screen.dart';
 import 'reference_ui.dart';
+import 'pilot.dart';
 
 class TabShell extends StatelessWidget {
   final StatefulNavigationShell shell;
@@ -120,7 +121,12 @@ class TabScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     if (path == '/home') return const HomeScreen();
     if (path == '/pets') return const PetsScreen();
-    if (path == '/categories') return const CatalogScreen();
+    if (path == '/categories') {
+      if (pilotMode && ref.watch(authProvider).principal == null) {
+        return const GuestPreviewScreen(title: '发现适合它的好物');
+      }
+      return const CatalogScreen();
+    }
     final auth = ref.watch(authProvider), pet = ref.watch(currentPetProvider);
     final title = {
       '/home': '爪日 Pawday',
@@ -342,6 +348,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       title: const Text('手机号登录'),
+      actions: [
+        if (androidGuestSkipAvailable)
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: TextButton(
+              key: const Key('skip-phone-login'),
+              style: TextButton.styleFrom(minimumSize: const Size(64, 48)),
+              onPressed: busy
+                  ? null
+                  : () {
+                      ref.read(authProvider.notifier).continueAsGuest();
+                      context.go('/home');
+                    },
+              child: const Text('跳过'),
+            ),
+          ),
+      ],
       leading: IconButton(
         icon: const Icon(Icons.close),
         onPressed: () => context.go('/home'),
@@ -410,6 +433,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ],
             ),
           ),
+        ),
+      ),
+    ),
+  );
+}
+
+class GuestPreviewScreen extends StatelessWidget {
+  final String title;
+  const GuestPreviewScreen({super.key, required this.title});
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(title: Text(title)),
+    body: Padding(
+      padding: const EdgeInsets.all(24),
+      child: GuestPreviewNotice(
+        onLogin: () => context.push(
+          '/auth/login?returnTo=${Uri.encodeComponent(GoRouterState.of(context).uri.toString())}',
         ),
       ),
     ),
