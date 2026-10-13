@@ -220,7 +220,7 @@ class TabScreen extends ConsumerWidget {
             if (!loggedIn)
               PawdayButton(
                 onPressed: () => context.push('/auth/login?returnTo=%2Fme'),
-                child: const Text('手机号登录'),
+                child: Text(pilotMode ? '测试账号登录' : '手机号登录'),
               ),
             if (loggedIn) ...[
               ListTile(
@@ -289,17 +289,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   DateTime? nextCodeAt;
   String normalizedPhone() {
     final value = phone.text.trim();
+    if (pilotMode) return value;
     return value.startsWith('+') ? value : '+86$value';
   }
 
   Future<void> perform(Future<void> Function() action) async {
     if (busy) return;
-    if (!agreed) {
+    if (!pilotMode && !agreed) {
       setState(() => message = '请先确认同意登录及账号数据处理。');
       return;
     }
-    if (!RegExp(r'^\+[1-9][0-9]{6,14}$').hasMatch(normalizedPhone())) {
-      setState(() => message = '请输入有效手机号。');
+    if (pilotMode
+        ? normalizedPhone().isEmpty
+        : !RegExp(r'^\+[1-9][0-9]{6,14}$').hasMatch(normalizedPhone())) {
+      setState(() => message = pilotMode ? '请输入测试账号。' : '请输入有效手机号。');
       return;
     }
     setState(() {
@@ -329,8 +332,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (mounted) setState(() => message = '验证码请求已受理，请留意短信。');
   });
   Future<void> login() => perform(() async {
-    if (!RegExp(r'^\d{6}$').hasMatch(code.text)) {
-      setState(() => message = '请输入 6 位验证码。');
+    if (pilotMode
+        ? code.text.isEmpty
+        : !RegExp(r'^\d{6}$').hasMatch(code.text)) {
+      setState(() => message = pilotMode ? '请输入测试账号密码。' : '请输入 6 位验证码。');
       return;
     }
     await ref.read(authProvider.notifier).login(normalizedPhone(), code.text);
@@ -347,7 +352,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-      title: const Text('手机号登录'),
+      title: Text(pilotMode ? '测试账号登录' : '手机号登录'),
       toolbarHeight: androidGuestSkipAvailable ? 48 : kToolbarHeight,
       automaticallyImplyLeading: false,
       titleSpacing: 20,
@@ -398,36 +403,49 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 const SizedBox(height: 28),
                 TextField(
                   controller: phone,
-                  keyboardType: TextInputType.phone,
-                  autofillHints: const [AutofillHints.telephoneNumber],
-                  decoration: const InputDecoration(
-                    labelText: '手机号',
-                    hintText: '支持 +86 国际格式',
+                  keyboardType: pilotMode
+                      ? TextInputType.text
+                      : TextInputType.phone,
+                  autofillHints: pilotMode
+                      ? const [AutofillHints.username]
+                      : const [AutofillHints.telephoneNumber],
+                  decoration: InputDecoration(
+                    labelText: pilotMode ? '账号' : '手机号',
+                    hintText: pilotMode ? '请输入指定测试账号' : '支持 +86 国际格式',
                   ),
                 ),
                 const SizedBox(height: 18),
                 TextField(
                   controller: code,
-                  keyboardType: TextInputType.number,
-                  autofillHints: const [AutofillHints.oneTimeCode],
-                  maxLength: 6,
-                  decoration: const InputDecoration(labelText: '验证码'),
-                ),
-                TextButton(
-                  onPressed: busy ? null : sendCode,
-                  child: const Text('发送验证码'),
-                ),
-                CheckboxListTile(
-                  contentPadding: EdgeInsets.zero,
-                  value: agreed,
-                  onChanged: busy
-                      ? null
-                      : (value) => setState(() => agreed = value ?? false),
-                  title: const Text(
-                    '同意使用手机号创建或登录账号，并处理必要的账号与设备数据。',
-                    style: TextStyle(fontSize: 12),
+                  keyboardType: pilotMode
+                      ? TextInputType.visiblePassword
+                      : TextInputType.number,
+                  obscureText: pilotMode,
+                  autofillHints: pilotMode
+                      ? const [AutofillHints.password]
+                      : const [AutofillHints.oneTimeCode],
+                  maxLength: pilotMode ? 72 : 6,
+                  decoration: InputDecoration(
+                    labelText: pilotMode ? '密码' : '验证码',
                   ),
                 ),
+                if (!pilotMode)
+                  TextButton(
+                    onPressed: busy ? null : sendCode,
+                    child: const Text('发送验证码'),
+                  ),
+                if (!pilotMode)
+                  CheckboxListTile(
+                    contentPadding: EdgeInsets.zero,
+                    value: agreed,
+                    onChanged: busy
+                        ? null
+                        : (value) => setState(() => agreed = value ?? false),
+                    title: const Text(
+                      '同意使用手机号创建或登录账号，并处理必要的账号与设备数据。',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ),
                 if (message != null)
                   Text(
                     message!,

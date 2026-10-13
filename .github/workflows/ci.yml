@@ -142,6 +142,11 @@ jobs:
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-v1.0.7.yaml
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-v1.0.7.yaml -o /tmp/pawday-security-bundled.yaml
           python openapi/validate_security_contract.py --samples backend/target/security-request-contract-samples.json --require-coverage --report backend/target/readiness-evidence/security-response-contract.json
+      - name: Single consumer test password actual HTTP contract
+        run: |
+          npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-v1.0.9.yaml
+          npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-v1.0.9.yaml -o /tmp/pawday-consumer-test-bundled.yaml
+          python openapi/validate_consumer_test_contract.py --samples backend/target/pilot-evidence/consumer-password-http.json --require-coverage --report backend/target/readiness-evidence/consumer-password-response-contract.json
       - name: M5.4 real AMap HTTPS destination handoff
         run: python scripts/check-amap-handoff.py --samples backend/target/m54-contract-samples.json --report backend/target/infrastructure-evidence/amap-handoff.json
       - name: M6.1 production inventory and mandatory rejection gates

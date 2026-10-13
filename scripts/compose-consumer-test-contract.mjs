@@ -1,0 +1,11 @@
+import fs from 'node:fs/promises';
+import YAML from 'yaml';
+const doc=YAML.parse(await fs.readFile(new URL('../openapi/pawday-v1.0.7.yaml',import.meta.url),'utf8'));
+doc.info.version='1.0.9';doc.info.title='Pawday V1 Internal Consumer Password Login';
+const op=structuredClone(doc.paths['/merchant/auth/login'].post);
+op.operationId='post_consumer_auth_password_login';op.summary='Internal single consumer test account password login';op.tags=['consumer'];
+op.description='Only enabled with explicit local pilot configuration. Binds the one configured opaque login identifier to the existing first synthetic consumer; never sends SMS, creates a real phone account or grants staff permissions. Disabled otherwise. Ordinary or production deployment cannot enable this test mode.';
+op['x-implemented-in']='V1.0.9';op['x-internal-test-only']=true;op.requestBody.content['application/json'].schema={$ref:'#/components/schemas/StaffLogin'};
+doc.paths['/consumer/auth/password-login']={post:op};
+const output=YAML.stringify(doc,{lineWidth:0}),target=new URL('../openapi/pawday-v1.0.9.yaml',import.meta.url);
+if(process.argv.includes('--check')){if(await fs.readFile(target,'utf8')!==output)throw Error('Consumer test login contract drift');}else await fs.writeFile(target,output);

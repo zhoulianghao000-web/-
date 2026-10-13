@@ -7,6 +7,7 @@ $round='desktop-'+$rootId;$roundRoot=Join-Path $taskRoot ('.pilot/'+$round);$con
 $node=Join-Path $taskRoot 'runtime/node/node.exe';$java=Join-Path $taskRoot 'runtime/java/bin/java.exe';$jar=Join-Path $taskRoot 'release/pawday-backend.jar'
 function Get-LocalIdentity([int]$Port){try{Invoke-RestMethod -Uri "http://127.0.0.1:$Port/desktop-identity" -TimeoutSec 2}catch{return $null}}
 . (Join-Path $PSScriptRoot 'desktop-lifecycle.ps1')
+. (Join-Path $PSScriptRoot 'consumer-test-settings.ps1')
 function Owns-Process($Entry){return Test-PawdayOwnedProcess $Entry}
 function Read-Config{
  if(-not(Test-Path -LiteralPath $config)){throw 'Initialize this local environment first.'}
@@ -14,16 +15,14 @@ function Read-Config{
 }
 if($Action -eq 'Accounts'){
  $values=Read-Config
+ $taskConsumerCredential=Get-PawdayConsumerTestCredential
+ $values.PAWDAY_AUTH_CONSUMER_TEST_LOGIN=$taskConsumerCredential.UserName;$values.PAWDAY_AUTH_CONSUMER_TEST_PASSWORD=$taskConsumerCredential.GetNetworkCredential().Password
  Add-Type -AssemblyName System.Windows.Forms
  $form=New-Object Windows.Forms.Form;$form.Text='PawdayV1 - Private LOCAL test accounts';$form.Width=800;$form.Height=540;$form.StartPosition='CenterScreen'
  $text=New-Object Windows.Forms.TextBox;$text.Multiline=$true;$text.ReadOnly=$true;$text.ScrollBars='Both';$text.Dock='Fill';$text.Font=New-Object Drawing.Font('Consolas',11)
- $refresh=New-Object Windows.Forms.Button;$refresh.Text='Refresh local SMS codes';$refresh.Dock='Bottom';$refresh.Height=40
- $update={
-  $lines=@('SIMULATED LOCAL ENVIRONMENT ONLY - do not share screenshots.', '', 'Merchant: local-staff-a / local-staff-b', ('Password: '+$values.PAWDAY_DEMO_MERCHANT_PASSWORD), '', 'Admin: local-admin', ('Password: '+$values.PAWDAY_DEMO_ADMIN_PASSWORD), '', 'Consumers: +999000000001 ... +999000000020', 'Request a code in the app, then refresh this local window.', '', 'Latest LOCAL simulated SMS:')
-  $sms=Join-Path $roundRoot 'sms';if(Test-Path -LiteralPath $sms){Get-ChildItem -LiteralPath $sms -Filter '*.txt' | Sort-Object LastWriteTime -Descending | Select-Object -First 5 | ForEach-Object {$parts=[IO.File]::ReadAllLines($_.FullName);if($parts.Length -ge 2){$lines+=($parts[0]+'   '+$parts[1]+'   '+$_.LastWriteTime.ToString('HH:mm:ss'))}}}
-  $text.Lines=$lines
- }.GetNewClosure()
- $refresh.Add_Click($update);$form.Controls.Add($text);$form.Controls.Add($refresh);& $update;[void]$form.ShowDialog();return
+ $text.Lines=@('SIMULATED LOCAL ENVIRONMENT ONLY - do not share screenshots.', '', 'Merchant: local-staff-a / local-staff-b', ('Password: '+$values.PAWDAY_DEMO_MERCHANT_PASSWORD), '', 'Admin: local-admin', ('Password: '+$values.PAWDAY_DEMO_ADMIN_PASSWORD), '', ('Consumer account: '+$values.PAWDAY_AUTH_CONSUMER_TEST_LOGIN), ('Password: '+$values.PAWDAY_AUTH_CONSUMER_TEST_PASSWORD), '', 'Consumer Web and Android use this single test account. No SMS code is needed.')
+
+ $form.Controls.Add($text);[void]$form.ShowDialog();return
 }
 if($Action -eq 'Status'){
  foreach($port in @(4172,4273,4174,4175)){$id=Get-LocalIdentity $port;Write-Host "$port : $($id.site) $($id.mode)"};return
@@ -65,6 +64,8 @@ if(Test-Path -LiteralPath $stateFile){
 }
 if(-not(Test-Path -LiteralPath $config)){& (Join-Path $PSScriptRoot 'pilot-environment.ps1') -Round $round -Action Init}
 $values=Read-Config
+$taskConsumerCredential=Get-PawdayConsumerTestCredential
+$values.PAWDAY_AUTH_CONSUMER_TEST_ENABLED='true';$values.PAWDAY_AUTH_CONSUMER_TEST_LOGIN=$taskConsumerCredential.UserName;$values.PAWDAY_AUTH_CONSUMER_TEST_PASSWORD=$taskConsumerCredential.GetNetworkCredential().Password
 # Do not inherit credentials or provider addresses from another deployment.
 Get-ChildItem Env: | Where-Object Name -match '^(PAWDAY_|SPRING_|REDIS_|RABBITMQ_|OPENSEARCH_|SERVER_|PILOT_)' | ForEach-Object {[Environment]::SetEnvironmentVariable($_.Name,$null,'Process')}
 foreach($key in $values.Keys){[Environment]::SetEnvironmentVariable($key,$values[$key],'Process')}

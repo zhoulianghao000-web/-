@@ -101,6 +101,9 @@ pawday:
     access-seconds: 900
     refresh-seconds: 2592000
     reverify-seconds: 300
+    consumer-test-enabled: ${PAWDAY_AUTH_CONSUMER_TEST_ENABLED:false}
+    consumer-test-login: ${PAWDAY_AUTH_CONSUMER_TEST_LOGIN:}
+    consumer-test-password: ${PAWDAY_AUTH_CONSUMER_TEST_PASSWORD:}
     local-sms-enabled: ${PAWDAY_LOCAL_SMS_ENABLED:false}
     local-sms-directory: .local-sms
 

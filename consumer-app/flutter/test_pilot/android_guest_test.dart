@@ -14,13 +14,14 @@ import '../test/api_test.dart' as fixtures;
 class GuestRepository extends ConsumerRepository {
   int loginCalls = 0, smsCalls = 0;
   Completer<void>? sms;
+  Completer<Principal>? loginResult;
   GuestRepository(super.api);
   @override
   Future<Principal?> restore() async => null;
   @override
   Future<Principal> login(String phone, String code) async {
     loginCalls++;
-    return fixtures.principal;
+    return loginResult == null ? fixtures.principal : await loginResult!.future;
   }
 
   @override
@@ -111,9 +112,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.enterText(find.byType(TextField).first, '+999000000019');
       await tester.enterText(find.byType(TextField).last, '123456');
-      await tester.ensureVisible(find.byType(CheckboxListTile));
-      await tester.tap(find.byType(CheckboxListTile));
-      await tester.pump();
+
       await tester.ensureVisible(find.widgetWithText(FilledButton, '登录'));
       await tester.tap(find.widgetWithText(FilledButton, '登录'));
       await tester.pumpAndSettle();
@@ -146,7 +145,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.pumpWidget(app());
     await tester.pumpAndSettle();
-    expect(find.text('手机号登录'), findsOneWidget);
+    expect(find.text('测试账号登录'), findsOneWidget);
     expect(find.byKey(const Key('skip-phone-login')), findsOneWidget);
     await tester.pumpWidget(const SizedBox());
     api.dispose();
@@ -166,16 +165,17 @@ void main() {
     await tester.pumpAndSettle();
     expect(androidGuestSkipAvailable, isFalse);
     expect(find.byKey(const Key('skip-phone-login')), findsNothing);
-    expect(find.text('手机号登录'), findsOneWidget);
+    expect(find.text('测试账号登录'), findsOneWidget);
     await tester.pumpWidget(const SizedBox());
     api.dispose();
   }, variant: TargetPlatformVariant.only(TargetPlatform.iOS));
 
-  testWidgets('skip is disabled while a login request is in flight', (
+  testWidgets('skip is disabled while a password login request is in flight', (
     tester,
   ) async {
     final api = fixtures.apiWith((_) async => fixtures.ok({}));
-    final repository = GuestRepository(api)..sms = Completer<void>();
+    final repository = GuestRepository(api)
+      ..loginResult = Completer<Principal>();
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -186,13 +186,12 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    await tester.enterText(find.byType(TextField).first, '+999000000019');
-    await tester.ensureVisible(find.byType(CheckboxListTile));
-    await tester.tap(find.byType(CheckboxListTile));
-    await tester.pump();
-    await tester.ensureVisible(find.widgetWithText(TextButton, '发送验证码'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.widgetWithText(TextButton, '发送验证码'));
+    expect(find.text('发送验证码'), findsNothing);
+    expect(find.byType(CheckboxListTile), findsNothing);
+    await tester.enterText(find.byType(TextField).first, 'TEST_CONSUMER');
+    await tester.enterText(find.byType(TextField).last, 'TEST_PASSWORD');
+    await tester.ensureVisible(find.widgetWithText(FilledButton, '登录'));
+    await tester.tap(find.widgetWithText(FilledButton, '登录'));
     await tester.pump();
     expect(
       tester
@@ -200,7 +199,7 @@ void main() {
           .onPressed,
       isNull,
     );
-    repository.sms!.complete();
+    repository.loginResult!.completeError(StateError('TEST_FAILURE'));
     await tester.pumpAndSettle();
     expect(
       tester
@@ -208,6 +207,7 @@ void main() {
           .onPressed,
       isNotNull,
     );
+    expect(repository.smsCalls, 0);
     await tester.pumpWidget(const SizedBox());
     api.dispose();
   });

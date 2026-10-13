@@ -1,4 +1,4 @@
-// Generated from pawday-v1.0.7.yaml; SHA256 9046e89483798b0886e706054e5d120c609d34068d9129a2d292cf92b3f7f41b
+// Generated from pawday-v1.0.9.yaml; SHA256 d4a22ff9d021288d13cf403646e1bef65397bcc963d7d38d04806cecb364ff32
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -5014,6 +5014,26 @@ export interface paths {
         put?: never;
         /** POST /admin/purchase-requests/{id}/decision */
         post: operations["post_admin_purchase_requests__id__decision"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/auth/password-login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Internal single consumer test account password login
+         * @description Only enabled with explicit local pilot configuration. Binds the one configured opaque login identifier to the existing first synthetic consumer; never sends SMS, creates a real phone account or grants staff permissions. Disabled otherwise. Ordinary or production deployment cannot enable this test mode.
+         */
+        post: operations["post_consumer_auth_password_login"];
         delete?: never;
         options?: never;
         head?: never;
@@ -46818,6 +46838,111 @@ export interface operations {
                 };
             };
             /** @description Rejected without foreign private facts */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    post_consumer_auth_password_login: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StaffLogin"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TokensEnvelope"];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid or missing credentials */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Realm, permission or reverify denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Resource unavailable in actor scope */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Version or idempotency conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rate limited */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Dependency unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;

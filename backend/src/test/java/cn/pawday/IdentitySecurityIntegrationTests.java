@@ -30,6 +30,7 @@ import tools.jackson.databind.json.JsonMapper;
 @SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(IdentitySecurityIntegrationTests.FixtureBeans.class)
 class IdentitySecurityIntegrationTests {
+    @Test void internalConsumerPasswordLoginIsDisabledInOrdinaryDeployment(){assertEquals(403,call("POST","/consumer/auth/password-login",Map.of("login_name","TEST_CONSUMER","password","TEST_PASSWORD","device_id","TEST"),null).status());}
     @Test void actualHttpRejectsOversizedJsonBeforeOtpOrBusinessMutation() throws Exception {
         long before=db.queryForObject("SELECT count(*) FROM otp_challenge",Long.class);
         var request=HttpRequest.newBuilder(URI.create("http://127.0.0.1:"+port+"/api/v1/consumer/auth/phone/request-code"))

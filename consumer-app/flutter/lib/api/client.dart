@@ -280,6 +280,7 @@ class ConsumerApi {
         ![
           '/consumer/auth/phone/request-code',
           '/consumer/auth/phone/verify',
+          '/consumer/auth/password-login',
           '/consumer/auth/refresh',
         ].contains(path)) {
       anonymous = false;
@@ -555,13 +556,21 @@ class ConsumerApi {
     final result = TokensEnvelope.fromJson(
       await request(
         'POST',
-        ApiRoutes.post_consumer_auth_phone_verify,
+        pilotMode
+            ? "/consumer/auth/password-login"
+            : ApiRoutes.post_consumer_auth_phone_verify,
         anonymous: true,
-        body: PhoneLogin(
-          phone_e164: phone,
-          code: code,
-          device_id: await deviceId(),
-        ).toJson(),
+        body: pilotMode
+            ? {
+                "login_name": phone,
+                "password": code,
+                "device_id": await deviceId(),
+              }
+            : PhoneLogin(
+                phone_e164: phone,
+                code: code,
+                device_id: await deviceId(),
+              ).toJson(),
       ),
     );
     if (epoch != _epoch) throw const ApiFailure(401, 'SESSION_CHANGED');

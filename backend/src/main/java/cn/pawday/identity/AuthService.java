@@ -28,14 +28,21 @@ public class AuthService {
     private final cn.pawday.pilot.PilotPolicy pilot;
     private final long accessSeconds,refreshSeconds,proofSeconds;
     private final String dummyHash;
+    private final boolean consumerTestEnabled;
+    private final String consumerTestLogin,consumerTestHash;
     public AuthService(JdbcTemplate db,TransactionTemplate tx,Crypto crypto,PasswordEncoder passwords,cn.pawday.outbox.OutboxWriter outbox,Clock clock,AuditWriter audit,cn.pawday.pilot.PilotPolicy pilot,
         @Value("${pawday.auth.access-seconds:900}") long accessSeconds,
         @Value("${pawday.auth.refresh-seconds:2592000}") long refreshSeconds,
-        @Value("${pawday.auth.reverify-seconds:300}") long proofSeconds) {
+        @Value("${pawday.auth.reverify-seconds:300}") long proofSeconds,
+        @Value("${pawday.auth.consumer-test-enabled:false}") boolean consumerTestEnabled,
+        @Value("${pawday.auth.consumer-test-login:}") String consumerTestLogin,
+        @Value("${pawday.auth.consumer-test-password:}") String consumerTestPassword) {
         this.db=db;this.tx=tx;this.crypto=crypto;this.passwords=passwords;this.outbox=outbox;this.clock=clock;this.audit=audit;this.pilot=pilot;
         this.accessSeconds=accessSeconds;this.refreshSeconds=refreshSeconds;this.proofSeconds=proofSeconds;
         if(accessSeconds<1 || refreshSeconds<accessSeconds || proofSeconds<1) throw new IllegalArgumentException("Invalid auth TTL policy");
         dummyHash=passwords.encode(crypto.token());
+        if(consumerTestEnabled&&(!pilot.enabled()||consumerTestLogin.isBlank()||consumerTestPassword.isBlank()||consumerTestPassword.getBytes(java.nio.charset.StandardCharsets.UTF_8).length>72))throw new IllegalStateException("CONSUMER_TEST_LOGIN_REQUIRES_CONFIGURED_PILOT");
+        this.consumerTestEnabled=consumerTestEnabled;this.consumerTestLogin=consumerTestLogin;this.consumerTestHash=consumerTestEnabled?passwords.encode(consumerTestPassword):dummyHash;
     }
     private Timestamp now() {return Timestamp.from(clock.instant());}
     // A separate committed operation: failed authentication must not roll back abuse counters.
@@ -50,6 +57,7 @@ public class AuthService {
         if(attempts>10) throw new Failure(429,"RATE_LIMITED");
     }
     public Receipt requestCode(String phone,String purpose,Actor actor,HttpServletRequest r) {
+        if(consumerTestEnabled&&purpose.equals("LOGIN"))throw new Failure(403,"TEST_PASSWORD_LOGIN_REQUIRED");
         pilot.require("CONSUMER",phone);
         rateLimit("sms-ip:"+r.getRemoteAddr());rateLimit("sms-phone:"+phone);
         UUID session=null;
@@ -80,6 +88,7 @@ public class AuthService {
         return valid;
     }
     public Tokens consumerLogin(String phone,String code,String device,HttpServletRequest r) {
+        if(consumerTestEnabled)throw new Failure(403,"TEST_PASSWORD_LOGIN_REQUIRED");
         pilot.require("CONSUMER",phone);
         rateLimit("consumer-login:"+phone);rateLimit("login-ip:"+r.getRemoteAddr());
         Tokens result=tx.execute(s-> {
@@ -102,6 +111,23 @@ public class AuthService {
         boolean matched=passwords.matches(password,row==null?dummyHash:(String)row.get("password_hash"));
         if(row==null || !matched || !row.get("status").equals("ACTIVE")) return false;
         return true;
+    }
+    public Tokens consumerTestLogin(String login,String password,String device,HttpServletRequest r) {
+        if(!consumerTestEnabled||!pilot.enabled())throw new Failure(403,"TEST_LOGIN_DISABLED");
+        pilot.require("CONSUMER","+999000000001");
+        rateLimit("consumer-test-login:"+login);rateLimit("login-ip:"+r.getRemoteAddr());
+        boolean matched=password.getBytes(java.nio.charset.StandardCharsets.UTF_8).length<=72&&passwords.matches(password,consumerTestHash);
+        if(!matched||!consumerTestLogin.equals(login)){
+            audit.write(null,"auth.login.failed","IDENTITY",null,Map.of(),Map.of("realm","CONSUMER","method","TEST_PASSWORD"),r);
+            throw new Failure(401,"INVALID_CREDENTIALS");
+        }
+        Tokens tokens=tx.execute(s->{
+            var rows=db.queryForList("SELECT p.id,p.user_id FROM identity_principal p JOIN app_user u ON u.id=p.user_id WHERE p.realm='CONSUMER' AND p.status='ACTIVE' AND u.status='ACTIVE' AND u.deleted_at IS NULL AND u.phone_e164='+999000000001' FOR UPDATE OF p,u");
+            if(rows.size()!=1)return null;
+            var row=rows.getFirst();var value=newSession((UUID)row.get("id"),(UUID)row.get("user_id"),device);
+            audit.write(load(value.access_token()).orElseThrow(),"auth.login.succeeded","AUTH_SESSION",value.session_id().toString(),Map.of(),Map.of("realm","CONSUMER","method","TEST_PASSWORD"),r);return value;
+        });
+        if(tokens==null)throw new Failure(401,"INVALID_CREDENTIALS");return tokens;
     }
     public Tokens staffLogin(Actor.Realm realm,String login,String password,String device,HttpServletRequest r) {
         if(realm==Actor.Realm.CONSUMER) throw new Failure(403,"PERMISSION_DENIED");
@@ -134,6 +160,7 @@ public class AuthService {
               AND (p.realm<>'MERCHANT' OR m.status='ACTIVE')
             """,crypto.hash(token),now());
         if(rows.isEmpty()) return Optional.empty();var row=rows.getFirst();UUID principal=(UUID)row.get("id");
+        if(consumerTestEnabled&&"CONSUMER".equals(row.get("realm"))&&!"+999000000001".equals(row.get("phone_e164")))return Optional.empty();
         if(pilot.paused()||!pilot.allowed((String)row.get("realm"),(String)row.get(row.get("realm").equals("CONSUMER")?"phone_e164":"login_name")))return Optional.empty();
         Set<String> roles=new HashSet<>(db.queryForList("SELECT r.code FROM principal_role pr JOIN role r ON r.id=pr.role_id AND r.scope_type=pr.realm WHERE pr.principal_id=?",String.class,principal));
         Set<String> permissions=new HashSet<>(db.queryForList("SELECT DISTINCT p.code FROM principal_role pr JOIN role r ON r.id=pr.role_id AND r.scope_type=pr.realm JOIN role_permission rp ON rp.role_id=r.id JOIN permission p ON p.id=rp.permission_id WHERE pr.principal_id=?",String.class,principal));
@@ -151,6 +178,7 @@ public class AuthService {
             if(!row.get("realm").equals(realm.name())) return null;
             String identity=realm==Actor.Realm.CONSUMER?db.queryForObject("SELECT phone_e164 FROM app_user WHERE id=?",String.class,row.get("user_id")):(String)row.get("login_name");
             pilot.require(realm.name(),identity);
+            if(consumerTestEnabled&&realm==Actor.Realm.CONSUMER&&!"+999000000001".equals(identity))return null;
             UUID session=(UUID)row.get("id");
             if(!row.get("token_status").equals("ACTIVE")) {
                 db.update("UPDATE auth_session SET revoked_at=? WHERE id=?",now(),session);

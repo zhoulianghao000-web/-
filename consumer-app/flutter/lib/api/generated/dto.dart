@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 9046e89483798b0886e706054e5d120c609d34068d9129a2d292cf92b3f7f41b
+// Generated from Pawday runtime OpenAPI; SHA256 d4a22ff9d021288d13cf403646e1bef65397bcc963d7d38d04806cecb364ff32
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -9775,4 +9775,5 @@ class ApiRoutes {
   static const get_admin_purchase_requests__id__history = '/admin/purchase-requests/{id}/history';
   static const post_consumer_purchase_requests__id__cancel = '/consumer/purchase-requests/{id}/cancel';
   static const post_admin_purchase_requests__id__decision = '/admin/purchase-requests/{id}/decision';
+  static const post_consumer_auth_password_login = '/consumer/auth/password-login';
 }

@@ -30,7 +30,7 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(find.byIcon(Icons.close), findsNothing);
-      expect(tester.getRect(find.text('手机号登录')).top, lessThan(140));
+      expect(tester.getRect(find.text('测试账号登录')).top, lessThan(140));
       expect(
         tester.getRect(find.byKey(const Key('skip-phone-login'))).top,
         lessThan(140),

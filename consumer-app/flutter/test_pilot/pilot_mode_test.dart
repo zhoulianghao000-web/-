@@ -30,7 +30,7 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(find.text(pilotLabel), findsOneWidget);
-    expect(find.text('手机号登录'), findsOneWidget);
+    expect(find.text('测试账号登录'), findsOneWidget);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     api.dispose();
@@ -56,7 +56,7 @@ void main() {
         transport: MockClient((r) async {
           Object data = {};
           int status = 200;
-          if (r.url.path.endsWith('/verify')) {
+          if (r.url.path.endsWith('/password-login')) {
             expect(r.headers['Authorization'], isNull);
             data = tokens('1');
           } else if (r.url.path.endsWith('/refresh')) {

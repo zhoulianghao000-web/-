@@ -25,6 +25,8 @@ public class AuthController {
     Object code(@Valid @RequestBody CodeRequest body,HttpServletRequest r) {return Api.ok(auth.requestCode(body.phone_e164(),body.purpose(),optionalActor(),r),r);}
     @PostMapping("/consumer/auth/phone/verify")
     Object phone(@Valid @RequestBody PhoneLogin body,HttpServletRequest r) {return Api.ok(auth.consumerLogin(body.phone_e164(),body.code(),body.device_id(),r),r);}
+    @PostMapping("/consumer/auth/password-login")
+    Object consumerPassword(@Valid @RequestBody StaffLogin body,HttpServletRequest r) {return Api.ok(auth.consumerTestLogin(body.login_name(),body.password(),body.device_id(),r),r);}
     @PostMapping("/{realm:merchant|admin}/auth/login")
     Object staff(@PathVariable String realm,@Valid @RequestBody StaffLogin body,HttpServletRequest r) {return Api.ok(auth.staffLogin(realm(realm),body.login_name(),body.password(),body.device_id(),r),r);}
     @PostMapping("/{realm:consumer|merchant|admin}/auth/refresh")

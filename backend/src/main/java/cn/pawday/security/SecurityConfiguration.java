@@ -36,7 +36,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/actuator/prometheus","/actuator/metrics","/actuator/metrics/**").access((a,cx)->new org.springframework.security.authorization.AuthorizationDecision(a.get().getPrincipal()==cn.pawday.operations.ScrapeCredential.Principal.METRICS || a.get().getPrincipal() instanceof Actor actor && actor.realm()==Actor.Realm.ADMIN && actor.permissions().contains("outbox.read")))
                 .requestMatchers("/api/v1/media/**").authenticated()
                 .requestMatchers("/api/v1/public/**").permitAll()
-                .requestMatchers("/api/v1/consumer/auth/phone/request-code","/api/v1/consumer/auth/phone/verify",
+                .requestMatchers("/api/v1/consumer/auth/password-login","/api/v1/consumer/auth/phone/request-code","/api/v1/consumer/auth/phone/verify",
                     "/api/v1/merchant/auth/login","/api/v1/admin/auth/login",
                     "/api/v1/consumer/auth/refresh","/api/v1/merchant/auth/refresh","/api/v1/admin/auth/refresh").permitAll()
                 .requestMatchers("/api/v1/consumer/**").access((a,cx)->new org.springframework.security.authorization.AuthorizationDecision(hasRealm(a.get().getPrincipal(),Actor.Realm.CONSUMER)))
