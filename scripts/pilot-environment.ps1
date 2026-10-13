@@ -19,6 +19,8 @@ if($Action -eq 'Resume'){Remove-Item -LiteralPath (Join-Path $roundRoot 'PAUSED'
 foreach($line in [IO.File]::ReadAllLines($config)){$pair=$line.Split(@('='),2,[StringSplitOptions]::None);if($pair.Length -ne 2 -or $pair[0] -notmatch '^[A-Z][A-Z0-9_]*$'){throw 'Invalid pilot configuration'};[Environment]::SetEnvironmentVariable($pair[0],$pair[1],'Process')}
 $env:SPRING_DATASOURCE_URL="jdbc:postgresql://127.0.0.1:5546/$env:PILOT_DB_NAME"
 $env:SPRING_DATASOURCE_PASSWORD=$env:PILOT_DB_PASSWORD;$env:RABBITMQ_PASSWORD=$env:PILOT_MQ_PASSWORD
+. (Join-Path $PSScriptRoot 'desktop-lifecycle.ps1')
+Set-PawdayRabbitHostname $roundRoot $project
 Push-Location $taskRoot
 try {
  if($Action -eq 'Stop'){& docker compose -p $project -f compose.pilot.yaml down;if($LASTEXITCODE -ne 0){throw 'Pilot infrastructure stop failed'};return}

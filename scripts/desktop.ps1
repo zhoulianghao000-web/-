@@ -34,6 +34,7 @@ try{
  try{$locked=$lock.WaitOne(0)}catch [Threading.AbandonedMutexException]{$locked=$true}
  if(-not $locked){throw 'PawdayV1 is already starting or stopping. Please wait for that operation.'}
 if($Action -eq 'Stop'){
+ if(Test-Path -LiteralPath $config){Set-PawdayRabbitHostname $roundRoot $project}
  if(Test-Path -LiteralPath $stateFile){
   $state=Get-Content -Raw -LiteralPath $stateFile | ConvertFrom-Json
   if($state.root -ne $taskRoot){throw 'Process ownership does not match this delivery'}
@@ -67,6 +68,7 @@ $values=Read-Config
 # Do not inherit credentials or provider addresses from another deployment.
 Get-ChildItem Env: | Where-Object Name -match '^(PAWDAY_|SPRING_|REDIS_|RABBITMQ_|OPENSEARCH_|SERVER_|PILOT_)' | ForEach-Object {[Environment]::SetEnvironmentVariable($_.Name,$null,'Process')}
 foreach($key in $values.Keys){[Environment]::SetEnvironmentVariable($key,$values[$key],'Process')}
+Set-PawdayRabbitHostname $roundRoot $project
 $env:SPRING_DATASOURCE_URL="jdbc:postgresql://127.0.0.1:5546/$($values.PILOT_DB_NAME)";$env:SPRING_DATASOURCE_PASSWORD=$values.PILOT_DB_PASSWORD;$env:RABBITMQ_PASSWORD=$values.PILOT_MQ_PASSWORD
 $ownPorts=Get-PawdayInfrastructurePorts $project (Join-Path $taskRoot 'compose.pilot.yaml')
 foreach($port in @(8086,4172,4273,4174,4175,5546,6386,5676,9206,15676)){

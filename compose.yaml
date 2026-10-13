@@ -39,6 +39,7 @@ services:
       timeout: 3s
       retries: 20
   rabbitmq:
+    hostname: pawday-dev-rabbitmq
     image: pawday-rabbitmq:4.3.6-security20261013
     build:
       context: .

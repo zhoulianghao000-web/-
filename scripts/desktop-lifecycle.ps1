@@ -40,3 +40,28 @@ function Get-PawdayInfrastructurePorts([string]$Project,[string]$ComposeFile){
  }
  return $ports
 }
+function Set-PawdayRabbitHostname([string]$RoundRoot,[string]$Project){
+ $file=Join-Path $RoundRoot 'rabbitmq-hostname.txt'
+ if(Test-Path -LiteralPath $file){$name=[IO.File]::ReadAllText($file).Trim()}
+ else{
+  $engineReady=$false
+  try{& docker info --format '{{.ServerVersion}}' *> $null;$engineReady=$LASTEXITCODE -eq 0}catch{}
+  if(-not $engineReady){throw 'Docker must be ready before the legacy RabbitMQ identity can be verified.'}
+  $items=$null
+  try{$items=& docker inspect ($Project+'-rabbitmq-1') 2>$null | ConvertFrom-Json}catch{}
+  if($items){
+   $item=@($items)[0]
+   if($item.Config.Labels.'com.docker.compose.project' -ne $Project){throw 'Cannot migrate a foreign RabbitMQ identity.'}
+   $name=$item.Config.Hostname
+  }else{
+   $legacyVolume=$null
+   try{$legacyVolume=& docker volume inspect ($Project+'_rabbitmq-data') 2>$null}catch{}
+   if($legacyVolume){throw 'Legacy RabbitMQ data exists without a verified node identity. Retain its data and restore the original node before retrying.'}
+   $name='pawday-pilot-rabbitmq'
+  }
+  if($name -notmatch '^[a-zA-Z0-9][a-zA-Z0-9.-]{0,62}$'){throw 'Invalid RabbitMQ node identity.'}
+  [IO.File]::WriteAllText($file,$name,[Text.Encoding]::ASCII)
+ }
+ if($name -notmatch '^[a-zA-Z0-9][a-zA-Z0-9.-]{0,62}$'){throw 'Invalid RabbitMQ node identity.'}
+ [Environment]::SetEnvironmentVariable('PILOT_MQ_HOSTNAME',$name,'Process')
+}
