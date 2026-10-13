@@ -36,6 +36,7 @@ class IdentitySecurityIntegrationTests {
             .header("Content-Type","application/json").POST(HttpRequest.BodyPublishers.ofByteArray(new byte[3*1024*1024+1])).build();
         var response=client.send(request,HttpResponse.BodyHandlers.ofString());
         assertEquals(413,response.statusCode());assertEquals("REQUEST_BODY_TOO_LARGE",json.readTree(response.body()).path("error").path("code").asString());
+        SECURITY_SAMPLES.add(Map.of("method","post","path","/consumer/auth/phone/request-code","status",response.statusCode(),"response",json.readTree(response.body())));
         assertTrue(response.headers().firstValue("X-Request-Id").isPresent());assertEquals(before,db.queryForObject("SELECT count(*) FROM otp_challenge",Long.class));
     }
     @Test void actualChunkedJsonCannotBypassRequestLimit() throws Exception {
@@ -43,6 +44,7 @@ class IdentitySecurityIntegrationTests {
             .header("Content-Type","application/json").POST(HttpRequest.BodyPublishers.ofInputStream(()->new java.io.ByteArrayInputStream(new byte[3*1024*1024+1]))).build();
         var response=client.send(request,HttpResponse.BodyHandlers.ofString());assertEquals(413,response.statusCode());
         assertEquals("REQUEST_BODY_TOO_LARGE",json.readTree(response.body()).path("error").path("code").asString());
+        SECURITY_SAMPLES.add(Map.of("method","post","path","/admin/auth/login","status",response.statusCode(),"response",json.readTree(response.body())));
     }
     static final EmbeddedPostgres PG;
     static {try {PG=EmbeddedPostgres.builder().setPort(0).start();}catch(Exception e){throw new ExceptionInInitializerError(e);}}
@@ -53,8 +55,10 @@ class IdentitySecurityIntegrationTests {
         r.add("pawday.outbox.workers-enabled",()->false);r.add("pawday.outbox.consumer-enabled",()->false);
     }
     static final List<Map<String,Object>> SAMPLES=new CopyOnWriteArrayList<>();
+    static final List<Map<String,Object>> SECURITY_SAMPLES=new CopyOnWriteArrayList<>();
     @AfterAll static void closeDatabase() throws Exception {
         java.nio.file.Files.writeString(java.nio.file.Path.of("target/contract-samples.json"),JsonMapper.builder().build().writeValueAsString(SAMPLES));PG.close();
+        java.nio.file.Files.writeString(java.nio.file.Path.of("target/security-request-contract-samples.json"),JsonMapper.builder().build().writeValueAsString(SECURITY_SAMPLES));
     }
     static class MutableClock extends Clock {
         volatile Instant current=Instant.parse("2026-10-03T00:00:00Z");

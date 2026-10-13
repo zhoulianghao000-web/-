@@ -1,4 +1,4 @@
-// Generated from pawday-m6.8.yaml; SHA256 dc80d98039e3979e92c0a929db15c85155c7cb5fb55502628335af17b087b72a
+// Generated from pawday-v1.0.7.yaml; SHA256 9046e89483798b0886e706054e5d120c609d34068d9129a2d292cf92b3f7f41b
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -8624,8 +8624,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -8711,8 +8729,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -8798,8 +8834,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -8885,8 +8939,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -8968,8 +9040,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -9051,8 +9141,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -9134,8 +9242,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -9219,8 +9345,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -9305,8 +9449,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -9392,8 +9554,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -9479,8 +9659,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -9566,8 +9764,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -9649,8 +9865,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -9732,8 +9966,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -9815,8 +10067,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -9900,8 +10170,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -9986,8 +10274,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -10073,8 +10379,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -10160,8 +10484,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -10247,8 +10589,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -10330,8 +10690,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -10413,8 +10791,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -10496,8 +10892,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -10581,8 +10995,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -10667,8 +11099,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -10750,8 +11200,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -10835,8 +11303,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -10918,8 +11404,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -11012,8 +11516,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -11108,8 +11630,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -11193,8 +11733,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -11278,8 +11836,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -11361,8 +11937,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -11455,8 +12049,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -11542,7 +12154,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Upload maximum exceeded */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -11562,6 +12174,15 @@ export interface operations {
             };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -11649,7 +12270,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Upload maximum exceeded */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -11669,6 +12290,15 @@ export interface operations {
             };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -11759,7 +12389,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Upload maximum exceeded */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -11779,6 +12409,15 @@ export interface operations {
             };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -11862,7 +12501,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Upload maximum exceeded */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -11882,6 +12521,15 @@ export interface operations {
             };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -11965,7 +12613,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Upload maximum exceeded */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -11985,6 +12633,15 @@ export interface operations {
             };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -12066,7 +12723,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Upload maximum exceeded */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -12086,6 +12743,15 @@ export interface operations {
             };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -12176,7 +12842,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Upload maximum exceeded */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -12196,6 +12862,15 @@ export interface operations {
             };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -12286,7 +12961,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Upload maximum exceeded */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -12306,6 +12981,15 @@ export interface operations {
             };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -12396,7 +13080,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Upload maximum exceeded */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -12416,6 +13100,15 @@ export interface operations {
             };
             /** @description Rate limited */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -12497,6 +13190,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -12508,6 +13210,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -12591,6 +13302,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -12602,6 +13322,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -12683,6 +13412,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -12694,6 +13432,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -12778,6 +13525,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -12789,6 +13545,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -12876,6 +13641,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -12887,6 +13661,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -12970,6 +13753,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -12981,6 +13773,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -13067,6 +13868,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -13078,6 +13888,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -13168,6 +13987,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -13179,6 +14007,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -13265,6 +14102,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -13276,6 +14122,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -13366,6 +14221,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -13377,6 +14241,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -13458,6 +14331,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -13469,6 +14351,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -13557,6 +14448,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -13568,6 +14468,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -13656,6 +14565,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -13667,6 +14585,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -13755,6 +14682,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -13766,6 +14702,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -13854,6 +14799,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -13865,6 +14819,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -13951,6 +14914,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -13962,6 +14934,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -14048,6 +15029,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -14059,6 +15049,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -14145,6 +15144,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Request rejected */
             422: {
                 headers: {
@@ -14156,6 +15164,15 @@ export interface operations {
             };
             /** @description Request rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -14240,6 +15257,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -14251,6 +15277,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -14339,6 +15374,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -14350,6 +15394,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -14434,6 +15487,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -14445,6 +15507,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -14533,6 +15604,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -14544,6 +15624,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -14628,6 +15717,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -14639,6 +15737,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -14727,6 +15834,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -14738,6 +15854,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -14821,6 +15946,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -14832,6 +15966,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -14916,6 +16059,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -14927,6 +16079,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -15010,6 +16171,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -15021,6 +16191,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -15112,6 +16291,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -15123,6 +16311,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -15210,6 +16407,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -15221,6 +16427,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -15305,6 +16520,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -15316,6 +16540,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -15403,6 +16636,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -15414,6 +16656,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -15497,6 +16748,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -15508,6 +16768,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -15592,6 +16861,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -15603,6 +16881,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -15686,6 +16973,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -15697,6 +16993,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -15788,6 +17093,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -15799,6 +17113,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -15890,6 +17213,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -15901,6 +17233,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -15988,6 +17329,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -15999,6 +17349,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -16082,6 +17441,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -16093,6 +17461,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -16180,6 +17557,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -16191,6 +17577,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -16278,6 +17673,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -16289,6 +17693,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -16374,6 +17787,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -16385,6 +17807,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -16472,6 +17903,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -16483,6 +17923,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -16566,6 +18015,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -16577,6 +18035,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -16667,6 +18134,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -16678,6 +18154,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -16764,6 +18249,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -16775,6 +18269,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -16864,6 +18367,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -16875,6 +18387,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -16959,6 +18480,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -16970,6 +18500,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -17053,6 +18592,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -17064,6 +18612,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -17150,6 +18707,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -17161,6 +18727,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -17248,6 +18823,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -17259,6 +18843,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -17349,6 +18942,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -17360,6 +18962,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -17450,6 +19061,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -17461,6 +19081,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -17552,6 +19181,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -17563,6 +19201,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -17654,6 +19301,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -17665,6 +19321,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -17756,6 +19421,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -17767,6 +19441,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -17850,6 +19533,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected or service unavailable */
             422: {
                 headers: {
@@ -17861,6 +19553,15 @@ export interface operations {
             };
             /** @description Rejected or service unavailable */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -17944,6 +19645,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected or service unavailable */
             422: {
                 headers: {
@@ -17955,6 +19665,15 @@ export interface operations {
             };
             /** @description Rejected or service unavailable */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -18038,6 +19757,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected or service unavailable */
             422: {
                 headers: {
@@ -18049,6 +19777,15 @@ export interface operations {
             };
             /** @description Rejected or service unavailable */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -18146,6 +19883,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected or service unavailable */
             422: {
                 headers: {
@@ -18157,6 +19903,15 @@ export interface operations {
             };
             /** @description Rejected or service unavailable */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -18240,6 +19995,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected or service unavailable */
             422: {
                 headers: {
@@ -18251,6 +20015,15 @@ export interface operations {
             };
             /** @description Rejected or service unavailable */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -18334,6 +20107,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected or service unavailable */
             422: {
                 headers: {
@@ -18345,6 +20127,15 @@ export interface operations {
             };
             /** @description Rejected or service unavailable */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -18428,6 +20219,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected or service unavailable */
             422: {
                 headers: {
@@ -18439,6 +20239,15 @@ export interface operations {
             };
             /** @description Rejected or service unavailable */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -18536,6 +20345,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected or service unavailable */
             422: {
                 headers: {
@@ -18547,6 +20365,15 @@ export interface operations {
             };
             /** @description Rejected or service unavailable */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -18632,6 +20459,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected or service unavailable */
             422: {
                 headers: {
@@ -18643,6 +20479,15 @@ export interface operations {
             };
             /** @description Rejected or service unavailable */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -18728,6 +20573,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected or service unavailable */
             422: {
                 headers: {
@@ -18739,6 +20593,15 @@ export interface operations {
             };
             /** @description Rejected or service unavailable */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -18820,6 +20683,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -18840,6 +20712,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -18921,6 +20802,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -18941,6 +20831,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -19028,6 +20927,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -19048,6 +20956,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -19134,6 +21051,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -19154,6 +21080,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -19244,6 +21179,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -19264,6 +21208,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -19351,6 +21304,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -19371,6 +21333,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -19452,6 +21423,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -19472,6 +21452,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -19559,6 +21548,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -19579,6 +21577,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -19665,6 +21672,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -19685,6 +21701,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -19775,6 +21800,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -19795,6 +21829,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -19882,6 +21925,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -19902,6 +21954,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -19985,6 +22046,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -20005,6 +22075,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -20088,6 +22167,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -20108,6 +22196,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -20198,6 +22295,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -20218,6 +22324,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -20302,6 +22417,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -20322,6 +22446,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -20409,6 +22542,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -20429,6 +22571,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -20512,6 +22663,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -20532,6 +22692,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -20622,6 +22791,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -20642,6 +22820,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -20726,6 +22913,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -20746,6 +22942,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -20829,6 +23034,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -20849,6 +23063,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -20933,6 +23156,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -20953,6 +23185,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -21036,6 +23277,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -21056,6 +23306,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -21137,6 +23396,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -21157,6 +23425,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -21245,6 +23522,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -21265,6 +23551,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -21348,6 +23643,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -21368,6 +23672,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -21451,6 +23764,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -21471,6 +23793,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -21560,6 +23891,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -21580,6 +23920,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -21663,6 +24012,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -21683,6 +24041,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -21766,6 +24133,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -21786,6 +24162,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -21869,6 +24254,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -21889,6 +24283,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -21975,6 +24378,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -21995,6 +24407,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -22082,6 +24503,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -22102,6 +24532,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -22185,6 +24624,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -22205,6 +24653,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -22288,6 +24745,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -22308,6 +24774,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -22391,6 +24866,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -22411,6 +24895,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -22494,6 +24987,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -22514,6 +25016,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -22597,6 +25108,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -22617,6 +25137,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -22700,6 +25229,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -22720,6 +25258,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -22810,6 +25357,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -22830,6 +25386,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -22920,6 +25485,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -22940,6 +25514,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -23026,6 +25609,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -23046,6 +25638,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -23135,6 +25736,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -23155,6 +25765,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -23241,6 +25860,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -23261,6 +25889,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -23350,6 +25987,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -23370,6 +26016,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -23456,6 +26111,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -23476,6 +26140,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -23565,6 +26238,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -23585,6 +26267,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -23671,6 +26362,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -23691,6 +26391,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -23777,6 +26486,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -23797,6 +26515,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -23883,6 +26610,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -23903,6 +26639,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -23986,6 +26731,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -24006,6 +26760,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -24089,6 +26852,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -24109,6 +26881,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -24192,6 +26973,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -24212,6 +27002,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -24295,6 +27094,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -24315,6 +27123,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -24398,6 +27215,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -24418,6 +27244,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -24501,6 +27336,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -24521,6 +27365,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -24611,6 +27464,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -24631,6 +27493,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -24721,6 +27592,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -24741,6 +27621,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -24831,6 +27720,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -24851,6 +27749,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -24941,6 +27848,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -24961,6 +27877,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -25051,6 +27976,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -25071,6 +28005,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -25161,6 +28104,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -25181,6 +28133,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -25265,6 +28226,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -25285,6 +28255,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -25370,6 +28349,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -25390,6 +28378,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -25481,6 +28478,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -25501,6 +28507,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -25586,6 +28601,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -25606,6 +28630,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -25690,6 +28723,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -25710,6 +28752,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -25797,6 +28848,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -25817,6 +28877,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -25901,6 +28970,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -25921,6 +28999,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -26008,6 +29095,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -26028,6 +29124,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -26113,6 +29218,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -26133,6 +29247,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -26218,6 +29341,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -26238,6 +29370,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -26321,6 +29462,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -26341,6 +29491,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -26426,6 +29585,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -26446,6 +29614,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -26531,6 +29708,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -26551,6 +29737,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -26634,6 +29829,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -26654,6 +29858,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -26744,6 +29957,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -26764,6 +29986,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -26854,6 +30085,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -26874,6 +30114,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -26961,6 +30210,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -26981,6 +30239,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -27066,6 +30333,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -27086,6 +30362,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -27169,6 +30454,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -27189,6 +30483,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -27270,6 +30573,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -27290,6 +30602,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -27380,6 +30701,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -27400,6 +30730,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -27481,6 +30820,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -27501,6 +30849,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -27582,6 +30939,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -27602,6 +30968,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -27683,6 +31058,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -27703,6 +31087,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -27787,6 +31180,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -27807,6 +31209,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -27894,6 +31305,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -27914,6 +31334,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -27997,6 +31426,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -28017,6 +31455,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -28098,6 +31545,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -28118,6 +31574,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -28205,6 +31670,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -28225,6 +31699,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -28306,6 +31789,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -28326,6 +31818,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -28411,6 +31912,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -28431,6 +31941,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -28512,6 +32031,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -28532,6 +32060,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -28615,6 +32152,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -28635,6 +32181,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -28716,6 +32271,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -28736,6 +32300,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -28823,6 +32396,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -28843,6 +32425,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -28924,6 +32515,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -28944,6 +32544,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -29031,6 +32640,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -29051,6 +32669,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -29132,6 +32759,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -29152,6 +32788,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -29239,6 +32884,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -29259,6 +32913,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -29342,6 +33005,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -29362,6 +33034,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -29448,6 +33129,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -29468,6 +33158,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -29558,6 +33257,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected */
             422: {
                 headers: {
@@ -29578,6 +33286,15 @@ export interface operations {
             };
             /** @description Rejected */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -29664,7 +33381,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -29684,6 +33401,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -29770,7 +33496,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -29790,6 +33516,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -29873,7 +33608,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -29893,6 +33628,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -29976,7 +33720,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -29996,6 +33740,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -30085,7 +33838,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -30105,6 +33858,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -30188,7 +33950,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -30208,6 +33970,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -30298,7 +34069,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -30318,6 +34089,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -30402,7 +34182,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -30422,6 +34202,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -30508,7 +34297,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -30528,6 +34317,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -30611,7 +34409,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -30631,6 +34429,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -30715,7 +34522,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -30735,6 +34542,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -30821,7 +34637,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -30841,6 +34657,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -30927,7 +34752,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -30947,6 +34772,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -31032,7 +34866,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -31052,6 +34886,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -31143,7 +34986,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -31163,6 +35006,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -31244,7 +35096,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -31264,6 +35116,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -31352,7 +35213,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -31372,6 +35233,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -31457,7 +35327,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -31477,6 +35347,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -31560,7 +35439,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -31580,6 +35459,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -31665,7 +35553,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -31685,6 +35573,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -31769,7 +35666,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -31789,6 +35686,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -31876,7 +35782,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -31896,6 +35802,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -31979,7 +35894,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -31999,6 +35914,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32089,7 +36013,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -32109,6 +36033,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32199,7 +36132,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -32219,6 +36152,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32310,7 +36252,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -32330,6 +36272,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32416,7 +36367,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -32436,6 +36387,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32522,7 +36482,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -32542,6 +36502,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32626,7 +36595,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -32646,6 +36615,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32733,7 +36711,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -32753,6 +36731,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32836,7 +36823,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -32856,6 +36843,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32943,7 +36939,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -32963,6 +36959,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33052,7 +37057,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -33072,6 +37077,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33161,7 +37175,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -33181,6 +37195,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33271,7 +37294,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -33291,6 +37314,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33377,7 +37409,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -33397,6 +37429,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33481,7 +37522,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -33501,6 +37542,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33586,7 +37636,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -33606,6 +37656,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33689,7 +37748,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -33709,6 +37768,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33796,7 +37864,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -33816,6 +37884,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33905,7 +37982,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -33925,6 +38002,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34014,7 +38100,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -34034,6 +38120,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34124,7 +38219,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -34144,6 +38239,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34230,7 +38334,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -34250,6 +38354,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34334,7 +38447,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -34354,6 +38467,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34445,7 +38567,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -34465,6 +38587,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34549,7 +38680,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -34569,6 +38700,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34652,7 +38792,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -34672,6 +38812,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34759,7 +38908,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -34779,6 +38928,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34868,7 +39026,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -34888,6 +39046,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34977,7 +39144,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -34997,6 +39164,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -35087,7 +39263,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -35107,6 +39283,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -35193,7 +39378,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -35213,6 +39398,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -35297,7 +39491,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -35317,6 +39511,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -35408,7 +39611,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -35428,6 +39631,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -35513,7 +39725,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -35533,6 +39745,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -35616,7 +39837,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -35636,6 +39857,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -35717,7 +39947,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -35737,6 +39967,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -35822,7 +40061,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -35842,6 +40081,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -35923,7 +40171,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -35943,6 +40191,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36032,7 +40289,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -36052,6 +40309,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36135,7 +40401,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -36155,6 +40421,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36245,7 +40520,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -36265,6 +40540,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36349,7 +40633,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -36369,6 +40653,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36452,7 +40745,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -36472,6 +40765,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36563,7 +40865,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -36583,6 +40885,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36673,7 +40984,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -36693,6 +41004,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36776,7 +41096,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -36796,6 +41116,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36881,7 +41210,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -36901,6 +41230,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36986,7 +41324,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -37006,6 +41344,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -37087,7 +41434,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -37107,6 +41454,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -37195,7 +41551,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -37215,6 +41571,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -37296,7 +41661,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -37316,6 +41681,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -37400,7 +41774,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -37420,6 +41794,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -37507,7 +41890,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -37527,6 +41910,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -37610,7 +42002,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -37630,6 +42022,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -37715,7 +42116,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -37735,6 +42136,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -37824,7 +42234,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -37844,6 +42254,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -37927,7 +42346,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -37947,6 +42366,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38037,7 +42465,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -38057,6 +42485,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38147,7 +42584,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -38167,6 +42604,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38248,7 +42694,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -38268,6 +42714,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38349,7 +42804,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -38369,6 +42824,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38450,7 +42914,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -38470,6 +42934,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38551,7 +43024,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -38571,6 +43044,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38652,7 +43134,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -38672,6 +43154,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38760,7 +43251,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -38780,6 +43271,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38870,7 +43370,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -38890,6 +43390,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38981,7 +43490,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -39001,6 +43510,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39092,7 +43610,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -39112,6 +43630,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39203,7 +43730,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -39223,6 +43750,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39312,7 +43848,7 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
-            /** @description Rejected without leaking unpublished or private resource data */
+            /** @description Request body exceeds the bounded JSON or media policy */
             413: {
                 headers: {
                     [name: string]: unknown;
@@ -39332,6 +43868,15 @@ export interface operations {
             };
             /** @description Rejected without leaking unpublished or private resource data */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39408,6 +43953,24 @@ export interface operations {
             };
             /** @description Rejected without exposing private media */
             409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39493,6 +44056,24 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without exposing private media */
             503: {
                 headers: {
@@ -39569,8 +44150,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without leaking foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39661,8 +44260,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without leaking foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39749,8 +44366,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without leaking foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39841,8 +44476,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without leaking foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39929,8 +44582,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without leaking foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40015,8 +44686,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without leaking foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40104,8 +44793,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without leaking foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40191,8 +44898,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without leaking foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40277,8 +45002,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without leaking foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40366,8 +45109,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without leaking foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40451,8 +45212,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without leaking foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40537,8 +45316,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without leaking foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40622,8 +45419,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without leaking foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40708,8 +45523,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without leaking foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40793,8 +45626,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without leaking foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40886,8 +45737,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without leaking foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40969,8 +45838,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -41056,8 +45943,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -41145,8 +46050,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -41230,8 +46153,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -41318,8 +46259,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -41405,8 +46364,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -41490,8 +46467,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -41578,8 +46573,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -41666,8 +46679,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -41759,8 +46790,26 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorEnvelope"];
                 };
             };
+            /** @description Request body exceeds the bounded JSON or media policy */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
             /** @description Rejected without foreign private facts */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Local gateway cannot reach the backend; retry after services recover */
+            502: {
                 headers: {
                     [name: string]: unknown;
                 };

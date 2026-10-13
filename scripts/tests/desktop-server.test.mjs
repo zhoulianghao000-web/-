@@ -26,7 +26,7 @@ test('local desktop delivery serves four sites and proxies actual HTTP without i
   });
   await t.test('oversized declared and chunked JSON is rejected without killing the local service',async()=>{
    const oversized='x'.repeat(3*1024*1024+1);
-   assert.equal((await fetch(urls[1]+'/api/v1/admin/auth/login',{method:'POST',body:oversized})).status,413);
+   const response=await fetch(urls[1]+'/api/v1/admin/auth/login',{method:'POST',body:oversized});assert.equal(response.status,413);assert.equal((await response.json()).error.code,'REQUEST_BODY_TOO_LARGE');assert.equal(response.headers.get('x-pawday-environment'),'SIMULATED_PILOT');
    const chunked=new ReadableStream({start(c){c.enqueue(new TextEncoder().encode(oversized));c.close();}});
    assert.equal((await fetch(urls[1]+'/api/v1/admin/auth/login',{method:'POST',body:chunked,duplex:'half'})).status,413);
    assert.equal((await fetch(urls[0])).status,200);
@@ -49,7 +49,7 @@ test('local desktop delivery serves four sites and proxies actual HTTP without i
   await t.test('health and APK are explicit safe resources; upstream loss is visible',async()=>{
    assert.equal((await(await fetch(urls[0]+'/desktop-status')).json()).healthy,true);
    const apk=await fetch(urls[0]+'/consumer.apk');assert.equal(await apk.text(),'TEST_APK');assert.match(apk.headers.get('content-disposition'),/attachment/);
-   await new Promise(r=>backend.close(r));assert.equal((await(await fetch(urls[0]+'/desktop-status')).json()).healthy,false);assert.equal((await fetch(urls[1]+'/api/v1/consumer/me')).status,502);
+   await new Promise(r=>backend.close(r));assert.equal((await(await fetch(urls[0]+'/desktop-status')).json()).healthy,false);const failure=await fetch(urls[1]+'/api/v1/consumer/me');assert.equal(failure.status,502);const value=await failure.json();assert.equal(value.error.code,'LOCAL_BACKEND_UNAVAILABLE');assert.equal(value.error.retryable,true);assert.equal(value.meta.request_id,failure.headers.get('x-request-id'));assert.equal(failure.headers.get('x-pawday-environment'),'SIMULATED_PILOT');
   });
  }finally{await Promise.all(servers.map(s=>new Promise(r=>s.close(r))));if(backend.listening)await new Promise(r=>backend.close(r));await rm(root,{recursive:true,force:true});}
 });
