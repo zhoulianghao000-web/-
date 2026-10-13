@@ -287,8 +287,10 @@ class RabbitOutboxIT {
             await().atMost(Duration.ofSeconds(10)).until(()->liveProvider.deliveries.containsKey(challenge.toString())
                 && db.queryForObject("SELECT count(*) FROM sms_delivery WHERE id=? AND status='DELIVERED'",Integer.class,challenge)==1
                 && db.queryForObject("SELECT count(*) FROM outbox_event WHERE aggregate_id=? AND status='PUBLISHED'",Integer.class,challenge.toString())==1);
-            assertEquals("PUBLISHED",db.queryForObject("SELECT status FROM outbox_event WHERE aggregate_id=?",String.class,challenge.toString()));assertEquals("PROCESSED",db.queryForObject("SELECT status FROM processed_event",String.class));
-            assertEquals("DELIVERED",db.queryForObject("SELECT status FROM sms_delivery",String.class));assertEquals(1,liveProvider.calls.get());assertEquals(0,provider.calls.get());
+            UUID event=db.queryForObject("SELECT id FROM outbox_event WHERE aggregate_id=? AND event_type='otp.sms.requested'",UUID.class,challenge.toString());
+            assertEquals("PUBLISHED",state(event));
+            assertEquals("PROCESSED",db.queryForObject("SELECT status FROM processed_event WHERE consumer=? AND event_id=?",String.class,InboxConsumer.CONSUMER,event));
+            assertEquals("DELIVERED",db.queryForObject("SELECT status FROM sms_delivery WHERE id=?",String.class,challenge));assertEquals(1,liveProvider.calls.get());assertEquals(0,provider.calls.get());
         }
     }
 }
