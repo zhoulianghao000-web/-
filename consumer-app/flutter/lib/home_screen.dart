@@ -7,6 +7,7 @@ import 'catalog_screen.dart';
 import 'reference_ui.dart';
 import 'repositories.dart';
 import 'pilot.dart';
+import 'smart_selection_entry.dart';
 
 final homeProductsProvider = FutureProvider.autoDispose((ref) {
   ref.watch(authProvider.select((auth) => auth.principal?.user_id));
@@ -19,6 +20,8 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pet = ref.watch(currentPetProvider);
     return Scaffold(
+      floatingActionButton: const SmartSelectionEntry(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: LayoutBuilder(
         builder: (context, bounds) {
           final mobile = bounds.maxWidth <= 620;
@@ -296,6 +299,11 @@ class HomeScreen extends ConsumerWidget {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: MediaQuery.textScalerOf(context)
+                            .scale(88)
+                            .clamp(88, 176),
+                      ),
                     ],
                   ),
                 ),
@@ -448,51 +456,6 @@ class _HomeHero extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-              ),
-            ),
-            Positioned(
-              right: mobile ? 12 : 24,
-              bottom: mobile ? 12 : 25,
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(10, 10, 15, 10),
-                decoration: BoxDecoration(
-                  color: PawdayDesign.white.withValues(alpha: .94),
-                  borderRadius: BorderRadius.circular(99),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ClipOval(
-                      child: Image.asset(
-                        PawdayDesign.image('note-cat'),
-                        width: 37,
-                        height: 37,
-                        fit: BoxFit.cover,
-                        excludeFromSemantics: true,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '给每一天，加一点可爱',
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Text(
-                          '和你一起慢慢挑好物',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: PawdayDesign.muted,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
                 ),
               ),
             ),

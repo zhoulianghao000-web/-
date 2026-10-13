@@ -64,6 +64,17 @@ jobs:
       - name: Pilot build-specific no-external-launch and environment contract tests
         run: flutter test --dart-define=PAWDAY_PILOT=true test_pilot
         working-directory: consumer-app/flutter
+      - name: Restore stable internal test signing (never production signing)
+        env:
+          TEST_KEYSTORE_B64: ${{ secrets.PAWDAY_ANDROID_TEST_KEYSTORE_B64 }}
+        run: |
+          if [ -n "$TEST_KEYSTORE_B64" ]; then
+            mkdir -p "$HOME/.android"
+            printf '%s' "$TEST_KEYSTORE_B64" | base64 --decode > "$HOME/.android/debug.keystore"
+            chmod 600 "$HOME/.android/debug.keystore"
+          else
+            echo 'No internal signing secret: this runner uses an ephemeral debug key; artifact is not eligible for internal delivery.'
+          fi
       - run: flutter build apk --debug --dart-define=PAWDAY_PILOT=true --dart-define=PAWDAY_API_BASE=http://127.0.0.1:8086/api/v1
         working-directory: consumer-app/flutter
       - name: Build local pilot consumer engineering preview (not public storefront)

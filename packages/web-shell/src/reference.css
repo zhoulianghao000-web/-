@@ -65,3 +65,6 @@ article{background:var(--white);border:1px solid var(--line);border-radius:18px;
 }
 @media(max-width:620px){button,.btn-primary{padding:13px 17px;font-size:11px}}
 @media(prefers-reduced-motion:reduce){button,.btn-primary,nav a,.cards>article{transition:none}button:not(:disabled):not(.secondary):hover,button.secondary:not(:disabled):hover,.btn-primary:hover,.cards>article:hover{transform:none}}
+
+.smart-selection-entry{position:fixed;right:max(20px,env(safe-area-inset-right));bottom:calc(20px + env(safe-area-inset-bottom));z-index:40;display:flex;align-items:center;gap:12px;width:min(280px,calc(100vw - 32px));min-height:64px;padding:12px 16px;border:1px solid var(--line);border-radius:40px;background:var(--white);color:var(--ink);box-shadow:0 8px 28px rgba(38,52,45,.15)}
+.smart-selection-entry img{width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0}.smart-selection-entry>span:first-of-type{flex:1;min-width:0}.smart-selection-entry strong{display:block;font-size:15px}.smart-selection-entry small{display:block;font-size:12px;color:var(--muted)}.smart-selection-entry:focus-visible{outline:3px solid var(--orange);outline-offset:4px}.page.has-smart-selection{padding-bottom:120px}

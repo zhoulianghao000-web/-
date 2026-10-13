@@ -199,7 +199,12 @@ class PawdayButton extends StatelessWidget {
 
 class ReferenceLoginFrame extends StatelessWidget {
   final Widget child;
-  const ReferenceLoginFrame({super.key, required this.child});
+  final bool compactHeader;
+  const ReferenceLoginFrame({
+    super.key,
+    required this.child,
+    this.compactHeader = false,
+  });
   @override
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (context, box) {
@@ -208,7 +213,7 @@ class ReferenceLoginFrame extends StatelessWidget {
         PawdayDesign.image('hero-dogs'),
         fit: BoxFit.cover,
         width: double.infinity,
-        height: wide ? 650 : 155,
+        height: wide ? 650 : (compactHeader ? 96 : 155),
         semanticLabel: '一起散步的狗狗',
       );
       return Center(

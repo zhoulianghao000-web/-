@@ -348,6 +348,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       title: const Text('手机号登录'),
+      toolbarHeight: androidGuestSkipAvailable ? 48 : kToolbarHeight,
+      automaticallyImplyLeading: false,
+      titleSpacing: 20,
       actions: [
         if (androidGuestSkipAvailable)
           Padding(
@@ -365,17 +368,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ),
           ),
       ],
-      leading: IconButton(
-        icon: const Icon(Icons.close),
-        onPressed: () => context.go('/home'),
-      ),
+      leading: androidGuestSkipAvailable
+          ? null
+          : IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () => context.go('/home'),
+            ),
     ),
     body: ReferenceLoginFrame(
-      child: Center(
+      compactHeader: androidGuestSkipAvailable,
+      child: Align(
+        alignment: androidGuestSkipAvailable
+            ? Alignment.topCenter
+            : Alignment.center,
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 420),
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(28),
+            padding: EdgeInsets.all(androidGuestSkipAvailable ? 20 : 28),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
