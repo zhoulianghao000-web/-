@@ -11,6 +11,7 @@ from referencing.jsonschema import DRAFT202012
 
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--samples',type=Path)
+parser.add_argument('--disabled-samples',type=Path)
 parser.add_argument('--require-coverage',action='store_true')
 parser.add_argument('--report',type=Path,required=True)
 args=parser.parse_args()
@@ -25,6 +26,8 @@ for path,method,op in operations:
 registry=Registry().with_resource('urn:pawday:security',Resource.from_contents(spec,default_specification=DRAFT202012))
 covered=set()
 samples=json.loads(args.samples.read_text(encoding='utf8')) if args.samples else []
+if args.disabled_samples:
+    samples+=json.loads(args.disabled_samples.read_text(encoding='utf8'))
 for sample in samples:
     matches=[(path,method,op) for path,method,op in operations if method==sample['method'] and re.fullmatch(re.sub(r'\{[^}]+\}',r'[^/]+',path),sample['path'])]
     assert len(matches)==1
@@ -34,6 +37,7 @@ for sample in samples:
     covered.add((method,path,status))
 if args.require_coverage:
     assert {('post','/consumer/auth/password-login','200'),('post','/consumer/auth/password-login','401'),('post','/consumer/auth/password-login','429'),('post','/consumer/auth/password-login','503'),('post','/consumer/auth/phone/verify','403')}<=covered
+    assert ('post','/consumer/auth/password-login','403') in covered
 report={'result':'PASS','operations':len(operations),'actual_http_responses_validated':len(samples),'covered_responses':[list(x) for x in sorted(covered)]}
 args.report.parent.mkdir(parents=True,exist_ok=True);args.report.write_text(json.dumps(report,indent=2)+'\n',encoding='utf8')
 print(json.dumps(report))

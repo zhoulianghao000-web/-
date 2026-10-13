@@ -30,7 +30,14 @@ import tools.jackson.databind.json.JsonMapper;
 @SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(IdentitySecurityIntegrationTests.FixtureBeans.class)
 class IdentitySecurityIntegrationTests {
-    @Test void internalConsumerPasswordLoginIsDisabledInOrdinaryDeployment(){assertEquals(403,call("POST","/consumer/auth/password-login",Map.of("login_name","TEST_CONSUMER","password","TEST_PASSWORD","device_id","TEST"),null).status());}
+    @Test void internalConsumerPasswordLoginIsDisabledInOrdinaryDeployment() throws Exception {
+        var request=HttpRequest.newBuilder(URI.create("http://127.0.0.1:"+port+"/api/v1/consumer/auth/password-login"))
+            .header("Content-Type","application/json").POST(HttpRequest.BodyPublishers.ofString(json.writeValueAsString(Map.of("login_name","TEST_CONSUMER","password","TEST_PASSWORD","device_id","TEST")))).build();
+        var response=client.send(request,HttpResponse.BodyHandlers.ofString());assertEquals(403,response.statusCode());
+        assertEquals("TEST_LOGIN_DISABLED",json.readTree(response.body()).path("error").path("code").asString());
+        java.nio.file.Files.createDirectories(java.nio.file.Path.of("target/pilot-evidence"));
+        java.nio.file.Files.writeString(java.nio.file.Path.of("target/pilot-evidence/consumer-password-disabled-http.json"),json.writeValueAsString(List.of(Map.of("method","post","path","/consumer/auth/password-login","status",response.statusCode(),"response",json.readTree(response.body())))));
+    }
     @Test void actualHttpRejectsOversizedJsonBeforeOtpOrBusinessMutation() throws Exception {
         long before=db.queryForObject("SELECT count(*) FROM otp_challenge",Long.class);
         var request=HttpRequest.newBuilder(URI.create("http://127.0.0.1:"+port+"/api/v1/consumer/auth/phone/request-code"))
