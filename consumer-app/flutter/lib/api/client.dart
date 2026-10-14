@@ -248,6 +248,8 @@ class ConsumerApi {
         RegExp(r'^/public/nearby/places/[0-9a-f-]{36}$').hasMatch(route) ||
         route == '/public/products' ||
         route == '/public/products/facets' ||
+        RegExp(r'^/public/offers/[0-9a-f-]{36}/price-history$')
+            .hasMatch(route) ||
         route == '/public/content' ||
         RegExp(r'^/public/content/[0-9a-f-]{36}(/media/[0-9a-f-]{36})?$')
             .hasMatch(route) ||

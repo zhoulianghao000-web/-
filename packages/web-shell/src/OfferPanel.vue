@@ -2,6 +2,7 @@
 import {computed,onMounted,ref,watch} from 'vue';
 import {unwrap,type components} from '../../api-client/src';
 import {StaffSession,explainError} from './auth';
+import PriceHistoryPanel from './PriceHistoryPanel.vue';
 type Offer=components['schemas']['ManagedOffer'];
 type Adjustment=components['schemas']['InventoryAdjustmentRecord'];
 type Changes=components['schemas']['OfferPriceChanges'];
@@ -79,6 +80,7 @@ watch(()=>[identity(),props.session.state.storeId,defaultScope.value],()=>{keys.
    <form v-if="canAdjust&&selected&&selected.sale_status!=='DELISTED'" @submit.prevent="adjust"><h2>库存调整</h2><label>增减数量<input v-model="delta" inputmode="numeric" required placeholder="入库填正数，损耗填负数" /></label><label>调整原因<select v-model="reasonCode"><option value="RESTOCK">补货</option><option value="COUNT_CORRECTION">盘点纠正</option><option value="DAMAGE">损耗</option></select></label><button>提交库存调整</button></form>
    <article v-if="selected&&(canWrite||canManage)"><h2>销售状态</h2><label>操作原因<textarea v-model="reason" maxlength="2000" /></label><template v-if="canManage"><label>再次输入密码<input v-model="password" type="password" autocomplete="current-password" /></label><button v-if="!['FROZEN','DELISTED'].includes(selected.sale_status)" @click="state('freeze')">冻结报价</button><button v-if="selected.sale_status==='FROZEN'" @click="state('unfreeze')">解冻为暂停</button><button v-if="selected.sale_status!=='DELISTED'" @click="state('delist')">永久下架此报价</button></template><template v-else><button v-if="['DRAFT','PAUSED'].includes(selected.sale_status)" @click="state('activate')">上架报价</button><button v-if="selected.sale_status==='ACTIVE'" @click="state('pause')">暂停销售</button></template></article>
   </div>
+  <PriceHistoryPanel v-if="selected" :key="selected.id+':'+selected.version" :offer-id="selected.id" :realm="realm" :session="session" />
   <article v-if="selected" style="margin-top:24px"><h2>库存调整流水</h2><div class="table-wrap"><table><thead><tr><th>原因</th><th>数量变化</th><th>调整后实物</th><th>预占</th><th>库存版本</th></tr></thead><tbody><tr v-for="item in history" :key="item.id"><td>{{ item.reason_code }}</td><td>{{ item.delta_qty }}</td><td>{{ item.resulting_on_hand_qty }}</td><td>{{ item.resulting_reserved_qty }}</td><td>{{ item.resulting_version }}</td></tr></tbody></table></div></article>
  </div><p v-if="busy||loading" role="status">正在处理…</p>
 </template>

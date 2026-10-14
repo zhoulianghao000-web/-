@@ -1,4 +1,4 @@
-// Generated from pawday-v1.0.9.yaml; SHA256 d4a22ff9d021288d13cf403646e1bef65397bcc963d7d38d04806cecb364ff32
+// Generated from pawday-v2.1.yaml; SHA256 cd036eb21b667232df9cfe236ec0f898556dca1093153c7b3c6a2927ed098703
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -5040,6 +5040,74 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/public/offers/{id}/price-history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read observed quotation history */
+        get: operations["get_public_offers_id_price_history"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/offers/{id}/price-history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read observed quotation history */
+        get: operations["get_consumer_offers_id_price_history"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/offers/{id}/price-history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read observed quotation history */
+        get: operations["get_merchant_offers_id_price_history"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/offers/{id}/price-history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read observed quotation history */
+        get: operations["get_admin_offers_id_price_history"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -8566,6 +8634,47 @@ export interface components {
         };
         PurchaseRequestAckEnvelope: {
             data: components["schemas"]["PurchaseRequestAck"];
+            meta: components["schemas"]["Meta"];
+        };
+        PriceHistoryPoint: {
+            /** Format: date */
+            date: string;
+            sale_price_fen: number | null;
+            member_price_fen: number | null;
+            sale_status: ("DRAFT" | "ACTIVE" | "PAUSED" | "FROZEN" | "DELISTED") | null;
+            recorded_at: string | null;
+            publicly_recorded: boolean | null;
+        };
+        OfferPriceHistory: {
+            /** Format: uuid */
+            offer_id: string;
+            /** Format: uuid */
+            sku_id: string;
+            /** @enum {integer} */
+            days: 30 | 90;
+            /** @enum {string} */
+            timezone: "Asia/Shanghai";
+            /** @enum {string} */
+            currency: "CNY";
+            /** @enum {string} */
+            basis: "DAILY_LAST_RECORDED_QUOTATION";
+            /** Format: date-time */
+            as_of: string;
+            /** Format: date */
+            from_date: string;
+            /** Format: date */
+            to_date: string;
+            observed_from: string | null;
+            current_sale_price_fen: number;
+            current_member_price_fen: number | null;
+            offer_version: number;
+            observed_days: number;
+            lowest_recorded_daily_sale_price_fen: number | null;
+            highest_recorded_daily_sale_price_fen: number | null;
+            points: components["schemas"]["PriceHistoryPoint"][];
+        };
+        OfferPriceHistoryEnvelope: {
+            data: components["schemas"]["OfferPriceHistory"];
             meta: components["schemas"]["Meta"];
         };
     };
@@ -46943,6 +47052,390 @@ export interface operations {
                 };
             };
             /** @description Dependency unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_public_offers_id_price_history: {
+        parameters: {
+            query?: {
+                days?: 30 | 90;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 30/90 Shanghai calendar daily last recorded quotations; unknown or nonpublic prices are null, no backfilled history */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfferPriceHistoryEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_consumer_offers_id_price_history: {
+        parameters: {
+            query?: {
+                days?: 30 | 90;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 30/90 Shanghai calendar daily last recorded quotations; unknown or nonpublic prices are null, no backfilled history */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfferPriceHistoryEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_merchant_offers_id_price_history: {
+        parameters: {
+            query?: {
+                days?: 30 | 90;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 30/90 Shanghai calendar daily last recorded quotations; unknown or nonpublic prices are null, no backfilled history */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfferPriceHistoryEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_admin_offers_id_price_history: {
+        parameters: {
+            query?: {
+                days?: 30 | 90;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 30/90 Shanghai calendar daily last recorded quotations; unknown or nonpublic prices are null, no backfilled history */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfferPriceHistoryEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Rejected without disclosing foreign or nonpublic quotations */
             503: {
                 headers: {
                     [name: string]: unknown;

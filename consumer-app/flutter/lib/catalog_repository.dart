@@ -46,6 +46,14 @@ class CatalogRepository {
       ConsumerOfferListEnvelope.fromJson(
         await api.request('GET', '/public/skus/$sku/offers', anonymous: true),
       ).data;
+  Future<OfferPriceHistory> priceHistory(String offer, int days) async =>
+      OfferPriceHistoryEnvelope.fromJson(
+        await api.request(
+          'GET',
+          '/public/offers/$offer/price-history?days=$days',
+          anonymous: true,
+        ),
+      ).data;
   Future<ProductFit> fit(String sku, String pet) async =>
       ProductFitEnvelope.fromJson(
         await api.request(

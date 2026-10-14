@@ -15,6 +15,7 @@ import 'catalog_repository.dart';
 import 'repositories.dart';
 import 'pilot.dart';
 import 'pilot_product_media.dart';
+import 'price_history.dart';
 
 class CatalogScreen extends ConsumerStatefulWidget {
   const CatalogScreen({super.key});
@@ -796,28 +797,48 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
             if (offers.isEmpty) const Text('暂无在售报价'),
             for (final o in offers)
               Card(
-                child: ListTile(
-                  title: Text(o.merchant_name),
-                  onTap: o.store_id == null
-                      ? null
-                      : () => context.push(
-                          Uri(
-                            path: '/support',
-                            queryParameters: {
-                              'store_id': o.store_id!,
-                              'sku_id': widget.sku,
-                            },
-                          ).toString(),
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text(o.merchant_name),
+                      onTap: o.store_id == null
+                          ? null
+                          : () => context.push(
+                              Uri(
+                                path: '/support',
+                                queryParameters: {
+                                  'store_id': o.store_id!,
+                                  'sku_id': widget.sku,
+                                },
+                              ).toString(),
+                            ),
+                      trailing: PawdayButton(
+                        onPressed: loading || adding || !o.in_stock
+                            ? null
+                            : () => addOffer(o),
+                        child: const Text('加入购物车'),
+                      ),
+                      subtitle: Text(
+                        '¥${(o.sale_price_fen / 100).toStringAsFixed(2)} · ${o.in_stock ? '有库存' : '缺货'}\n${o.fulfillment_sla}',
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16, bottom: 8),
+                        child: OutlinedButton(
+                          onPressed: () => showDialog<void>(
+                            context: context,
+                            builder: (_) => PriceHistoryDialog(
+                              offerId: o.offer_id,
+                              merchantName: o.merchant_name,
+                            ),
+                          ),
+                          child: const Text('查看价格记录'),
                         ),
-                  trailing: PawdayButton(
-                    onPressed: loading || adding || !o.in_stock
-                        ? null
-                        : () => addOffer(o),
-                    child: const Text('加入购物车'),
-                  ),
-                  subtitle: Text(
-                    '¥${(o.sale_price_fen / 100).toStringAsFixed(2)} · ${o.in_stock ? '有库存' : '缺货'}\n${o.fulfillment_sla}',
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             const Text('报价不含尚未确认的运费与优惠。'),

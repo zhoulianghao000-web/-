@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 d4a22ff9d021288d13cf403646e1bef65397bcc963d7d38d04806cecb364ff32
+// Generated from Pawday runtime OpenAPI; SHA256 cd036eb21b667232df9cfe236ec0f898556dca1093153c7b3c6a2927ed098703
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -9443,6 +9443,105 @@ class PurchaseRequestAckEnvelope {
   };
 }
 
+class PriceHistoryPoint {
+  final String date;
+  final int? sale_price_fen;
+  final int? member_price_fen;
+  final String? sale_status;
+  final String? recorded_at;
+  final bool? publicly_recorded;
+  const PriceHistoryPoint({required this.date, required this.sale_price_fen, required this.member_price_fen, required this.sale_status, required this.recorded_at, required this.publicly_recorded});
+  factory PriceHistoryPoint.fromJson(Map<String,dynamic> json) => PriceHistoryPoint(
+    date: json['date'] as String,
+    sale_price_fen: json['sale_price_fen'] == null ? null : (json['sale_price_fen'] as num).toInt(),
+    member_price_fen: json['member_price_fen'] == null ? null : (json['member_price_fen'] as num).toInt(),
+    sale_status: json['sale_status'] == null ? null : json['sale_status'] as String,
+    recorded_at: json['recorded_at'] == null ? null : json['recorded_at'] as String,
+    publicly_recorded: json['publicly_recorded'] == null ? null : json['publicly_recorded'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'date': date,
+    'sale_price_fen': sale_price_fen == null ? null : sale_price_fen!,
+    'member_price_fen': member_price_fen == null ? null : member_price_fen!,
+    'sale_status': sale_status == null ? null : sale_status!,
+    'recorded_at': recorded_at == null ? null : recorded_at!,
+    'publicly_recorded': publicly_recorded == null ? null : publicly_recorded!,
+  };
+}
+
+class OfferPriceHistory {
+  final String offer_id;
+  final String sku_id;
+  final int days;
+  final String timezone;
+  final String currency;
+  final String basis;
+  final String as_of;
+  final String from_date;
+  final String to_date;
+  final String? observed_from;
+  final int current_sale_price_fen;
+  final int? current_member_price_fen;
+  final int offer_version;
+  final int observed_days;
+  final int? lowest_recorded_daily_sale_price_fen;
+  final int? highest_recorded_daily_sale_price_fen;
+  final List<PriceHistoryPoint> points;
+  const OfferPriceHistory({required this.offer_id, required this.sku_id, required this.days, required this.timezone, required this.currency, required this.basis, required this.as_of, required this.from_date, required this.to_date, required this.observed_from, required this.current_sale_price_fen, required this.current_member_price_fen, required this.offer_version, required this.observed_days, required this.lowest_recorded_daily_sale_price_fen, required this.highest_recorded_daily_sale_price_fen, required this.points});
+  factory OfferPriceHistory.fromJson(Map<String,dynamic> json) => OfferPriceHistory(
+    offer_id: json['offer_id'] as String,
+    sku_id: json['sku_id'] as String,
+    days: (json['days'] as num).toInt(),
+    timezone: json['timezone'] as String,
+    currency: json['currency'] as String,
+    basis: json['basis'] as String,
+    as_of: json['as_of'] as String,
+    from_date: json['from_date'] as String,
+    to_date: json['to_date'] as String,
+    observed_from: json['observed_from'] == null ? null : json['observed_from'] as String,
+    current_sale_price_fen: (json['current_sale_price_fen'] as num).toInt(),
+    current_member_price_fen: json['current_member_price_fen'] == null ? null : (json['current_member_price_fen'] as num).toInt(),
+    offer_version: (json['offer_version'] as num).toInt(),
+    observed_days: (json['observed_days'] as num).toInt(),
+    lowest_recorded_daily_sale_price_fen: json['lowest_recorded_daily_sale_price_fen'] == null ? null : (json['lowest_recorded_daily_sale_price_fen'] as num).toInt(),
+    highest_recorded_daily_sale_price_fen: json['highest_recorded_daily_sale_price_fen'] == null ? null : (json['highest_recorded_daily_sale_price_fen'] as num).toInt(),
+    points: (json['points'] as List).map((value) => PriceHistoryPoint.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'offer_id': offer_id,
+    'sku_id': sku_id,
+    'days': days,
+    'timezone': timezone,
+    'currency': currency,
+    'basis': basis,
+    'as_of': as_of,
+    'from_date': from_date,
+    'to_date': to_date,
+    'observed_from': observed_from == null ? null : observed_from!,
+    'current_sale_price_fen': current_sale_price_fen,
+    'current_member_price_fen': current_member_price_fen == null ? null : current_member_price_fen!,
+    'offer_version': offer_version,
+    'observed_days': observed_days,
+    'lowest_recorded_daily_sale_price_fen': lowest_recorded_daily_sale_price_fen == null ? null : lowest_recorded_daily_sale_price_fen!,
+    'highest_recorded_daily_sale_price_fen': highest_recorded_daily_sale_price_fen == null ? null : highest_recorded_daily_sale_price_fen!,
+    'points': points.map((value) => value.toJson()).toList(),
+  };
+}
+
+class OfferPriceHistoryEnvelope {
+  final OfferPriceHistory data;
+  final Meta meta;
+  const OfferPriceHistoryEnvelope({required this.data, required this.meta});
+  factory OfferPriceHistoryEnvelope.fromJson(Map<String,dynamic> json) => OfferPriceHistoryEnvelope(
+    data: OfferPriceHistory.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -9776,4 +9875,8 @@ class ApiRoutes {
   static const post_consumer_purchase_requests__id__cancel = '/consumer/purchase-requests/{id}/cancel';
   static const post_admin_purchase_requests__id__decision = '/admin/purchase-requests/{id}/decision';
   static const post_consumer_auth_password_login = '/consumer/auth/password-login';
+  static const get_public_offers_id_price_history = '/public/offers/{id}/price-history';
+  static const get_consumer_offers_id_price_history = '/consumer/offers/{id}/price-history';
+  static const get_merchant_offers_id_price_history = '/merchant/offers/{id}/price-history';
+  static const get_admin_offers_id_price_history = '/admin/offers/{id}/price-history';
 }

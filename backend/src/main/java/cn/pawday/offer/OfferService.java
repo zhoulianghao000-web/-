@@ -60,6 +60,7 @@ public class OfferService {
   boolean more=rows.size()>limit;var data=rows.stream().limit(limit).map(this::snapshot).toList();return new Page(data,more?data.getLast().get("id").toString():null,more);
  }
  public Map<String,Object> get(Actor a,boolean admin,UUID offer){permission(a,admin,admin?"offer.admin.read":"offer.read");return tx.execute(s->snapshot(row(a,offer,true)));}
+ public Map<String,Object> historyAccess(Actor a,boolean admin,UUID offer){permission(a,admin,admin?"offer.admin.read":"offer.read");return row(a,offer,false);}
  public Map<String,Object> create(Actor a,Map<String,Object>b,String key,HttpServletRequest r){
   permission(a,false,"offer.write");fields(b,"store_id","sku_id","sale_price_fen","member_price_fen","fulfillment_sla");UUID store=b.get("store_id")==null?null:id(b.get("store_id")),sku=id(b.get("sku_id"));scope(a,a.merchantId(),store);prices(b.get("sale_price_fen"),b.get("member_price_fen"));String sla=text(b.get("fulfillment_sla"),500);
   return commands.command(a,"offer.create",key,b,()->{
