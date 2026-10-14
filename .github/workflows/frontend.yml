@@ -72,11 +72,20 @@ jobs:
             mkdir -p "$HOME/.android"
             printf '%s' "$TEST_KEYSTORE_B64" | base64 --decode > "$HOME/.android/debug.keystore"
             chmod 600 "$HOME/.android/debug.keystore"
+            echo "PAWDAY_TEST_KEYSTORE=$HOME/.android/debug.keystore" >> "$GITHUB_ENV"
           else
             echo 'No internal signing secret: this runner uses an ephemeral debug key; artifact is not eligible for internal delivery.'
           fi
       - run: flutter build apk --debug --dart-define=PAWDAY_PILOT=true --dart-define=PAWDAY_API_BASE=http://127.0.0.1:8086/api/v1
         working-directory: consumer-app/flutter
+      - name: Verify actual APK uses the configured internal certificate
+        if: env.PAWDAY_TEST_KEYSTORE != ''
+        working-directory: consumer-app/flutter
+        run: |
+          signer=$(find "$ANDROID_HOME/build-tools" -name apksigner | sort -V | tail -n 1)
+          expected=$(keytool -exportcert -keystore "$PAWDAY_TEST_KEYSTORE" -alias AndroidDebugKey -storepass android 2>/dev/null | sha256sum | cut -d ' ' -f 1)
+          actual=$("$signer" verify --print-certs build/app/outputs/flutter-apk/app-debug.apk | sed -n 's/^Signer #1 certificate SHA-256 digest: //p')
+          test -n "$expected" && test "$actual" = "$expected"
       - name: Build local pilot consumer engineering preview (not public storefront)
         run: flutter build web --profile --no-web-resources-cdn --dart-define=PAWDAY_PILOT=true --dart-define=PAWDAY_API_BASE=http://127.0.0.1:4175/api/v1
         working-directory: consumer-app/flutter
