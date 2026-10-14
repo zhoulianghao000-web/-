@@ -1,0 +1,37 @@
+import fs from 'node:fs/promises';
+import YAML from 'yaml';
+const doc=YAML.parse(await fs.readFile(new URL('../openapi/pawday-v2.1.yaml',import.meta.url),'utf8'));
+doc.info.title='Pawday V2.2 Household Care';doc.info.version='2.0.2';
+const s=doc.components.schemas,ref=n=>({$ref:`#/components/schemas/${n}`}),nil=x=>({anyOf:[x,{type:'null'}]}),obj=p=>({type:'object',additionalProperties:false,properties:p,required:Object.keys(p)}),uuid={type:'string',format:'uuid'},time={type:'string',format:'date-time'},date={type:'string',format:'date'},str={type:'string'},v={type:'integer',minimum:0},role={type:'string',enum:['VIEWER','CAREGIVER']},token={type:'string',minLength:43,maxLength:43,pattern:'^[A-Za-z0-9_-]{43}$'},kind={type:'string',enum:['FEEDING','WALK','GROOMING','NOTE']};
+s.HouseholdPet=structuredClone(s.Pet);delete s.HouseholdPet.properties.photo_asset_id;s.HouseholdPet.required=s.HouseholdPet.required.filter(x=>x!=='photo_asset_id');s.HouseholdPet.properties.share_role={type:'string',enum:['OWNER','VIEWER','CAREGIVER']};s.HouseholdPet.required=Object.keys(s.HouseholdPet.properties);
+s.HouseholdMember=obj({user_id:uuid,role,status:{type:'string',enum:['ACTIVE','REVOKED','LEFT']},version:v,joined_at:time,ended_at:nil(time)});
+s.HouseholdInvite=obj({id:uuid,role,status:{type:'string',enum:['PENDING','ACCEPTED','REVOKED','EXPIRED']},expires_at:time,created_at:time});
+s.HouseholdTask=obj({id:uuid,title:str,due_on:date,status:{type:'string',enum:['OPEN','DONE','CANCELLED']},created_by:uuid,completed_by:nil(uuid),version:v,created_at:time,ended_at:nil(time)});
+s.HouseholdEntry=obj({id:uuid,actor_user_id:uuid,kind,note:str,recorded_on:date,created_at:time});
+const arr=n=>({type:'array',items:ref(n)});
+s.HouseholdOverview=obj({pet:ref('HouseholdPet'),members:arr('HouseholdMember'),invites:arr('HouseholdInvite'),tasks:arr('HouseholdTask'),entries:arr('HouseholdEntry')});
+s.HouseholdInviteRequest=obj({role});s.HouseholdAcceptRequest=obj({invite_token:token});
+s.HouseholdInviteGrant=obj({id:uuid,role,expires_at:time,invite_token:token});s.HouseholdAccepted=obj({pet_id:uuid,role});
+s.HouseholdTaskRequest=obj({title:{type:'string',minLength:1,maxLength:160},due_on:date});s.HouseholdFinishRequest=obj({status:{type:'string',enum:['DONE','CANCELLED']}});
+s.HouseholdTaskResult=obj({id:uuid,version:v,status:{type:'string',enum:['OPEN','DONE','CANCELLED']}});
+s.HouseholdEntryRequest=obj({kind,note:{type:'string',minLength:1,maxLength:2000},recorded_on:date});s.HouseholdEntryResult=obj({id:uuid,actor_user_id:uuid,kind});
+s.HouseholdRevokeResult=obj({id:uuid,status:{type:'string',enum:['REVOKED']}});s.HouseholdEndMember=obj({user_id:uuid,version:v,status:{type:'string',enum:['REVOKED','LEFT']}});
+for(const n of ['HouseholdPet','HouseholdOverview','HouseholdInviteGrant','HouseholdAccepted','HouseholdTaskResult','HouseholdEntryResult','HouseholdRevokeResult','HouseholdEndMember'])s[n+'Envelope']=obj({data:ref(n),meta:ref('Meta')});
+s.HouseholdPetsEnvelope=obj({data:arr('HouseholdPet'),page:ref('Page'),meta:ref('Meta')});
+function add(path,method,out,body,status=200,version=false){
+ const parameters=[...path.matchAll(/\{([^}]+)\}/g)].map(m=>({name:m[1],in:'path',required:true,schema:uuid}));
+ if(method==='post')parameters.push({name:'Idempotency-Key',in:'header',required:true,schema:{type:'string',minLength:16,maxLength:128}});
+ if(version)parameters.push({name:'If-Match',in:'header',required:true,schema:{type:'string',pattern:'^"[0-9]+"$'}});
+ const responses={[status]:{description:'Authorized pet-specific household command/read; excludes commerce, private media and AI',content:{'application/json':{schema:ref(out)}}}};
+ for(const code of [400,401,403,404,409,413,429,502,503])responses[code]={description:'Fail closed; stale grants and version conflicts are rejected',content:{'application/json':{schema:ref('ErrorEnvelope')}}};
+ doc.paths[path]??={};doc.paths[path][method]={operationId:method+path.replace(/[{}]/g,'').replaceAll('/','_'),tags:['consumer'],summary:'Household pet care',security:[{consumerBearer:[]}],parameters,responses,'x-implemented-in':'V2.2',...(body?{requestBody:{required:true,content:{'application/json':{schema:ref(body)}}}}:{})};
+}
+const p='/consumer/household/pets/{pet}';
+add('/consumer/household/pets','get','HouseholdPetsEnvelope');doc.paths['/consumer/household/pets'].get.parameters=[{name:'cursor',in:'query',schema:uuid},{name:'limit',in:'query',schema:{type:'integer',minimum:1,maximum:100,default:50}}];add(p,'get','HouseholdOverviewEnvelope');
+add(p+'/invites','post','HouseholdInviteGrantEnvelope','HouseholdInviteRequest',201);
+add('/consumer/household/accept','post','HouseholdAcceptedEnvelope','HouseholdAcceptRequest');
+add(p+'/invites/{id}/revoke','post','HouseholdRevokeResultEnvelope');add(p+'/members/{user}/revoke','post','HouseholdEndMemberEnvelope',null,200,true);
+add(p+'/leave','post','HouseholdEndMemberEnvelope',null,200,true);add(p+'/tasks','post','HouseholdTaskResultEnvelope','HouseholdTaskRequest',201);
+add(p+'/tasks/{id}/finish','post','HouseholdTaskResultEnvelope','HouseholdFinishRequest',200,true);add(p+'/entries','post','HouseholdEntryResultEnvelope','HouseholdEntryRequest',201);
+const output=YAML.stringify(doc,{lineWidth:0}),target=new URL('../openapi/pawday-v2.2.yaml',import.meta.url);
+if(process.argv.includes('--check')){if(await fs.readFile(target,'utf8')!==output)throw Error('V2.2 household contract drift');}else await fs.writeFile(target,output);

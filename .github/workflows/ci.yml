@@ -154,6 +154,9 @@ jobs:
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-v2.1.yaml
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-v2.1.yaml -o /tmp/pawday-v21.yaml
           python openapi/validate_v21_contract.py --samples backend/target/v21-contract-samples.json --report backend/target/readiness-evidence/v21-price-history.json
+          npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-v2.2.yaml
+          npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-v2.2.yaml -o /tmp/pawday-v22.yaml
+          python openapi/validate_v22_contract.py --samples backend/target/v22-contract-samples.json --report backend/target/readiness-evidence/v22-household.json
       - name: M6.1 production inventory and mandatory rejection gates
         run: |
           python -m unittest discover -s scripts/tests -v

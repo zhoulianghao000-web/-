@@ -147,6 +147,14 @@ class PetsScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 24),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: PawdayButton(
+                      onPressed: () => context.push('/household'),
+                      child: const Text('家庭照顾'),
+                    ),
+                  ),
                   const SizedBox(height: 32),
                   result.when(
                     loading: () =>

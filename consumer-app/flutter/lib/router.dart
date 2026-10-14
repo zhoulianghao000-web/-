@@ -15,6 +15,7 @@ import 'publishing_screen.dart';
 import 'support_screen.dart';
 import 'ai_screen.dart';
 import 'care_screen.dart';
+import 'household_screen.dart';
 import 'invoice_screen.dart';
 import 'favorites_screen.dart';
 import 'purchase_request_screen.dart';
@@ -27,6 +28,7 @@ String safeReturnTo(String? value) {
     '/nearby',
     '/me',
     '/sessions',
+    '/household',
     '/pet-food',
     '/favorites',
     '/invoices',
@@ -101,6 +103,7 @@ final routerProvider = Provider<GoRouter>((ref) {
               [
                 '/pets',
                 '/sessions',
+                '/household',
                 '/pet-food',
                 '/favorites',
                 '/invoices',
@@ -125,6 +128,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
+      GoRoute(path: '/household', builder: (_, _) => const HouseholdScreen()),
       GoRoute(
         path: '/pet-food',
         builder: (_, state) =>

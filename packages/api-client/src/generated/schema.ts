@@ -1,4 +1,4 @@
-// Generated from pawday-v2.1.yaml; SHA256 cd036eb21b667232df9cfe236ec0f898556dca1093153c7b3c6a2927ed098703
+// Generated from pawday-v2.2.yaml; SHA256 7250253b947f028c18feb2f7b61de0571a60804641886aabbaebbc6c68e2c9d9
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -5108,6 +5108,176 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/consumer/household/pets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Household pet care */
+        get: operations["get_consumer_household_pets"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/household/pets/{pet}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Household pet care */
+        get: operations["get_consumer_household_pets_pet"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/household/pets/{pet}/invites": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Household pet care */
+        post: operations["post_consumer_household_pets_pet_invites"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/household/accept": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Household pet care */
+        post: operations["post_consumer_household_accept"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/household/pets/{pet}/invites/{id}/revoke": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Household pet care */
+        post: operations["post_consumer_household_pets_pet_invites_id_revoke"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/household/pets/{pet}/members/{user}/revoke": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Household pet care */
+        post: operations["post_consumer_household_pets_pet_members_user_revoke"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/household/pets/{pet}/leave": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Household pet care */
+        post: operations["post_consumer_household_pets_pet_leave"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/household/pets/{pet}/tasks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Household pet care */
+        post: operations["post_consumer_household_pets_pet_tasks"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/household/pets/{pet}/tasks/{id}/finish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Household pet care */
+        post: operations["post_consumer_household_pets_pet_tasks_id_finish"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/household/pets/{pet}/entries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Household pet care */
+        post: operations["post_consumer_household_pets_pet_entries"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -8675,6 +8845,191 @@ export interface components {
         };
         OfferPriceHistoryEnvelope: {
             data: components["schemas"]["OfferPriceHistory"];
+            meta: components["schemas"]["Meta"];
+        };
+        HouseholdPet: {
+            name: string;
+            species_id: string;
+            breed_id: string | null;
+            birth_date: string | null;
+            age_estimate_months: number | null;
+            /** @enum {string} */
+            sex: "MALE" | "FEMALE" | "UNKNOWN";
+            /** @enum {string} */
+            neutered_status: "YES" | "NO" | "UNKNOWN";
+            allergens: components["schemas"]["AllergenEntry"][];
+            avoidance_notes: string[];
+            id: string;
+            /** Format: int64 */
+            version: number;
+            life_stage_id: string | null;
+            life_stage_unknown: boolean;
+            /** @description Owner supplied breed/type label, mutually exclusive with breed_id. Not verified taxonomy or medical evidence. */
+            custom_breed_name: string | null;
+            /** @enum {string} */
+            share_role: "OWNER" | "VIEWER" | "CAREGIVER";
+        };
+        HouseholdMember: {
+            /** Format: uuid */
+            user_id: string;
+            /** @enum {string} */
+            role: "VIEWER" | "CAREGIVER";
+            /** @enum {string} */
+            status: "ACTIVE" | "REVOKED" | "LEFT";
+            version: number;
+            /** Format: date-time */
+            joined_at: string;
+            ended_at: string | null;
+        };
+        HouseholdInvite: {
+            /** Format: uuid */
+            id: string;
+            /** @enum {string} */
+            role: "VIEWER" | "CAREGIVER";
+            /** @enum {string} */
+            status: "PENDING" | "ACCEPTED" | "REVOKED" | "EXPIRED";
+            /** Format: date-time */
+            expires_at: string;
+            /** Format: date-time */
+            created_at: string;
+        };
+        HouseholdTask: {
+            /** Format: uuid */
+            id: string;
+            title: string;
+            /** Format: date */
+            due_on: string;
+            /** @enum {string} */
+            status: "OPEN" | "DONE" | "CANCELLED";
+            /** Format: uuid */
+            created_by: string;
+            completed_by: string | null;
+            version: number;
+            /** Format: date-time */
+            created_at: string;
+            ended_at: string | null;
+        };
+        HouseholdEntry: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            actor_user_id: string;
+            /** @enum {string} */
+            kind: "FEEDING" | "WALK" | "GROOMING" | "NOTE";
+            note: string;
+            /** Format: date */
+            recorded_on: string;
+            /** Format: date-time */
+            created_at: string;
+        };
+        HouseholdOverview: {
+            pet: components["schemas"]["HouseholdPet"];
+            members: components["schemas"]["HouseholdMember"][];
+            invites: components["schemas"]["HouseholdInvite"][];
+            tasks: components["schemas"]["HouseholdTask"][];
+            entries: components["schemas"]["HouseholdEntry"][];
+        };
+        HouseholdInviteRequest: {
+            /** @enum {string} */
+            role: "VIEWER" | "CAREGIVER";
+        };
+        HouseholdAcceptRequest: {
+            invite_token: string;
+        };
+        HouseholdInviteGrant: {
+            /** Format: uuid */
+            id: string;
+            /** @enum {string} */
+            role: "VIEWER" | "CAREGIVER";
+            /** Format: date-time */
+            expires_at: string;
+            invite_token: string;
+        };
+        HouseholdAccepted: {
+            /** Format: uuid */
+            pet_id: string;
+            /** @enum {string} */
+            role: "VIEWER" | "CAREGIVER";
+        };
+        HouseholdTaskRequest: {
+            title: string;
+            /** Format: date */
+            due_on: string;
+        };
+        HouseholdFinishRequest: {
+            /** @enum {string} */
+            status: "DONE" | "CANCELLED";
+        };
+        HouseholdTaskResult: {
+            /** Format: uuid */
+            id: string;
+            version: number;
+            /** @enum {string} */
+            status: "OPEN" | "DONE" | "CANCELLED";
+        };
+        HouseholdEntryRequest: {
+            /** @enum {string} */
+            kind: "FEEDING" | "WALK" | "GROOMING" | "NOTE";
+            note: string;
+            /** Format: date */
+            recorded_on: string;
+        };
+        HouseholdEntryResult: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            actor_user_id: string;
+            /** @enum {string} */
+            kind: "FEEDING" | "WALK" | "GROOMING" | "NOTE";
+        };
+        HouseholdRevokeResult: {
+            /** Format: uuid */
+            id: string;
+            /** @enum {string} */
+            status: "REVOKED";
+        };
+        HouseholdEndMember: {
+            /** Format: uuid */
+            user_id: string;
+            version: number;
+            /** @enum {string} */
+            status: "REVOKED" | "LEFT";
+        };
+        HouseholdPetEnvelope: {
+            data: components["schemas"]["HouseholdPet"];
+            meta: components["schemas"]["Meta"];
+        };
+        HouseholdOverviewEnvelope: {
+            data: components["schemas"]["HouseholdOverview"];
+            meta: components["schemas"]["Meta"];
+        };
+        HouseholdInviteGrantEnvelope: {
+            data: components["schemas"]["HouseholdInviteGrant"];
+            meta: components["schemas"]["Meta"];
+        };
+        HouseholdAcceptedEnvelope: {
+            data: components["schemas"]["HouseholdAccepted"];
+            meta: components["schemas"]["Meta"];
+        };
+        HouseholdTaskResultEnvelope: {
+            data: components["schemas"]["HouseholdTaskResult"];
+            meta: components["schemas"]["Meta"];
+        };
+        HouseholdEntryResultEnvelope: {
+            data: components["schemas"]["HouseholdEntryResult"];
+            meta: components["schemas"]["Meta"];
+        };
+        HouseholdRevokeResultEnvelope: {
+            data: components["schemas"]["HouseholdRevokeResult"];
+            meta: components["schemas"]["Meta"];
+        };
+        HouseholdEndMemberEnvelope: {
+            data: components["schemas"]["HouseholdEndMember"];
+            meta: components["schemas"]["Meta"];
+        };
+        HouseholdPetsEnvelope: {
+            data: components["schemas"]["HouseholdPet"][];
+            page: components["schemas"]["Page"];
             meta: components["schemas"]["Meta"];
         };
     };
@@ -47436,6 +47791,1077 @@ export interface operations {
                 };
             };
             /** @description Rejected without disclosing foreign or nonpublic quotations */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_consumer_household_pets: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized pet-specific household command/read; excludes commerce, private media and AI */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HouseholdPetsEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    get_consumer_household_pets_pet: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                pet: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized pet-specific household command/read; excludes commerce, private media and AI */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HouseholdOverviewEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    post_consumer_household_pets_pet_invites: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                pet: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["HouseholdInviteRequest"];
+            };
+        };
+        responses: {
+            /** @description Authorized pet-specific household command/read; excludes commerce, private media and AI */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HouseholdInviteGrantEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    post_consumer_household_accept: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["HouseholdAcceptRequest"];
+            };
+        };
+        responses: {
+            /** @description Authorized pet-specific household command/read; excludes commerce, private media and AI */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HouseholdAcceptedEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    post_consumer_household_pets_pet_invites_id_revoke: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                pet: string;
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized pet-specific household command/read; excludes commerce, private media and AI */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HouseholdRevokeResultEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    post_consumer_household_pets_pet_members_user_revoke: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+            };
+            path: {
+                pet: string;
+                user: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized pet-specific household command/read; excludes commerce, private media and AI */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HouseholdEndMemberEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    post_consumer_household_pets_pet_leave: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+            };
+            path: {
+                pet: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Authorized pet-specific household command/read; excludes commerce, private media and AI */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HouseholdEndMemberEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    post_consumer_household_pets_pet_tasks: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                pet: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["HouseholdTaskRequest"];
+            };
+        };
+        responses: {
+            /** @description Authorized pet-specific household command/read; excludes commerce, private media and AI */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HouseholdTaskResultEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    post_consumer_household_pets_pet_tasks_id_finish: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+            };
+            path: {
+                pet: string;
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["HouseholdFinishRequest"];
+            };
+        };
+        responses: {
+            /** @description Authorized pet-specific household command/read; excludes commerce, private media and AI */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HouseholdTaskResultEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    post_consumer_household_pets_pet_entries: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                pet: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["HouseholdEntryRequest"];
+            };
+        };
+        responses: {
+            /** @description Authorized pet-specific household command/read; excludes commerce, private media and AI */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HouseholdEntryResultEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Fail closed; stale grants and version conflicts are rejected */
             503: {
                 headers: {
                     [name: string]: unknown;

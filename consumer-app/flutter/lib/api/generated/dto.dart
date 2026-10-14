@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 cd036eb21b667232df9cfe236ec0f898556dca1093153c7b3c6a2927ed098703
+// Generated from Pawday runtime OpenAPI; SHA256 7250253b947f028c18feb2f7b61de0571a60804641886aabbaebbc6c68e2c9d9
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -9542,6 +9542,484 @@ class OfferPriceHistoryEnvelope {
   };
 }
 
+class HouseholdPet {
+  final String name;
+  final String species_id;
+  final String? breed_id;
+  final String? birth_date;
+  final int? age_estimate_months;
+  final String sex;
+  final String neutered_status;
+  final List<AllergenEntry> allergens;
+  final List<String> avoidance_notes;
+  final String id;
+  final int version;
+  final String? life_stage_id;
+  final bool life_stage_unknown;
+  final String? custom_breed_name;
+  final String share_role;
+  const HouseholdPet({required this.name, required this.species_id, required this.breed_id, required this.birth_date, required this.age_estimate_months, required this.sex, required this.neutered_status, required this.allergens, required this.avoidance_notes, required this.id, required this.version, required this.life_stage_id, required this.life_stage_unknown, required this.custom_breed_name, required this.share_role});
+  factory HouseholdPet.fromJson(Map<String,dynamic> json) => HouseholdPet(
+    name: json['name'] as String,
+    species_id: json['species_id'] as String,
+    breed_id: json['breed_id'] == null ? null : json['breed_id'] as String,
+    birth_date: json['birth_date'] == null ? null : json['birth_date'] as String,
+    age_estimate_months: json['age_estimate_months'] == null ? null : (json['age_estimate_months'] as num).toInt(),
+    sex: json['sex'] as String,
+    neutered_status: json['neutered_status'] as String,
+    allergens: (json['allergens'] as List).map((value) => AllergenEntry.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    avoidance_notes: (json['avoidance_notes'] as List).map((value) => value as String).toList(),
+    id: json['id'] as String,
+    version: (json['version'] as num).toInt(),
+    life_stage_id: json['life_stage_id'] == null ? null : json['life_stage_id'] as String,
+    life_stage_unknown: json['life_stage_unknown'] as bool,
+    custom_breed_name: json['custom_breed_name'] == null ? null : json['custom_breed_name'] as String,
+    share_role: json['share_role'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'name': name,
+    'species_id': species_id,
+    'breed_id': breed_id == null ? null : breed_id!,
+    'birth_date': birth_date == null ? null : birth_date!,
+    'age_estimate_months': age_estimate_months == null ? null : age_estimate_months!,
+    'sex': sex,
+    'neutered_status': neutered_status,
+    'allergens': allergens.map((value) => value.toJson()).toList(),
+    'avoidance_notes': avoidance_notes.map((value) => value).toList(),
+    'id': id,
+    'version': version,
+    'life_stage_id': life_stage_id == null ? null : life_stage_id!,
+    'life_stage_unknown': life_stage_unknown,
+    'custom_breed_name': custom_breed_name == null ? null : custom_breed_name!,
+    'share_role': share_role,
+  };
+}
+
+class HouseholdMember {
+  final String user_id;
+  final String role;
+  final String status;
+  final int version;
+  final String joined_at;
+  final String? ended_at;
+  const HouseholdMember({required this.user_id, required this.role, required this.status, required this.version, required this.joined_at, required this.ended_at});
+  factory HouseholdMember.fromJson(Map<String,dynamic> json) => HouseholdMember(
+    user_id: json['user_id'] as String,
+    role: json['role'] as String,
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+    joined_at: json['joined_at'] as String,
+    ended_at: json['ended_at'] == null ? null : json['ended_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'user_id': user_id,
+    'role': role,
+    'status': status,
+    'version': version,
+    'joined_at': joined_at,
+    'ended_at': ended_at == null ? null : ended_at!,
+  };
+}
+
+class HouseholdInvite {
+  final String id;
+  final String role;
+  final String status;
+  final String expires_at;
+  final String created_at;
+  const HouseholdInvite({required this.id, required this.role, required this.status, required this.expires_at, required this.created_at});
+  factory HouseholdInvite.fromJson(Map<String,dynamic> json) => HouseholdInvite(
+    id: json['id'] as String,
+    role: json['role'] as String,
+    status: json['status'] as String,
+    expires_at: json['expires_at'] as String,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'role': role,
+    'status': status,
+    'expires_at': expires_at,
+    'created_at': created_at,
+  };
+}
+
+class HouseholdTask {
+  final String id;
+  final String title;
+  final String due_on;
+  final String status;
+  final String created_by;
+  final String? completed_by;
+  final int version;
+  final String created_at;
+  final String? ended_at;
+  const HouseholdTask({required this.id, required this.title, required this.due_on, required this.status, required this.created_by, required this.completed_by, required this.version, required this.created_at, required this.ended_at});
+  factory HouseholdTask.fromJson(Map<String,dynamic> json) => HouseholdTask(
+    id: json['id'] as String,
+    title: json['title'] as String,
+    due_on: json['due_on'] as String,
+    status: json['status'] as String,
+    created_by: json['created_by'] as String,
+    completed_by: json['completed_by'] == null ? null : json['completed_by'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+    ended_at: json['ended_at'] == null ? null : json['ended_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'title': title,
+    'due_on': due_on,
+    'status': status,
+    'created_by': created_by,
+    'completed_by': completed_by == null ? null : completed_by!,
+    'version': version,
+    'created_at': created_at,
+    'ended_at': ended_at == null ? null : ended_at!,
+  };
+}
+
+class HouseholdEntry {
+  final String id;
+  final String actor_user_id;
+  final String kind;
+  final String note;
+  final String recorded_on;
+  final String created_at;
+  const HouseholdEntry({required this.id, required this.actor_user_id, required this.kind, required this.note, required this.recorded_on, required this.created_at});
+  factory HouseholdEntry.fromJson(Map<String,dynamic> json) => HouseholdEntry(
+    id: json['id'] as String,
+    actor_user_id: json['actor_user_id'] as String,
+    kind: json['kind'] as String,
+    note: json['note'] as String,
+    recorded_on: json['recorded_on'] as String,
+    created_at: json['created_at'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'actor_user_id': actor_user_id,
+    'kind': kind,
+    'note': note,
+    'recorded_on': recorded_on,
+    'created_at': created_at,
+  };
+}
+
+class HouseholdOverview {
+  final HouseholdPet pet;
+  final List<HouseholdMember> members;
+  final List<HouseholdInvite> invites;
+  final List<HouseholdTask> tasks;
+  final List<HouseholdEntry> entries;
+  const HouseholdOverview({required this.pet, required this.members, required this.invites, required this.tasks, required this.entries});
+  factory HouseholdOverview.fromJson(Map<String,dynamic> json) => HouseholdOverview(
+    pet: HouseholdPet.fromJson(Map<String,dynamic>.from(json['pet'] as Map)),
+    members: (json['members'] as List).map((value) => HouseholdMember.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    invites: (json['invites'] as List).map((value) => HouseholdInvite.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    tasks: (json['tasks'] as List).map((value) => HouseholdTask.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    entries: (json['entries'] as List).map((value) => HouseholdEntry.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'pet': pet.toJson(),
+    'members': members.map((value) => value.toJson()).toList(),
+    'invites': invites.map((value) => value.toJson()).toList(),
+    'tasks': tasks.map((value) => value.toJson()).toList(),
+    'entries': entries.map((value) => value.toJson()).toList(),
+  };
+}
+
+class HouseholdInviteRequest {
+  final String role;
+  const HouseholdInviteRequest({required this.role});
+  factory HouseholdInviteRequest.fromJson(Map<String,dynamic> json) => HouseholdInviteRequest(
+    role: json['role'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'role': role,
+  };
+}
+
+class HouseholdAcceptRequest {
+  final String invite_token;
+  const HouseholdAcceptRequest({required this.invite_token});
+  factory HouseholdAcceptRequest.fromJson(Map<String,dynamic> json) => HouseholdAcceptRequest(
+    invite_token: json['invite_token'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'invite_token': invite_token,
+  };
+}
+
+class HouseholdInviteGrant {
+  final String id;
+  final String role;
+  final String expires_at;
+  final String invite_token;
+  const HouseholdInviteGrant({required this.id, required this.role, required this.expires_at, required this.invite_token});
+  factory HouseholdInviteGrant.fromJson(Map<String,dynamic> json) => HouseholdInviteGrant(
+    id: json['id'] as String,
+    role: json['role'] as String,
+    expires_at: json['expires_at'] as String,
+    invite_token: json['invite_token'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'role': role,
+    'expires_at': expires_at,
+    'invite_token': invite_token,
+  };
+}
+
+class HouseholdAccepted {
+  final String pet_id;
+  final String role;
+  const HouseholdAccepted({required this.pet_id, required this.role});
+  factory HouseholdAccepted.fromJson(Map<String,dynamic> json) => HouseholdAccepted(
+    pet_id: json['pet_id'] as String,
+    role: json['role'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'pet_id': pet_id,
+    'role': role,
+  };
+}
+
+class HouseholdTaskRequest {
+  final String title;
+  final String due_on;
+  const HouseholdTaskRequest({required this.title, required this.due_on});
+  factory HouseholdTaskRequest.fromJson(Map<String,dynamic> json) => HouseholdTaskRequest(
+    title: json['title'] as String,
+    due_on: json['due_on'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'title': title,
+    'due_on': due_on,
+  };
+}
+
+class HouseholdFinishRequest {
+  final String status;
+  const HouseholdFinishRequest({required this.status});
+  factory HouseholdFinishRequest.fromJson(Map<String,dynamic> json) => HouseholdFinishRequest(
+    status: json['status'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'status': status,
+  };
+}
+
+class HouseholdTaskResult {
+  final String id;
+  final int version;
+  final String status;
+  const HouseholdTaskResult({required this.id, required this.version, required this.status});
+  factory HouseholdTaskResult.fromJson(Map<String,dynamic> json) => HouseholdTaskResult(
+    id: json['id'] as String,
+    version: (json['version'] as num).toInt(),
+    status: json['status'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'version': version,
+    'status': status,
+  };
+}
+
+class HouseholdEntryRequest {
+  final String kind;
+  final String note;
+  final String recorded_on;
+  const HouseholdEntryRequest({required this.kind, required this.note, required this.recorded_on});
+  factory HouseholdEntryRequest.fromJson(Map<String,dynamic> json) => HouseholdEntryRequest(
+    kind: json['kind'] as String,
+    note: json['note'] as String,
+    recorded_on: json['recorded_on'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'kind': kind,
+    'note': note,
+    'recorded_on': recorded_on,
+  };
+}
+
+class HouseholdEntryResult {
+  final String id;
+  final String actor_user_id;
+  final String kind;
+  const HouseholdEntryResult({required this.id, required this.actor_user_id, required this.kind});
+  factory HouseholdEntryResult.fromJson(Map<String,dynamic> json) => HouseholdEntryResult(
+    id: json['id'] as String,
+    actor_user_id: json['actor_user_id'] as String,
+    kind: json['kind'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'actor_user_id': actor_user_id,
+    'kind': kind,
+  };
+}
+
+class HouseholdRevokeResult {
+  final String id;
+  final String status;
+  const HouseholdRevokeResult({required this.id, required this.status});
+  factory HouseholdRevokeResult.fromJson(Map<String,dynamic> json) => HouseholdRevokeResult(
+    id: json['id'] as String,
+    status: json['status'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'status': status,
+  };
+}
+
+class HouseholdEndMember {
+  final String user_id;
+  final int version;
+  final String status;
+  const HouseholdEndMember({required this.user_id, required this.version, required this.status});
+  factory HouseholdEndMember.fromJson(Map<String,dynamic> json) => HouseholdEndMember(
+    user_id: json['user_id'] as String,
+    version: (json['version'] as num).toInt(),
+    status: json['status'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'user_id': user_id,
+    'version': version,
+    'status': status,
+  };
+}
+
+class HouseholdPetEnvelope {
+  final HouseholdPet data;
+  final Meta meta;
+  const HouseholdPetEnvelope({required this.data, required this.meta});
+  factory HouseholdPetEnvelope.fromJson(Map<String,dynamic> json) => HouseholdPetEnvelope(
+    data: HouseholdPet.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class HouseholdOverviewEnvelope {
+  final HouseholdOverview data;
+  final Meta meta;
+  const HouseholdOverviewEnvelope({required this.data, required this.meta});
+  factory HouseholdOverviewEnvelope.fromJson(Map<String,dynamic> json) => HouseholdOverviewEnvelope(
+    data: HouseholdOverview.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class HouseholdInviteGrantEnvelope {
+  final HouseholdInviteGrant data;
+  final Meta meta;
+  const HouseholdInviteGrantEnvelope({required this.data, required this.meta});
+  factory HouseholdInviteGrantEnvelope.fromJson(Map<String,dynamic> json) => HouseholdInviteGrantEnvelope(
+    data: HouseholdInviteGrant.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class HouseholdAcceptedEnvelope {
+  final HouseholdAccepted data;
+  final Meta meta;
+  const HouseholdAcceptedEnvelope({required this.data, required this.meta});
+  factory HouseholdAcceptedEnvelope.fromJson(Map<String,dynamic> json) => HouseholdAcceptedEnvelope(
+    data: HouseholdAccepted.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class HouseholdTaskResultEnvelope {
+  final HouseholdTaskResult data;
+  final Meta meta;
+  const HouseholdTaskResultEnvelope({required this.data, required this.meta});
+  factory HouseholdTaskResultEnvelope.fromJson(Map<String,dynamic> json) => HouseholdTaskResultEnvelope(
+    data: HouseholdTaskResult.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class HouseholdEntryResultEnvelope {
+  final HouseholdEntryResult data;
+  final Meta meta;
+  const HouseholdEntryResultEnvelope({required this.data, required this.meta});
+  factory HouseholdEntryResultEnvelope.fromJson(Map<String,dynamic> json) => HouseholdEntryResultEnvelope(
+    data: HouseholdEntryResult.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class HouseholdRevokeResultEnvelope {
+  final HouseholdRevokeResult data;
+  final Meta meta;
+  const HouseholdRevokeResultEnvelope({required this.data, required this.meta});
+  factory HouseholdRevokeResultEnvelope.fromJson(Map<String,dynamic> json) => HouseholdRevokeResultEnvelope(
+    data: HouseholdRevokeResult.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class HouseholdEndMemberEnvelope {
+  final HouseholdEndMember data;
+  final Meta meta;
+  const HouseholdEndMemberEnvelope({required this.data, required this.meta});
+  factory HouseholdEndMemberEnvelope.fromJson(Map<String,dynamic> json) => HouseholdEndMemberEnvelope(
+    data: HouseholdEndMember.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class HouseholdPetsEnvelope {
+  final List<HouseholdPet> data;
+  final Page page;
+  final Meta meta;
+  const HouseholdPetsEnvelope({required this.data, required this.page, required this.meta});
+  factory HouseholdPetsEnvelope.fromJson(Map<String,dynamic> json) => HouseholdPetsEnvelope(
+    data: (json['data'] as List).map((value) => HouseholdPet.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -9879,4 +10357,14 @@ class ApiRoutes {
   static const get_consumer_offers_id_price_history = '/consumer/offers/{id}/price-history';
   static const get_merchant_offers_id_price_history = '/merchant/offers/{id}/price-history';
   static const get_admin_offers_id_price_history = '/admin/offers/{id}/price-history';
+  static const get_consumer_household_pets = '/consumer/household/pets';
+  static const get_consumer_household_pets_pet = '/consumer/household/pets/{pet}';
+  static const post_consumer_household_pets_pet_invites = '/consumer/household/pets/{pet}/invites';
+  static const post_consumer_household_accept = '/consumer/household/accept';
+  static const post_consumer_household_pets_pet_invites_id_revoke = '/consumer/household/pets/{pet}/invites/{id}/revoke';
+  static const post_consumer_household_pets_pet_members_user_revoke = '/consumer/household/pets/{pet}/members/{user}/revoke';
+  static const post_consumer_household_pets_pet_leave = '/consumer/household/pets/{pet}/leave';
+  static const post_consumer_household_pets_pet_tasks = '/consumer/household/pets/{pet}/tasks';
+  static const post_consumer_household_pets_pet_tasks_id_finish = '/consumer/household/pets/{pet}/tasks/{id}/finish';
+  static const post_consumer_household_pets_pet_entries = '/consumer/household/pets/{pet}/entries';
 }

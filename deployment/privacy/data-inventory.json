@@ -29,7 +29,8 @@
     "V023__pet_profile_photo_and_owner_breed.sql": "a31d1066fb42b47d107d7bd7b51eaf05e85e5afa26adf18b4c0e67be40dd6f3a",
     "V024__consumer_care_and_favorites.sql": "38262cef9e325e6f8e54a6f1625f75f34afb50e5fc3bfface8df5bd2eba7ea75",
     "V025__purchase_requests.sql": "39f85fe56dbaa3adac0b69681ded2fdda409d2de3ff8d6c2611ed255aaca1561",
-    "V026__offer_price_history.sql": "b1076dddb328154f25d777689e94bc8c6c30d662cc55c141723fed73cc7a3cc4"
+    "V026__offer_price_history.sql": "b1076dddb328154f25d777689e94bc8c6c30d662cc55c141723fed73cc7a3cc4",
+    "V027__pet_household_care.sql": "7bfdece2676c541159636d1d3cc61f4ad2e9ee70c61dbc6867b3cd752f545643"
   },
   "tables": [
     {
@@ -1107,6 +1108,26 @@
       ]
     },
     {
+      "name": "offer_price_snapshots",
+      "domain": "offers_inventory",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "REVIEW_REQUIRED",
+      "columns": [
+        "id",
+        "offer_id",
+        "merchant_id",
+        "store_id",
+        "sku_id",
+        "offer_version",
+        "sale_price_fen",
+        "member_price_fen",
+        "sale_status",
+        "kind",
+        "publicly_recorded",
+        "recorded_at"
+      ]
+    },
+    {
       "name": "offers",
       "domain": "offers_inventory",
       "retention_status": "PENDING_OWNER_POLICY",
@@ -1477,6 +1498,39 @@
       ]
     },
     {
+      "name": "pet_care_entries",
+      "domain": "pets",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "pet_id",
+        "actor_user_id",
+        "kind",
+        "note",
+        "recorded_on",
+        "created_at"
+      ]
+    },
+    {
+      "name": "pet_care_tasks",
+      "domain": "pets",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "pet_id",
+        "title",
+        "due_on",
+        "status",
+        "created_by",
+        "completed_by",
+        "version",
+        "created_at",
+        "ended_at"
+      ]
+    },
+    {
       "name": "pet_food_changes",
       "domain": "pets",
       "retention_status": "PENDING_OWNER_POLICY",
@@ -1542,6 +1596,39 @@
         "status",
         "source_refs",
         "published_at"
+      ]
+    },
+    {
+      "name": "pet_share_invites",
+      "domain": "pets",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "pet_id",
+        "token_hash",
+        "role",
+        "status",
+        "created_by",
+        "accepted_by",
+        "expires_at",
+        "created_at",
+        "ended_at"
+      ]
+    },
+    {
+      "name": "pet_share_members",
+      "domain": "pets",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "pet_id",
+        "user_id",
+        "role",
+        "status",
+        "version",
+        "joined_at",
+        "ended_at"
       ]
     },
     {
@@ -2464,29 +2551,9 @@
         "reserved_from_status",
         "reservation_expires_at"
       ]
-    },
-    {
-      "name": "offer_price_snapshots",
-      "domain": "offers_inventory",
-      "retention_status": "PENDING_OWNER_POLICY",
-      "disposition": "REVIEW_REQUIRED",
-      "columns": [
-        "id",
-        "offer_id",
-        "merchant_id",
-        "store_id",
-        "sku_id",
-        "offer_version",
-        "sale_price_fen",
-        "member_price_fen",
-        "sale_status",
-        "kind",
-        "publicly_recorded",
-        "recorded_at"
-      ]
     }
   ],
-  "schema_sha256": "77d0a480a4a279a2f05ef6b3e2d89fffa376105e09d44c0ffc2766585d90bb07",
+  "schema_sha256": "317a8d1a5f189abeac462b340a323092f21dfe577025a32caadc1fa259509a26",
   "policies": [
     {
       "domain": "aftersale_refunds",
