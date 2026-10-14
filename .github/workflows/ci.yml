@@ -148,12 +148,12 @@ jobs:
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-v1.0.9.yaml -o /tmp/pawday-consumer-test-bundled.yaml
             python openapi/validate_consumer_test_contract.py --samples backend/target/pilot-evidence/consumer-password-http.json --disabled-samples backend/target/pilot-evidence/consumer-password-disabled-http.json --require-coverage --report backend/target/readiness-evidence/consumer-password-response-contract.json
       - name: M5.4 real AMap HTTPS destination handoff
-          run: python scripts/check-amap-handoff.py --samples backend/target/m54-contract-samples.json --report backend/target/infrastructure-evidence/amap-handoff.json
-        - name: V2.1 actual quotation history contracts
-          run: |
-            npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-v2.1.yaml
-            npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-v2.1.yaml -o /tmp/pawday-v21.yaml
-            python openapi/validate_v21_contract.py --samples backend/target/v21-contract-samples.json --report backend/target/readiness-evidence/v21-price-history.json
+        run: python scripts/check-amap-handoff.py --samples backend/target/m54-contract-samples.json --report backend/target/infrastructure-evidence/amap-handoff.json
+      - name: V2.1 actual quotation history contracts
+        run: |
+          npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-v2.1.yaml
+          npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-v2.1.yaml -o /tmp/pawday-v21.yaml
+          python openapi/validate_v21_contract.py --samples backend/target/v21-contract-samples.json --report backend/target/readiness-evidence/v21-price-history.json
       - name: M6.1 production inventory and mandatory rejection gates
         run: |
           python -m unittest discover -s scripts/tests -v
