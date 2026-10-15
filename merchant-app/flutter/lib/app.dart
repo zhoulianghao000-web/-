@@ -758,7 +758,7 @@ class _WorkspaceState extends State<WorkspacePage> {
           ),
         ),
       Text(
-        '${data.totals.paid_suborders} 笔支付子订单 · ${data.totals.refund_count} 笔成功退款',
+        '${data.totals.paid_suborders} 笔入账子订单 · ${data.totals.refund_count} 笔成功退款',
       ),
       if (data.totals.paid_suborders == 0 && data.totals.refund_count == 0)
         const Padding(

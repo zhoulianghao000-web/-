@@ -51,6 +51,7 @@ class MerchantSession extends ChangeNotifier {
       ready = true;
       _notify();
     }
+    if (_disposed) return;
     _timer = Timer.periodic(const Duration(seconds: 20), (_) async {
       if (principal == null || _checking) return;
       _checking = true;
@@ -116,7 +117,7 @@ class MerchantSession extends ChangeNotifier {
   }
 
   Future<void> logout() async {
-    final revoke = repository.api.logout();
+    final revoke = repository.api.logout().catchError((Object _) {});
     await repository.api.clear();
     principal = null;
     stores = [];

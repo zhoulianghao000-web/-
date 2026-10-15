@@ -55,7 +55,7 @@ public class BusinessAnalyticsService {
         }
         if(store!=null) { scope+=" AND NOT EXISTS(SELECT 1 FROM order_items i WHERE i.suborder_id=s.id AND i.store_id IS DISTINCT FROM ?)"; args.add(store); }
         // One row per immutable entry, never a join to order_items (which would multiply amounts).
-        var rows=db.queryForList("SELECT (e.created_at AT TIME ZONE 'Asia/Shanghai')::date day,"+
+        var rows=db.queryForList("SELECT (e.created_at AT TIME ZONE 'Asia/Shanghai')::date ledger_date,"+
             " count(DISTINCT e.suborder_id) FILTER(WHERE e.entry_type='SALE_CREDIT') paid_suborders,"+
             " count(DISTINCT e.refund_id) FILTER(WHERE e.entry_type IN ('REFUND_DEBIT','SHIPPING_ADJUSTMENT') AND e.direction='DEBIT') refund_count,"+
             " coalesce(sum(e.amount_fen) FILTER(WHERE e.entry_type='SALE_CREDIT'),0) paid_fen,"+
@@ -64,10 +64,10 @@ public class BusinessAnalyticsService {
             " FROM merchant_ledger_entries e JOIN suborders s ON s.id=e.suborder_id AND s.merchant_id=e.merchant_id"+
             " WHERE e.merchant_id=? AND e.created_at>=? AND e.created_at<? AND e.created_at<=?"+
             " AND e.entry_type IN ('SALE_CREDIT','REFUND_DEBIT','SHIPPING_ADJUSTMENT','COMMISSION_DEBIT','COMMISSION_REVERSAL')"+
-            " AND EXISTS(SELECT 1 FROM order_items i WHERE i.suborder_id=s.id)"+scope+" GROUP BY day ORDER BY day",args.toArray());
+            " AND EXISTS(SELECT 1 FROM order_items i WHERE i.suborder_id=s.id)"+scope+" GROUP BY ledger_date ORDER BY ledger_date",args.toArray());
         Map<LocalDate,Metrics> byDate=new HashMap<>();
         var sums=new LinkedHashMap<String,Object>(); for(String k:List.of("paid_suborders","refund_count","paid_fen","refund_fen","commission_net_fen")) sums.put(k,BigDecimal.ZERO);
-        for(var row:rows) { LocalDate date=((java.sql.Date)row.get("day")).toLocalDate(); byDate.put(date,metrics(row)); for(String k:sums.keySet()) sums.put(k,((BigDecimal)sums.get(k)).add(new BigDecimal(row.get(k).toString()))); }
+        for(var row:rows) { LocalDate date=((java.sql.Date)row.get("ledger_date")).toLocalDate(); byDate.put(date,metrics(row)); for(String k:sums.keySet()) sums.put(k,((BigDecimal)sums.get(k)).add(new BigDecimal(row.get(k).toString()))); }
         var days=new ArrayList<Day>(); var zero=new Metrics(0,0,0,0,0,0,0);
         for(LocalDate date=from;!date.isAfter(to);date=date.plusDays(1)) days.add(new Day(date,byDate.getOrDefault(date,zero)));
         return new Overview(m,store,"Asia/Shanghai",from,to,now,"IMMUTABLE_MERCHANT_LEDGER","WHOLE_AUTHORIZED_SUBORDER",pilot.enabled(),metrics(sums),List.copyOf(days));
