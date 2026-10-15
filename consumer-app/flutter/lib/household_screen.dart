@@ -43,6 +43,32 @@ class _HouseholdScreenState extends ConsumerState<HouseholdScreen> {
   int generation = 0;
   Timer? poll;
   final pendingKeys = <String, String>{};
+  BuildContext? dialogContext;
+  void dismissDialog() {
+    final ctx = dialogContext;
+    dialogContext = null;
+    if (ctx != null && ctx.mounted && ModalRoute.of(ctx)?.isCurrent == true) {
+      Navigator.of(ctx).pop();
+    }
+  }
+
+  Future<T?> modal<T>({
+    required BuildContext context,
+    required WidgetBuilder builder,
+  }) async {
+    try {
+      return await showDialog<T>(
+        context: context,
+        builder: (ctx) {
+          dialogContext = ctx;
+          return builder(ctx);
+        },
+      );
+    } finally {
+      dialogContext = null;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -158,29 +184,35 @@ class _HouseholdScreenState extends ConsumerState<HouseholdScreen> {
     }
   }
 
-  Future<bool> confirm(String title, String message) async =>
-      await showDialog<bool>(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text(title),
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx, false),
-              child: const Text('取消'),
-            ),
-            PawdayButton(
-              onPressed: () => Navigator.pop(ctx, true),
-              child: const Text('确认'),
-            ),
-          ],
-        ),
-      ) ??
-      false;
+  Future<bool> confirm(String title, String message) async {
+    final pet = current, session = ref.read(authProvider).principal?.session_id;
+    final answer = await modal<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('取消'),
+          ),
+          PawdayButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('确认'),
+          ),
+        ],
+      ),
+    );
+    return answer == true &&
+        mounted &&
+        current == pet &&
+        ref.read(authProvider).principal?.session_id == session;
+  }
+
   Future<void> accept() async {
     final session = ref.read(authProvider).principal?.session_id;
     final controller = TextEditingController();
-    final token = await showDialog<String>(
+    final token = await modal<String>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('加入家庭照顾'),
@@ -226,7 +258,7 @@ class _HouseholdScreenState extends ConsumerState<HouseholdScreen> {
   Future<void> invite() async {
     final pet = current, session = ref.read(authProvider).principal?.session_id;
     String role = 'VIEWER';
-    final chosen = await showDialog<String>(
+    final chosen = await modal<String>(
       context: context,
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, update) => AlertDialog(
@@ -284,7 +316,7 @@ class _HouseholdScreenState extends ConsumerState<HouseholdScreen> {
       body: {'role': chosen},
     );
     if (result == null || !mounted) return;
-    await showDialog<void>(
+    await modal<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('邀请已创建'),
@@ -332,7 +364,7 @@ class _HouseholdScreenState extends ConsumerState<HouseholdScreen> {
     final text = TextEditingController(),
         date = TextEditingController(text: today());
     String kind = 'NOTE';
-    final body = await showDialog<Map<String, dynamic>>(
+    final body = await modal<Map<String, dynamic>>(
       context: context,
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, update) => AlertDialog(
@@ -421,6 +453,7 @@ class _HouseholdScreenState extends ConsumerState<HouseholdScreen> {
     ref.listen(authProvider, (before, after) {
       if (before?.principal?.session_id != after.principal?.session_id) {
         generation++;
+        dismissDialog();
         pendingKeys.clear();
         setState(() {
           pets = [];
@@ -435,6 +468,12 @@ class _HouseholdScreenState extends ConsumerState<HouseholdScreen> {
     final detail = overview,
         owner = detail?.pet.share_role == 'OWNER',
         canWrite = owner || detail?.pet.share_role == 'CAREGIVER';
+    final allergens = {
+      for (final item
+          in ref.watch(allergenDictionaryProvider).asData?.value ??
+              <Allergen>[])
+        item.id: item.name,
+    };
     return Scaffold(
       appBar: AppBar(
         title: const Text('家庭照顾'),
@@ -565,6 +604,30 @@ class _HouseholdScreenState extends ConsumerState<HouseholdScreen> {
                             const SizedBox(height: 8),
                             Text(
                               '过敏观察：${detail.pet.allergens.length}项，请以主人档案和可信诊断依据为准。',
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              '性别：${{'MALE': '雄性', 'FEMALE': '雌性', 'UNKNOWN': '未填写'}[detail.pet.sex]} · 绝育：${{'YES': '已绝育', 'NO': '未绝育', 'UNKNOWN': '未填写'}[detail.pet.neutered_status]}',
+                            ),
+                            if (detail.pet.age_estimate_months != null)
+                              Text(
+                                '估计年龄：约 ${detail.pet.age_estimate_months} 个月（不作为精确年龄阶段依据）',
+                              ),
+                            ...detail.pet.allergens.map(
+                              (a) => Padding(
+                                padding: const EdgeInsets.only(top: 12),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${allergens[a.allergen_id] ?? '过敏原名称暂不可用'}：${{'YES': '有过敏记录', 'NO': '记录为无', 'UNKNOWN': '信息未知'}[a.status]}',
+                                    ),
+                                    Text(
+                                      '来源：${a.source == 'VET_DIAGNOSIS' ? '主人记录的兽医诊断' : '主人观察'}${a.note == null ? '' : ' · ${a.note}'}',
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),

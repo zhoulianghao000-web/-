@@ -7,41 +7,54 @@ import 'package:pawday_consumer/api/client.dart';
 import 'package:pawday_consumer/api/generated/dto.dart';
 import 'package:pawday_consumer/household_repository.dart';
 import 'package:pawday_consumer/household_screen.dart';
+import 'package:pawday_consumer/pet_repository.dart';
 import 'package:pawday_consumer/repositories.dart';
 import 'package:pawday_consumer/reference_ui.dart';
 
 import 'api_test.dart' as fixture;
 import 'pet_test.dart' as pet;
 
-HouseholdPet profile(String role) => HouseholdPet.fromJson({
-  ...pet.petJson(id: '00000000-0000-4000-8000-000000000001'),
-  'custom_breed_name': null,
-  'share_role': role,
-});
-HouseholdOverview detail(String role) => HouseholdOverview(
-  pet: profile(role),
-  members: [],
-  invites: [],
-  tasks: [
-    const HouseholdTask(
-      id: 'task',
-      title: 'TEST 喂食',
-      due_on: '2026-10-14',
-      status: 'OPEN',
-      created_by: 'owner',
-      completed_by: null,
-      version: 7,
-      created_at: '2026-10-14T00:00:00Z',
-      ended_at: null,
-    ),
-  ],
-  entries: [],
-);
+HouseholdPet profile(String role, {bool allergy = false}) =>
+    HouseholdPet.fromJson({
+      ...pet.petJson(id: '00000000-0000-4000-8000-000000000001'),
+      'custom_breed_name': null,
+      'share_role': role,
+      if (allergy)
+        'allergens': [
+          {
+            'allergen_id': '00000000-0000-4000-8000-000000000002',
+            'status': 'UNKNOWN',
+            'source': 'OWNER_OBSERVATION',
+            'note': 'TEST_ONLY_OBSERVATION',
+          },
+        ],
+    });
+HouseholdOverview detail(String role, {bool allergy = false}) =>
+    HouseholdOverview(
+      pet: profile(role, allergy: allergy),
+      members: [],
+      invites: [],
+      tasks: [
+        const HouseholdTask(
+          id: 'task',
+          title: 'TEST 喂食',
+          due_on: '2026-10-14',
+          status: 'OPEN',
+          created_by: 'owner',
+          completed_by: null,
+          version: 7,
+          created_at: '2026-10-14T00:00:00Z',
+          ended_at: null,
+        ),
+      ],
+      entries: [],
+    );
 
 class HouseholdFixture extends HouseholdRepository {
   HouseholdFixture(super.api, {this.role = 'OWNER'});
   final String role;
   bool fail = false, revoked = false;
+  bool allergy = false;
   int reads = 0, writes = 0;
   int? sentVersion;
   Completer<HouseholdOverview>? delayed;
@@ -54,7 +67,7 @@ class HouseholdFixture extends HouseholdRepository {
 
   @override
   Future<HouseholdOverview> overview(String pet) async =>
-      delayed == null ? detail(role) : await delayed!.future;
+      delayed == null ? detail(role, allergy: allergy) : await delayed!.future;
   @override
   Future<Map<String, dynamic>> command(
     String path,
@@ -88,6 +101,14 @@ void main() {
           consumerApiProvider.overrideWithValue(repo.api),
           authProvider.overrideWith(SwitchIdentity.new),
           householdRepositoryProvider.overrideWithValue(repo),
+          allergenDictionaryProvider.overrideWith(
+            (_) async => [
+              const Allergen(
+                id: '00000000-0000-4000-8000-000000000002',
+                name: '合成过敏原 TEST-A',
+              ),
+            ],
+          ),
         ],
         child: Builder(
           builder: (ctx) {
@@ -172,6 +193,32 @@ void main() {
     await t.pumpAndSettle();
     expect(find.text('TEST 喂食'), findsNothing);
     expect(find.text('家庭照顾当前宠物'), findsNothing);
+    await t.pumpWidget(const SizedBox());
+  });
+  testWidgets(
+    'shared unknown allergy stays unknown with observation provenance',
+    (t) async {
+      await mount(t, repo('VIEWER')..allergy = true);
+      await t.ensureVisible(find.text('合成过敏原 TEST-A：信息未知'));
+      expect(find.text('合成过敏原 TEST-A：信息未知'), findsOneWidget);
+      expect(find.text('来源：主人观察 · TEST_ONLY_OBSERVATION'), findsOneWidget);
+      expect(find.text('记录为无'), findsNothing);
+      await t.pumpWidget(const SizedBox());
+    },
+  );
+  testWidgets('logout dismisses an old confirmation without writing', (
+    t,
+  ) async {
+    final r = repo('CAREGIVER');
+    final container = await mount(t, r);
+    await t.ensureVisible(find.text('标记完成'));
+    await t.tap(find.text('标记完成'));
+    await t.pumpAndSettle();
+    expect(find.text('确认'), findsOneWidget);
+    (container.read(authProvider.notifier) as SwitchIdentity).clear();
+    await t.pumpAndSettle();
+    expect(find.text('确认'), findsNothing);
+    expect(r.writes, 0);
     await t.pumpWidget(const SizedBox());
   });
   test('household error copy distinguishes invitation expiry and conflict', () {
