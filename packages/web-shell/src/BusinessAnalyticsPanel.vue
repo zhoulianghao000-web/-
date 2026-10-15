@@ -2,11 +2,11 @@
 import {onBeforeUnmount,onMounted,ref,watch} from 'vue';
 import {unwrap,type components} from '../../api-client/src';
 import {StaffSession,explainError} from './auth';
+import {analyticsMoney as money} from './business-analytics';
 const props=defineProps<{session:StaffSession;realm:'merchant'|'admin'}>();
 type Overview=components['schemas']['BusinessAnalytics'];
 const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 const from=ref(today),to=ref(today),merchant=ref(''),store=ref(''),result=ref<Overview>(),busy=ref(false),error=ref('');let generation=0;
-const money=(fen:number)=>`¥${(fen/100).toFixed(2)}`;
 function clear(){generation++;result.value=undefined;busy.value=false;error.value='';}
 async function load(){
  clear();const epoch=generation,identity=props.session.state.principal?.session_id;

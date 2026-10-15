@@ -3,6 +3,7 @@ import {flushPromises,mount} from '@vue/test-utils';
 import {ApiError,PawdayClient,type components} from '../packages/api-client/src';
 import {StaffSession} from '../packages/web-shell/src/auth';
 import BusinessAnalyticsPanel from '../packages/web-shell/src/BusinessAnalyticsPanel.vue';
+import {analyticsMoney} from '../packages/web-shell/src/business-analytics';
 const merchant='00000000-0000-4000-8000-000000000001',store='00000000-0000-4000-8000-000000000002';
 const metrics={paid_suborders:0,refund_count:1,paid_fen:0,refund_fen:100,net_fen:-100,commission_net_fen:-5,merchant_net_fen:-95};
 function setup(realm:'merchant'|'admin'='merchant'){
@@ -14,6 +15,9 @@ function setup(realm:'merchant'|'admin'='merchant'){
 const envelope:{data:components['schemas']['BusinessAnalyticsEnvelope'];response:Response}={data:{data:{merchant_id:merchant,store_id:null,timezone:'Asia/Shanghai',from:'2026-10-15',to:'2026-10-15',as_of:'2026-10-15T00:00:00Z',source:'IMMUTABLE_MERCHANT_LEDGER',scope_policy:'WHOLE_AUTHORIZED_SUBORDER',simulated:true,totals:metrics,days:[{date:'2026-10-15',metrics}]},meta:{request_id:merchant,correlation_id:merchant}},response:new Response('{}')};
 afterEach(()=>vi.restoreAllMocks());
 describe('business analytics scope and request isolation',()=>{
+ it('formats large and negative integer fen without floating point cent rounding',()=>{
+  expect(analyticsMoney(9007199254740990)).toBe('¥90071992547409.90');expect(analyticsMoney(8999999999999999)).toBe('¥89999999999999.99');expect(analyticsMoney(-1)).toBe('¥-0.01');expect(()=>analyticsMoney(9007199254740992)).toThrow(RangeError);
+ });
  it('displays signed refunds, simulation and whole-suborder scope without claiming income',async()=>{
   const session=setup();vi.spyOn(session.client.api,'GET').mockResolvedValue(envelope as never);const page=mount(BusinessAnalyticsPanel,{props:{session,realm:'merchant'}});await flushPromises();
   expect(page.text()).toContain('¥-1.00');expect(page.text()).toContain('模拟经营数据');expect(page.text()).toContain('不代表利润或可提余额');expect(page.text()).toContain('混店子订单');page.unmount();
