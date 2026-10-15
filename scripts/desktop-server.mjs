@@ -52,7 +52,8 @@ export async function createDesktopServers({root,ports=[4172,4273,4174,4175],bac
           let path=decodeURIComponent(url.pathname);
           if(path.includes('\\')||path.includes('\0')){reply(res,404,{error:'NOT_FOUND'});return;}
           let file;
-          if(site==='portal'&&path==='/consumer.apk')file=resolve(root,'release/consumer.apk');
+          const apk=site==='portal'&&['/consumer.apk','/merchant.apk'].includes(path);
+          if(apk)file=resolve(root,'release',path.slice(1));
           else{
             file=resolve(base,'.'+path);
             if(!inside(base,file)){reply(res,404,{error:'NOT_FOUND'});return;}
@@ -61,10 +62,10 @@ export async function createDesktopServers({root,ports=[4172,4273,4174,4175],bac
             catch{if(!extname(path)&&site!=='portal')file=resolve(base,'index.html');}
           }
           const actual=await realpath(file).catch(()=>null);
-          const allowed=site==='portal'&&path==='/consumer.apk'?resolve(root,'release/consumer.apk'):base;
+          const allowed=apk?resolve(root,'release',path.slice(1)):base;
           if(!actual||!(actual===allowed||inside(allowed,actual))){reply(res,404,{error:'NOT_FOUND'});return;}
           const info=await stat(actual);if(!info.isFile()){reply(res,404,{error:'NOT_FOUND'});return;}
-          res.writeHead(200,{'Content-Type':types[extname(actual)]||'application/octet-stream','Content-Length':info.size,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff',...securityHeaders,...(path==='/consumer.apk'?{'Content-Disposition':'attachment; filename="PawdayV1-Consumer-debug.apk"'}:{})});
+          res.writeHead(200,{'Content-Type':types[extname(actual)]||'application/octet-stream','Content-Length':info.size,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff',...securityHeaders,...(apk?{'Content-Disposition':`attachment; filename="Pawday-${path==='/merchant.apk'?'Merchant':'Consumer'}-debug.apk"`}:{})});
           if(req.method==='HEAD')res.end();else createReadStream(actual).on('error',()=>res.destroy()).pipe(res);
         }catch{if(!res.headersSent){if(req.url.startsWith('/api/v1/'))apiError(res,400,'INVALID_LOCAL_REQUEST');else reply(res,400,{error:'INVALID_LOCAL_REQUEST'});}else res.destroy();}
       });

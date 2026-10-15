@@ -14,6 +14,7 @@ export function bootstrap(realm:Exclude<Realm,'consumer'>){
     ...['login','dashboard','denied','sessions'].map(page=>({path:`/${page}`,component:{template:'<span />'},meta:{page}})),
     ...(realm==='merchant'?[{path:'/stores',component:{template:'<span />'},meta:{page:'stores',permission:'store.read'}}]:[{path:'/audit',component:{template:'<span />'},meta:{page:'audit',permission:'audit.read'}},{path:'/pet-taxonomy',component:{template:'<span />'},meta:{page:'pet-taxonomy',permission:'pet.taxonomy.read'}}]),
     ...(realm==='admin'?[{path:'/shipping',component:{template:'<span />'},meta:{page:'shipping',permission:'pricing.shipping.manage'}}]:[]),
+    {path:'/analytics',component:{template:'<span />'},meta:{page:'analytics',permission:'ledger.read'}},
     {path:'/orders',component:{template:'<span />'},meta:{page:'orders',permission:realm==='merchant'?'order.read':'order.admin.read'}},
     ...(realm==='admin'?[{path:'/order-policies',component:{template:'<span />'},meta:{page:'order-policies',permission:'order.policy.manage'}}]:[]),
     ...(realm==='admin'?[{path:'/settlements',component:{template:'<span />'},meta:{page:'settlements',permission:'settlement.read'}},{path:'/finance-policies',component:{template:'<span />'},meta:{page:'finance-policies',permission:'settlement.policy.manage'}},{path:'/membership',component:{template:'<span />'},meta:{page:'membership',permission:'points.read'}}]:[{path:'/finance',component:{template:'<span />'},meta:{page:'finance',permission:'ledger.read'}}]),

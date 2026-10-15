@@ -103,6 +103,65 @@ jobs:
             consumer-app/flutter/coverage/
             consumer-app/flutter/build/web/
             consumer-app/flutter/build/app/outputs/flutter-apk/app-debug.apk
+  merchant-flutter:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.6'
+          channel: stable
+          cache: true
+      - run: flutter pub get --enforce-lockfile
+        working-directory: merchant-app/flutter
+      - run: flutter analyze && flutter test --coverage
+        working-directory: merchant-app/flutter
+      - run: flutter build web --release --dart-define=PAWDAY_API_BASE=https://api.pawday.example/api/v1
+        working-directory: merchant-app/flutter
+      - name: Restore stable internal test signing (never production signing)
+        env:
+          TEST_KEYSTORE_B64: ${{ secrets.PAWDAY_ANDROID_TEST_KEYSTORE_B64 }}
+        run: |
+          if [ -n "$TEST_KEYSTORE_B64" ]; then
+            mkdir -p "$HOME/.android"
+            printf '%s' "$TEST_KEYSTORE_B64" | base64 --decode > "$HOME/.android/debug.keystore"
+            chmod 600 "$HOME/.android/debug.keystore"
+            echo "PAWDAY_TEST_KEYSTORE=$HOME/.android/debug.keystore" >> "$GITHUB_ENV"
+          else
+            echo 'No internal signing secret: this runner uses an ephemeral debug key; artifact is not eligible for internal delivery.'
+          fi
+      - run: flutter build apk --debug --dart-define=PAWDAY_PILOT=true --dart-define=PAWDAY_API_BASE=http://127.0.0.1:8086/api/v1
+        working-directory: merchant-app/flutter
+      - name: Verify actual APK uses the configured internal certificate
+        if: env.PAWDAY_TEST_KEYSTORE != ''
+        working-directory: merchant-app/flutter
+        run: |
+          signer=$(find "$ANDROID_HOME/build-tools" -name apksigner | sort -V | tail -n 1)
+          "$signer" verify build/app/outputs/flutter-apk/app-debug.apk
+          python ../../scripts/check-android-test-signature.py --apk build/app/outputs/flutter-apk/app-debug.apk --keystore "$PAWDAY_TEST_KEYSTORE"
+      - name: Build marked merchant preview for the same staff API
+        run: flutter build web --profile --no-web-resources-cdn --base-href /app/ --dart-define=PAWDAY_PILOT=true --dart-define=PAWDAY_API_BASE=http://127.0.0.1:4273/api/v1
+        working-directory: merchant-app/flutter
+      - name: Require complete font license inside merchant artifacts
+        run: |
+          unzip -p build/app/outputs/flutter-apk/app-debug.apk assets/flutter_assets/assets/fonts/OFL.txt | cmp assets/fonts/OFL.txt -
+          cmp assets/fonts/OFL.txt build/web/assets/assets/fonts/OFL.txt
+        working-directory: merchant-app/flutter
+      - name: Verify all reference photographs in standalone Web and APK
+        run: python scripts/check-merchant-artifacts.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v23-merchant-flutter-evidence
+          path: |
+            merchant-app/flutter/coverage/
+            merchant-app/flutter/build/web/
+            merchant-app/flutter/build/app/outputs/flutter-apk/app-debug.apk
   real-frontend-backend:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -180,6 +239,8 @@ jobs:
       - run: pnpm exec playwright test e2e/real.spec.ts
       - run: flutter pub get --enforce-lockfile && flutter test test_real/consumer_http_test.dart
         working-directory: consumer-app/flutter
+      - run: flutter pub get --enforce-lockfile && flutter test test_real/merchant_http_test.dart
+        working-directory: merchant-app/flutter
       - uses: actions/upload-artifact@v4
         if: always()
         with:

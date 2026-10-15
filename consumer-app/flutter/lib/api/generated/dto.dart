@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 7250253b947f028c18feb2f7b61de0571a60804641886aabbaebbc6c68e2c9d9
+// Generated from Pawday runtime OpenAPI; SHA256 62f5157037a3ac35fd8f1f32b767a55bce7f8e438d040dc41d0aea8d267885f9
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -10020,6 +10020,104 @@ class HouseholdPetsEnvelope {
   };
 }
 
+class BusinessMetrics {
+  final int paid_suborders;
+  final int refund_count;
+  final int paid_fen;
+  final int refund_fen;
+  final int net_fen;
+  final int commission_net_fen;
+  final int merchant_net_fen;
+  const BusinessMetrics({required this.paid_suborders, required this.refund_count, required this.paid_fen, required this.refund_fen, required this.net_fen, required this.commission_net_fen, required this.merchant_net_fen});
+  factory BusinessMetrics.fromJson(Map<String,dynamic> json) => BusinessMetrics(
+    paid_suborders: (json['paid_suborders'] as num).toInt(),
+    refund_count: (json['refund_count'] as num).toInt(),
+    paid_fen: (json['paid_fen'] as num).toInt(),
+    refund_fen: (json['refund_fen'] as num).toInt(),
+    net_fen: (json['net_fen'] as num).toInt(),
+    commission_net_fen: (json['commission_net_fen'] as num).toInt(),
+    merchant_net_fen: (json['merchant_net_fen'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'paid_suborders': paid_suborders,
+    'refund_count': refund_count,
+    'paid_fen': paid_fen,
+    'refund_fen': refund_fen,
+    'net_fen': net_fen,
+    'commission_net_fen': commission_net_fen,
+    'merchant_net_fen': merchant_net_fen,
+  };
+}
+
+class BusinessDay {
+  final String date;
+  final BusinessMetrics metrics;
+  const BusinessDay({required this.date, required this.metrics});
+  factory BusinessDay.fromJson(Map<String,dynamic> json) => BusinessDay(
+    date: json['date'] as String,
+    metrics: BusinessMetrics.fromJson(Map<String,dynamic>.from(json['metrics'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'date': date,
+    'metrics': metrics.toJson(),
+  };
+}
+
+class BusinessAnalytics {
+  final String merchant_id;
+  final String? store_id;
+  final String timezone;
+  final String from;
+  final String to;
+  final String as_of;
+  final String source;
+  final String scope_policy;
+  final bool simulated;
+  final BusinessMetrics totals;
+  final List<BusinessDay> days;
+  const BusinessAnalytics({required this.merchant_id, required this.store_id, required this.timezone, required this.from, required this.to, required this.as_of, required this.source, required this.scope_policy, required this.simulated, required this.totals, required this.days});
+  factory BusinessAnalytics.fromJson(Map<String,dynamic> json) => BusinessAnalytics(
+    merchant_id: json['merchant_id'] as String,
+    store_id: json['store_id'] == null ? null : json['store_id'] as String,
+    timezone: json['timezone'] as String,
+    from: json['from'] as String,
+    to: json['to'] as String,
+    as_of: json['as_of'] as String,
+    source: json['source'] as String,
+    scope_policy: json['scope_policy'] as String,
+    simulated: json['simulated'] as bool,
+    totals: BusinessMetrics.fromJson(Map<String,dynamic>.from(json['totals'] as Map)),
+    days: (json['days'] as List).map((value) => BusinessDay.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'merchant_id': merchant_id,
+    'store_id': store_id == null ? null : store_id!,
+    'timezone': timezone,
+    'from': from,
+    'to': to,
+    'as_of': as_of,
+    'source': source,
+    'scope_policy': scope_policy,
+    'simulated': simulated,
+    'totals': totals.toJson(),
+    'days': days.map((value) => value.toJson()).toList(),
+  };
+}
+
+class BusinessAnalyticsEnvelope {
+  final BusinessAnalytics data;
+  final Meta meta;
+  const BusinessAnalyticsEnvelope({required this.data, required this.meta});
+  factory BusinessAnalyticsEnvelope.fromJson(Map<String,dynamic> json) => BusinessAnalyticsEnvelope(
+    data: BusinessAnalytics.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -10367,4 +10465,6 @@ class ApiRoutes {
   static const post_consumer_household_pets_pet_tasks = '/consumer/household/pets/{pet}/tasks';
   static const post_consumer_household_pets_pet_tasks_id_finish = '/consumer/household/pets/{pet}/tasks/{id}/finish';
   static const post_consumer_household_pets_pet_entries = '/consumer/household/pets/{pet}/entries';
+  static const merchant_business_analytics = '/merchant/business-analytics';
+  static const admin_business_analytics = '/admin/merchants/{id}/business-analytics';
 }

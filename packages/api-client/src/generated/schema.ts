@@ -1,4 +1,4 @@
-// Generated from pawday-v2.2.yaml; SHA256 7250253b947f028c18feb2f7b61de0571a60804641886aabbaebbc6c68e2c9d9
+// Generated from pawday-v2.3.yaml; SHA256 62f5157037a3ac35fd8f1f32b767a55bce7f8e438d040dc41d0aea8d267885f9
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -5278,6 +5278,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/merchant/business-analytics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Business ledger analytics over 1–90 Shanghai days */
+        get: operations["merchant_business_analytics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{id}/business-analytics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Business ledger analytics over 1–90 Shanghai days */
+        get: operations["admin_business_analytics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -9030,6 +9064,44 @@ export interface components {
         HouseholdPetsEnvelope: {
             data: components["schemas"]["HouseholdPet"][];
             page: components["schemas"]["Page"];
+            meta: components["schemas"]["Meta"];
+        };
+        BusinessMetrics: {
+            paid_suborders: number;
+            refund_count: number;
+            paid_fen: number;
+            refund_fen: number;
+            net_fen: number;
+            commission_net_fen: number;
+            merchant_net_fen: number;
+        };
+        BusinessDay: {
+            /** Format: date */
+            date: string;
+            metrics: components["schemas"]["BusinessMetrics"];
+        };
+        BusinessAnalytics: {
+            /** Format: uuid */
+            merchant_id: string;
+            store_id: string | null;
+            /** @enum {string} */
+            timezone: "Asia/Shanghai";
+            /** Format: date */
+            from: string;
+            /** Format: date */
+            to: string;
+            /** Format: date-time */
+            as_of: string;
+            /** @enum {string} */
+            source: "IMMUTABLE_MERCHANT_LEDGER";
+            /** @enum {string} */
+            scope_policy: "WHOLE_AUTHORIZED_SUBORDER";
+            simulated: boolean;
+            totals: components["schemas"]["BusinessMetrics"];
+            days: components["schemas"]["BusinessDay"][];
+        };
+        BusinessAnalyticsEnvelope: {
+            data: components["schemas"]["BusinessAnalytics"];
             meta: components["schemas"]["Meta"];
         };
     };
@@ -48862,6 +48934,200 @@ export interface operations {
                 };
             };
             /** @description Fail closed; stale grants and version conflicts are rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    merchant_business_analytics: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+                store_id?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Whole authorized suborders only; ledger-day cash flows, not income or withdrawable balance */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BusinessAnalyticsEnvelope"];
+                };
+            };
+            /** @description Invalid range, denied scope, overflow or unavailable facts */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid range, denied scope, overflow or unavailable facts */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid range, denied scope, overflow or unavailable facts */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid range, denied scope, overflow or unavailable facts */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid range, denied scope, overflow or unavailable facts */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid range, denied scope, overflow or unavailable facts */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid range, denied scope, overflow or unavailable facts */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid range, denied scope, overflow or unavailable facts */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    admin_business_analytics: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+                store_id?: string;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Whole authorized suborders only; ledger-day cash flows, not income or withdrawable balance */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BusinessAnalyticsEnvelope"];
+                };
+            };
+            /** @description Invalid range, denied scope, overflow or unavailable facts */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid range, denied scope, overflow or unavailable facts */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid range, denied scope, overflow or unavailable facts */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid range, denied scope, overflow or unavailable facts */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid range, denied scope, overflow or unavailable facts */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid range, denied scope, overflow or unavailable facts */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid range, denied scope, overflow or unavailable facts */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid range, denied scope, overflow or unavailable facts */
             503: {
                 headers: {
                     [name: string]: unknown;

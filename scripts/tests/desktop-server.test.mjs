@@ -10,12 +10,13 @@ test('local desktop delivery serves four sites and proxies actual HTTP without i
  const root=await mkdtemp(join(tmpdir(),'pawday-desktop-'));
  const paths=['desktop','release/merchant-web','release/admin-web','release/consumer-preview'];
  for(const path of paths){await mkdir(join(root,path),{recursive:true});await writeFile(join(root,path,'index.html'),`<h1>${path}</h1>`);}
- await writeFile(join(root,'secret.env'),'SHOULD_NOT_BE_SERVED');await writeFile(join(root,'release/consumer.apk'),'TEST_APK');
+ await writeFile(join(root,'secret.env'),'SHOULD_NOT_BE_SERVED');await writeFile(join(root,'release/consumer.apk'),'TEST_APK');await writeFile(join(root,'release/merchant.apk'),'TEST_MERCHANT_APK');
  const seen=[];const backend=http.createServer((req,res)=>{seen.push({url:req.url,headers:req.headers});res.setHeader('Content-Type','application/json');res.setHeader('X-Pawday-Environment','SIMULATED_PILOT');const done=()=>res.end(JSON.stringify(req.url==='/actuator/health'?{status:'UP'}:{data:{ok:true}}));req.on('error',()=>{});req.on('end',done);req.resume();});
  await new Promise(r=>backend.listen(0,'127.0.0.1',r));
  const servers=await createDesktopServers({root,ports:[0,0,0,0],backendPort:backend.address().port});
  const urls=servers.map(s=>`http://127.0.0.1:${s.address().port}`);
  try{
+  await t.test('merchant APK download stays in portal and exposes no private files',async()=>{const response=await fetch(urls[0]+'/merchant.apk');assert.equal(response.status,200);assert.equal(await response.text(),'TEST_MERCHANT_APK');assert.match(response.headers.get('content-disposition'),/Merchant-debug/);assert.equal((await fetch(urls[1]+'/merchant.apk')).status,404);});
   await t.test('four real static sites and SPA return paths',async()=>{
    for(let i=0;i<4;i++){assert.equal(await(await fetch(urls[i])).text(),`<h1>${paths[i]}</h1>`);assert.equal((await(await fetch(urls[i]+'/desktop-identity')).json()).site,['portal','merchant','admin','consumer'][i]);}
    assert.equal((await fetch(urls[1]+'/orders')).status,200);assert.equal((await fetch(urls[0]+'/missing.js')).status,404);
