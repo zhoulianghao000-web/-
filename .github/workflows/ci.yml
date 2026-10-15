@@ -282,6 +282,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - name: Compile all contract validators before integration
+        run: python -m compileall -q openapi
       - name: Validate and bundle contracts
         run: |
           python -m pip install -r openapi/requirements-validation-lock.txt
