@@ -208,13 +208,13 @@ test('real administrator password login, catalog publication, merchant correctio
   const slotSaved=merchantPage.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/slots'));
   await merchantPage.getByRole('button',{name:'保存模拟时段',exact:true}).click();expect((await slotSaved).status()).toBe(200);
   await aiPage.evaluate(store=>{window.location.hash='/service-bookings?store_id='+store;},nearbyProfile.id);
-  await expect(aiPage.getByText(bookingTitle,{exact:true})).toBeVisible();
+  await expect(aiPage.getByRole('button',{name:bookingTitle+' 洗护',exact:true})).toBeVisible();
   const reservation=aiPage.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/consumer/service-bookings'));
   await aiPage.getByRole('button',{name:'确认模拟预约',exact:true}).click();const reservationResponse=await reservation;expect(reservationResponse.status()).toBe(200);
   const booked=(await reservationResponse.json()).data;expect(booked.simulated).toBe(true);expect(booked.amount_fen).toBe(0);
   const bookingHeaders=await reservationResponse.request().allHeaders();
   const persisted=await aiPage.request.get(api+'/consumer/service-bookings',{headers:{Authorization:bookingHeaders.authorization!}});expect(persisted.status()).toBe(200);expect((await persisted.json()).data.filter((b:{id:string})=>b.id===booked.id)).toHaveLength(1);
-  await expect(aiPage.getByText('已预约 · 模拟不收费',{exact:true})).toBeVisible();await aiPage.screenshot({path:'frontend-evidence/v31-real-consumer-booked.png',fullPage:true});
+  await expect(aiPage.getByText(/已预约 · 模拟不收费/)).toBeVisible();await aiPage.screenshot({path:'frontend-evidence/v31-real-consumer-booked.png',fullPage:true});
   const cancellation=aiPage.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/service-bookings/'+booked.id+'/cancel'));
   await aiPage.getByRole('button',{name:'取消模拟预约',exact:true}).click();expect((await cancellation).status()).toBe(200);
   const cancelled=await aiPage.request.get(api+'/consumer/service-bookings',{headers:{Authorization:bookingHeaders.authorization!}});expect((await cancelled.json()).data.find((b:{id:string})=>b.id===booked.id).status).toBe('CANCELLED');
