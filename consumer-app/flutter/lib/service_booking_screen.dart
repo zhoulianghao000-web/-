@@ -400,7 +400,12 @@ class _ServiceBookingScreenState extends ConsumerState<ServiceBookingScreen> {
                               ),
                             if (credentials[b.id] case final c?) ...[
                               const Text('仅向本次预约门店出示；凭证只代表模拟到店，不代表真实身份核验。'),
-                              SelectableText('模拟到店凭证 ${c.credential}'),
+                              Semantics(
+                                container: true,
+                                excludeSemantics: true,
+                                label: '模拟到店凭证 ${c.credential}',
+                                child: SelectableText('模拟到店凭证 ${c.credential}'),
+                              ),
                               Text(
                                 '可核销 ${time(c.valid_from)} — ${time(c.expires_at)}（结束时失效）',
                               ),

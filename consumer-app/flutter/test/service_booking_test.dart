@@ -281,6 +281,7 @@ void main() {
       await t.tap(find.text('出示模拟到店凭证'));
       await t.pumpAndSettle();
       expect(find.textContaining('b' * 64), findsOneWidget);
+      expect(find.bySemanticsLabel('模拟到店凭证 ${'b' * 64}'), findsOneWidget);
       done = true;
       await t.ensureVisible(find.text('刷新服务与预约'));
       await t.tap(find.text('刷新服务与预约'));
