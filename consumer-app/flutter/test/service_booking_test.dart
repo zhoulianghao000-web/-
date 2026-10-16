@@ -71,8 +71,9 @@ void main() {
   ) async {
     var paused = false;
     final api = fixture.apiWith((r) async {
-      if (r.url.path.endsWith('booking-services'))
+        if (r.url.path.endsWith('booking-services')) {
         return page(paused ? [] : [service]);
+        }
       if (r.url.path.endsWith('slots')) return page([slot]);
       return page([]);
     });
