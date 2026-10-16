@@ -221,6 +221,27 @@ test('real administrator password login, catalog publication, merchant correctio
   await expect(aiPage.getByRole('textbox',{name:/已取消/})).toBeVisible();
   await merchantPage.getByRole('button',{name:'刷新服务与预约',exact:true}).click();await expect(merchantPage.getByText('剩余 1/1',{exact:false})).toBeVisible();
   await expect(merchantPage.locator('article').filter({hasText:booked.id})).toContainText('已取消');await merchantPage.screenshot({path:'frontend-evidence/v31-real-merchant-cancelled.png',fullPage:true});
+  // V3.1.2: actual credential UI -> merchant redemption -> durable exception history.
+  const fulfillmentTitle='CI V312 TEST wash '+Date.now();
+  await merchantPage.getByLabel('服务名称',{exact:true}).fill(fulfillmentTitle);
+  const fulfillmentServiceSaved=merchantPage.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/booking-services'));
+  await merchantPage.getByRole('button',{name:'新增服务',exact:true}).click();const fulfillmentServiceResponse=await fulfillmentServiceSaved;expect(fulfillmentServiceResponse.status()).toBe(200);const fulfillmentService=(await fulfillmentServiceResponse.json()).data;
+  await merchantPage.getByLabel('选择服务',{exact:true}).selectOption(fulfillmentService.id);
+  const fulfillmentStart=new Date(Date.now()+10*60000),fulfillmentEnd=new Date(fulfillmentStart.getTime()+3600000);
+  await merchantPage.getByLabel('开始',{exact:true}).fill(fulfillmentStart.toISOString().slice(0,16));await merchantPage.getByLabel('结束',{exact:true}).fill(fulfillmentEnd.toISOString().slice(0,16));
+  const fulfillmentSlotSaved=merchantPage.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/slots'));await merchantPage.getByRole('button',{name:'保存模拟时段',exact:true}).click();expect((await fulfillmentSlotSaved).status()).toBe(200);
+  await aiPage.getByRole('button',{name:'刷新服务与预约',exact:true}).click();await aiPage.getByRole('button',{name:fulfillmentTitle+' 洗护',exact:true}).click();
+  const fulfillmentReservation=aiPage.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/consumer/service-bookings'));await aiPage.getByRole('button',{name:'确认模拟预约',exact:true}).click();const fulfillmentReservationResponse=await fulfillmentReservation;expect(fulfillmentReservationResponse.status()).toBe(200);const fulfillmentBooking=(await fulfillmentReservationResponse.json()).data;
+  const credentialRead=aiPage.waitForResponse(r=>r.request().method()==='GET'&&r.url().endsWith('/service-bookings/'+fulfillmentBooking.id+'/credential'));await aiPage.getByRole('button',{name:'出示模拟到店凭证',exact:true}).click();const credentialResponse=await credentialRead;expect(credentialResponse.status()).toBe(200);expect(credentialResponse.headers()['cache-control']).toContain('no-store');const credential=(await credentialResponse.json()).data.credential;
+  await expect(aiPage.getByRole('textbox',{name:new RegExp(credential)})).toBeVisible();
+  await merchantPage.getByRole('button',{name:'刷新服务与预约',exact:true}).click();const fulfillmentCard=merchantPage.locator('article').filter({hasText:fulfillmentBooking.id});await fulfillmentCard.getByLabel('模拟到店凭证 '+fulfillmentBooking.id,{exact:true}).fill(credential);
+  const arrival=merchantPage.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/service-bookings/'+fulfillmentBooking.id+'/fulfillment'));await fulfillmentCard.getByRole('button',{name:'确认模拟到店 '+fulfillmentBooking.id,exact:true}).click();const arrivalResponse=await arrival;expect(arrivalResponse.status()).toBe(200);expect((await arrivalResponse.json()).data.status).toBe('CHECKED_IN');await expect(fulfillmentCard).toContainText('已到店');await expect(fulfillmentCard.getByRole('button',{name:'确认模拟完成 '+fulfillmentBooking.id,exact:true})).toBeDisabled();
+  await aiPage.getByRole('button',{name:'刷新服务与预约',exact:true}).click();await expect(aiPage.getByRole('textbox',{name:/已到店 · 模拟不收费/})).toBeVisible();await expect(aiPage.getByRole('button',{name:'出示模拟到店凭证',exact:true})).toHaveCount(0);
+  await fulfillmentCard.getByRole('combobox',{name:'异常原因 '+fulfillmentBooking.id,exact:true}).selectOption('CUSTOMER_DISPUTE');const exception=merchantPage.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/service-bookings/'+fulfillmentBooking.id+'/fulfillment'));await fulfillmentCard.getByRole('button',{name:'记录模拟异常 '+fulfillmentBooking.id,exact:true}).click();const exceptionResponse=await exception;expect(exceptionResponse.status()).toBe(200);expect((await exceptionResponse.json()).data.status).toBe('EXCEPTION');
+  await fulfillmentCard.getByRole('button',{name:'查看履约记录 '+fulfillmentBooking.id,exact:true}).click();await expect(fulfillmentCard).toContainText('消费者异议');await expect(fulfillmentCard).toContainText('异常待人工处理');
+  const fulfillmentPersisted=await aiPage.request.get(api+'/consumer/service-bookings/'+fulfillmentBooking.id+'/fulfillment',{headers:{Authorization:bookingHeaders.authorization!}});expect(fulfillmentPersisted.status()).toBe(200);expect((await fulfillmentPersisted.json()).data.map((e:{status:string})=>e.status).sort()).toEqual(['CHECKED_IN','EXCEPTION']);
+  await aiPage.getByRole('button',{name:'刷新服务与预约',exact:true}).click();await expect(aiPage.getByRole('textbox',{name:/异常待人工处理/})).toBeVisible();
+  await aiPage.screenshot({path:'frontend-evidence/v312-real-consumer-fulfillment.png',fullPage:true});await merchantPage.screenshot({path:'frontend-evidence/v312-real-merchant-fulfillment.png',fullPage:true});
   await aiContext.close();
   await context.close();
 });

@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 8ee2b41a05a438ce32d4073ceaf25a64bdf024d56a30a431014c5180e279b320
+// Generated from Pawday runtime OpenAPI; SHA256 8bac154f08a4e523ec6a6a116ba565aa28134bd54738f1cce5b91459aa544111
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -10389,6 +10389,106 @@ class ServiceBookingListEnvelope {
   };
 }
 
+class BookingCredential {
+  final String booking_id;
+  final String credential;
+  final String valid_from;
+  final String expires_at;
+  final bool simulated;
+  const BookingCredential({required this.booking_id, required this.credential, required this.valid_from, required this.expires_at, required this.simulated});
+  factory BookingCredential.fromJson(Map<String,dynamic> json) => BookingCredential(
+    booking_id: json['booking_id'] as String,
+    credential: json['credential'] as String,
+    valid_from: json['valid_from'] as String,
+    expires_at: json['expires_at'] as String,
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'booking_id': booking_id,
+    'credential': credential,
+    'valid_from': valid_from,
+    'expires_at': expires_at,
+    'simulated': simulated,
+  };
+}
+
+class BookingFulfillmentInput {
+  final String status;
+  final String credential;
+  final String reason_code;
+  const BookingFulfillmentInput({required this.status, required this.credential, required this.reason_code});
+  factory BookingFulfillmentInput.fromJson(Map<String,dynamic> json) => BookingFulfillmentInput(
+    status: json['status'] as String,
+    credential: json['credential'] as String,
+    reason_code: json['reason_code'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'status': status,
+    'credential': credential,
+    'reason_code': reason_code,
+  };
+}
+
+class BookingFulfillmentEvent {
+  final String id;
+  final String booking_id;
+  final int version;
+  final String status;
+  final String reason_code;
+  final String occurred_at;
+  final bool simulated;
+  const BookingFulfillmentEvent({required this.id, required this.booking_id, required this.version, required this.status, required this.reason_code, required this.occurred_at, required this.simulated});
+  factory BookingFulfillmentEvent.fromJson(Map<String,dynamic> json) => BookingFulfillmentEvent(
+    id: json['id'] as String,
+    booking_id: json['booking_id'] as String,
+    version: (json['version'] as num).toInt(),
+    status: json['status'] as String,
+    reason_code: json['reason_code'] as String,
+    occurred_at: json['occurred_at'] as String,
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'booking_id': booking_id,
+    'version': version,
+    'status': status,
+    'reason_code': reason_code,
+    'occurred_at': occurred_at,
+    'simulated': simulated,
+  };
+}
+
+class BookingCredentialEnvelope {
+  final BookingCredential data;
+  final Meta meta;
+  const BookingCredentialEnvelope({required this.data, required this.meta});
+  factory BookingCredentialEnvelope.fromJson(Map<String,dynamic> json) => BookingCredentialEnvelope(
+    data: BookingCredential.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class BookingFulfillmentEventListEnvelope {
+  final List<BookingFulfillmentEvent> data;
+  final Page page;
+  final Meta meta;
+  const BookingFulfillmentEventListEnvelope({required this.data, required this.page, required this.meta});
+  factory BookingFulfillmentEventListEnvelope.fromJson(Map<String,dynamic> json) => BookingFulfillmentEventListEnvelope(
+    data: (json['data'] as List).map((value) => BookingFulfillmentEvent.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -10750,4 +10850,8 @@ class ApiRoutes {
   static const v31_get__merchant_stores_store_id_service_bookings = '/merchant/stores/{store_id}/service-bookings';
   static const v31_post__consumer_service_bookings_id_cancel = '/consumer/service-bookings/{id}/cancel';
   static const v31_post__merchant_stores_store_id_service_bookings_id_cancel = '/merchant/stores/{store_id}/service-bookings/{id}/cancel';
+  static const v312_get__consumer_service_bookings_id_credential = '/consumer/service-bookings/{id}/credential';
+  static const v312_get__consumer_service_bookings_id_fulfillment = '/consumer/service-bookings/{id}/fulfillment';
+  static const v312_get__merchant_stores_store_id_service_bookings_id_fulfillment = '/merchant/stores/{store_id}/service-bookings/{id}/fulfillment';
+  static const v312_post__merchant_stores_store_id_service_bookings_id_fulfillment = '/merchant/stores/{store_id}/service-bookings/{id}/fulfillment';
 }

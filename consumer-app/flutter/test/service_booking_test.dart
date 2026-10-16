@@ -71,9 +71,9 @@ void main() {
   ) async {
     var paused = false;
     final api = fixture.apiWith((r) async {
-        if (r.url.path.endsWith('booking-services')) {
+      if (r.url.path.endsWith('booking-services')) {
         return page(paused ? [] : [service]);
-        }
+      }
       if (r.url.path.endsWith('slots')) return page([slot]);
       return page([]);
     });
@@ -194,6 +194,104 @@ void main() {
       delayed.complete(page([service]));
       await t.pumpAndSettle();
       expect(find.text('TEST wash'), findsNothing);
+      await t.pumpWidget(const SizedBox());
+    },
+  );
+  testWidgets(
+    'credential is transient and logout discards a late credential response',
+    (t) async {
+      Completer<http.Response>? pending;
+      final api = fixture.apiWith((r) async {
+        if (r.url.path.endsWith('/credential')) {
+          pending = Completer<http.Response>();
+          return pending!.future;
+        }
+        if (r.url.path.endsWith('booking-services')) return page([]);
+        return page([booking]);
+      });
+      addTearDown(api.dispose);
+      final container = await mount(t, api);
+      await t.ensureVisible(find.text('出示模拟到店凭证'));
+      await t.tap(find.text('出示模拟到店凭证'));
+      await t.pump();
+      (container.read(authProvider.notifier) as SwitchIdentity).clear();
+      await t.pump();
+      pending!.complete(
+        http.Response(
+          jsonEncode({
+            'data': {
+              'booking_id': 'booking',
+              'credential': 'a' * 64,
+              'valid_from': '2030-10-20T00:30:00Z',
+              'expires_at': '2030-10-20T02:00:00Z',
+              'simulated': true,
+            },
+            'meta': fixture.meta,
+          }),
+          200,
+        ),
+      );
+      await t.pumpAndSettle();
+      expect(find.textContaining('a' * 64), findsNothing);
+      expect(find.text('TEST wash'), findsNothing);
+      await t.pumpWidget(const SizedBox());
+    },
+  );
+  testWidgets(
+    'credential refresh clears secret and fulfillment history shows departure and exception reason',
+    (t) async {
+      var done = false;
+      final api = fixture.apiWith((r) async {
+        if (r.url.path.endsWith('/credential')) {
+          return http.Response(
+            jsonEncode({
+              'data': {
+                'booking_id': 'booking',
+                'credential': 'b' * 64,
+                'valid_from': '2030-10-20T00:30:00Z',
+                'expires_at': '2030-10-20T02:00:00Z',
+                'simulated': true,
+              },
+              'meta': fixture.meta,
+            }),
+            200,
+          );
+        }
+        if (r.url.path.endsWith('/fulfillment')) {
+          return page([
+            {
+              'id': 'event',
+              'booking_id': 'booking',
+              'version': 2,
+              'status': 'EXCEPTION',
+              'reason_code': 'CUSTOMER_DISPUTE',
+              'occurred_at': '2030-10-20T01:30:00Z',
+              'simulated': true,
+            },
+          ]);
+        }
+        if (r.url.path.endsWith('booking-services')) return page([]);
+        return page([
+          {...booking, 'status': done ? 'EXCEPTION' : 'BOOKED'},
+        ]);
+      });
+      addTearDown(api.dispose);
+      await mount(t, api);
+      await t.ensureVisible(find.text('出示模拟到店凭证'));
+      await t.tap(find.text('出示模拟到店凭证'));
+      await t.pumpAndSettle();
+      expect(find.textContaining('b' * 64), findsOneWidget);
+      done = true;
+      await t.ensureVisible(find.text('刷新服务与预约'));
+      await t.tap(find.text('刷新服务与预约'));
+      await t.pumpAndSettle();
+      expect(find.textContaining('b' * 64), findsNothing);
+      expect(find.text('异常待人工处理'), findsOneWidget);
+      expect(find.text('取消模拟预约'), findsNothing);
+      await t.ensureVisible(find.text('查看履约记录'));
+      await t.tap(find.text('查看履约记录'));
+      await t.pumpAndSettle();
+      expect(find.textContaining('消费者异议'), findsOneWidget);
       await t.pumpWidget(const SizedBox());
     },
   );

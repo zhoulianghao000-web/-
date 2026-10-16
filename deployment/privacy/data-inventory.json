@@ -1,6 +1,6 @@
 {
   "schema_version": "pawday-privacy-inventory/v1",
-  "source_baseline": "7214e7715ea7996af05e49072716c5e5c9dc5e17",
+  "source_baseline": "b6a7917ece7d2a39437f8c061acbb95f6f40e781",
   "retention_authority": "PENDING_OWNER_POLICY",
   "deletion_authorized": false,
   "migrations": {
@@ -31,7 +31,8 @@
     "V025__purchase_requests.sql": "39f85fe56dbaa3adac0b69681ded2fdda409d2de3ff8d6c2611ed255aaca1561",
     "V026__offer_price_history.sql": "b1076dddb328154f25d777689e94bc8c6c30d662cc55c141723fed73cc7a3cc4",
     "V027__pet_household_care.sql": "7bfdece2676c541159636d1d3cc61f4ad2e9ee70c61dbc6867b3cd752f545643",
-    "V028__simulated_service_booking.sql": "88ae7a48e8efeebfa6969f53689e3d90c9557c4e46a17ed7ed17e6b565a96ac9"
+    "V028__simulated_service_booking.sql": "88ae7a48e8efeebfa6969f53689e3d90c9557c4e46a17ed7ed17e6b565a96ac9",
+    "V029__simulated_booking_fulfillment.sql": "4b74812cf045a6fb423e928efa78190bf878af7cc891e658bb7b9c230edab6c6"
   },
   "tables": [
     {
@@ -390,6 +391,21 @@
         "revoked_at",
         "version",
         "created_at"
+      ]
+    },
+    {
+      "name": "booking_fulfillment_events",
+      "domain": "service_booking",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "booking_id",
+        "version",
+        "status",
+        "reason_code",
+        "actor_id",
+        "occurred_at"
       ]
     },
     {
@@ -2604,7 +2620,7 @@
       ]
     }
   ],
-  "schema_sha256": "eb83be6060fbb02457a7c4c5bc07f0ed9224c7aae17aecfb60890aee3dd8aa16",
+  "schema_sha256": "01f29e14747c4a8193c2006df515f32ccc7105aedf8381a3597a430ab7041142",
   "policies": [
     {
       "domain": "aftersale_refunds",

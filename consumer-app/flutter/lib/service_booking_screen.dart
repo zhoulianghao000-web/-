@@ -16,6 +16,8 @@ String bookingError(Object error) => error is ApiFailure
         'BOOKING_NOT_AVAILABLE' => '服务已暂停或时段已开始，请重新选择。',
         'BOOKING_ALREADY_STARTED' => '时段已经开始，无法在演练中取消。',
         'BOOKING_ALREADY_CANCELLED' => '预约已经取消，请刷新查看。',
+        'BOOKING_CREDENTIAL_UNAVAILABLE' => '凭证已过期或预约状态已变，请刷新查看。',
+        'BOOKING_FULFILLMENT_STARTED' => '已进入履约处理，不能取消，请联系门店。',
         'CONCURRENT_MODIFICATION' => '预约已更新，请刷新后再操作。',
         'RESOURCE_NOT_FOUND' => '门店或服务已不可用；已预约记录仍可在我的预约中查看。',
         'RATE_LIMITED' => '操作较频繁，请稍后再试。',
@@ -32,6 +34,20 @@ class ServiceBookingScreen extends ConsumerStatefulWidget {
 }
 
 class _ServiceBookingScreenState extends ConsumerState<ServiceBookingScreen> {
+  final credentials = <String, BookingCredential>{};
+  final history = <String, List<BookingFulfillmentEvent>>{};
+  final historyCursors = <String, String?>{};
+  static const labels = {
+    'BOOKED': '已预约 · 模拟不收费',
+    'CANCELLED': '已取消',
+    'CHECKED_IN': '已到店 · 模拟不收费',
+    'COMPLETED': '已完成 · 模拟不收费',
+    'NO_SHOW': '未到店',
+    'EXCEPTION': '异常待人工处理',
+    'SERVICE_UNAVAILABLE': '服务不可用',
+    'SAFETY_STOP': '安全中止',
+    'CUSTOMER_DISPUTE': '消费者异议',
+  };
   List<BookingService> services = [];
   List<BookingSlot> slots = [];
   List<ServiceBooking> bookings = [];
@@ -48,6 +64,7 @@ class _ServiceBookingScreenState extends ConsumerState<ServiceBookingScreen> {
   @override
   void dispose() {
     generation++;
+    credentials.clear();
     keys.clear();
     super.dispose();
   }
@@ -63,6 +80,9 @@ class _ServiceBookingScreenState extends ConsumerState<ServiceBookingScreen> {
 
   void reset() {
     generation++;
+    credentials.clear();
+    history.clear();
+    historyCursors.clear();
     services = [];
     slots = [];
     bookings = [];
@@ -90,6 +110,9 @@ class _ServiceBookingScreenState extends ConsumerState<ServiceBookingScreen> {
     setState(() {
       busy = true;
       error = null;
+      credentials.clear();
+      history.clear();
+      historyCursors.clear();
     });
     try {
       final repo = ref.read(serviceBookingRepositoryProvider);
@@ -226,6 +249,44 @@ class _ServiceBookingScreenState extends ConsumerState<ServiceBookingScreen> {
 
   String time(String value) =>
       DateTime.parse(value).toLocal().toString().substring(0, 16);
+  Future<void> readFulfillment(
+    ServiceBooking b, {
+    bool credential = false,
+    bool more = false,
+  }) async {
+    if (busy) return;
+    final current = stamp();
+    setState(() {
+      busy = true;
+      error = null;
+      credentials.clear();
+    });
+    try {
+      final repo = ref.read(serviceBookingRepositoryProvider);
+      if (credential) {
+        final result = await repo.credential(b.id);
+        if (current()) setState(() => credentials[b.id] = result);
+      } else {
+        final result = await repo.history(
+          b.id,
+          cursor: more ? historyCursors[b.id] : null,
+        );
+        if (current()) {
+          setState(() {
+            history[b.id] =
+                (more ? [...history[b.id] ?? [], ...result.data] : result.data)
+                  ..sort((a, b) => a.version.compareTo(b.version));
+            historyCursors[b.id] = result.page.next_cursor;
+          });
+        }
+      }
+    } catch (e) {
+      if (current()) setState(() => error = bookingError(e));
+    } finally {
+      if (current()) setState(() => busy = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ref.listen(authProvider, (before, after) {
@@ -327,8 +388,45 @@ class _ServiceBookingScreenState extends ConsumerState<ServiceBookingScreen> {
                           children: [
                             Text(b.service_title),
                             Text('${time(b.starts_at)} — ${time(b.ends_at)}'),
-                            Text(b.status == 'BOOKED' ? '已预约 · 模拟不收费' : '已取消'),
+                            Text(labels[b.status] ?? b.status),
                             SelectableText('预约编号 ${b.id}'),
+                            if (b.status == 'BOOKED')
+                              TextButton(
+                                onPressed: busy
+                                    ? null
+                                    : () =>
+                                          readFulfillment(b, credential: true),
+                                child: const Text('出示模拟到店凭证'),
+                              ),
+                            if (credentials[b.id] case final c?) ...[
+                              const Text('仅向本次预约门店出示；凭证只代表模拟到店，不代表真实身份核验。'),
+                              SelectableText('模拟到店凭证 ${c.credential}'),
+                              Text(
+                                '可核销 ${time(c.valid_from)} — ${time(c.expires_at)}（结束时失效）',
+                              ),
+                              TextButton(
+                                onPressed: () => setState(credentials.clear),
+                                child: const Text('隐藏凭证'),
+                              ),
+                            ],
+                            TextButton(
+                              onPressed: busy ? null : () => readFulfillment(b),
+                              child: const Text('查看履约记录'),
+                            ),
+                            if (history[b.id] case final events?) ...[
+                              if (events.isEmpty) const Text('暂无模拟履约记录。'),
+                              for (final e in events)
+                                Text(
+                                  '${e.version} · ${labels[e.status]} · ${time(e.occurred_at)} ${labels[e.reason_code] ?? ''}',
+                                ),
+                              if (historyCursors[b.id] != null)
+                                TextButton(
+                                  onPressed: busy
+                                      ? null
+                                      : () => readFulfillment(b, more: true),
+                                  child: const Text('更多履约记录'),
+                                ),
+                            ],
                             if (b.status == 'BOOKED' &&
                                 DateTime.parse(b.starts_at)
                                     .isAfter(DateTime.now()))

@@ -14,7 +14,7 @@ import java.util.*;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-/** V3.1.1: synthetic slot reservation; no payment, refund, redemption or settlement authority. */
+/** Synthetic reservation and fulfillment; no payment, refund or settlement authority. */
 @Service
 public class ServiceBookingService {
  private final PublishingSupport p;
@@ -24,7 +24,9 @@ public class ServiceBookingService {
  private final Clock clock;
  private final PilotPolicy pilot;
  private final boolean enabled;
- public ServiceBookingService(PublishingSupport p,AccessGuard guard,IdempotentCommandExecutor commands,AuditWriter audit,Clock clock,PilotPolicy pilot,Environment env){
+ private final Crypto crypto;
+ public ServiceBookingService(PublishingSupport p,AccessGuard guard,IdempotentCommandExecutor commands,AuditWriter audit,Clock clock,PilotPolicy pilot,Environment env,Crypto crypto){
+  this.crypto=crypto;
   this.p=p;this.guard=guard;this.commands=commands;this.audit=audit;this.clock=clock;this.pilot=pilot;
   enabled=env.getProperty("pawday.booking.simulation-enabled",Boolean.class,false)
    &&Set.of("development","test","pilot").contains(env.getProperty("pawday.deployment-mode","development"))
@@ -77,7 +79,7 @@ public class ServiceBookingService {
    UUID id=UUID.randomUUID();p.db.update("INSERT INTO service_bookings(id,slot_id,service_id,store_id,user_id,service_title) VALUES (?,?,?,?,?,?)",id,slot,s.get("id"),store,a.userId(),s.get("title"));audit(a,"booking.reserve",id,r);return bookingView(id);
   });
  }
- private static final String BOOKINGS="SELECT b.id,b.slot_id,b.service_id,b.store_id,b.service_title,b.policy,b.amount_fen,b.status,b.version,b.created_at,b.cancelled_at,s.starts_at,s.ends_at FROM service_bookings b JOIN booking_slots s ON s.id=b.slot_id ";
+ private static final String BOOKINGS="SELECT b.id,b.slot_id,b.service_id,b.store_id,b.service_title,b.policy,b.amount_fen,coalesce(f.status,b.status) AS status,b.version+coalesce(f.version,0) AS version,b.created_at,b.cancelled_at,s.starts_at,s.ends_at FROM service_bookings b JOIN booking_slots s ON s.id=b.slot_id LEFT JOIN LATERAL (SELECT status,version FROM booking_fulfillment_events WHERE booking_id=b.id ORDER BY version DESC LIMIT 1) f ON true ";
  private Map<String,Object> bookingView(UUID id){return view(p.one(BOOKINGS+"WHERE b.id=?",id));}
  public List<Map<String,Object>> bookings(Actor a,UUID store,UUID after,int limit){if(store==null)consumer(a);else staff(a,store,false);limit(limit);
   return p.db.queryForList(BOOKINGS+"WHERE "+(store==null?"b.user_id":"b.store_id")+"=? AND b.id>? ORDER BY b.id LIMIT ?",store==null?a.userId():store,after,limit+1).stream().map(this::view).toList();
@@ -87,9 +89,37 @@ public class ServiceBookingService {
   var original=p.one("SELECT slot_id FROM service_bookings WHERE id=? AND "+(store==null?"user_id":"store_id")+"=?",id,store==null?a.userId():store);
   return commands.command(a,"booking.cancel:"+id,key,Map.of("version",v),()->{
    p.one("SELECT id FROM booking_slots WHERE id=? FOR UPDATE",original.get("slot_id"));var row=p.one("SELECT * FROM service_bookings WHERE id=? FOR UPDATE",id);if(store!=null)staff(a,store,true);sameVersion(row,v);
+   if(p.db.queryForObject("SELECT count(*) FROM booking_fulfillment_events WHERE booking_id=?",Integer.class,id)>0)throw new Failure(409,"BOOKING_FULFILLMENT_STARTED");
    if(!row.get("status").equals("BOOKED"))throw new Failure(409,"BOOKING_ALREADY_CANCELLED");
    var slot=p.one("SELECT starts_at FROM booking_slots WHERE id=?",row.get("slot_id"));if(!((Timestamp)slot.get("starts_at")).toInstant().isAfter(clock.instant()))throw new Failure(409,"BOOKING_ALREADY_STARTED");
    p.db.update("UPDATE service_bookings SET status='CANCELLED',version=version+1,cancelled_at=?,cancelled_by=? WHERE id=?",Timestamp.from(clock.instant()),a.principalId(),id);audit(a,"booking.cancel",id,r);return bookingView(id);
+  });
+ }
+ private Map<String,Object> owned(Actor a,UUID id,UUID store,boolean write){if(store==null)consumer(a);else staff(a,store,write);return p.one("SELECT * FROM service_bookings WHERE id=? AND "+(store==null?"user_id":"store_id")+"=?",id,store==null?a.userId():store);}
+ private String credential(UUID id,Instant end){return crypto.otpHash("booking-check-in:v1:"+id,end.toString());}
+ public Map<String,Object> credential(Actor a,UUID id){
+  owned(a,id,null,false);var b=bookingView(id);Instant end=Instant.parse(b.get("ends_at").toString());
+  if(!b.get("status").equals("BOOKED")||!clock.instant().isBefore(end))throw new Failure(409,"BOOKING_CREDENTIAL_UNAVAILABLE");
+  return Map.of("booking_id",id.toString(),"credential",credential(id,end),"valid_from",Instant.parse(b.get("starts_at").toString()).minusSeconds(1800).toString(),"expires_at",end.toString(),"simulated",true);
+ }
+ public List<Map<String,Object>> fulfillment(Actor a,UUID id,UUID store,UUID after,int size){
+  owned(a,id,store,false);limit(size);return p.db.queryForList("SELECT id,booking_id,version,status,reason_code,occurred_at FROM booking_fulfillment_events WHERE booking_id=? AND id>? ORDER BY id LIMIT ?",id,after,size+1).stream().map(this::view).toList();
+ }
+ public Map<String,Object> fulfill(Actor a,UUID id,UUID store,Map<String,Object>b,String match,String key,HttpServletRequest r){
+  var original=owned(a,id,store,true);fields(b,"status","credential","reason_code");String status=text(b.get("status"),16);
+  String token=b.get("credential") instanceof String t?t:null,reason=b.get("reason_code") instanceof String t?t:null;
+  if(token==null||token.length()>64||reason==null||!Set.of("CHECKED_IN","COMPLETED","NO_SHOW","EXCEPTION").contains(status)
+   ||(status.equals("CHECKED_IN")?!token.matches("[0-9a-f]{64}"):!token.isEmpty())
+   ||(status.equals("EXCEPTION")?!Set.of("SERVICE_UNAVAILABLE","SAFETY_STOP","CUSTOMER_DISPUTE").contains(reason):!reason.isEmpty()))throw new Failure(400,"VALIDATION_ERROR");
+  long v=version(match);
+  return commands.command(a,"booking.fulfill:"+id,key,Map.of("body",b,"version",v),()->{
+   p.one("SELECT id FROM booking_slots WHERE id=? FOR UPDATE",original.get("slot_id"));p.one("SELECT id FROM service_bookings WHERE id=? FOR UPDATE",id);owned(a,id,store,true);
+   var row=bookingView(id);sameVersion(row,v);String before=row.get("status").toString();Instant now=clock.instant(),start=Instant.parse(row.get("starts_at").toString()),end=Instant.parse(row.get("ends_at").toString());
+   boolean allowed=switch(status){case "CHECKED_IN"->before.equals("BOOKED")&&!now.isBefore(start.minusSeconds(1800))&&now.isBefore(end);case "COMPLETED"->before.equals("CHECKED_IN")&&!now.isBefore(start);case "NO_SHOW"->before.equals("BOOKED")&&!now.isBefore(end);default->Set.of("BOOKED","CHECKED_IN").contains(before)&&!now.isBefore(start.minusSeconds(1800));};
+   if(!allowed)throw new Failure(409,"BOOKING_FULFILLMENT_CONFLICT");
+   if(status.equals("CHECKED_IN")&&!crypto.equal(token,credential(id,end)))throw new Failure(409,"BOOKING_CREDENTIAL_INVALID");
+   p.db.update("INSERT INTO booking_fulfillment_events(id,booking_id,version,status,reason_code,actor_id,occurred_at) VALUES (?,?,?,?,?,?,?)",UUID.randomUUID(),id,v+1,status,reason,a.principalId(),Timestamp.from(now));
+   audit(a,"booking.fulfillment."+status.toLowerCase(Locale.ROOT),id,r);return bookingView(id);
   });
  }
  private void audit(Actor a,String action,UUID id,HttpServletRequest r){audit.write(a,action,"SIMULATED_BOOKING",id.toString(),Map.of(),Map.of("simulated",true,"policy","SIMULATION_NO_CHARGE_V1"),r);}

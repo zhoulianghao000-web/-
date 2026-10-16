@@ -7,6 +7,19 @@ import 'repositories.dart';
 class ServiceBookingRepository {
   final ConsumerApi api;
   ServiceBookingRepository(this.api);
+  Future<BookingCredential> credential(String id) async =>
+      BookingCredentialEnvelope.fromJson(
+        await api.request('GET', '/consumer/service-bookings/$id/credential'),
+      ).data;
+  Future<BookingFulfillmentEventListEnvelope> history(
+    String id, {
+    String? cursor,
+  }) async => BookingFulfillmentEventListEnvelope.fromJson(
+    await api.request(
+      'GET',
+      page('/consumer/service-bookings/$id/fulfillment', cursor),
+    ),
+  );
   String page(String path, String? cursor) => Uri(
     path: path,
     queryParameters: {'limit': '20', 'cursor': ?cursor},

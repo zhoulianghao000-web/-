@@ -1,4 +1,4 @@
-// Generated from pawday-v3.1.yaml; SHA256 8ee2b41a05a438ce32d4073ceaf25a64bdf024d56a30a431014c5180e279b320
+// Generated from pawday-v3.1.2.yaml; SHA256 8bac154f08a4e523ec6a6a116ba565aa28134bd54738f1cce5b91459aa544111
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -5504,6 +5504,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/consumer/service-bookings/{id}/credential": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Simulated fulfillment get /consumer/service-bookings/{id}/credential
+         * @description Default-off non-production rehearsal. Credential belongs only to booking owner; merchant current store scope and store.nearby.write required for writes. Check-in window starts 30 minutes before slot, ends exclusively at slot end. Completion requires check-in and slot start. No-show only after end; exception fixed reason, terminal without automatic adjudication. History is UUID-paginated; order events by version for display.
+         */
+        get: operations["v312_get__consumer_service_bookings_id_credential"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/service-bookings/{id}/fulfillment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Simulated fulfillment get /consumer/service-bookings/{id}/fulfillment
+         * @description Default-off non-production rehearsal. Credential belongs only to booking owner; merchant current store scope and store.nearby.write required for writes. Check-in window starts 30 minutes before slot, ends exclusively at slot end. Completion requires check-in and slot start. No-show only after end; exception fixed reason, terminal without automatic adjudication. History is UUID-paginated; order events by version for display.
+         */
+        get: operations["v312_get__consumer_service_bookings_id_fulfillment"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/stores/{store_id}/service-bookings/{id}/fulfillment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Simulated fulfillment get /merchant/stores/{store_id}/service-bookings/{id}/fulfillment
+         * @description Default-off non-production rehearsal. Credential belongs only to booking owner; merchant current store scope and store.nearby.write required for writes. Check-in window starts 30 minutes before slot, ends exclusively at slot end. Completion requires check-in and slot start. No-show only after end; exception fixed reason, terminal without automatic adjudication. History is UUID-paginated; order events by version for display.
+         */
+        get: operations["v312_get__merchant_stores_store_id_service_bookings_id_fulfillment"];
+        put?: never;
+        /**
+         * Simulated fulfillment post /merchant/stores/{store_id}/service-bookings/{id}/fulfillment
+         * @description Default-off non-production rehearsal. Credential belongs only to booking owner; merchant current store scope and store.nearby.write required for writes. Check-in window starts 30 minutes before slot, ends exclusively at slot end. Completion requires check-in and slot start. No-show only after end; exception fixed reason, terminal without automatic adjudication. History is UUID-paginated; order events by version for display.
+         */
+        post: operations["v312_post__merchant_stores_store_id_service_bookings_id_fulfillment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -9363,7 +9427,7 @@ export interface components {
             /** @enum {integer} */
             amount_fen: 0;
             /** @enum {string} */
-            status: "BOOKED" | "CANCELLED";
+            status: "BOOKED" | "CANCELLED" | "CHECKED_IN" | "COMPLETED" | "NO_SHOW" | "EXCEPTION";
             version: number;
             /** Format: date-time */
             created_at: string;
@@ -9400,6 +9464,48 @@ export interface components {
         };
         ServiceBookingListEnvelope: {
             data: components["schemas"]["ServiceBooking"][];
+            page: components["schemas"]["Page"];
+            meta: components["schemas"]["Meta"];
+        };
+        BookingCredential: {
+            /** Format: uuid */
+            booking_id: string;
+            credential: string;
+            /** Format: date-time */
+            valid_from: string;
+            /** Format: date-time */
+            expires_at: string;
+            /** @enum {boolean} */
+            simulated: true;
+        };
+        BookingFulfillmentInput: {
+            /** @enum {string} */
+            status: "CHECKED_IN" | "COMPLETED" | "NO_SHOW" | "EXCEPTION";
+            credential: string;
+            /** @enum {string} */
+            reason_code: "" | "SERVICE_UNAVAILABLE" | "SAFETY_STOP" | "CUSTOMER_DISPUTE";
+        };
+        BookingFulfillmentEvent: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            booking_id: string;
+            version: number;
+            /** @enum {string} */
+            status: "CHECKED_IN" | "COMPLETED" | "NO_SHOW" | "EXCEPTION";
+            /** @enum {string} */
+            reason_code: "" | "SERVICE_UNAVAILABLE" | "SAFETY_STOP" | "CUSTOMER_DISPUTE";
+            /** Format: date-time */
+            occurred_at: string;
+            /** @enum {boolean} */
+            simulated: true;
+        };
+        BookingCredentialEnvelope: {
+            data: components["schemas"]["BookingCredential"];
+            meta: components["schemas"]["Meta"];
+        };
+        BookingFulfillmentEventListEnvelope: {
+            data: components["schemas"]["BookingFulfillmentEvent"][];
             page: components["schemas"]["Page"];
             meta: components["schemas"]["Meta"];
         };
@@ -50501,6 +50607,362 @@ export interface operations {
                 };
             };
             /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v312_get__consumer_service_bookings_id_credential: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Simulation only; no fee or actual identity/physical handover assertion */
+            200: {
+                headers: {
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookingCredentialEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v312_get__consumer_service_bookings_id_fulfillment: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Simulation only; no fee or actual identity/physical handover assertion */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookingFulfillmentEventListEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v312_get__merchant_stores_store_id_service_bookings_id_fulfillment: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                store_id: string;
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Simulation only; no fee or actual identity/physical handover assertion */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookingFulfillmentEventListEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v312_post__merchant_stores_store_id_service_bookings_id_fulfillment: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+            };
+            path: {
+                store_id: string;
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BookingFulfillmentInput"];
+            };
+        };
+        responses: {
+            /** @description Simulation only; no fee or actual identity/physical handover assertion */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceBookingEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, version, credential or fulfillment window rejected */
             503: {
                 headers: {
                     [name: string]: unknown;
