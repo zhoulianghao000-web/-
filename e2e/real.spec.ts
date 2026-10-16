@@ -214,10 +214,11 @@ test('real administrator password login, catalog publication, merchant correctio
   const booked=(await reservationResponse.json()).data;expect(booked.simulated).toBe(true);expect(booked.amount_fen).toBe(0);
   const bookingHeaders=await reservationResponse.request().allHeaders();
   const persisted=await aiPage.request.get(api+'/consumer/service-bookings',{headers:{Authorization:bookingHeaders.authorization!}});expect(persisted.status()).toBe(200);expect((await persisted.json()).data.filter((b:{id:string})=>b.id===booked.id)).toHaveLength(1);
-  await expect(aiPage.getByText(/已预约 · 模拟不收费/)).toBeVisible();await aiPage.screenshot({path:'frontend-evidence/v31-real-consumer-booked.png',fullPage:true});
+  await expect(aiPage.getByRole('textbox',{name:/已预约 · 模拟不收费/})).toBeVisible();await aiPage.screenshot({path:'frontend-evidence/v31-real-consumer-booked.png',fullPage:true});
   const cancellation=aiPage.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/service-bookings/'+booked.id+'/cancel'));
   await aiPage.getByRole('button',{name:'取消模拟预约',exact:true}).click();expect((await cancellation).status()).toBe(200);
   const cancelled=await aiPage.request.get(api+'/consumer/service-bookings',{headers:{Authorization:bookingHeaders.authorization!}});expect((await cancelled.json()).data.find((b:{id:string})=>b.id===booked.id).status).toBe('CANCELLED');
+  await expect(aiPage.getByRole('textbox',{name:/已取消/})).toBeVisible();
   await merchantPage.getByRole('button',{name:'刷新服务与预约',exact:true}).click();await expect(merchantPage.getByText('剩余 1/1',{exact:false})).toBeVisible();
   await expect(merchantPage.locator('article').filter({hasText:booked.id})).toContainText('已取消');await merchantPage.screenshot({path:'frontend-evidence/v31-real-merchant-cancelled.png',fullPage:true});
   await aiContext.close();
