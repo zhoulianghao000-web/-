@@ -1,0 +1,102 @@
+{
+  "status": "PENDING_OWNER_RULES",
+  "production_ready": false,
+  "gaps": [
+    {
+      "id": "STORE_AUTHORIZATION",
+      "subject": "合作门店授权与资质",
+      "required_basis": "门店服务和责任范围的有效依据",
+      "status": "PENDING",
+      "evidence_ref": null,
+      "confirmed_value": null
+    },
+    {
+      "id": "SERVICE_TERMS",
+      "subject": "服务合同与交接责任",
+      "required_basis": "服务内容、适用条件及双方义务",
+      "status": "PENDING",
+      "evidence_ref": null,
+      "confirmed_value": null
+    },
+    {
+      "id": "CAPACITY",
+      "subject": "适用范围与资源容量",
+      "required_basis": "多宠、物种、人员/笼位、共享容量",
+      "status": "PENDING",
+      "evidence_ref": null,
+      "confirmed_value": null
+    },
+    {
+      "id": "PRICE",
+      "subject": "计价及税费",
+      "required_basis": "单次/按晚、押金、加项与含税/发票口径",
+      "status": "PENDING",
+      "evidence_ref": null,
+      "confirmed_value": null
+    },
+    {
+      "id": "CONSUMER_CANCELLATION",
+      "subject": "消费者取消",
+      "required_basis": "提前界线、可退/扣费依据及生效时区",
+      "status": "PENDING",
+      "evidence_ref": null,
+      "confirmed_value": null
+    },
+    {
+      "id": "MERCHANT_CANCELLATION",
+      "subject": "商家取消",
+      "required_basis": "责任和全额/其他退款依据",
+      "status": "PENDING",
+      "evidence_ref": null,
+      "confirmed_value": null
+    },
+    {
+      "id": "NO_SHOW_AND_BOARDING",
+      "subject": "未到店与寄养变更",
+      "required_basis": "未到店、改期、提前离店及费用口径",
+      "status": "PENDING",
+      "evidence_ref": null,
+      "confirmed_value": null
+    },
+    {
+      "id": "DISPUTE",
+      "subject": "争议与证据",
+      "required_basis": "裁决权限、证据来源及处理责任",
+      "status": "PENDING",
+      "evidence_ref": null,
+      "confirmed_value": null
+    },
+    {
+      "id": "REFUND",
+      "subject": "退款与渠道费用",
+      "required_basis": "退款时限、原路规则和费用承担",
+      "status": "PENDING",
+      "evidence_ref": null,
+      "confirmed_value": null
+    },
+    {
+      "id": "COMMISSION",
+      "subject": "佣金与冲销",
+      "required_basis": "费率、计费基数、舍入与退款冲佣",
+      "status": "PENDING",
+      "evidence_ref": null,
+      "confirmed_value": null
+    },
+    {
+      "id": "SETTLEMENT",
+      "subject": "结算与收款方",
+      "required_basis": "缓冲、账期、收款主体、已结算退款抵扣",
+      "status": "PENDING",
+      "evidence_ref": null,
+      "confirmed_value": null
+    },
+    {
+      "id": "PROVIDER_AND_PRIVACY",
+      "subject": "渠道与隐私",
+      "required_basis": "正式渠道准入、数据最小化及保留政策",
+      "status": "PENDING",
+      "evidence_ref": null,
+      "confirmed_value": null
+    }
+  ]
+}

@@ -343,6 +343,16 @@ jobs:
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m4.2.yaml --output openapi/pawday-m4.2.redocly.bundle.json
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m4.1.yaml
           npx --yes @redocly/cli@2.57.0 bundle openapi/pawday-m4.1.yaml --output openapi/pawday-m4.1.redocly.bundle.json
+      - name: Isolated V3.1.3 design contract and synthetic boundary gates (not runtime evidence)
+        run: |
+          python scripts/compose-v313-design.py --check
+          python openapi/validate_v313_design.py --report backend/target/v313-design-evidence/contract.json
+          python -m unittest discover -s scripts/tests -p test_service_trade_design.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v313-design-evidence
+          path: backend/target/v313-design-evidence/
 
   pilot-engineering:
     runs-on: ubuntu-latest

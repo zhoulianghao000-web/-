@@ -1,0 +1,5047 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Pawday service trade design — NOT IMPLEMENTED",
+    "version": "3.1.3-design.1",
+    "description": "V3.1.3-A design artifact. Synthetic schema examples are not HTTP responses. Active client contract remains pawday-v3.1.2.yaml. Real merchant policies remain PENDING."
+  },
+  "servers": [
+    {
+      "url": "https://design.invalid/api/v1",
+      "description": "Reserved invalid domain. No deployed service."
+    }
+  ],
+  "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+  "x-runtime-implemented": false,
+  "x-policy-status": "PENDING_OWNER_RULES",
+  "paths": {
+    "/merchant/stores/{store_id}/service-trade-terms": {
+      "get": {
+        "operationId": "draft_v313_get__merchant_stores_store_id_service_trade_terms",
+        "tags": [
+          "merchant"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED get /merchant/stores/{store_id}/service-trade-terms",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceTermsListEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [
+          "service.trade.terms.read"
+        ],
+        "x-reverify-action": null
+      },
+      "post": {
+        "operationId": "draft_v313_post__merchant_stores_store_id_service_trade_terms",
+        "tags": [
+          "merchant"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED post /merchant/stores/{store_id}/service-trade-terms",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceTermsEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [
+          "service.trade.terms.write"
+        ],
+        "x-reverify-action": null,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceTermsInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/service-trade-terms/{id}/review": {
+      "post": {
+        "operationId": "draft_v313_post__admin_service_trade_terms_id_review",
+        "tags": [
+          "admin"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED post /admin/service-trade-terms/{id}/review",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "adminBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[0-9]{1,13}\"$"
+            }
+          },
+          {
+            "name": "X-Reverify-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceTermsEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [
+          "service.trade.terms.review"
+        ],
+        "x-reverify-action": "service.trade.terms.review",
+        "x-version-resource": "ServiceTerms",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TermsReviewInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumer/service-trade-terms/{id}": {
+      "get": {
+        "operationId": "draft_v313_get__consumer_service_trade_terms_id",
+        "tags": [
+          "consumer"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED get /consumer/service-trade-terms/{id}",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "consumerBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsumerServiceTermsEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [],
+        "x-reverify-action": null
+      }
+    },
+    "/consumer/service-trade-quotes": {
+      "post": {
+        "operationId": "draft_v313_post__consumer_service_trade_quotes",
+        "tags": [
+          "consumer"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED post /consumer/service-trade-quotes",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "consumerBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceQuoteEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [],
+        "x-reverify-action": null,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceQuoteInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumer/service-trade-orders": {
+      "post": {
+        "operationId": "draft_v313_post__consumer_service_trade_orders",
+        "tags": [
+          "consumer"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED post /consumer/service-trade-orders",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "consumerBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceTradeEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [],
+        "x-reverify-action": null,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateServiceTrade"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumer/service-trade-orders/{id}": {
+      "get": {
+        "operationId": "draft_v313_get__consumer_service_trade_orders_id",
+        "tags": [
+          "consumer"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED get /consumer/service-trade-orders/{id}",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "consumerBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceTradeEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [],
+        "x-reverify-action": null
+      }
+    },
+    "/merchant/stores/{store_id}/service-trade-orders": {
+      "get": {
+        "operationId": "draft_v313_get__merchant_stores_store_id_service_trade_orders",
+        "tags": [
+          "merchant"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED get /merchant/stores/{store_id}/service-trade-orders",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceTradeListEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [
+          "service.trade.read"
+        ],
+        "x-reverify-action": null
+      }
+    },
+    "/consumer/service-trade-orders/{id}/payment-attempts": {
+      "post": {
+        "operationId": "draft_v313_post__consumer_service_trade_orders_id_payment_attempts",
+        "tags": [
+          "consumer"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED post /consumer/service-trade-orders/{id}/payment-attempts",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "consumerBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[0-9]{1,13}\"$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServicePaymentEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [],
+        "x-reverify-action": null,
+        "x-version-resource": "ServiceTrade",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceAttemptInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumer/service-trade-orders/{id}/payment-requery": {
+      "post": {
+        "operationId": "draft_v313_post__consumer_service_trade_orders_id_payment_requery",
+        "tags": [
+          "consumer"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED post /consumer/service-trade-orders/{id}/payment-requery",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "consumerBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[0-9]{1,13}\"$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServicePaymentEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [],
+        "x-reverify-action": null,
+        "x-version-resource": "ServiceTrade",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmptyInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumer/service-trade-orders/{id}/payment": {
+      "get": {
+        "operationId": "draft_v313_get__consumer_service_trade_orders_id_payment",
+        "tags": [
+          "consumer"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED get /consumer/service-trade-orders/{id}/payment",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "consumerBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServicePaymentEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [],
+        "x-reverify-action": null
+      }
+    },
+    "/consumer/service-trade-orders/{id}/cancel": {
+      "post": {
+        "operationId": "draft_v313_post__consumer_service_trade_orders_id_cancel",
+        "tags": [
+          "consumer"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED post /consumer/service-trade-orders/{id}/cancel",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "consumerBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[0-9]{1,13}\"$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceTradeEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [],
+        "x-reverify-action": null,
+        "x-version-resource": "ServiceTrade",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsumerCancelInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/merchant/stores/{store_id}/service-trade-orders/{id}/cancel": {
+      "post": {
+        "operationId": "draft_v313_post__merchant_stores_store_id_service_trade_orders_id_cancel",
+        "tags": [
+          "merchant"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED post /merchant/stores/{store_id}/service-trade-orders/{id}/cancel",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[0-9]{1,13}\"$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceTradeEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [
+          "service.trade.cancel"
+        ],
+        "x-reverify-action": null,
+        "x-version-resource": "ServiceTrade",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MerchantCancelInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumer/service-trade-orders/{id}/refunds": {
+      "get": {
+        "operationId": "draft_v313_get__consumer_service_trade_orders_id_refunds",
+        "tags": [
+          "consumer"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED get /consumer/service-trade-orders/{id}/refunds",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "consumerBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceRefundListEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [],
+        "x-reverify-action": null
+      }
+    },
+    "/admin/service-trade-orders/{id}/refund-assessments": {
+      "post": {
+        "operationId": "draft_v313_post__admin_service_trade_orders_id_refund_assessments",
+        "tags": [
+          "admin"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED post /admin/service-trade-orders/{id}/refund-assessments",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "adminBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[0-9]{1,13}\"$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefundAssessmentEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [
+          "service.trade.refund.assess"
+        ],
+        "x-reverify-action": null,
+        "x-version-resource": "ServiceTrade",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmptyInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/service-trade-orders/{id}/refund-decisions": {
+      "post": {
+        "operationId": "draft_v313_post__admin_service_trade_orders_id_refund_decisions",
+        "tags": [
+          "admin"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED post /admin/service-trade-orders/{id}/refund-decisions",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "adminBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[0-9]{1,13}\"$"
+            }
+          },
+          {
+            "name": "X-Reverify-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefundDecisionEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [
+          "service.trade.refund.review"
+        ],
+        "x-reverify-action": "service.trade.refund.review",
+        "x-version-resource": "ServiceTrade",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefundDecisionInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consumer/service-trade-orders/{id}/credential": {
+      "get": {
+        "operationId": "draft_v313_get__consumer_service_trade_orders_id_credential",
+        "tags": [
+          "consumer"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED get /consumer/service-trade-orders/{id}/credential",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "consumerBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeCredentialEnvelope"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [],
+        "x-reverify-action": null
+      }
+    },
+    "/consumer/service-trade-orders/{id}/fulfillment": {
+      "get": {
+        "operationId": "draft_v313_get__consumer_service_trade_orders_id_fulfillment",
+        "tags": [
+          "consumer"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED get /consumer/service-trade-orders/{id}/fulfillment",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "consumerBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeFulfillmentEventListEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [],
+        "x-reverify-action": null
+      }
+    },
+    "/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment": {
+      "get": {
+        "operationId": "draft_v313_get__merchant_stores_store_id_service_trade_orders_id_fulfillment",
+        "tags": [
+          "merchant"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED get /merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradeFulfillmentEventListEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [
+          "service.trade.read"
+        ],
+        "x-reverify-action": null
+      },
+      "post": {
+        "operationId": "draft_v313_post__merchant_stores_store_id_service_trade_orders_id_fulfillment",
+        "tags": [
+          "merchant"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED post /merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[0-9]{1,13}\"$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceTradeEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [
+          "service.trade.fulfill"
+        ],
+        "x-reverify-action": null,
+        "x-version-resource": "ServiceTrade",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TradeFulfillmentInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/merchant/stores/{store_id}/service-trade-ledger": {
+      "get": {
+        "operationId": "draft_v313_get__merchant_stores_store_id_service_trade_ledger",
+        "tags": [
+          "merchant"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED get /merchant/stores/{store_id}/service-trade-ledger",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceLedgerEntryListEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [
+          "service.trade.finance.read"
+        ],
+        "x-reverify-action": null
+      }
+    },
+    "/admin/merchants/{merchant_id}/service-trade-settlement-previews": {
+      "post": {
+        "operationId": "draft_v313_post__admin_merchants_merchant_id_service_trade_settlement_previews",
+        "tags": [
+          "admin"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED post /admin/merchants/{merchant_id}/service-trade-settlement-previews",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "adminBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "merchant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceSettlementPreviewEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [
+          "service.trade.settlement.preview"
+        ],
+        "x-reverify-action": null,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmptyInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/merchants/{merchant_id}/service-trade-settlements": {
+      "post": {
+        "operationId": "draft_v313_post__admin_merchants_merchant_id_service_trade_settlements",
+        "tags": [
+          "admin"
+        ],
+        "summary": "DRAFT NOT IMPLEMENTED post /admin/merchants/{merchant_id}/service-trade-settlements",
+        "description": "Proposal only. Default-off non-production simulation with explicit TEST_SCENARIO terms; no actual money movement or accepted real merchant rules. Ownership and current store scope must be checked before idempotency replay. Assessment/preview snapshots create no financial intent. Missing terms fail closed. Refund and settlement decisions consume immutable server assessments with scope, version and expiry checks. Rejected refund decisions create no refund. Fulfillment requires confirmed collection; raw receipts are server-originated.",
+        "security": [
+          {
+            "adminBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "merchant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "name": "X-Reverify-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic response; not runtime evidence",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceSettlementEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-permissions": [
+          "service.trade.settle"
+        ],
+        "x-reverify-action": "service.trade.settle",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceSettlementInput"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "consumerBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "merchantBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "adminBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "Meta": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "correlation_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "request_id",
+          "correlation_id"
+        ]
+      },
+      "Page": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "has_more": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "next_cursor",
+          "has_more"
+        ]
+      },
+      "ErrorEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string",
+                "minLength": 1
+              },
+              "message": {
+                "type": "string",
+                "minLength": 1
+              },
+              "retryable": {
+                "type": "boolean"
+              },
+              "details": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "retryable",
+              "details"
+            ]
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "error",
+          "meta"
+        ]
+      },
+      "Evidence": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "TEST_SCENARIO"
+            ]
+          },
+          "reference": {
+            "type": "string",
+            "pattern": "^TEST_ONLY_[A-Z0-9_-]{1,100}$"
+          }
+        },
+        "required": [
+          "kind",
+          "reference"
+        ]
+      },
+      "ServiceTermsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "service_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "CNY"
+            ]
+          },
+          "amount_fen": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000000
+          },
+          "billing_unit": {
+            "type": "string",
+            "enum": [
+              "WHOLE_SLOT"
+            ]
+          },
+          "cancel_cutoff_minutes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 129600
+          },
+          "consumer_late_cancel": {
+            "type": "string",
+            "enum": [
+              "MANUAL_REVIEW"
+            ]
+          },
+          "merchant_cancel": {
+            "type": "string",
+            "enum": [
+              "FULL_REFUND"
+            ]
+          },
+          "no_show": {
+            "type": "string",
+            "enum": [
+              "MANUAL_REVIEW"
+            ]
+          },
+          "commission_basis_points": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "settlement_buffer_minutes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 129600
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 20,
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            }
+          }
+        },
+        "required": [
+          "service_id",
+          "currency",
+          "amount_fen",
+          "billing_unit",
+          "cancel_cutoff_minutes",
+          "consumer_late_cancel",
+          "merchant_cancel",
+          "no_show",
+          "commission_basis_points",
+          "settlement_buffer_minutes",
+          "evidence_refs"
+        ]
+      },
+      "ServiceTerms": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "store_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "service_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "CNY"
+            ]
+          },
+          "amount_fen": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000000
+          },
+          "billing_unit": {
+            "type": "string",
+            "enum": [
+              "WHOLE_SLOT"
+            ]
+          },
+          "cancel_cutoff_minutes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 129600
+          },
+          "consumer_late_cancel": {
+            "type": "string",
+            "enum": [
+              "MANUAL_REVIEW"
+            ]
+          },
+          "merchant_cancel": {
+            "type": "string",
+            "enum": [
+              "FULL_REFUND"
+            ]
+          },
+          "no_show": {
+            "type": "string",
+            "enum": [
+              "MANUAL_REVIEW"
+            ]
+          },
+          "commission_basis_points": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "settlement_buffer_minutes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 129600
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 20,
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            }
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "DRAFT",
+              "REVIEWED",
+              "REJECTED",
+              "RETIRED"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "terms_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "authorization_status": {
+            "type": "string",
+            "enum": [
+              "ENGINEERING_SCENARIO_ONLY"
+            ]
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "policy_snapshot_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "service_title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "service_kind": {
+            "type": "string",
+            "enum": [
+              "GROOMING",
+              "BOARDING"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "store_id",
+          "service_id",
+          "currency",
+          "amount_fen",
+          "billing_unit",
+          "cancel_cutoff_minutes",
+          "consumer_late_cancel",
+          "merchant_cancel",
+          "no_show",
+          "commission_basis_points",
+          "settlement_buffer_minutes",
+          "evidence_refs",
+          "state",
+          "version",
+          "terms_sha256",
+          "authorization_status",
+          "simulated",
+          "policy_snapshot_sha256",
+          "service_title",
+          "service_kind"
+        ]
+      },
+      "ConsumerServiceTerms": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "store_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "service_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "service_title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "service_kind": {
+            "type": "string",
+            "enum": [
+              "GROOMING",
+              "BOARDING"
+            ]
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "CNY"
+            ]
+          },
+          "amount_fen": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000000
+          },
+          "billing_unit": {
+            "type": "string",
+            "enum": [
+              "WHOLE_SLOT"
+            ]
+          },
+          "cancel_cutoff_minutes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 129600
+          },
+          "consumer_late_cancel": {
+            "type": "string",
+            "enum": [
+              "MANUAL_REVIEW"
+            ]
+          },
+          "merchant_cancel": {
+            "type": "string",
+            "enum": [
+              "FULL_REFUND"
+            ]
+          },
+          "no_show": {
+            "type": "string",
+            "enum": [
+              "MANUAL_REVIEW"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "terms_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "store_id",
+          "service_id",
+          "service_title",
+          "service_kind",
+          "currency",
+          "amount_fen",
+          "billing_unit",
+          "cancel_cutoff_minutes",
+          "consumer_late_cancel",
+          "merchant_cancel",
+          "no_show",
+          "version",
+          "terms_sha256",
+          "simulated"
+        ]
+      },
+      "TermsReviewInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": [
+              "APPROVE_SIMULATION",
+              "REJECT"
+            ]
+          },
+          "reason_code": {
+            "type": "string",
+            "enum": [
+              "TEST_SCENARIO_REVIEWED",
+              "RULES_INCOMPLETE"
+            ]
+          }
+        },
+        "required": [
+          "decision",
+          "reason_code"
+        ]
+      },
+      "ServiceQuoteInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "terms_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "slot_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "terms_id",
+          "slot_id"
+        ]
+      },
+      "ServiceQuote": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "store_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "service_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "slot_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "terms_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "terms_version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "terms_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "CNY"
+            ]
+          },
+          "payable_fen": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000000
+          },
+          "starts_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ends_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "capacity_held": {
+            "type": "boolean",
+            "const": false
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "store_id",
+          "service_id",
+          "slot_id",
+          "terms_id",
+          "terms_version",
+          "terms_sha256",
+          "currency",
+          "payable_fen",
+          "starts_at",
+          "ends_at",
+          "expires_at",
+          "capacity_held",
+          "simulated"
+        ]
+      },
+      "CreateServiceTrade": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "quote_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "accepted_terms_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "quote_id",
+          "accepted_terms_sha256"
+        ]
+      },
+      "ServiceTrade": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "store_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "service_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "slot_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "terms_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "terms_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "CNY"
+            ]
+          },
+          "payable_fen": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000000
+          },
+          "paid_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "refunded_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "refund_reserved_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "commission_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "commission_reversed_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "merchant_net_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "order_state": {
+            "type": "string",
+            "enum": [
+              "AWAITING_PAYMENT",
+              "CONFIRMED",
+              "CANCELLED",
+              "EXPIRED"
+            ]
+          },
+          "payment_state": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "PROCESSING",
+              "UNKNOWN",
+              "SUCCEEDED",
+              "CLOSED"
+            ]
+          },
+          "capacity_state": {
+            "type": "string",
+            "enum": [
+              "HELD",
+              "CONFIRMED",
+              "RELEASED"
+            ]
+          },
+          "fulfillment_state": {
+            "type": "string",
+            "enum": [
+              "NOT_STARTED",
+              "CHECKED_IN",
+              "COMPLETED",
+              "NO_SHOW",
+              "EXCEPTION"
+            ]
+          },
+          "settlement_state": {
+            "type": "string",
+            "enum": [
+              "WAITING_COMPLETION",
+              "BUFFERING",
+              "FROZEN",
+              "ELIGIBLE",
+              "PROCESSING",
+              "SETTLED",
+              "ADJUSTED",
+              "NOT_PAYABLE"
+            ]
+          },
+          "hold_expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "starts_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "receipt_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "confirmed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "as_of": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "settlement_buffer_ends_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "open_dispute": {
+            "type": "boolean"
+          },
+          "unresolved_collection_case": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          },
+          "policy_snapshot_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "id",
+          "store_id",
+          "service_id",
+          "slot_id",
+          "terms_id",
+          "terms_sha256",
+          "currency",
+          "payable_fen",
+          "paid_fen",
+          "refunded_fen",
+          "refund_reserved_fen",
+          "commission_fen",
+          "commission_reversed_fen",
+          "merchant_net_fen",
+          "order_state",
+          "payment_state",
+          "capacity_state",
+          "fulfillment_state",
+          "settlement_state",
+          "hold_expires_at",
+          "starts_at",
+          "receipt_id",
+          "confirmed_at",
+          "as_of",
+          "settlement_buffer_ends_at",
+          "open_dispute",
+          "unresolved_collection_case",
+          "version",
+          "simulated",
+          "policy_snapshot_sha256"
+        ]
+      },
+      "ServiceAttemptInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "channel": {
+            "type": "string",
+            "enum": [
+              "SIMULATED_TEST"
+            ]
+          },
+          "client_platform": {
+            "type": "string",
+            "enum": [
+              "ANDROID",
+              "WEB"
+            ]
+          }
+        },
+        "required": [
+          "channel",
+          "client_platform"
+        ]
+      },
+      "ServicePayment": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "trade_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "PROCESSING",
+              "UNKNOWN",
+              "SUCCEEDED",
+              "CLOSED"
+            ]
+          },
+          "attempt_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "receipt_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "collected_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "CNY"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "trade_id",
+          "state",
+          "attempt_id",
+          "receipt_id",
+          "collected_fen",
+          "currency",
+          "version",
+          "simulated"
+        ]
+      },
+      "EmptyInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      },
+      "ConsumerCancelInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "reason_code": {
+            "type": "string",
+            "enum": [
+              "CONSUMER_CANCELLED"
+            ]
+          }
+        },
+        "required": [
+          "reason_code"
+        ]
+      },
+      "MerchantCancelInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "reason_code": {
+            "type": "string",
+            "enum": [
+              "SERVICE_UNAVAILABLE"
+            ]
+          }
+        },
+        "required": [
+          "reason_code"
+        ]
+      },
+      "RefundAssessment": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "trade_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "terms_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "proposed_refund_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "basis_code": {
+            "type": "string",
+            "enum": [
+              "BEFORE_CUTOFF",
+              "MERCHANT_CANCEL",
+              "MANUAL_REVIEW_REQUIRED"
+            ]
+          },
+          "eligible_for_approval": {
+            "type": "boolean"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trade_version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "trade_id",
+          "terms_sha256",
+          "proposed_refund_fen",
+          "basis_code",
+          "eligible_for_approval",
+          "expires_at",
+          "trade_version",
+          "simulated"
+        ]
+      },
+      "RefundDecisionInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "assessment_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "APPROVE",
+              "REJECT"
+            ]
+          },
+          "reason_code": {
+            "type": "string",
+            "enum": [
+              "SNAPSHOT_RULES_APPLY",
+              "EVIDENCE_INSUFFICIENT"
+            ]
+          }
+        },
+        "required": [
+          "assessment_id",
+          "decision",
+          "reason_code"
+        ]
+      },
+      "ServiceRefund": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "trade_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "amount_fen": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000000
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "RESERVED",
+              "PROCESSING",
+              "UNKNOWN",
+              "SUCCEEDED",
+              "FAILED_RETRYABLE",
+              "NEEDS_REVIEW"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "trade_id",
+          "amount_fen",
+          "state",
+          "version",
+          "simulated"
+        ]
+      },
+      "RefundDecision": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "trade_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "assessment_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "APPROVE",
+              "REJECT"
+            ]
+          },
+          "refund_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "trade_id",
+          "assessment_id",
+          "decision",
+          "refund_id",
+          "version",
+          "simulated"
+        ]
+      },
+      "TradeCredential": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "trade_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "credential": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "valid_from": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "required": [
+          "trade_id",
+          "credential",
+          "valid_from",
+          "expires_at",
+          "simulated"
+        ]
+      },
+      "TradeFulfillmentInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "CHECKED_IN",
+              "COMPLETED",
+              "NO_SHOW",
+              "EXCEPTION"
+            ]
+          },
+          "credential": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "reason_code": {
+            "type": "string",
+            "enum": [
+              "",
+              "SERVICE_UNAVAILABLE",
+              "SAFETY_STOP",
+              "CUSTOMER_DISPUTE"
+            ]
+          }
+        },
+        "required": [
+          "status",
+          "credential",
+          "reason_code"
+        ]
+      },
+      "TradeFulfillmentEvent": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "trade_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "CHECKED_IN",
+              "COMPLETED",
+              "NO_SHOW",
+              "EXCEPTION"
+            ]
+          },
+          "reason_code": {
+            "type": "string",
+            "enum": [
+              "",
+              "SERVICE_UNAVAILABLE",
+              "SAFETY_STOP",
+              "CUSTOMER_DISPUTE"
+            ]
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "trade_id",
+          "status",
+          "reason_code",
+          "occurred_at",
+          "version",
+          "simulated"
+        ]
+      },
+      "ServiceLedgerEntry": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "trade_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "source_event_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "entry_type": {
+            "type": "string",
+            "enum": [
+              "SERVICE_COLLECTION",
+              "SERVICE_COMMISSION",
+              "SERVICE_REFUND",
+              "SERVICE_COMMISSION_REVERSAL",
+              "SERVICE_SETTLEMENT",
+              "SERVICE_SETTLED_REFUND_ADJUSTMENT"
+            ]
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "CREDIT",
+              "DEBIT"
+            ]
+          },
+          "amount_fen": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000000
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "trade_id",
+          "source_event_id",
+          "entry_type",
+          "direction",
+          "amount_fen",
+          "occurred_at",
+          "simulated"
+        ]
+      },
+      "ServiceSettlementPreview": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "merchant_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "net_fen": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "entry_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "ledger_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "eligible": {
+            "type": "boolean"
+          },
+          "blocked_reasons": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "UNKNOWN_PAYMENT",
+                "UNKNOWN_REFUND",
+                "OPEN_DISPUTE",
+                "BUFFER_NOT_DUE",
+                "TERMS_MISSING",
+                "NON_POSITIVE_BALANCE"
+              ]
+            }
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "merchant_id",
+          "net_fen",
+          "entry_count",
+          "ledger_sha256",
+          "expires_at",
+          "eligible",
+          "blocked_reasons",
+          "simulated"
+        ]
+      },
+      "ServiceSettlementInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "preview_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "accepted_ledger_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "preview_id",
+          "accepted_ledger_sha256"
+        ]
+      },
+      "ServiceSettlement": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "merchant_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "net_fen": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000000
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "PROCESSING",
+              "UNKNOWN",
+              "SETTLED",
+              "FAILED_RETRYABLE",
+              "NEEDS_REVIEW"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "simulated": {
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "merchant_id",
+          "net_fen",
+          "state",
+          "version",
+          "simulated"
+        ]
+      },
+      "ServiceTermsEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ServiceTerms"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "ServiceTermsListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceTerms"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "page",
+          "meta"
+        ]
+      },
+      "ConsumerServiceTermsEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ConsumerServiceTerms"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "ConsumerServiceTermsListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConsumerServiceTerms"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "page",
+          "meta"
+        ]
+      },
+      "ServiceQuoteEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ServiceQuote"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "ServiceQuoteListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceQuote"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "page",
+          "meta"
+        ]
+      },
+      "ServiceTradeEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ServiceTrade"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "ServiceTradeListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceTrade"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "page",
+          "meta"
+        ]
+      },
+      "ServicePaymentEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ServicePayment"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "ServicePaymentListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServicePayment"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "page",
+          "meta"
+        ]
+      },
+      "RefundAssessmentEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RefundAssessment"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "RefundAssessmentListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RefundAssessment"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "page",
+          "meta"
+        ]
+      },
+      "RefundDecisionEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RefundDecision"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "RefundDecisionListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RefundDecision"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "page",
+          "meta"
+        ]
+      },
+      "ServiceRefundEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ServiceRefund"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "ServiceRefundListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceRefund"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "page",
+          "meta"
+        ]
+      },
+      "TradeCredentialEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/TradeCredential"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "TradeCredentialListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TradeCredential"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "page",
+          "meta"
+        ]
+      },
+      "TradeFulfillmentEventEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/TradeFulfillmentEvent"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "TradeFulfillmentEventListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TradeFulfillmentEvent"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "page",
+          "meta"
+        ]
+      },
+      "ServiceLedgerEntryEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ServiceLedgerEntry"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "ServiceLedgerEntryListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceLedgerEntry"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "page",
+          "meta"
+        ]
+      },
+      "ServiceSettlementPreviewEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ServiceSettlementPreview"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "ServiceSettlementPreviewListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceSettlementPreview"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "page",
+          "meta"
+        ]
+      },
+      "ServiceSettlementEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ServiceSettlement"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ]
+      },
+      "ServiceSettlementListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceSettlement"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "page",
+          "meta"
+        ]
+      }
+    }
+  }
+}

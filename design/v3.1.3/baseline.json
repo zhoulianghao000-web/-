@@ -1,0 +1,11 @@
+{
+  "baseline_commit": "d1153968013d5a76b09335e279487464a9a1e9fc",
+  "runtime_contract": "openapi/pawday-v3.1.2.yaml",
+  "runtime_version": "3.0.2+25",
+  "protected_tree": {
+    "files": 302,
+    "sha256": "324f0e86ecd60b10e07371751984ea4b47ca363052d6c0f95ca0e4534edc9489"
+  },
+  "normalization": "TEXT_CRLF_TO_LF",
+  "active_paid_service_routes": false
+}
