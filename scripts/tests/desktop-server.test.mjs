@@ -24,7 +24,7 @@ test('local desktop delivery serves four sites and proxies actual HTTP without i
    for(const url of urls){
     for(const path of ['/merchant.apk','/admin.apk','/%6derchant.apk'])assert.equal((await fetch(url+path)).status,404);
    }
-   for(const path of ['/app','/app/','/app/index.html','/app/main.dart.js','/%61pp/'])assert.equal((await fetch(urls[1]+path)).status,404);
+   for(const path of ['/app','/app/','/app/index.html','/app/main.dart.js','/%61pp/','/APP/','/%2fapp/','/unused%2f..%2fapp/index.html'])assert.equal((await fetch(urls[1]+path)).status,404);
    assert.equal((await fetch(urls[0]+'/merchant.apk',{method:'HEAD'})).status,404);
    assert.equal((await fetch(urls[0]+'/consumer.apk',{method:'HEAD'})).status,200);
    for(const url of urls.slice(1))assert.equal((await fetch(url+'/consumer.apk')).status,404);

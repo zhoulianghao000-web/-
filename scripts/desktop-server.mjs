@@ -53,7 +53,8 @@ export async function createDesktopServers({root,ports=[4172,4273,4174,4175],bac
           if(path.includes('\\')||path.includes('\0')){reply(res,404,{error:'NOT_FOUND'});return;}
           let file;
           // Retired mobile artifacts remain blocked even in older extracted deliveries.
-          if((/\.apk$/i.test(path)&&!(site==='portal'&&path==='/consumer.apk'))||(site==='merchant'&&/^\/app(?:\/|$)/.test(path))){reply(res,404,{error:'NOT_FOUND'});return;}
+          const localPath=relative(base,resolve(base,'.'+path)).replaceAll('\\','/');
+          if((/\.apk$/i.test(path)&&!(site==='portal'&&path==='/consumer.apk'))||(site==='merchant'&&/^app(?:\/|$)/i.test(localPath))){reply(res,404,{error:'NOT_FOUND'});return;}
           const apk=site==='portal'&&path==='/consumer.apk';
           if(apk)file=resolve(root,'release',path.slice(1));
           else{
