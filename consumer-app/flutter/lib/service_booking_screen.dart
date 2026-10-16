@@ -106,6 +106,8 @@ class _ServiceBookingScreenState extends ConsumerState<ServiceBookingScreen> {
         setState(() {
           services = page.data;
           serviceCursor = page.page.next_cursor;
+          slots = [];
+          slotCursor = null;
           if (!services.any((s) => s.id == selected)) {
             selected = services.isEmpty ? null : services.first.id;
           }
@@ -113,7 +115,16 @@ class _ServiceBookingScreenState extends ConsumerState<ServiceBookingScreen> {
         if (selected != null) await readSlots();
       }
     } catch (e) {
-      if (current()) setState(() => error = bookingError(e));
+      if (current()) {
+        setState(() {
+          error = bookingError(e);
+          services = [];
+          slots = [];
+          selected = null;
+          serviceCursor = null;
+          slotCursor = null;
+        });
+      }
     } finally {
       if (current()) setState(() => busy = false);
     }

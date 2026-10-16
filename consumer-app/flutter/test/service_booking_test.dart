@@ -66,6 +66,36 @@ class SwitchIdentity extends pet.SignedIn {
 }
 
 void main() {
+  testWidgets('paused services clear previously displayed availability', (
+    t,
+  ) async {
+    var paused = false;
+    final api = fixture.apiWith((r) async {
+      if (r.url.path.endsWith('booking-services'))
+        return page(paused ? [] : [service]);
+      if (r.url.path.endsWith('slots')) return page([slot]);
+      return page([]);
+    });
+    addTearDown(api.dispose);
+    await api.accept(fixture.tokens);
+    await t.pumpWidget(
+      ProviderScope(
+        overrides: [
+          consumerApiProvider.overrideWithValue(api),
+          authProvider.overrideWith(SwitchIdentity.new),
+        ],
+        child: MaterialApp(home: const ServiceBookingScreen(storeId: 'store')),
+      ),
+    );
+    await t.pumpAndSettle();
+    expect(find.text('确认模拟预约'), findsOneWidget);
+    paused = true;
+    await t.tap(find.text('刷新服务与预约'));
+    await t.pumpAndSettle();
+    expect(find.text('确认模拟预约'), findsNothing);
+    expect(find.text('TEST wash'), findsNothing);
+    await t.pumpWidget(const SizedBox());
+  });
   Future<ProviderContainer> mount(WidgetTester t, ConsumerApi api) async {
     late ProviderContainer container;
     await api.accept(fixture.tokens);
