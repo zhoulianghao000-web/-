@@ -47,7 +47,9 @@ def main():
         assert (source / name).resolve().is_relative_to(source), name
     manifest = json.loads((installed / 'release/desktop-manifest.json').read_text(encoding='utf-8-sig'))
     manifest = {key: value for key, value in manifest.items() if not key.startswith('merchant_')}
-    manifest.update(version='2.0.3-consumer-only', delivery_commit=commit,
+    manifest.update(stage='V2-ENGINEERING-CONSUMER-ANDROID-AND-THREE-WEB-CLIENTS',
+                    revision='CONSUMER_ANDROID_AND_STAFF_WEB_ONLY',
+                    version='2.0.3-consumer-only', delivery_commit=commit,
                     scope_code_commit=commit, android_targets=['consumer'],
                     web_targets=['consumer', 'merchant', 'admin'], retired_merchant_app=True)
     manifest_bytes = (json.dumps(manifest, ensure_ascii=False, indent=2) + '\n').encode()
