@@ -54,6 +54,8 @@ server:
 
 pawday:
   deployment-mode: ${PAWDAY_DEPLOYMENT_MODE:development}
+  booking:
+    simulation-enabled: ${PAWDAY_BOOKING_SIMULATION_ENABLED:false}
   operations:
     scrape-token: ${PAWDAY_METRICS_SCRAPE_TOKEN:}
   data-encryption:

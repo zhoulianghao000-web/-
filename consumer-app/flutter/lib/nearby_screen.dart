@@ -181,6 +181,19 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
                   ),
                   const Text('服务与营业时间请联系门店确认。医院仅提供地点与联系方式，不提供诊断或治疗排行。'),
                   FavoriteButton(kind: 'STORE', target: place.id),
+                  if (pilotMode)
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        this.context.go(
+                          Uri(
+                            path: '/service-bookings',
+                            queryParameters: {'store_id': place.id},
+                          ).toString(),
+                        );
+                      },
+                      child: const Text('查看模拟服务与预约'),
+                    ),
                   const SizedBox(height: 16),
                   PawdayButton(
                     onPressed: () async {
@@ -262,6 +275,11 @@ class _NearbyScreenState extends ConsumerState<NearbyScreen> {
                   '从日常用品到洗护寄养，找到下一站。',
                   style: TextStyle(color: PawdayDesign.muted, height: 1.6),
                 ),
+                if (pilotMode)
+                  TextButton(
+                    onPressed: () => context.go('/service-bookings'),
+                    child: const Text('我的模拟预约'),
+                  ),
                 const SizedBox(height: 24),
                 Container(
                   padding: const EdgeInsets.all(24),

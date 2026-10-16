@@ -1,4 +1,4 @@
-// Generated from pawday-v2.3.yaml; SHA256 62f5157037a3ac35fd8f1f32b767a55bce7f8e438d040dc41d0aea8d267885f9
+// Generated from pawday-v3.1.yaml; SHA256 8ee2b41a05a438ce32d4073ceaf25a64bdf024d56a30a431014c5180e279b320
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -5312,6 +5312,198 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/merchant/stores/{store_id}/booking-services": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Simulated booking: get /merchant/stores/{store_id}/booking-services
+         * @description Disabled by default. Requires explicit simulation flag and a non-production deployment. Merchant access reuses store.read / store.nearby.write and current store scope. One booking reserves one place in a service-specific slot. No actual partner or charge is implied.
+         */
+        get: operations["v31_get__merchant_stores_store_id_booking_services"];
+        put?: never;
+        /**
+         * Simulated booking: post /merchant/stores/{store_id}/booking-services
+         * @description Disabled by default. Requires explicit simulation flag and a non-production deployment. Merchant access reuses store.read / store.nearby.write and current store scope. One booking reserves one place in a service-specific slot. No actual partner or charge is implied.
+         */
+        post: operations["v31_post__merchant_stores_store_id_booking_services"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/stores/{store_id}/booking-services": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Simulated booking: get /consumer/stores/{store_id}/booking-services
+         * @description Disabled by default. Requires explicit simulation flag and a non-production deployment. Merchant access reuses store.read / store.nearby.write and current store scope. One booking reserves one place in a service-specific slot. No actual partner or charge is implied.
+         */
+        get: operations["v31_get__consumer_stores_store_id_booking_services"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/booking-services/{id}/state": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Simulated booking: put /merchant/booking-services/{id}/state
+         * @description Disabled by default. Requires explicit simulation flag and a non-production deployment. Merchant access reuses store.read / store.nearby.write and current store scope. One booking reserves one place in a service-specific slot. No actual partner or charge is implied.
+         */
+        put: operations["v31_put__merchant_booking_services_id_state"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/booking-services/{id}/slots": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Simulated booking: get /merchant/booking-services/{id}/slots
+         * @description Disabled by default. Requires explicit simulation flag and a non-production deployment. Merchant access reuses store.read / store.nearby.write and current store scope. One booking reserves one place in a service-specific slot. No actual partner or charge is implied.
+         */
+        get: operations["v31_get__merchant_booking_services_id_slots"];
+        put?: never;
+        /**
+         * Simulated booking: post /merchant/booking-services/{id}/slots
+         * @description Disabled by default. Requires explicit simulation flag and a non-production deployment. Merchant access reuses store.read / store.nearby.write and current store scope. One booking reserves one place in a service-specific slot. No actual partner or charge is implied.
+         */
+        post: operations["v31_post__merchant_booking_services_id_slots"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/booking-services/{id}/slots": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Simulated booking: get /consumer/booking-services/{id}/slots
+         * @description Disabled by default. Requires explicit simulation flag and a non-production deployment. Merchant access reuses store.read / store.nearby.write and current store scope. One booking reserves one place in a service-specific slot. No actual partner or charge is implied.
+         */
+        get: operations["v31_get__consumer_booking_services_id_slots"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/service-bookings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Simulated booking: get /consumer/service-bookings
+         * @description Disabled by default. Requires explicit simulation flag and a non-production deployment. Merchant access reuses store.read / store.nearby.write and current store scope. One booking reserves one place in a service-specific slot. No actual partner or charge is implied.
+         */
+        get: operations["v31_get__consumer_service_bookings"];
+        put?: never;
+        /**
+         * Simulated booking: post /consumer/service-bookings
+         * @description Disabled by default. Requires explicit simulation flag and a non-production deployment. Merchant access reuses store.read / store.nearby.write and current store scope. One booking reserves one place in a service-specific slot. No actual partner or charge is implied.
+         */
+        post: operations["v31_post__consumer_service_bookings"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/stores/{store_id}/service-bookings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Simulated booking: get /merchant/stores/{store_id}/service-bookings
+         * @description Disabled by default. Requires explicit simulation flag and a non-production deployment. Merchant access reuses store.read / store.nearby.write and current store scope. One booking reserves one place in a service-specific slot. No actual partner or charge is implied.
+         */
+        get: operations["v31_get__merchant_stores_store_id_service_bookings"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/service-bookings/{id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Simulated booking: post /consumer/service-bookings/{id}/cancel
+         * @description Disabled by default. Requires explicit simulation flag and a non-production deployment. Merchant access reuses store.read / store.nearby.write and current store scope. One booking reserves one place in a service-specific slot. No actual partner or charge is implied.
+         */
+        post: operations["v31_post__consumer_service_bookings_id_cancel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/stores/{store_id}/service-bookings/{id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Simulated booking: post /merchant/stores/{store_id}/service-bookings/{id}/cancel
+         * @description Disabled by default. Requires explicit simulation flag and a non-production deployment. Merchant access reuses store.read / store.nearby.write and current store scope. One booking reserves one place in a service-specific slot. No actual partner or charge is implied.
+         */
+        post: operations["v31_post__merchant_stores_store_id_service_bookings_id_cancel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -9102,6 +9294,113 @@ export interface components {
         };
         BusinessAnalyticsEnvelope: {
             data: components["schemas"]["BusinessAnalytics"];
+            meta: components["schemas"]["Meta"];
+        };
+        BookingServiceInput: {
+            title: string;
+            /** @enum {string} */
+            kind: "GROOMING" | "BOARDING";
+        };
+        BookingService: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            store_id: string;
+            title: string;
+            /** @enum {string} */
+            kind: "GROOMING" | "BOARDING";
+            /** @enum {string} */
+            status: "ACTIVE" | "PAUSED";
+            version: number;
+            /** Format: date-time */
+            created_at: string;
+            /** @enum {boolean} */
+            simulated: true;
+        };
+        BookingServiceState: {
+            /** @enum {string} */
+            status: "ACTIVE" | "PAUSED";
+        };
+        BookingSlotInput: {
+            /** Format: date-time */
+            starts_at: string;
+            /** Format: date-time */
+            ends_at: string;
+            capacity: number;
+        };
+        BookingSlot: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            service_id: string;
+            /** Format: date-time */
+            starts_at: string;
+            /** Format: date-time */
+            ends_at: string;
+            capacity: number;
+            /** Format: date-time */
+            created_at: string;
+            remaining: number;
+            /** @enum {boolean} */
+            simulated: true;
+        };
+        ServiceBookingInput: {
+            /** Format: uuid */
+            slot_id: string;
+        };
+        ServiceBooking: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            slot_id: string;
+            /** Format: uuid */
+            service_id: string;
+            /** Format: uuid */
+            store_id: string;
+            service_title: string;
+            /** @enum {string} */
+            policy: "SIMULATION_NO_CHARGE_V1";
+            /** @enum {integer} */
+            amount_fen: 0;
+            /** @enum {string} */
+            status: "BOOKED" | "CANCELLED";
+            version: number;
+            /** Format: date-time */
+            created_at: string;
+            cancelled_at: string | null;
+            /** Format: date-time */
+            starts_at: string;
+            /** Format: date-time */
+            ends_at: string;
+            /** @enum {boolean} */
+            simulated: true;
+        };
+        BookingEmpty: Record<string, never>;
+        BookingServiceEnvelope: {
+            data: components["schemas"]["BookingService"];
+            meta: components["schemas"]["Meta"];
+        };
+        BookingServiceListEnvelope: {
+            data: components["schemas"]["BookingService"][];
+            page: components["schemas"]["Page"];
+            meta: components["schemas"]["Meta"];
+        };
+        BookingSlotEnvelope: {
+            data: components["schemas"]["BookingSlot"];
+            meta: components["schemas"]["Meta"];
+        };
+        BookingSlotListEnvelope: {
+            data: components["schemas"]["BookingSlot"][];
+            page: components["schemas"]["Page"];
+            meta: components["schemas"]["Meta"];
+        };
+        ServiceBookingEnvelope: {
+            data: components["schemas"]["ServiceBooking"];
+            meta: components["schemas"]["Meta"];
+        };
+        ServiceBookingListEnvelope: {
+            data: components["schemas"]["ServiceBooking"][];
+            page: components["schemas"]["Page"];
             meta: components["schemas"]["Meta"];
         };
     };
@@ -49128,6 +49427,1080 @@ export interface operations {
                 };
             };
             /** @description Invalid range, denied scope, overflow or unavailable facts */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v31_get__merchant_stores_store_id_booking_services: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                store_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Synthetic rehearsal only; zero charge; no payment or fulfillment promise */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookingServiceListEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v31_post__merchant_stores_store_id_booking_services: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                store_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BookingServiceInput"];
+            };
+        };
+        responses: {
+            /** @description Synthetic rehearsal only; zero charge; no payment or fulfillment promise */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookingServiceEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v31_get__consumer_stores_store_id_booking_services: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                store_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Synthetic rehearsal only; zero charge; no payment or fulfillment promise */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookingServiceListEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v31_put__merchant_booking_services_id_state: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BookingServiceState"];
+            };
+        };
+        responses: {
+            /** @description Synthetic rehearsal only; zero charge; no payment or fulfillment promise */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookingServiceEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v31_get__merchant_booking_services_id_slots: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Synthetic rehearsal only; zero charge; no payment or fulfillment promise */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookingSlotListEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v31_post__merchant_booking_services_id_slots: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BookingSlotInput"];
+            };
+        };
+        responses: {
+            /** @description Synthetic rehearsal only; zero charge; no payment or fulfillment promise */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookingSlotEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v31_get__consumer_booking_services_id_slots: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Synthetic rehearsal only; zero charge; no payment or fulfillment promise */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookingSlotListEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v31_get__consumer_service_bookings: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Synthetic rehearsal only; zero charge; no payment or fulfillment promise */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceBookingListEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v31_post__consumer_service_bookings: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceBookingInput"];
+            };
+        };
+        responses: {
+            /** @description Synthetic rehearsal only; zero charge; no payment or fulfillment promise */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceBookingEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v31_get__merchant_stores_store_id_service_bookings: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                store_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Synthetic rehearsal only; zero charge; no payment or fulfillment promise */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceBookingListEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v31_post__consumer_service_bookings_id_cancel: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BookingEmpty"];
+            };
+        };
+        responses: {
+            /** @description Synthetic rehearsal only; zero charge; no payment or fulfillment promise */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceBookingEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v31_post__merchant_stores_store_id_service_bookings_id_cancel: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+            };
+            path: {
+                store_id: string;
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BookingEmpty"];
+            };
+        };
+        responses: {
+            /** @description Synthetic rehearsal only; zero charge; no payment or fulfillment promise */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceBookingEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Invalid input, denied scope, disabled simulation, capacity or version conflict */
             503: {
                 headers: {
                     [name: string]: unknown;

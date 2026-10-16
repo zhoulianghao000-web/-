@@ -191,6 +191,35 @@ test('real administrator password login, catalog publication, merchant correctio
   // Wait for real preferences/quota to finish rendering before editing the question.
   await expect(aiPage.getByRole('button',{name:'发送问题',exact:true})).toBeEnabled();
   await editFlutterText(aiPage,/想了解什么/,'30元以内的配料说明');const explained=aiPage.waitForResponse(r=>r.request().method()==='POST'&&r.url().includes('/consumer/ai/conversations/')&&r.url().endsWith('/messages'));await aiPage.getByRole('button',{name:'发送问题',exact:true}).click();const explanationResponse=await explained;expect(explanationResponse.request().postDataJSON().text).toBe('30元以内的配料说明');expect(explanationResponse.status()).toBe(200);await expect(aiPage.getByText(/已根据平台核对过的商品资料整理/)).toBeVisible();const messageHeaders=await explanationResponse.request().allHeaders();const savedExplanation=await aiPage.request.get(explanationResponse.url().replace(/\/messages$/,''),{headers:{Authorization:messageHeaders.authorization!}});expect(savedExplanation.status()).toBe(200);const savedMessages=(await savedExplanation.json()).data.messages;expect(savedMessages).toHaveLength(1);const grounded=savedMessages[0];expect(grounded.user_text).toBe('30元以内的配料说明');expect(grounded.product_cards[0].sku_id).toBe(selectedSku);expect(grounded.product_cards[0].fit_result).toBe('INSUFFICIENT_DATA');await expect(aiPage.getByText(/已根据平台核对过的商品资料整理/)).toBeVisible();await aiPage.screenshot({path:'frontend-evidence/m55-real-consumer-ai.png',fullPage:true});
-  await aiPage.getByRole('button',{name:'清除当前 AI 会话',exact:true}).click();await aiPage.getByRole('button',{name:'清除会话',exact:true}).click();await expect(aiPage.getByText(/已根据平台核对过的商品资料整理/)).toHaveCount(0);await aiContext.close();
+  await aiPage.getByRole('button',{name:'清除当前 AI 会话',exact:true}).click();await aiPage.getByRole('button',{name:'清除会话',exact:true}).click();await expect(aiPage.getByText(/已根据平台核对过的商品资料整理/)).toHaveCount(0);
+  // V3.1.1: actual staff form -> PostgreSQL capacity -> actual Flutter booking/cancellation.
+  await merchantPage.getByRole('link',{name:'服务预约演练',exact:true}).click();
+  const bookingTitle='CI V31 TEST wash '+Date.now();
+  await merchantPage.getByLabel('服务名称',{exact:true}).fill(bookingTitle);
+  const serviceSaved=merchantPage.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/booking-services'));
+  await merchantPage.getByRole('button',{name:'新增服务',exact:true}).click();
+  const savedService=await serviceSaved;expect(savedService.status()).toBe(200);const service=(await savedService.json()).data;
+  await expect(merchantPage.getByRole('button',{name:'暂停 '+bookingTitle,exact:true})).toBeVisible();
+  await merchantPage.getByLabel('选择服务',{exact:true}).selectOption(service.id);
+  const bookingStart=new Date(Date.now()+2*86400000),bookingEnd=new Date(bookingStart.getTime()+3600000);
+  await merchantPage.getByLabel('开始',{exact:true}).fill(bookingStart.toISOString().slice(0,16));
+  await merchantPage.getByLabel('结束',{exact:true}).fill(bookingEnd.toISOString().slice(0,16));
+  await merchantPage.getByLabel('容量',{exact:true}).fill('1');
+  const slotSaved=merchantPage.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/slots'));
+  await merchantPage.getByRole('button',{name:'保存模拟时段',exact:true}).click();expect((await slotSaved).status()).toBe(200);
+  await aiPage.evaluate(store=>{window.location.hash='/service-bookings?store_id='+store;},nearbyProfile.id);
+  await expect(aiPage.getByText(bookingTitle,{exact:true})).toBeVisible();
+  const reservation=aiPage.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/consumer/service-bookings'));
+  await aiPage.getByRole('button',{name:'确认模拟预约',exact:true}).click();const reservationResponse=await reservation;expect(reservationResponse.status()).toBe(200);
+  const booked=(await reservationResponse.json()).data;expect(booked.simulated).toBe(true);expect(booked.amount_fen).toBe(0);
+  const bookingHeaders=await reservationResponse.request().allHeaders();
+  const persisted=await aiPage.request.get(api+'/consumer/service-bookings',{headers:{Authorization:bookingHeaders.authorization!}});expect(persisted.status()).toBe(200);expect((await persisted.json()).data.filter((b:{id:string})=>b.id===booked.id)).toHaveLength(1);
+  await expect(aiPage.getByText('已预约 · 模拟不收费',{exact:true})).toBeVisible();await aiPage.screenshot({path:'frontend-evidence/v31-real-consumer-booked.png',fullPage:true});
+  const cancellation=aiPage.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/service-bookings/'+booked.id+'/cancel'));
+  await aiPage.getByRole('button',{name:'取消模拟预约',exact:true}).click();expect((await cancellation).status()).toBe(200);
+  const cancelled=await aiPage.request.get(api+'/consumer/service-bookings',{headers:{Authorization:bookingHeaders.authorization!}});expect((await cancelled.json()).data.find((b:{id:string})=>b.id===booked.id).status).toBe('CANCELLED');
+  await merchantPage.getByRole('button',{name:'刷新服务与预约',exact:true}).click();await expect(merchantPage.getByText('剩余 1/1',{exact:false})).toBeVisible();
+  await expect(merchantPage.locator('article').filter({hasText:booked.id})).toContainText('已取消');await merchantPage.screenshot({path:'frontend-evidence/v31-real-merchant-cancelled.png',fullPage:true});
+  await aiContext.close();
   await context.close();
 });

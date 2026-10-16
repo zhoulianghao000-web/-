@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 62f5157037a3ac35fd8f1f32b767a55bce7f8e438d040dc41d0aea8d267885f9
+// Generated from Pawday runtime OpenAPI; SHA256 8ee2b41a05a438ce32d4073ceaf25a64bdf024d56a30a431014c5180e279b320
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -10118,6 +10118,277 @@ class BusinessAnalyticsEnvelope {
   };
 }
 
+class BookingServiceInput {
+  final String title;
+  final String kind;
+  const BookingServiceInput({required this.title, required this.kind});
+  factory BookingServiceInput.fromJson(Map<String,dynamic> json) => BookingServiceInput(
+    title: json['title'] as String,
+    kind: json['kind'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'title': title,
+    'kind': kind,
+  };
+}
+
+class BookingService {
+  final String id;
+  final String store_id;
+  final String title;
+  final String kind;
+  final String status;
+  final int version;
+  final String created_at;
+  final bool simulated;
+  const BookingService({required this.id, required this.store_id, required this.title, required this.kind, required this.status, required this.version, required this.created_at, required this.simulated});
+  factory BookingService.fromJson(Map<String,dynamic> json) => BookingService(
+    id: json['id'] as String,
+    store_id: json['store_id'] as String,
+    title: json['title'] as String,
+    kind: json['kind'] as String,
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'store_id': store_id,
+    'title': title,
+    'kind': kind,
+    'status': status,
+    'version': version,
+    'created_at': created_at,
+    'simulated': simulated,
+  };
+}
+
+class BookingServiceState {
+  final String status;
+  const BookingServiceState({required this.status});
+  factory BookingServiceState.fromJson(Map<String,dynamic> json) => BookingServiceState(
+    status: json['status'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'status': status,
+  };
+}
+
+class BookingSlotInput {
+  final String starts_at;
+  final String ends_at;
+  final int capacity;
+  const BookingSlotInput({required this.starts_at, required this.ends_at, required this.capacity});
+  factory BookingSlotInput.fromJson(Map<String,dynamic> json) => BookingSlotInput(
+    starts_at: json['starts_at'] as String,
+    ends_at: json['ends_at'] as String,
+    capacity: (json['capacity'] as num).toInt(),
+  );
+  Map<String,dynamic> toJson() => {
+    'starts_at': starts_at,
+    'ends_at': ends_at,
+    'capacity': capacity,
+  };
+}
+
+class BookingSlot {
+  final String id;
+  final String service_id;
+  final String starts_at;
+  final String ends_at;
+  final int capacity;
+  final String created_at;
+  final int remaining;
+  final bool simulated;
+  const BookingSlot({required this.id, required this.service_id, required this.starts_at, required this.ends_at, required this.capacity, required this.created_at, required this.remaining, required this.simulated});
+  factory BookingSlot.fromJson(Map<String,dynamic> json) => BookingSlot(
+    id: json['id'] as String,
+    service_id: json['service_id'] as String,
+    starts_at: json['starts_at'] as String,
+    ends_at: json['ends_at'] as String,
+    capacity: (json['capacity'] as num).toInt(),
+    created_at: json['created_at'] as String,
+    remaining: (json['remaining'] as num).toInt(),
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'service_id': service_id,
+    'starts_at': starts_at,
+    'ends_at': ends_at,
+    'capacity': capacity,
+    'created_at': created_at,
+    'remaining': remaining,
+    'simulated': simulated,
+  };
+}
+
+class ServiceBookingInput {
+  final String slot_id;
+  const ServiceBookingInput({required this.slot_id});
+  factory ServiceBookingInput.fromJson(Map<String,dynamic> json) => ServiceBookingInput(
+    slot_id: json['slot_id'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'slot_id': slot_id,
+  };
+}
+
+class ServiceBooking {
+  final String id;
+  final String slot_id;
+  final String service_id;
+  final String store_id;
+  final String service_title;
+  final String policy;
+  final int amount_fen;
+  final String status;
+  final int version;
+  final String created_at;
+  final String? cancelled_at;
+  final String starts_at;
+  final String ends_at;
+  final bool simulated;
+  const ServiceBooking({required this.id, required this.slot_id, required this.service_id, required this.store_id, required this.service_title, required this.policy, required this.amount_fen, required this.status, required this.version, required this.created_at, required this.cancelled_at, required this.starts_at, required this.ends_at, required this.simulated});
+  factory ServiceBooking.fromJson(Map<String,dynamic> json) => ServiceBooking(
+    id: json['id'] as String,
+    slot_id: json['slot_id'] as String,
+    service_id: json['service_id'] as String,
+    store_id: json['store_id'] as String,
+    service_title: json['service_title'] as String,
+    policy: json['policy'] as String,
+    amount_fen: (json['amount_fen'] as num).toInt(),
+    status: json['status'] as String,
+    version: (json['version'] as num).toInt(),
+    created_at: json['created_at'] as String,
+    cancelled_at: json['cancelled_at'] == null ? null : json['cancelled_at'] as String,
+    starts_at: json['starts_at'] as String,
+    ends_at: json['ends_at'] as String,
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'slot_id': slot_id,
+    'service_id': service_id,
+    'store_id': store_id,
+    'service_title': service_title,
+    'policy': policy,
+    'amount_fen': amount_fen,
+    'status': status,
+    'version': version,
+    'created_at': created_at,
+    'cancelled_at': cancelled_at == null ? null : cancelled_at!,
+    'starts_at': starts_at,
+    'ends_at': ends_at,
+    'simulated': simulated,
+  };
+}
+
+class BookingEmpty {
+
+  const BookingEmpty();
+  factory BookingEmpty.fromJson(Map<String,dynamic> json) => BookingEmpty(
+
+  );
+  Map<String,dynamic> toJson() => {
+
+  };
+}
+
+class BookingServiceEnvelope {
+  final BookingService data;
+  final Meta meta;
+  const BookingServiceEnvelope({required this.data, required this.meta});
+  factory BookingServiceEnvelope.fromJson(Map<String,dynamic> json) => BookingServiceEnvelope(
+    data: BookingService.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class BookingServiceListEnvelope {
+  final List<BookingService> data;
+  final Page page;
+  final Meta meta;
+  const BookingServiceListEnvelope({required this.data, required this.page, required this.meta});
+  factory BookingServiceListEnvelope.fromJson(Map<String,dynamic> json) => BookingServiceListEnvelope(
+    data: (json['data'] as List).map((value) => BookingService.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class BookingSlotEnvelope {
+  final BookingSlot data;
+  final Meta meta;
+  const BookingSlotEnvelope({required this.data, required this.meta});
+  factory BookingSlotEnvelope.fromJson(Map<String,dynamic> json) => BookingSlotEnvelope(
+    data: BookingSlot.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class BookingSlotListEnvelope {
+  final List<BookingSlot> data;
+  final Page page;
+  final Meta meta;
+  const BookingSlotListEnvelope({required this.data, required this.page, required this.meta});
+  factory BookingSlotListEnvelope.fromJson(Map<String,dynamic> json) => BookingSlotListEnvelope(
+    data: (json['data'] as List).map((value) => BookingSlot.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ServiceBookingEnvelope {
+  final ServiceBooking data;
+  final Meta meta;
+  const ServiceBookingEnvelope({required this.data, required this.meta});
+  factory ServiceBookingEnvelope.fromJson(Map<String,dynamic> json) => ServiceBookingEnvelope(
+    data: ServiceBooking.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ServiceBookingListEnvelope {
+  final List<ServiceBooking> data;
+  final Page page;
+  final Meta meta;
+  const ServiceBookingListEnvelope({required this.data, required this.page, required this.meta});
+  factory ServiceBookingListEnvelope.fromJson(Map<String,dynamic> json) => ServiceBookingListEnvelope(
+    data: (json['data'] as List).map((value) => ServiceBooking.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -10467,4 +10738,16 @@ class ApiRoutes {
   static const post_consumer_household_pets_pet_entries = '/consumer/household/pets/{pet}/entries';
   static const merchant_business_analytics = '/merchant/business-analytics';
   static const admin_business_analytics = '/admin/merchants/{id}/business-analytics';
+  static const v31_get__merchant_stores_store_id_booking_services = '/merchant/stores/{store_id}/booking-services';
+  static const v31_post__merchant_stores_store_id_booking_services = '/merchant/stores/{store_id}/booking-services';
+  static const v31_get__consumer_stores_store_id_booking_services = '/consumer/stores/{store_id}/booking-services';
+  static const v31_put__merchant_booking_services_id_state = '/merchant/booking-services/{id}/state';
+  static const v31_post__merchant_booking_services_id_slots = '/merchant/booking-services/{id}/slots';
+  static const v31_get__merchant_booking_services_id_slots = '/merchant/booking-services/{id}/slots';
+  static const v31_get__consumer_booking_services_id_slots = '/consumer/booking-services/{id}/slots';
+  static const v31_post__consumer_service_bookings = '/consumer/service-bookings';
+  static const v31_get__consumer_service_bookings = '/consumer/service-bookings';
+  static const v31_get__merchant_stores_store_id_service_bookings = '/merchant/stores/{store_id}/service-bookings';
+  static const v31_post__consumer_service_bookings_id_cancel = '/consumer/service-bookings/{id}/cancel';
+  static const v31_post__merchant_stores_store_id_service_bookings_id_cancel = '/merchant/stores/{store_id}/service-bookings/{id}/cancel';
 }
