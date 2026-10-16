@@ -77,7 +77,6 @@ jobs:
         run: |
           mvn -B -ntp -f backend/pom.xml dependency:list -DincludeScope=runtime -DoutputFile=target/security-runtime-dependencies.txt
           python scripts/check-dependency-vulnerabilities.py --maven-dependencies backend/target/security-runtime-dependencies.txt --report backend/target/readiness-evidence/dependency-audit.json
-          python scripts/check-dependency-vulnerabilities.py --maven-dependencies backend/target/security-runtime-dependencies.txt --pub-lock merchant-app/flutter/pubspec.lock --report backend/target/readiness-evidence/merchant-dependency-audit.json
       - name: M4.2 orders runtime and actual HTTP contract
         run: |
           npx --yes @redocly/cli@2.57.0 lint --extends=minimal openapi/pawday-m4.2.yaml

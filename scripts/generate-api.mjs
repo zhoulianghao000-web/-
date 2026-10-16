@@ -9,11 +9,9 @@ const types = astToString(await openapiTS(input));
 const target = new URL('../packages/api-client/src/generated/schema.ts',import.meta.url);
 const output = `// Generated from pawday-v2.3.yaml; SHA256 ${createHash('sha256').update(source).digest('hex')}\n${types}`;
 const dartTarget = new URL('../consumer-app/flutter/lib/api/generated/dto.dart',import.meta.url);
-const merchantTarget = new URL('../merchant-app/flutter/lib/api/generated/dto.dart',import.meta.url);
 const dartOutput = generateDart(YAML.parse(source.toString()),createHash('sha256').update(source).digest('hex'));
 if(process.argv.includes('--check')) {
   if(await fs.readFile(target,'utf8')!==output) throw new Error('Generated API types drifted. Run pnpm generate.');
   if(await fs.readFile(dartTarget,'utf8')!==dartOutput) throw new Error('Generated Dart DTO/client routes drifted. Run pnpm generate.');
-  if(await fs.readFile(merchantTarget,'utf8')!==dartOutput) throw new Error('Merchant Dart contract drifted. Run pnpm generate.');
   console.log('OpenAPI regeneration consistency PASS');
-} else { await fs.mkdir(new URL('.',target),{recursive:true});await fs.writeFile(target,output);await fs.mkdir(new URL('.',dartTarget),{recursive:true});await fs.writeFile(dartTarget,dartOutput);await fs.mkdir(new URL('.',merchantTarget),{recursive:true});await fs.writeFile(merchantTarget,dartOutput); }
+} else { await fs.mkdir(new URL('.',target),{recursive:true});await fs.writeFile(target,output);await fs.mkdir(new URL('.',dartTarget),{recursive:true});await fs.writeFile(dartTarget,dartOutput); }

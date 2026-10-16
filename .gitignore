@@ -48,3 +48,6 @@ openapi/m54-validation-report.json
 /release/admin-web/
 /release/consumer.apk
 /release/desktop-manifest.json
+
+/.maintenance/
+/release/merchant.apk

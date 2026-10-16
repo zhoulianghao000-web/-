@@ -16,7 +16,19 @@ test('local desktop delivery serves four sites and proxies actual HTTP without i
  const servers=await createDesktopServers({root,ports:[0,0,0,0],backendPort:backend.address().port});
  const urls=servers.map(s=>`http://127.0.0.1:${s.address().port}`);
  try{
-  await t.test('merchant APK download stays in portal and exposes no private files',async()=>{const response=await fetch(urls[0]+'/merchant.apk');assert.equal(response.status,200);assert.equal(await response.text(),'TEST_MERCHANT_APK');assert.match(response.headers.get('content-disposition'),/Merchant-debug/);assert.equal((await fetch(urls[1]+'/merchant.apk')).status,404);});
+  await t.test('only consumer Android is served, including deliveries with stale merchant files',async()=>{
+   await mkdir(join(root,'release/merchant-web/app'),{recursive:true});
+   await writeFile(join(root,'release/merchant-web/app/index.html'),'RETIRED_MERCHANT_PREVIEW');
+   await writeFile(join(root,'release/merchant-web/app/main.dart.js'),'RETIRED_MERCHANT_SCRIPT');
+   await writeFile(join(root,'desktop/admin.apk'),'RETIRED_ADMIN_APK');
+   for(const url of urls){
+    for(const path of ['/merchant.apk','/admin.apk','/%6derchant.apk'])assert.equal((await fetch(url+path)).status,404);
+   }
+   for(const path of ['/app','/app/','/app/index.html','/app/main.dart.js','/%61pp/'])assert.equal((await fetch(urls[1]+path)).status,404);
+   assert.equal((await fetch(urls[0]+'/merchant.apk',{method:'HEAD'})).status,404);
+   assert.equal((await fetch(urls[0]+'/consumer.apk',{method:'HEAD'})).status,200);
+   for(const url of urls.slice(1))assert.equal((await fetch(url+'/consumer.apk')).status,404);
+  });
   await t.test('four real static sites and SPA return paths',async()=>{
    for(let i=0;i<4;i++){assert.equal(await(await fetch(urls[i])).text(),`<h1>${paths[i]}</h1>`);assert.equal((await(await fetch(urls[i]+'/desktop-identity')).json()).site,['portal','merchant','admin','consumer'][i]);}
    assert.equal((await fetch(urls[1]+'/orders')).status,200);assert.equal((await fetch(urls[0]+'/missing.js')).status,404);
