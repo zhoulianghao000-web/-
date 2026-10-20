@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+const previous=JSON.parse(fs.readFileSync(new URL('../openapi/pawday-v3.1.3-b2.json',import.meta.url),'utf8'));
+const current=JSON.parse(fs.readFileSync(new URL('../openapi/pawday-v3.1.3-b3.json',import.meta.url),'utf8'));
+for(const name of ['Proof','Reverify'])previous.components.schemas[name].properties.action.enum.push('service.trade.dispute.review','service.trade.settle');
+const trade=previous.components.schemas.ServiceTrade;
+trade.properties.fulfillment_state={type:'string',enum:['NOT_STARTED','CHECKED_IN','COMPLETED','NO_SHOW','EXCEPTION']};
+trade.properties.settlement_state={type:'string',enum:['NOT_PAYABLE','WAITING_COMPLETION','BUFFERING','FROZEN','ELIGIBLE','SETTLED','ADJUSTED']};
+for(const name of ['commission_fen','commission_reversed_fen','merchant_net_fen'])trade.properties[name].description='Internal financial amounts withheld in the public trade projection; use scoped ledger for staff finance.';
+for(const [name,schema] of Object.entries(previous.components.schemas))assert.deepEqual(current.components.schemas[name],schema,`Unexpected B3 schema change: ${name}`);
+for(const [path,operations] of Object.entries(previous.paths))assert.deepEqual(current.paths[path],operations,`Unexpected B3 path change: ${path}`);
+console.log('V3.1.3-B3 compatibility PASS: explicit operational states and scoped additions; B1/B2 paths preserved');

@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 b80fa4c957ce764a57e74406fac6c4c86d3317dead93743933abe795fbbd15d5
+// Generated from Pawday runtime OpenAPI; SHA256 1adb09fbf429d8df637a28a9b94769735728ee8e967b77526aa818e8c8d8adcc
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -11199,6 +11199,407 @@ class RefundDecisionEnvelope {
   };
 }
 
+class ServiceTradeCredential {
+  final String trade_id;
+  final String credential;
+  final String valid_from;
+  final String expires_at;
+  final bool simulated;
+  const ServiceTradeCredential({required this.trade_id, required this.credential, required this.valid_from, required this.expires_at, required this.simulated});
+  factory ServiceTradeCredential.fromJson(Map<String,dynamic> json) => ServiceTradeCredential(
+    trade_id: json['trade_id'] as String,
+    credential: json['credential'] as String,
+    valid_from: json['valid_from'] as String,
+    expires_at: json['expires_at'] as String,
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'trade_id': trade_id,
+    'credential': credential,
+    'valid_from': valid_from,
+    'expires_at': expires_at,
+    'simulated': simulated,
+  };
+}
+
+class ServiceTradeFulfillmentInput {
+  final String status;
+  final String credential;
+  final String reason_code;
+  const ServiceTradeFulfillmentInput({required this.status, required this.credential, required this.reason_code});
+  factory ServiceTradeFulfillmentInput.fromJson(Map<String,dynamic> json) => ServiceTradeFulfillmentInput(
+    status: json['status'] as String,
+    credential: json['credential'] as String,
+    reason_code: json['reason_code'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'status': status,
+    'credential': credential,
+    'reason_code': reason_code,
+  };
+}
+
+class ServiceTradeFulfillmentEvent {
+  final String id;
+  final String trade_id;
+  final int version;
+  final String status;
+  final String reason_code;
+  final String occurred_at;
+  final bool simulated;
+  const ServiceTradeFulfillmentEvent({required this.id, required this.trade_id, required this.version, required this.status, required this.reason_code, required this.occurred_at, required this.simulated});
+  factory ServiceTradeFulfillmentEvent.fromJson(Map<String,dynamic> json) => ServiceTradeFulfillmentEvent(
+    id: json['id'] as String,
+    trade_id: json['trade_id'] as String,
+    version: (json['version'] as num).toInt(),
+    status: json['status'] as String,
+    reason_code: json['reason_code'] as String,
+    occurred_at: json['occurred_at'] as String,
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'trade_id': trade_id,
+    'version': version,
+    'status': status,
+    'reason_code': reason_code,
+    'occurred_at': occurred_at,
+    'simulated': simulated,
+  };
+}
+
+class ServiceTradeDisputeInput {
+  final String reason_code;
+  final List<Evidence> evidence_refs;
+  const ServiceTradeDisputeInput({required this.reason_code, required this.evidence_refs});
+  factory ServiceTradeDisputeInput.fromJson(Map<String,dynamic> json) => ServiceTradeDisputeInput(
+    reason_code: json['reason_code'] as String,
+    evidence_refs: (json['evidence_refs'] as List).map((value) => Evidence.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'reason_code': reason_code,
+    'evidence_refs': evidence_refs.map((value) => value.toJson()).toList(),
+  };
+}
+
+class ServiceTradeDisputeDecisionInput {
+  final String decision;
+  final String reason_code;
+  final List<Evidence> evidence_refs;
+  const ServiceTradeDisputeDecisionInput({required this.decision, required this.reason_code, required this.evidence_refs});
+  factory ServiceTradeDisputeDecisionInput.fromJson(Map<String,dynamic> json) => ServiceTradeDisputeDecisionInput(
+    decision: json['decision'] as String,
+    reason_code: json['reason_code'] as String,
+    evidence_refs: (json['evidence_refs'] as List).map((value) => Evidence.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'decision': decision,
+    'reason_code': reason_code,
+    'evidence_refs': evidence_refs.map((value) => value.toJson()).toList(),
+  };
+}
+
+class ServiceTradeDispute {
+  final String id;
+  final String trade_id;
+  final int version;
+  final String reason_code;
+  final List<Evidence> evidence_refs;
+  final String opened_at;
+  final String state;
+  final String? resolved_at;
+  final bool simulated;
+  const ServiceTradeDispute({required this.id, required this.trade_id, required this.version, required this.reason_code, required this.evidence_refs, required this.opened_at, required this.state, required this.resolved_at, required this.simulated});
+  factory ServiceTradeDispute.fromJson(Map<String,dynamic> json) => ServiceTradeDispute(
+    id: json['id'] as String,
+    trade_id: json['trade_id'] as String,
+    version: (json['version'] as num).toInt(),
+    reason_code: json['reason_code'] as String,
+    evidence_refs: (json['evidence_refs'] as List).map((value) => Evidence.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    opened_at: json['opened_at'] as String,
+    state: json['state'] as String,
+    resolved_at: json['resolved_at'] == null ? null : json['resolved_at'] as String,
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'trade_id': trade_id,
+    'version': version,
+    'reason_code': reason_code,
+    'evidence_refs': evidence_refs.map((value) => value.toJson()).toList(),
+    'opened_at': opened_at,
+    'state': state,
+    'resolved_at': resolved_at == null ? null : resolved_at!,
+    'simulated': simulated,
+  };
+}
+
+class ServiceTradeLedgerEntry {
+  final String id;
+  final String trade_id;
+  final String? source_event_id;
+  final String? settlement_id;
+  final String entry_type;
+  final String direction;
+  final int amount_fen;
+  final bool affects_balance;
+  final String occurred_at;
+  final bool simulated;
+  const ServiceTradeLedgerEntry({required this.id, required this.trade_id, required this.source_event_id, required this.settlement_id, required this.entry_type, required this.direction, required this.amount_fen, required this.affects_balance, required this.occurred_at, required this.simulated});
+  factory ServiceTradeLedgerEntry.fromJson(Map<String,dynamic> json) => ServiceTradeLedgerEntry(
+    id: json['id'] as String,
+    trade_id: json['trade_id'] as String,
+    source_event_id: json['source_event_id'] == null ? null : json['source_event_id'] as String,
+    settlement_id: json['settlement_id'] == null ? null : json['settlement_id'] as String,
+    entry_type: json['entry_type'] as String,
+    direction: json['direction'] as String,
+    amount_fen: (json['amount_fen'] as num).toInt(),
+    affects_balance: json['affects_balance'] as bool,
+    occurred_at: json['occurred_at'] as String,
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'trade_id': trade_id,
+    'source_event_id': source_event_id == null ? null : source_event_id!,
+    'settlement_id': settlement_id == null ? null : settlement_id!,
+    'entry_type': entry_type,
+    'direction': direction,
+    'amount_fen': amount_fen,
+    'affects_balance': affects_balance,
+    'occurred_at': occurred_at,
+    'simulated': simulated,
+  };
+}
+
+class ServiceTradeSettlementPreview {
+  final String id;
+  final String merchant_id;
+  final int net_fen;
+  final int entry_count;
+  final String ledger_sha256;
+  final String expires_at;
+  final bool eligible;
+  final List<String> blocked_reasons;
+  final bool simulated;
+  const ServiceTradeSettlementPreview({required this.id, required this.merchant_id, required this.net_fen, required this.entry_count, required this.ledger_sha256, required this.expires_at, required this.eligible, required this.blocked_reasons, required this.simulated});
+  factory ServiceTradeSettlementPreview.fromJson(Map<String,dynamic> json) => ServiceTradeSettlementPreview(
+    id: json['id'] as String,
+    merchant_id: json['merchant_id'] as String,
+    net_fen: (json['net_fen'] as num).toInt(),
+    entry_count: (json['entry_count'] as num).toInt(),
+    ledger_sha256: json['ledger_sha256'] as String,
+    expires_at: json['expires_at'] as String,
+    eligible: json['eligible'] as bool,
+    blocked_reasons: (json['blocked_reasons'] as List).map((value) => value as String).toList(),
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'merchant_id': merchant_id,
+    'net_fen': net_fen,
+    'entry_count': entry_count,
+    'ledger_sha256': ledger_sha256,
+    'expires_at': expires_at,
+    'eligible': eligible,
+    'blocked_reasons': blocked_reasons.map((value) => value).toList(),
+    'simulated': simulated,
+  };
+}
+
+class ServiceTradeSettlementInput {
+  final String preview_id;
+  final String accepted_ledger_sha256;
+  const ServiceTradeSettlementInput({required this.preview_id, required this.accepted_ledger_sha256});
+  factory ServiceTradeSettlementInput.fromJson(Map<String,dynamic> json) => ServiceTradeSettlementInput(
+    preview_id: json['preview_id'] as String,
+    accepted_ledger_sha256: json['accepted_ledger_sha256'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'preview_id': preview_id,
+    'accepted_ledger_sha256': accepted_ledger_sha256,
+  };
+}
+
+class ServiceTradeSettlement {
+  final String id;
+  final String merchant_id;
+  final int net_fen;
+  final String state;
+  final int version;
+  final bool simulated;
+  const ServiceTradeSettlement({required this.id, required this.merchant_id, required this.net_fen, required this.state, required this.version, required this.simulated});
+  factory ServiceTradeSettlement.fromJson(Map<String,dynamic> json) => ServiceTradeSettlement(
+    id: json['id'] as String,
+    merchant_id: json['merchant_id'] as String,
+    net_fen: (json['net_fen'] as num).toInt(),
+    state: json['state'] as String,
+    version: (json['version'] as num).toInt(),
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'merchant_id': merchant_id,
+    'net_fen': net_fen,
+    'state': state,
+    'version': version,
+    'simulated': simulated,
+  };
+}
+
+class ServiceTradeReconciliation {
+  final String merchant_id;
+  final int goods_balance_fen;
+  final int service_balance_fen;
+  final int combined_balance_fen;
+  final bool consistent;
+  final List<Map<String,dynamic>> checks;
+  final String as_of;
+  final bool simulated;
+  const ServiceTradeReconciliation({required this.merchant_id, required this.goods_balance_fen, required this.service_balance_fen, required this.combined_balance_fen, required this.consistent, required this.checks, required this.as_of, required this.simulated});
+  factory ServiceTradeReconciliation.fromJson(Map<String,dynamic> json) => ServiceTradeReconciliation(
+    merchant_id: json['merchant_id'] as String,
+    goods_balance_fen: (json['goods_balance_fen'] as num).toInt(),
+    service_balance_fen: (json['service_balance_fen'] as num).toInt(),
+    combined_balance_fen: (json['combined_balance_fen'] as num).toInt(),
+    consistent: json['consistent'] as bool,
+    checks: (json['checks'] as List).map((value) => Map<String,dynamic>.from(value as Map)).toList(),
+    as_of: json['as_of'] as String,
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'merchant_id': merchant_id,
+    'goods_balance_fen': goods_balance_fen,
+    'service_balance_fen': service_balance_fen,
+    'combined_balance_fen': combined_balance_fen,
+    'consistent': consistent,
+    'checks': checks.map((value) => value).toList(),
+    'as_of': as_of,
+    'simulated': simulated,
+  };
+}
+
+class ServiceTradeCredentialEnvelope {
+  final ServiceTradeCredential data;
+  final Meta meta;
+  const ServiceTradeCredentialEnvelope({required this.data, required this.meta});
+  factory ServiceTradeCredentialEnvelope.fromJson(Map<String,dynamic> json) => ServiceTradeCredentialEnvelope(
+    data: ServiceTradeCredential.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ServiceTradeFulfillmentEventListEnvelope {
+  final List<ServiceTradeFulfillmentEvent> data;
+  final Meta meta;
+  final Page page;
+  const ServiceTradeFulfillmentEventListEnvelope({required this.data, required this.meta, required this.page});
+  factory ServiceTradeFulfillmentEventListEnvelope.fromJson(Map<String,dynamic> json) => ServiceTradeFulfillmentEventListEnvelope(
+    data: (json['data'] as List).map((value) => ServiceTradeFulfillmentEvent.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'meta': meta.toJson(),
+    'page': page.toJson(),
+  };
+}
+
+class ServiceTradeDisputeListEnvelope {
+  final List<ServiceTradeDispute> data;
+  final Meta meta;
+  final Page page;
+  const ServiceTradeDisputeListEnvelope({required this.data, required this.meta, required this.page});
+  factory ServiceTradeDisputeListEnvelope.fromJson(Map<String,dynamic> json) => ServiceTradeDisputeListEnvelope(
+    data: (json['data'] as List).map((value) => ServiceTradeDispute.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'meta': meta.toJson(),
+    'page': page.toJson(),
+  };
+}
+
+class ServiceTradeDisputeEnvelope {
+  final ServiceTradeDispute data;
+  final Meta meta;
+  const ServiceTradeDisputeEnvelope({required this.data, required this.meta});
+  factory ServiceTradeDisputeEnvelope.fromJson(Map<String,dynamic> json) => ServiceTradeDisputeEnvelope(
+    data: ServiceTradeDispute.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ServiceTradeLedgerEntryListEnvelope {
+  final List<ServiceTradeLedgerEntry> data;
+  final Meta meta;
+  final Page page;
+  const ServiceTradeLedgerEntryListEnvelope({required this.data, required this.meta, required this.page});
+  factory ServiceTradeLedgerEntryListEnvelope.fromJson(Map<String,dynamic> json) => ServiceTradeLedgerEntryListEnvelope(
+    data: (json['data'] as List).map((value) => ServiceTradeLedgerEntry.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'meta': meta.toJson(),
+    'page': page.toJson(),
+  };
+}
+
+class ServiceTradeSettlementPreviewEnvelope {
+  final ServiceTradeSettlementPreview data;
+  final Meta meta;
+  const ServiceTradeSettlementPreviewEnvelope({required this.data, required this.meta});
+  factory ServiceTradeSettlementPreviewEnvelope.fromJson(Map<String,dynamic> json) => ServiceTradeSettlementPreviewEnvelope(
+    data: ServiceTradeSettlementPreview.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ServiceTradeSettlementEnvelope {
+  final ServiceTradeSettlement data;
+  final Meta meta;
+  const ServiceTradeSettlementEnvelope({required this.data, required this.meta});
+  factory ServiceTradeSettlementEnvelope.fromJson(Map<String,dynamic> json) => ServiceTradeSettlementEnvelope(
+    data: ServiceTradeSettlement.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ServiceTradeReconciliationEnvelope {
+  final ServiceTradeReconciliation data;
+  final Meta meta;
+  const ServiceTradeReconciliationEnvelope({required this.data, required this.meta});
+  factory ServiceTradeReconciliationEnvelope.fromJson(Map<String,dynamic> json) => ServiceTradeReconciliationEnvelope(
+    data: ServiceTradeReconciliation.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -11583,4 +11984,17 @@ class ApiRoutes {
   static const v313b2_get__consumer_service_trade_orders_id_refunds = '/consumer/service-trade-orders/{id}/refunds';
   static const v313b2_post__admin_service_trade_orders_id_refund_assessments = '/admin/service-trade-orders/{id}/refund-assessments';
   static const v313b2_post__admin_service_trade_orders_id_refund_decisions = '/admin/service-trade-orders/{id}/refund-decisions';
+  static const v313b3_get__consumer_service_trade_orders_id_credential = '/consumer/service-trade-orders/{id}/credential';
+  static const v313b3_get__consumer_service_trade_orders_id_fulfillment = '/consumer/service-trade-orders/{id}/fulfillment';
+  static const v313b3_get__merchant_stores_store_id_service_trade_orders_id_fulfillment = '/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment';
+  static const v313b3_post__merchant_stores_store_id_service_trade_orders_id_fulfillment = '/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment';
+  static const v313b3_get__consumer_service_trade_orders_id_disputes = '/consumer/service-trade-orders/{id}/disputes';
+  static const v313b3_post__consumer_service_trade_orders_id_disputes = '/consumer/service-trade-orders/{id}/disputes';
+  static const v313b3_get__merchant_stores_store_id_service_trade_orders_id_disputes = '/merchant/stores/{store_id}/service-trade-orders/{id}/disputes';
+  static const v313b3_get__admin_service_trade_orders_id_disputes = '/admin/service-trade-orders/{id}/disputes';
+  static const v313b3_post__admin_service_trade_orders_id_disputes_dispute_id_decisions = '/admin/service-trade-orders/{id}/disputes/{dispute_id}/decisions';
+  static const v313b3_get__merchant_stores_store_id_service_trade_ledger = '/merchant/stores/{store_id}/service-trade-ledger';
+  static const v313b3_post__admin_merchants_merchant_id_service_trade_settlement_previews = '/admin/merchants/{merchant_id}/service-trade-settlement-previews';
+  static const v313b3_post__admin_merchants_merchant_id_service_trade_settlements = '/admin/merchants/{merchant_id}/service-trade-settlements';
+  static const v313b3_get__admin_merchants_merchant_id_service_trade_reconciliation = '/admin/merchants/{merchant_id}/service-trade-reconciliation';
 }

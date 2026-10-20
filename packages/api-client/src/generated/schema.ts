@@ -1,4 +1,4 @@
-// Generated from pawday-v3.1.3-b2.json; SHA256 b80fa4c957ce764a57e74406fac6c4c86d3317dead93743933abe795fbbd15d5
+// Generated from pawday-v3.1.3-b3.json; SHA256 1adb09fbf429d8df637a28a9b94769735728ee8e967b77526aa818e8c8d8adcc
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -5916,6 +5916,234 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/consumer/service-trade-orders/{id}/credential": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic paid service get /consumer/service-trade-orders/{id}/credential
+         * @description Default off and non-production only. Separate paid credentials and immutable operational facts. Disputes resolve with no financial award. Settlement uses original frozen terms, cumulative half-up reversal, five-minute version/ledger snapshots and action-bound reverify. Database simulator only; no real payment or payout. Adjustment evidence with affects_balance=false must not be summed into balance.
+         */
+        get: operations["v313b3_get__consumer_service_trade_orders_id_credential"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/service-trade-orders/{id}/fulfillment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic paid service get /consumer/service-trade-orders/{id}/fulfillment
+         * @description Default off and non-production only. Separate paid credentials and immutable operational facts. Disputes resolve with no financial award. Settlement uses original frozen terms, cumulative half-up reversal, five-minute version/ledger snapshots and action-bound reverify. Database simulator only; no real payment or payout. Adjustment evidence with affects_balance=false must not be summed into balance.
+         */
+        get: operations["v313b3_get__consumer_service_trade_orders_id_fulfillment"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic paid service get /merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment
+         * @description Default off and non-production only. Separate paid credentials and immutable operational facts. Disputes resolve with no financial award. Settlement uses original frozen terms, cumulative half-up reversal, five-minute version/ledger snapshots and action-bound reverify. Database simulator only; no real payment or payout. Adjustment evidence with affects_balance=false must not be summed into balance.
+         */
+        get: operations["v313b3_get__merchant_stores_store_id_service_trade_orders_id_fulfillment"];
+        put?: never;
+        /**
+         * Synthetic paid service post /merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment
+         * @description Default off and non-production only. Separate paid credentials and immutable operational facts. Disputes resolve with no financial award. Settlement uses original frozen terms, cumulative half-up reversal, five-minute version/ledger snapshots and action-bound reverify. Database simulator only; no real payment or payout. Adjustment evidence with affects_balance=false must not be summed into balance.
+         */
+        post: operations["v313b3_post__merchant_stores_store_id_service_trade_orders_id_fulfillment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/service-trade-orders/{id}/disputes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic paid service get /consumer/service-trade-orders/{id}/disputes
+         * @description Default off and non-production only. Separate paid credentials and immutable operational facts. Disputes resolve with no financial award. Settlement uses original frozen terms, cumulative half-up reversal, five-minute version/ledger snapshots and action-bound reverify. Database simulator only; no real payment or payout. Adjustment evidence with affects_balance=false must not be summed into balance.
+         */
+        get: operations["v313b3_get__consumer_service_trade_orders_id_disputes"];
+        put?: never;
+        /**
+         * Synthetic paid service post /consumer/service-trade-orders/{id}/disputes
+         * @description Default off and non-production only. Separate paid credentials and immutable operational facts. Disputes resolve with no financial award. Settlement uses original frozen terms, cumulative half-up reversal, five-minute version/ledger snapshots and action-bound reverify. Database simulator only; no real payment or payout. Adjustment evidence with affects_balance=false must not be summed into balance.
+         */
+        post: operations["v313b3_post__consumer_service_trade_orders_id_disputes"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/stores/{store_id}/service-trade-orders/{id}/disputes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic paid service get /merchant/stores/{store_id}/service-trade-orders/{id}/disputes
+         * @description Default off and non-production only. Separate paid credentials and immutable operational facts. Disputes resolve with no financial award. Settlement uses original frozen terms, cumulative half-up reversal, five-minute version/ledger snapshots and action-bound reverify. Database simulator only; no real payment or payout. Adjustment evidence with affects_balance=false must not be summed into balance.
+         */
+        get: operations["v313b3_get__merchant_stores_store_id_service_trade_orders_id_disputes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/service-trade-orders/{id}/disputes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic paid service get /admin/service-trade-orders/{id}/disputes
+         * @description Default off and non-production only. Separate paid credentials and immutable operational facts. Disputes resolve with no financial award. Settlement uses original frozen terms, cumulative half-up reversal, five-minute version/ledger snapshots and action-bound reverify. Database simulator only; no real payment or payout. Adjustment evidence with affects_balance=false must not be summed into balance.
+         */
+        get: operations["v313b3_get__admin_service_trade_orders_id_disputes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/service-trade-orders/{id}/disputes/{dispute_id}/decisions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Synthetic paid service post /admin/service-trade-orders/{id}/disputes/{dispute_id}/decisions
+         * @description Default off and non-production only. Separate paid credentials and immutable operational facts. Disputes resolve with no financial award. Settlement uses original frozen terms, cumulative half-up reversal, five-minute version/ledger snapshots and action-bound reverify. Database simulator only; no real payment or payout. Adjustment evidence with affects_balance=false must not be summed into balance.
+         */
+        post: operations["v313b3_post__admin_service_trade_orders_id_disputes_dispute_id_decisions"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/stores/{store_id}/service-trade-ledger": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic paid service get /merchant/stores/{store_id}/service-trade-ledger
+         * @description Default off and non-production only. Separate paid credentials and immutable operational facts. Disputes resolve with no financial award. Settlement uses original frozen terms, cumulative half-up reversal, five-minute version/ledger snapshots and action-bound reverify. Database simulator only; no real payment or payout. Adjustment evidence with affects_balance=false must not be summed into balance.
+         */
+        get: operations["v313b3_get__merchant_stores_store_id_service_trade_ledger"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{merchant_id}/service-trade-settlement-previews": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Synthetic paid service post /admin/merchants/{merchant_id}/service-trade-settlement-previews
+         * @description Default off and non-production only. Separate paid credentials and immutable operational facts. Disputes resolve with no financial award. Settlement uses original frozen terms, cumulative half-up reversal, five-minute version/ledger snapshots and action-bound reverify. Database simulator only; no real payment or payout. Adjustment evidence with affects_balance=false must not be summed into balance.
+         */
+        post: operations["v313b3_post__admin_merchants_merchant_id_service_trade_settlement_previews"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{merchant_id}/service-trade-settlements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Synthetic paid service post /admin/merchants/{merchant_id}/service-trade-settlements
+         * @description Default off and non-production only. Separate paid credentials and immutable operational facts. Disputes resolve with no financial award. Settlement uses original frozen terms, cumulative half-up reversal, five-minute version/ledger snapshots and action-bound reverify. Database simulator only; no real payment or payout. Adjustment evidence with affects_balance=false must not be summed into balance.
+         */
+        post: operations["v313b3_post__admin_merchants_merchant_id_service_trade_settlements"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{merchant_id}/service-trade-reconciliation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic paid service get /admin/merchants/{merchant_id}/service-trade-reconciliation
+         * @description Default off and non-production only. Separate paid credentials and immutable operational facts. Disputes resolve with no financial award. Settlement uses original frozen terms, cumulative half-up reversal, five-minute version/ledger snapshots and action-bound reverify. Database simulator only; no real payment or payout. Adjustment evidence with affects_balance=false must not be summed into balance.
+         */
+        get: operations["v313b3_get__admin_merchants_merchant_id_service_trade_reconciliation"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -5958,7 +6186,7 @@ export interface components {
         Proof: {
             reverify_token: string;
             /** @enum {string} */
-            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage" | "service.terms.review" | "service.trade.refund.review";
+            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage" | "service.terms.review" | "service.trade.refund.review" | "service.trade.dispute.review" | "service.trade.settle";
             /** Format: date-time */
             expires_at: string;
         };
@@ -6042,7 +6270,7 @@ export interface components {
         };
         Reverify: {
             /** @enum {string} */
-            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage" | "service.terms.review" | "service.trade.refund.review";
+            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage" | "service.terms.review" | "service.trade.refund.review" | "service.trade.dispute.review" | "service.trade.settle";
             password?: string;
             otp_code?: string;
         };
@@ -10007,11 +10235,11 @@ export interface components {
             paid_fen: number;
             refunded_fen: number;
             refund_reserved_fen: number;
-            /** @description B3 projection unavailable for paid trades; internal commission policy is not disclosed. */
+            /** @description Internal financial amounts withheld in the public trade projection; use scoped ledger for staff finance. */
             commission_fen: number | null;
-            /** @description B3 projection unavailable for paid trades; internal commission policy is not disclosed. */
+            /** @description Internal financial amounts withheld in the public trade projection; use scoped ledger for staff finance. */
             commission_reversed_fen: number | null;
-            /** @description B3 projection unavailable for paid trades; internal commission policy is not disclosed. */
+            /** @description Internal financial amounts withheld in the public trade projection; use scoped ledger for staff finance. */
             merchant_net_fen: number | null;
             /** @enum {string} */
             order_state: "AWAITING_PAYMENT" | "CONFIRMED" | "CANCELLED" | "EXPIRED";
@@ -10020,9 +10248,9 @@ export interface components {
             /** @enum {string} */
             capacity_state: "HELD" | "CONFIRMED" | "RELEASED";
             /** @enum {string} */
-            fulfillment_state: "NOT_STARTED";
+            fulfillment_state: "NOT_STARTED" | "CHECKED_IN" | "COMPLETED" | "NO_SHOW" | "EXCEPTION";
             /** @enum {string} */
-            settlement_state: "NOT_PAYABLE" | "WAITING_COMPLETION" | "FROZEN";
+            settlement_state: "NOT_PAYABLE" | "WAITING_COMPLETION" | "BUFFERING" | "FROZEN" | "ELIGIBLE" | "SETTLED" | "ADJUSTED";
             /** Format: date-time */
             hold_expires_at: string;
             /** Format: date-time */
@@ -10160,6 +10388,170 @@ export interface components {
         };
         RefundDecisionEnvelope: {
             data: components["schemas"]["RefundDecision"];
+            meta: components["schemas"]["Meta"];
+        };
+        ServiceTradeCredential: {
+            /** Format: uuid */
+            trade_id: string;
+            credential: string;
+            /** Format: date-time */
+            valid_from: string;
+            /** Format: date-time */
+            expires_at: string;
+            /** @constant */
+            simulated: true;
+        };
+        ServiceTradeFulfillmentInput: {
+            /** @enum {string} */
+            status: "CHECKED_IN" | "COMPLETED" | "NO_SHOW" | "EXCEPTION";
+            credential: string;
+            /** @enum {string} */
+            reason_code: "" | "SERVICE_UNAVAILABLE" | "SAFETY_STOP" | "CUSTOMER_DISPUTE";
+        };
+        ServiceTradeFulfillmentEvent: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            trade_id: string;
+            version: number;
+            /** @enum {string} */
+            status: "CHECKED_IN" | "COMPLETED" | "NO_SHOW" | "EXCEPTION";
+            /** @enum {string} */
+            reason_code: "" | "SERVICE_UNAVAILABLE" | "SAFETY_STOP" | "CUSTOMER_DISPUTE";
+            /** Format: date-time */
+            occurred_at: string;
+            /** @constant */
+            simulated: true;
+        };
+        ServiceTradeDisputeInput: {
+            /** @enum {string} */
+            reason_code: "SERVICE_QUALITY" | "BOOKING_MISMATCH" | "SAFETY_CONCERN";
+            evidence_refs: components["schemas"]["Evidence"][];
+        };
+        ServiceTradeDisputeDecisionInput: {
+            /** @enum {string} */
+            decision: "RESOLVE_NO_FINANCIAL_CHANGE";
+            /** @enum {string} */
+            reason_code: "TEST_SCENARIO_REVIEWED";
+            evidence_refs: components["schemas"]["Evidence"][];
+        };
+        ServiceTradeDispute: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            trade_id: string;
+            version: number;
+            /** @enum {string} */
+            reason_code: "SERVICE_QUALITY" | "BOOKING_MISMATCH" | "SAFETY_CONCERN";
+            evidence_refs: components["schemas"]["Evidence"][];
+            /** Format: date-time */
+            opened_at: string;
+            /** @enum {string} */
+            state: "OPEN" | "RESOLVED";
+            resolved_at: string | null;
+            /** @constant */
+            simulated: true;
+        };
+        ServiceTradeLedgerEntry: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            trade_id: string;
+            source_event_id: string | null;
+            settlement_id: string | null;
+            /** @enum {string} */
+            entry_type: "SERVICE_COLLECTION" | "SERVICE_COMMISSION" | "SERVICE_REFUND" | "SERVICE_COMMISSION_REVERSAL" | "SERVICE_SETTLEMENT" | "SERVICE_SETTLED_REFUND_ADJUSTMENT";
+            /** @enum {string} */
+            direction: "CREDIT" | "DEBIT";
+            amount_fen: number;
+            affects_balance: boolean;
+            /** Format: date-time */
+            occurred_at: string;
+            /** @constant */
+            simulated: true;
+        };
+        ServiceTradeSettlementPreview: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            merchant_id: string;
+            net_fen: number;
+            entry_count: number;
+            ledger_sha256: string;
+            /** Format: date-time */
+            expires_at: string;
+            eligible: boolean;
+            blocked_reasons: ("TERMS_MISSING" | "OPEN_DISPUTE" | "UNKNOWN_PAYMENT" | "UNKNOWN_REFUND" | "WAITING_COMPLETION" | "BUFFER_NOT_DUE" | "NON_POSITIVE_BALANCE" | "CROSS_DOMAIN_DEBT")[];
+            /** @constant */
+            simulated: true;
+        };
+        ServiceTradeSettlementInput: {
+            /** Format: uuid */
+            preview_id: string;
+            accepted_ledger_sha256: string;
+        };
+        ServiceTradeSettlement: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            merchant_id: string;
+            net_fen: number;
+            /** @enum {string} */
+            state: "SETTLED";
+            /** @constant */
+            version: 0;
+            /** @constant */
+            simulated: true;
+        };
+        ServiceTradeReconciliation: {
+            /** Format: uuid */
+            merchant_id: string;
+            goods_balance_fen: number;
+            service_balance_fen: number;
+            combined_balance_fen: number;
+            consistent: boolean;
+            checks: {
+                name: string;
+                mismatches: number;
+            }[];
+            /** Format: date-time */
+            as_of: string;
+            /** @constant */
+            simulated: true;
+        };
+        ServiceTradeCredentialEnvelope: {
+            data: components["schemas"]["ServiceTradeCredential"];
+            meta: components["schemas"]["Meta"];
+        };
+        ServiceTradeFulfillmentEventListEnvelope: {
+            data: components["schemas"]["ServiceTradeFulfillmentEvent"][];
+            meta: components["schemas"]["Meta"];
+            page: components["schemas"]["Page"];
+        };
+        ServiceTradeDisputeListEnvelope: {
+            data: components["schemas"]["ServiceTradeDispute"][];
+            meta: components["schemas"]["Meta"];
+            page: components["schemas"]["Page"];
+        };
+        ServiceTradeDisputeEnvelope: {
+            data: components["schemas"]["ServiceTradeDispute"];
+            meta: components["schemas"]["Meta"];
+        };
+        ServiceTradeLedgerEntryListEnvelope: {
+            data: components["schemas"]["ServiceTradeLedgerEntry"][];
+            meta: components["schemas"]["Meta"];
+            page: components["schemas"]["Page"];
+        };
+        ServiceTradeSettlementPreviewEnvelope: {
+            data: components["schemas"]["ServiceTradeSettlementPreview"];
+            meta: components["schemas"]["Meta"];
+        };
+        ServiceTradeSettlementEnvelope: {
+            data: components["schemas"]["ServiceTradeSettlement"];
+            meta: components["schemas"]["Meta"];
+        };
+        ServiceTradeReconciliationEnvelope: {
+            data: components["schemas"]["ServiceTradeReconciliation"];
             meta: components["schemas"]["Meta"];
         };
     };
@@ -53308,6 +53700,1170 @@ export interface operations {
                 };
             };
             /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b3_get__consumer_service_trade_orders_id_credential: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    /** @description Sensitive credential must not be cached */
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeCredentialEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b3_get__consumer_service_trade_orders_id_fulfillment: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeFulfillmentEventListEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b3_get__merchant_stores_store_id_service_trade_orders_id_fulfillment: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                store_id: string;
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeFulfillmentEventListEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b3_post__merchant_stores_store_id_service_trade_orders_id_fulfillment: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+            };
+            path: {
+                store_id: string;
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceTradeFulfillmentInput"];
+            };
+        };
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b3_get__consumer_service_trade_orders_id_disputes: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeDisputeListEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b3_post__consumer_service_trade_orders_id_disputes: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceTradeDisputeInput"];
+            };
+        };
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeDisputeEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b3_get__merchant_stores_store_id_service_trade_orders_id_disputes: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                store_id: string;
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeDisputeListEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b3_get__admin_service_trade_orders_id_disputes: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeDisputeListEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b3_post__admin_service_trade_orders_id_disputes_dispute_id_decisions: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+                "X-Reverify-Token": string;
+            };
+            path: {
+                id: string;
+                dispute_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceTradeDisputeDecisionInput"];
+            };
+        };
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeDisputeEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b3_get__merchant_stores_store_id_service_trade_ledger: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                store_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeLedgerEntryListEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b3_post__admin_merchants_merchant_id_service_trade_settlement_previews: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                merchant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EmptyInput"];
+            };
+        };
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeSettlementPreviewEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b3_post__admin_merchants_merchant_id_service_trade_settlements: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "X-Reverify-Token": string;
+            };
+            path: {
+                merchant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceTradeSettlementInput"];
+            };
+        };
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeSettlementEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b3_get__admin_merchants_merchant_id_service_trade_reconciliation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeReconciliationEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
             503: {
                 headers: {
                     [name: string]: unknown;

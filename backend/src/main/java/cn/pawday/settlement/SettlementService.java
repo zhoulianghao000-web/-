@@ -137,6 +137,8 @@ import org.springframework.transaction.support.TransactionTemplate;
  private Map<String,Object> attemptDisburse(UUID settlementId){
   disbursement.requireEnabled();
   var st=one("SELECT * FROM settlements WHERE id=? FOR UPDATE",settlementId);
+  // Service debt is never offset by copying its income into the goods ledger.
+  if(db.queryForObject("SELECT EXISTS(SELECT 1 FROM service_trade_allocations WHERE merchant_id=? AND service_trade_balance(trade_id)<0)",Boolean.class,st.get("merchant_id")))throw new Failure(409,"SERVICE_TRADE_DEBT_REQUIRES_RECONCILIATION");
   String status=st.get("status").toString();
   if(status.equals("FAILED_RETRYABLE"))db.update("UPDATE settlements SET status='PROCESSING',attempt_count=attempt_count+1,next_retry_at=NULL WHERE id=?",settlementId);
   else if(!status.equals("PROCESSING"))throw new Failure(409,"SETTLEMENT_STATE_CONFLICT");

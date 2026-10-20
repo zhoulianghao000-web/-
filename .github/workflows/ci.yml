@@ -68,6 +68,8 @@ jobs:
           python openapi/validate_v313_b1_contract.py --samples backend/target/v313-b1-contract-samples.json --report backend/target/readiness-evidence/v313-b1-contract.json
           python scripts/compose-v313-b2-contract.py --check
           python openapi/validate_v313_b2_contract.py --samples backend/target/v313-b2-contract-samples.json --b1-samples backend/target/v313-b1-contract-samples.json --report backend/target/readiness-evidence/v313-b2-contract.json
+          python scripts/compose-v313-b3-contract.py --check
+          python openapi/validate_v313_b3_contract.py --samples backend/target/v313-b3-operations-contract-samples.json --b1-samples backend/target/v313-b1-contract-samples.json --b2-samples backend/target/v313-b2-contract-samples.json --report backend/target/readiness-evidence/v313-b3-contract.json
           python openapi/validate_m33_contract.py --samples backend/target/m33-contract-samples.json --report openapi/offer-response-report.json
           python openapi/validate_m34_contract.py --samples backend/target/m34-contract-samples.json --report openapi/consumer-catalog-response-report.json
           # BusinessSearchIT now also captures reverify for current publishing actions.
@@ -202,6 +204,7 @@ jobs:
             backend/target/readiness-evidence/
             backend/target/pilot-evidence/
             backend/target/privacy-review-schema.json
+            backend/target/v313-b3-schema.json
             backend/target/pawday-backend-0.6.7-SNAPSHOT.jar
             openapi/*response-report.json
       - name: Stop only isolated integration services

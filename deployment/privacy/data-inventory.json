@@ -1,6 +1,6 @@
 {
   "schema_version": "pawday-privacy-inventory/v1",
-  "source_baseline": "86574893fcd6d140177fbb81cc2d15f078665d38",
+  "source_baseline": "0e2f42a464de351346a32476954722b0b881038a",
   "retention_authority": "PENDING_OWNER_POLICY",
   "deletion_authorized": false,
   "migrations": {
@@ -34,7 +34,9 @@
     "V028__simulated_service_booking.sql": "88ae7a48e8efeebfa6969f53689e3d90c9557c4e46a17ed7ed17e6b565a96ac9",
     "V029__simulated_booking_fulfillment.sql": "4b74812cf045a6fb423e928efa78190bf878af7cc891e658bb7b9c230edab6c6",
     "V030__simulated_service_trade_holds.sql": "2dec4ca0c128d23e5d51f8d7bd4690893a97eda8a37940d194fefbb30ae59fa0",
-    "V031__simulated_service_trade_finance.sql": "e431fc7c7b41287a3b26808bd558ab7e271615c54f0d96832e579089ea7452cc"
+    "V031__simulated_service_trade_finance.sql": "e431fc7c7b41287a3b26808bd558ab7e271615c54f0d96832e579089ea7452cc",
+    "V032__paid_service_fulfillment_and_disputes.sql": "f79f3c8d241b7ff5a3abe9971a2ffa1cd1c4e304fa49e57d1ac4cc411edf824b",
+    "V033__service_commission_and_settlement.sql": "f8883f7af8eff453b7a1fd987f68c9fda38c549e56ec668dec7aed88146616df"
   },
   "tables": [
     {
@@ -1047,6 +1049,19 @@
         "id",
         "name",
         "status"
+      ]
+    },
+    {
+      "name": "merchant_finance_balance_sources",
+      "domain": "service_trade_operations_and_settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "business_type",
+        "id",
+        "merchant_id",
+        "direction",
+        "amount_fen"
       ]
     },
     {
@@ -2282,6 +2297,89 @@
       ]
     },
     {
+      "name": "service_trade_allocations",
+      "domain": "service_trade_operations_and_settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "trade_id",
+        "merchant_id",
+        "receipt_id",
+        "collection_event_id",
+        "policy_snapshot_sha256",
+        "paid_fen",
+        "commission_basis_points",
+        "commission_fen",
+        "settlement_buffer_minutes",
+        "created_at"
+      ]
+    },
+    {
+      "name": "service_trade_dispute_decisions",
+      "domain": "service_trade_operations_and_settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "dispute_id",
+        "trade_id",
+        "version",
+        "decision",
+        "reason_code",
+        "evidence_refs",
+        "decided_by",
+        "decided_at"
+      ]
+    },
+    {
+      "name": "service_trade_disputes",
+      "domain": "service_trade_operations_and_settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "trade_id",
+        "version",
+        "reason_code",
+        "evidence_refs",
+        "opened_by",
+        "opened_at"
+      ]
+    },
+    {
+      "name": "service_trade_fulfillment_events",
+      "domain": "service_trade_operations_and_settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "trade_id",
+        "version",
+        "status",
+        "reason_code",
+        "actor_id",
+        "occurred_at"
+      ]
+    },
+    {
+      "name": "service_trade_ledger_entries",
+      "domain": "service_trade_operations_and_settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "trade_id",
+        "merchant_id",
+        "source_event_id",
+        "settlement_id",
+        "entry_type",
+        "direction",
+        "amount_fen",
+        "affects_balance",
+        "occurred_at"
+      ]
+    },
+    {
       "name": "service_trade_money_events",
       "domain": "service_booking",
       "retention_status": "PENDING_OWNER_POLICY",
@@ -2411,6 +2509,54 @@
         "channel_refund_no",
         "created_at",
         "decided_at"
+      ]
+    },
+    {
+      "name": "service_trade_settlement_items",
+      "domain": "service_trade_operations_and_settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "settlement_id",
+        "trade_id",
+        "net_fen"
+      ]
+    },
+    {
+      "name": "service_trade_settlement_previews",
+      "domain": "service_trade_operations_and_settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "merchant_id",
+        "snapshot",
+        "net_fen",
+        "ledger_sha256",
+        "eligible",
+        "blocked_reasons",
+        "entry_count",
+        "created_by",
+        "created_at",
+        "expires_at"
+      ]
+    },
+    {
+      "name": "service_trade_settlements",
+      "domain": "service_trade_operations_and_settlement",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "preview_id",
+        "merchant_id",
+        "net_fen",
+        "state",
+        "version",
+        "channel_reference",
+        "ledger_sha256",
+        "created_by",
+        "settled_at"
       ]
     },
     {
@@ -2775,7 +2921,7 @@
       ]
     }
   ],
-  "schema_sha256": "49fb5cd910864e21544bad5ce1e27b6807244467c1e6ca8c9fa34c1f3c82a212",
+  "schema_sha256": "fa5fcc6f7c095a6b05a2c27aafeb06d85441846f31fb80c2fe2e5689a19b7759",
   "policies": [
     {
       "domain": "aftersale_refunds",
@@ -2893,6 +3039,12 @@
     },
     {
       "domain": "service_booking",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "service_trade_operations_and_settlement",
       "status": "PENDING",
       "retention_basis": null,
       "retention_days": null
