@@ -1,0 +1,208 @@
+{
+  "result": "LOCAL_CHECKS_PASSED_CLOUD_CI_BLOCKED",
+  "stage": "V3.1.3-B1",
+  "implementation_commit": "ee2ad4e4326628d880cc55d59ed5b3f458db4f2e",
+  "correction_commit": "e7c6fdc54d8dcd061b94a4aee04beac2a66269ce",
+  "backend_runtime_unchanged_since_implementation": true,
+  "local_backend_unit_tests": 591,
+  "local_infrastructure_first_round": {
+    "tests": 84,
+    "passed": 83,
+    "errors": 1
+  },
+  "local_infrastructure_corrected_rabbit_round": {
+    "tests": 28,
+    "passed": 28,
+    "errors": 0
+  },
+  "other_infrastructure_tests_passed_first_round": 56,
+  "local_web_tests": 102,
+  "local_consumer_tests": 134,
+  "runtime_contract": {
+    "result": "PASS",
+    "stage": "V3.1.3-B1",
+    "evidence_kind": "REAL_HTTP_SYNTHETIC_BUSINESS",
+    "runtime_verified": true,
+    "payments_implemented": false,
+    "operations": 12,
+    "actual_responses": 102,
+    "coverage": [
+      [
+        "/admin/service-trade-terms",
+        "get",
+        "200"
+      ],
+      [
+        "/admin/service-trade-terms/{id}/review",
+        "post",
+        "200"
+      ],
+      [
+        "/admin/service-trade-terms/{id}/review",
+        "post",
+        "403"
+      ],
+      [
+        "/admin/service-trade-terms/{id}/review",
+        "post",
+        "503"
+      ],
+      [
+        "/consumer/booking-services/{id}/trade-terms",
+        "get",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "get",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "get",
+        "400"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "get",
+        "401"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "get",
+        "403"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "post",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "post",
+        "400"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "post",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "post",
+        "409"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}",
+        "get",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}",
+        "get",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/cancel",
+        "post",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/cancel",
+        "post",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/cancel",
+        "post",
+        "409"
+      ],
+      [
+        "/consumer/service-trade-quotes",
+        "post",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-quotes",
+        "post",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-quotes",
+        "post",
+        "409"
+      ],
+      [
+        "/consumer/service-trade-terms/{id}",
+        "get",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-terms/{id}",
+        "get",
+        "409"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders",
+        "get",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders",
+        "get",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders",
+        "get",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "get",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "get",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "post",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "post",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "post",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "post",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "post",
+        "409"
+      ]
+    ]
+  },
+  "legacy_schemas_preserved": 483,
+  "pending_github_scope": "workflow",
+  "cloud_ci_passed": false,
+  "new_apk_delivered": false,
+  "final_v3_package_delivered": false,
+  "desktop_program_updated": false,
+  "desktop_shortcut_icon_updated": true,
+  "icon_master_sha256": "3acee9753223b623b4dd27bdde80165653fe4de4336a1497a670ebec65269d5f",
+  "phone_operations_performed": false,
+  "v3_complete": false,
+  "production_ready": false
+}
