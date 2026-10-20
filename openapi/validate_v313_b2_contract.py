@@ -18,6 +18,9 @@ def validate(samples):
   Draft202012Validator({'$ref':'urn:pawday:v313b2'+schema['$ref']},registry=reg,format_checker=FormatChecker()).validate(sample['response']);covered.add((p,m,status));count+=1
  assert {(p,m,'200') for p,m,_ in ops}<=covered,'Missing success operations: '+str({(p,m,'200') for p,m,_ in ops}-covered)
  assert {'400','401','403','404','409','503'}<={status for _,_,status in covered},'Missing negative response coverage'
+ newops=[(p,m) for p,m,op in ops if op.get('x-implemented-in')=='V3.1.3-B2']
+ required={(p,m,status) for p,m in newops for status in ['200','400','401','403','404','503']}|{(p,m,'409') for p,m in newops if m=='post'}
+ assert required<=covered,'Missing per-operation B2 failure branches: '+str(required-covered)
  return dict(result='PASS',stage='V3.1.3-B2',evidence_kind='REAL_HTTP_SYNTHETIC_BUSINESS',runtime_verified=True,real_payment_verified=False,settlement_implemented=False,operations=len(ops),actual_responses=count,coverage=[list(x) for x in sorted(covered)])
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('--samples',type=Path,required=True);p.add_argument('--b1-samples',type=Path,required=True);p.add_argument('--report',type=Path,required=True);a=p.parse_args();report=validate(json.loads(a.samples.read_text(encoding='utf-8'))+json.loads(a.b1_samples.read_text(encoding='utf-8')));a.report.parent.mkdir(parents=True,exist_ok=True);a.report.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8');print(json.dumps(report))
