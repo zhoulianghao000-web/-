@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 8bac154f08a4e523ec6a6a116ba565aa28134bd54738f1cce5b91459aa544111
+// Generated from Pawday runtime OpenAPI; SHA256 78ee4d022ff042c35303f554d99bd38e03cd94ce78b753cff0cd18099d0953d0
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -10489,6 +10489,473 @@ class BookingFulfillmentEventListEnvelope {
   };
 }
 
+class Evidence {
+  final String kind;
+  final String reference;
+  const Evidence({required this.kind, required this.reference});
+  factory Evidence.fromJson(Map<String,dynamic> json) => Evidence(
+    kind: json['kind'] as String,
+    reference: json['reference'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'kind': kind,
+    'reference': reference,
+  };
+}
+
+class ServiceTermsInput {
+  final String service_id;
+  final String currency;
+  final int amount_fen;
+  final String billing_unit;
+  final int cancel_cutoff_minutes;
+  final String consumer_late_cancel;
+  final String merchant_cancel;
+  final String no_show;
+  final int commission_basis_points;
+  final int settlement_buffer_minutes;
+  final List<Evidence> evidence_refs;
+  const ServiceTermsInput({required this.service_id, required this.currency, required this.amount_fen, required this.billing_unit, required this.cancel_cutoff_minutes, required this.consumer_late_cancel, required this.merchant_cancel, required this.no_show, required this.commission_basis_points, required this.settlement_buffer_minutes, required this.evidence_refs});
+  factory ServiceTermsInput.fromJson(Map<String,dynamic> json) => ServiceTermsInput(
+    service_id: json['service_id'] as String,
+    currency: json['currency'] as String,
+    amount_fen: (json['amount_fen'] as num).toInt(),
+    billing_unit: json['billing_unit'] as String,
+    cancel_cutoff_minutes: (json['cancel_cutoff_minutes'] as num).toInt(),
+    consumer_late_cancel: json['consumer_late_cancel'] as String,
+    merchant_cancel: json['merchant_cancel'] as String,
+    no_show: json['no_show'] as String,
+    commission_basis_points: (json['commission_basis_points'] as num).toInt(),
+    settlement_buffer_minutes: (json['settlement_buffer_minutes'] as num).toInt(),
+    evidence_refs: (json['evidence_refs'] as List).map((value) => Evidence.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'service_id': service_id,
+    'currency': currency,
+    'amount_fen': amount_fen,
+    'billing_unit': billing_unit,
+    'cancel_cutoff_minutes': cancel_cutoff_minutes,
+    'consumer_late_cancel': consumer_late_cancel,
+    'merchant_cancel': merchant_cancel,
+    'no_show': no_show,
+    'commission_basis_points': commission_basis_points,
+    'settlement_buffer_minutes': settlement_buffer_minutes,
+    'evidence_refs': evidence_refs.map((value) => value.toJson()).toList(),
+  };
+}
+
+class ServiceTerms {
+  final String id;
+  final String store_id;
+  final String service_id;
+  final String currency;
+  final int amount_fen;
+  final String billing_unit;
+  final int cancel_cutoff_minutes;
+  final String consumer_late_cancel;
+  final String merchant_cancel;
+  final String no_show;
+  final int commission_basis_points;
+  final int settlement_buffer_minutes;
+  final List<Evidence> evidence_refs;
+  final String state;
+  final int version;
+  final String terms_sha256;
+  final String authorization_status;
+  final bool simulated;
+  final String policy_snapshot_sha256;
+  final String service_title;
+  final String service_kind;
+  const ServiceTerms({required this.id, required this.store_id, required this.service_id, required this.currency, required this.amount_fen, required this.billing_unit, required this.cancel_cutoff_minutes, required this.consumer_late_cancel, required this.merchant_cancel, required this.no_show, required this.commission_basis_points, required this.settlement_buffer_minutes, required this.evidence_refs, required this.state, required this.version, required this.terms_sha256, required this.authorization_status, required this.simulated, required this.policy_snapshot_sha256, required this.service_title, required this.service_kind});
+  factory ServiceTerms.fromJson(Map<String,dynamic> json) => ServiceTerms(
+    id: json['id'] as String,
+    store_id: json['store_id'] as String,
+    service_id: json['service_id'] as String,
+    currency: json['currency'] as String,
+    amount_fen: (json['amount_fen'] as num).toInt(),
+    billing_unit: json['billing_unit'] as String,
+    cancel_cutoff_minutes: (json['cancel_cutoff_minutes'] as num).toInt(),
+    consumer_late_cancel: json['consumer_late_cancel'] as String,
+    merchant_cancel: json['merchant_cancel'] as String,
+    no_show: json['no_show'] as String,
+    commission_basis_points: (json['commission_basis_points'] as num).toInt(),
+    settlement_buffer_minutes: (json['settlement_buffer_minutes'] as num).toInt(),
+    evidence_refs: (json['evidence_refs'] as List).map((value) => Evidence.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    state: json['state'] as String,
+    version: (json['version'] as num).toInt(),
+    terms_sha256: json['terms_sha256'] as String,
+    authorization_status: json['authorization_status'] as String,
+    simulated: json['simulated'] as bool,
+    policy_snapshot_sha256: json['policy_snapshot_sha256'] as String,
+    service_title: json['service_title'] as String,
+    service_kind: json['service_kind'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'store_id': store_id,
+    'service_id': service_id,
+    'currency': currency,
+    'amount_fen': amount_fen,
+    'billing_unit': billing_unit,
+    'cancel_cutoff_minutes': cancel_cutoff_minutes,
+    'consumer_late_cancel': consumer_late_cancel,
+    'merchant_cancel': merchant_cancel,
+    'no_show': no_show,
+    'commission_basis_points': commission_basis_points,
+    'settlement_buffer_minutes': settlement_buffer_minutes,
+    'evidence_refs': evidence_refs.map((value) => value.toJson()).toList(),
+    'state': state,
+    'version': version,
+    'terms_sha256': terms_sha256,
+    'authorization_status': authorization_status,
+    'simulated': simulated,
+    'policy_snapshot_sha256': policy_snapshot_sha256,
+    'service_title': service_title,
+    'service_kind': service_kind,
+  };
+}
+
+class ConsumerServiceTerms {
+  final String id;
+  final String store_id;
+  final String service_id;
+  final String service_title;
+  final String service_kind;
+  final String currency;
+  final int amount_fen;
+  final String billing_unit;
+  final int cancel_cutoff_minutes;
+  final String consumer_late_cancel;
+  final String merchant_cancel;
+  final String no_show;
+  final int version;
+  final String terms_sha256;
+  final bool simulated;
+  const ConsumerServiceTerms({required this.id, required this.store_id, required this.service_id, required this.service_title, required this.service_kind, required this.currency, required this.amount_fen, required this.billing_unit, required this.cancel_cutoff_minutes, required this.consumer_late_cancel, required this.merchant_cancel, required this.no_show, required this.version, required this.terms_sha256, required this.simulated});
+  factory ConsumerServiceTerms.fromJson(Map<String,dynamic> json) => ConsumerServiceTerms(
+    id: json['id'] as String,
+    store_id: json['store_id'] as String,
+    service_id: json['service_id'] as String,
+    service_title: json['service_title'] as String,
+    service_kind: json['service_kind'] as String,
+    currency: json['currency'] as String,
+    amount_fen: (json['amount_fen'] as num).toInt(),
+    billing_unit: json['billing_unit'] as String,
+    cancel_cutoff_minutes: (json['cancel_cutoff_minutes'] as num).toInt(),
+    consumer_late_cancel: json['consumer_late_cancel'] as String,
+    merchant_cancel: json['merchant_cancel'] as String,
+    no_show: json['no_show'] as String,
+    version: (json['version'] as num).toInt(),
+    terms_sha256: json['terms_sha256'] as String,
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'store_id': store_id,
+    'service_id': service_id,
+    'service_title': service_title,
+    'service_kind': service_kind,
+    'currency': currency,
+    'amount_fen': amount_fen,
+    'billing_unit': billing_unit,
+    'cancel_cutoff_minutes': cancel_cutoff_minutes,
+    'consumer_late_cancel': consumer_late_cancel,
+    'merchant_cancel': merchant_cancel,
+    'no_show': no_show,
+    'version': version,
+    'terms_sha256': terms_sha256,
+    'simulated': simulated,
+  };
+}
+
+class TermsReviewInput {
+  final String decision;
+  final String reason_code;
+  const TermsReviewInput({required this.decision, required this.reason_code});
+  factory TermsReviewInput.fromJson(Map<String,dynamic> json) => TermsReviewInput(
+    decision: json['decision'] as String,
+    reason_code: json['reason_code'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'decision': decision,
+    'reason_code': reason_code,
+  };
+}
+
+class ServiceQuoteInput {
+  final String terms_id;
+  final String slot_id;
+  const ServiceQuoteInput({required this.terms_id, required this.slot_id});
+  factory ServiceQuoteInput.fromJson(Map<String,dynamic> json) => ServiceQuoteInput(
+    terms_id: json['terms_id'] as String,
+    slot_id: json['slot_id'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'terms_id': terms_id,
+    'slot_id': slot_id,
+  };
+}
+
+class ServiceQuote {
+  final String id;
+  final String store_id;
+  final String service_id;
+  final String slot_id;
+  final String terms_id;
+  final int terms_version;
+  final String terms_sha256;
+  final String currency;
+  final int payable_fen;
+  final String starts_at;
+  final String ends_at;
+  final String expires_at;
+  final bool capacity_held;
+  final bool simulated;
+  const ServiceQuote({required this.id, required this.store_id, required this.service_id, required this.slot_id, required this.terms_id, required this.terms_version, required this.terms_sha256, required this.currency, required this.payable_fen, required this.starts_at, required this.ends_at, required this.expires_at, required this.capacity_held, required this.simulated});
+  factory ServiceQuote.fromJson(Map<String,dynamic> json) => ServiceQuote(
+    id: json['id'] as String,
+    store_id: json['store_id'] as String,
+    service_id: json['service_id'] as String,
+    slot_id: json['slot_id'] as String,
+    terms_id: json['terms_id'] as String,
+    terms_version: (json['terms_version'] as num).toInt(),
+    terms_sha256: json['terms_sha256'] as String,
+    currency: json['currency'] as String,
+    payable_fen: (json['payable_fen'] as num).toInt(),
+    starts_at: json['starts_at'] as String,
+    ends_at: json['ends_at'] as String,
+    expires_at: json['expires_at'] as String,
+    capacity_held: json['capacity_held'] as bool,
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'store_id': store_id,
+    'service_id': service_id,
+    'slot_id': slot_id,
+    'terms_id': terms_id,
+    'terms_version': terms_version,
+    'terms_sha256': terms_sha256,
+    'currency': currency,
+    'payable_fen': payable_fen,
+    'starts_at': starts_at,
+    'ends_at': ends_at,
+    'expires_at': expires_at,
+    'capacity_held': capacity_held,
+    'simulated': simulated,
+  };
+}
+
+class CreateServiceTrade {
+  final String quote_id;
+  final String accepted_terms_sha256;
+  const CreateServiceTrade({required this.quote_id, required this.accepted_terms_sha256});
+  factory CreateServiceTrade.fromJson(Map<String,dynamic> json) => CreateServiceTrade(
+    quote_id: json['quote_id'] as String,
+    accepted_terms_sha256: json['accepted_terms_sha256'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'quote_id': quote_id,
+    'accepted_terms_sha256': accepted_terms_sha256,
+  };
+}
+
+class ServiceTrade {
+  final String id;
+  final String store_id;
+  final String service_id;
+  final String slot_id;
+  final String terms_id;
+  final String terms_sha256;
+  final String currency;
+  final int payable_fen;
+  final int paid_fen;
+  final int refunded_fen;
+  final int refund_reserved_fen;
+  final int commission_fen;
+  final int commission_reversed_fen;
+  final int merchant_net_fen;
+  final String order_state;
+  final String payment_state;
+  final String capacity_state;
+  final String fulfillment_state;
+  final String settlement_state;
+  final String hold_expires_at;
+  final String starts_at;
+  final String? receipt_id;
+  final String? confirmed_at;
+  final String as_of;
+  final String? settlement_buffer_ends_at;
+  final bool open_dispute;
+  final bool unresolved_collection_case;
+  final int version;
+  final bool simulated;
+  const ServiceTrade({required this.id, required this.store_id, required this.service_id, required this.slot_id, required this.terms_id, required this.terms_sha256, required this.currency, required this.payable_fen, required this.paid_fen, required this.refunded_fen, required this.refund_reserved_fen, required this.commission_fen, required this.commission_reversed_fen, required this.merchant_net_fen, required this.order_state, required this.payment_state, required this.capacity_state, required this.fulfillment_state, required this.settlement_state, required this.hold_expires_at, required this.starts_at, required this.receipt_id, required this.confirmed_at, required this.as_of, required this.settlement_buffer_ends_at, required this.open_dispute, required this.unresolved_collection_case, required this.version, required this.simulated});
+  factory ServiceTrade.fromJson(Map<String,dynamic> json) => ServiceTrade(
+    id: json['id'] as String,
+    store_id: json['store_id'] as String,
+    service_id: json['service_id'] as String,
+    slot_id: json['slot_id'] as String,
+    terms_id: json['terms_id'] as String,
+    terms_sha256: json['terms_sha256'] as String,
+    currency: json['currency'] as String,
+    payable_fen: (json['payable_fen'] as num).toInt(),
+    paid_fen: (json['paid_fen'] as num).toInt(),
+    refunded_fen: (json['refunded_fen'] as num).toInt(),
+    refund_reserved_fen: (json['refund_reserved_fen'] as num).toInt(),
+    commission_fen: (json['commission_fen'] as num).toInt(),
+    commission_reversed_fen: (json['commission_reversed_fen'] as num).toInt(),
+    merchant_net_fen: (json['merchant_net_fen'] as num).toInt(),
+    order_state: json['order_state'] as String,
+    payment_state: json['payment_state'] as String,
+    capacity_state: json['capacity_state'] as String,
+    fulfillment_state: json['fulfillment_state'] as String,
+    settlement_state: json['settlement_state'] as String,
+    hold_expires_at: json['hold_expires_at'] as String,
+    starts_at: json['starts_at'] as String,
+    receipt_id: json['receipt_id'] == null ? null : json['receipt_id'] as String,
+    confirmed_at: json['confirmed_at'] == null ? null : json['confirmed_at'] as String,
+    as_of: json['as_of'] as String,
+    settlement_buffer_ends_at: json['settlement_buffer_ends_at'] == null ? null : json['settlement_buffer_ends_at'] as String,
+    open_dispute: json['open_dispute'] as bool,
+    unresolved_collection_case: json['unresolved_collection_case'] as bool,
+    version: (json['version'] as num).toInt(),
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'store_id': store_id,
+    'service_id': service_id,
+    'slot_id': slot_id,
+    'terms_id': terms_id,
+    'terms_sha256': terms_sha256,
+    'currency': currency,
+    'payable_fen': payable_fen,
+    'paid_fen': paid_fen,
+    'refunded_fen': refunded_fen,
+    'refund_reserved_fen': refund_reserved_fen,
+    'commission_fen': commission_fen,
+    'commission_reversed_fen': commission_reversed_fen,
+    'merchant_net_fen': merchant_net_fen,
+    'order_state': order_state,
+    'payment_state': payment_state,
+    'capacity_state': capacity_state,
+    'fulfillment_state': fulfillment_state,
+    'settlement_state': settlement_state,
+    'hold_expires_at': hold_expires_at,
+    'starts_at': starts_at,
+    'receipt_id': receipt_id == null ? null : receipt_id!,
+    'confirmed_at': confirmed_at == null ? null : confirmed_at!,
+    'as_of': as_of,
+    'settlement_buffer_ends_at': settlement_buffer_ends_at == null ? null : settlement_buffer_ends_at!,
+    'open_dispute': open_dispute,
+    'unresolved_collection_case': unresolved_collection_case,
+    'version': version,
+    'simulated': simulated,
+  };
+}
+
+class ServiceTermsEnvelope {
+  final ServiceTerms data;
+  final Meta meta;
+  const ServiceTermsEnvelope({required this.data, required this.meta});
+  factory ServiceTermsEnvelope.fromJson(Map<String,dynamic> json) => ServiceTermsEnvelope(
+    data: ServiceTerms.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ServiceTermsListEnvelope {
+  final List<ServiceTerms> data;
+  final Page page;
+  final Meta meta;
+  const ServiceTermsListEnvelope({required this.data, required this.page, required this.meta});
+  factory ServiceTermsListEnvelope.fromJson(Map<String,dynamic> json) => ServiceTermsListEnvelope(
+    data: (json['data'] as List).map((value) => ServiceTerms.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ConsumerServiceTermsEnvelope {
+  final ConsumerServiceTerms data;
+  final Meta meta;
+  const ConsumerServiceTermsEnvelope({required this.data, required this.meta});
+  factory ConsumerServiceTermsEnvelope.fromJson(Map<String,dynamic> json) => ConsumerServiceTermsEnvelope(
+    data: ConsumerServiceTerms.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ServiceQuoteEnvelope {
+  final ServiceQuote data;
+  final Meta meta;
+  const ServiceQuoteEnvelope({required this.data, required this.meta});
+  factory ServiceQuoteEnvelope.fromJson(Map<String,dynamic> json) => ServiceQuoteEnvelope(
+    data: ServiceQuote.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ServiceTradeEnvelope {
+  final ServiceTrade data;
+  final Meta meta;
+  const ServiceTradeEnvelope({required this.data, required this.meta});
+  factory ServiceTradeEnvelope.fromJson(Map<String,dynamic> json) => ServiceTradeEnvelope(
+    data: ServiceTrade.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ServiceTradeListEnvelope {
+  final List<ServiceTrade> data;
+  final Page page;
+  final Meta meta;
+  const ServiceTradeListEnvelope({required this.data, required this.page, required this.meta});
+  factory ServiceTradeListEnvelope.fromJson(Map<String,dynamic> json) => ServiceTradeListEnvelope(
+    data: (json['data'] as List).map((value) => ServiceTrade.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ServiceTradeEmpty {
+
+  const ServiceTradeEmpty();
+  factory ServiceTradeEmpty.fromJson(Map<String,dynamic> json) => ServiceTradeEmpty(
+
+  );
+  Map<String,dynamic> toJson() => {
+
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -10854,4 +11321,16 @@ class ApiRoutes {
   static const v312_get__consumer_service_bookings_id_fulfillment = '/consumer/service-bookings/{id}/fulfillment';
   static const v312_get__merchant_stores_store_id_service_bookings_id_fulfillment = '/merchant/stores/{store_id}/service-bookings/{id}/fulfillment';
   static const v312_post__merchant_stores_store_id_service_bookings_id_fulfillment = '/merchant/stores/{store_id}/service-bookings/{id}/fulfillment';
+  static const v313b1_get__merchant_stores_store_id_service_trade_terms = '/merchant/stores/{store_id}/service-trade-terms';
+  static const v313b1_post__merchant_stores_store_id_service_trade_terms = '/merchant/stores/{store_id}/service-trade-terms';
+  static const v313b1_post__admin_service_trade_terms_id_review = '/admin/service-trade-terms/{id}/review';
+  static const v313b1_get__consumer_service_trade_terms_id = '/consumer/service-trade-terms/{id}';
+  static const v313b1_post__consumer_service_trade_quotes = '/consumer/service-trade-quotes';
+  static const v313b1_post__consumer_service_trade_orders = '/consumer/service-trade-orders';
+  static const v313b1_get__consumer_service_trade_orders = '/consumer/service-trade-orders';
+  static const v313b1_get__consumer_service_trade_orders_id = '/consumer/service-trade-orders/{id}';
+  static const v313b1_get__merchant_stores_store_id_service_trade_orders = '/merchant/stores/{store_id}/service-trade-orders';
+  static const v313b1_get__admin_service_trade_terms = '/admin/service-trade-terms';
+  static const v313b1_get__consumer_booking_services_id_trade_terms = '/consumer/booking-services/{id}/trade-terms';
+  static const v313b1_post__consumer_service_trade_orders_id_cancel = '/consumer/service-trade-orders/{id}/cancel';
 }

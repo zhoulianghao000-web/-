@@ -1,5 +1,5 @@
 """Validate isolated draft schemas and synthetic examples; no runtime/HTTP claims."""
-import argparse,copy,importlib.util,json,re,sys
+import argparse,copy,hashlib,importlib.util,json,re,sys
 from pathlib import Path
 from openapi_spec_validator import validate_spec
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
@@ -13,9 +13,12 @@ def validate_artifact(doc,fixtures,gaps,baseline):
  validate_spec(doc)
  require(doc.get('x-design-status')=='DRAFT_NOT_IMPLEMENTED' and doc.get('x-runtime-implemented') is False and doc.get('x-policy-status')=='PENDING_OWNER_RULES','DESIGN_BOUNDARY_REQUIRED')
  require(doc['servers']==[{'url':'https://design.invalid/api/v1','description':'Reserved invalid domain. No deployed service.'}],'DESIGN_SERVER_REQUIRED')
- require(baseline['protected_tree']==protected_tree(),'RUNTIME_BASELINE_CHANGED')
+ historical=json.loads((ROOT/'design/v3.1.3/runtime-baseline-manifest.json').read_text(encoding='utf-8'))
+ require(historical['source_commit']=='ec46e2db30251fd7f6e7dd58ea08734b24187161' and historical['evidence_kind']=='HISTORICAL_A_RUNTIME_MANIFEST','HISTORICAL_BASELINE_REQUIRED')
+ recorded={'files':len(historical['rows']),'sha256':hashlib.sha256(json.dumps(historical['rows'],separators=(',',':')).encode()).hexdigest()}
+ require(baseline['protected_tree']==recorded and recorded['sha256']=='324f0e86ecd60b10e07371751984ea4b47ca363052d6c0f95ca0e4534edc9489','RUNTIME_BASELINE_CHANGED')
  require(baseline['runtime_contract']=='openapi/pawday-v3.1.2.yaml' and baseline['active_paid_service_routes'] is False,'ACTIVE_CONTRACT_CHANGED')
- active=(ROOT/'scripts/generate-api.mjs').read_text(encoding='utf-8');require('pawday-v3.1.2.yaml' in active and 'v3.1.3' not in active,'DRAFT_IN_RUNTIME_CODEGEN')
+ active=(ROOT/'scripts/generate-api.mjs').read_text(encoding='utf-8');require('openapi/design/' not in active and 'v3.1.3-draft' not in active,'DRAFT_IN_RUNTIME_CODEGEN')
  require(gaps['status']=='PENDING_OWNER_RULES' and gaps['production_ready'] is False and len(gaps['gaps'])==12,'POLICY_GAP_MISMATCH')
  require(len({g['id'] for g in gaps['gaps']})==12 and all(g['status']=='PENDING' and g['evidence_ref'] is None and g['confirmed_value'] is None for g in gaps['gaps']),'UNSUPPORTED_RULE_CONFIRMATION')
  require(fixtures['evidence_kind']=='DESIGN_ONLY_SYNTHETIC' and fixtures['actual_http_responses']==0 and fixtures['runtime_verified'] is False,'SYNTHETIC_EVIDENCE_ONLY')
@@ -76,7 +79,7 @@ def validate_artifact(doc,fixtures,gaps,baseline):
  for path,method,op in operations:
   for schema in ([op['requestBody']['content']['application/json']['schema']] if 'requestBody' in op else [])+[op['responses']['200']['content']['application/json']['schema']]:
    name=schema['$ref'].rsplit('/',1)[1];validate_snapshot(doc,name,example(schema));examples+=1
- return {'result':'PASS','stage':'V3.1.3-A-DESIGN','evidence_kind':'DESIGN_ONLY_SYNTHETIC','runtime_verified':False,'implementation_complete':False,'actual_http_responses':0,'operations':len(operations),'request_response_schema_examples':examples,'positive_snapshot_cases':positive,'negative_snapshot_cases':negative,'commission_boundary_cases':len(fixtures['commission_cases']),'pending_rule_gaps':len(gaps['gaps']),'production_ready':False,'protected_runtime_tree_unchanged':True,'runtime_contract':baseline['runtime_contract'],'current_phone_version':baseline['runtime_version'],'phone_operations_performed':False}
+ return {'result':'PASS','stage':'V3.1.3-A-DESIGN','evidence_kind':'DESIGN_ONLY_SYNTHETIC','runtime_verified':False,'implementation_complete':False,'actual_http_responses':0,'operations':len(operations),'request_response_schema_examples':examples,'positive_snapshot_cases':positive,'negative_snapshot_cases':negative,'commission_boundary_cases':len(fixtures['commission_cases']),'pending_rule_gaps':len(gaps['gaps']),'production_ready':False,'historical_A_runtime_manifest_verified':True,'historical_A_runtime_contract':baseline['runtime_contract'],'historical_A_phone_version':baseline['runtime_version'],'phone_operations_performed':False}
 
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('--report',type=Path,required=True);a=p.parse_args()

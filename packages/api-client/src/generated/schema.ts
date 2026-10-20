@@ -1,4 +1,4 @@
-// Generated from pawday-v3.1.2.yaml; SHA256 8bac154f08a4e523ec6a6a116ba565aa28134bd54738f1cce5b91459aa544111
+// Generated from pawday-v3.1.3-b1.json; SHA256 78ee4d022ff042c35303f554d99bd38e03cd94ce78b753cff0cd18099d0953d0
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -5568,6 +5568,214 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/merchant/stores/{store_id}/service-trade-terms": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic unpaid service trade get /merchant/stores/{store_id}/service-trade-terms
+         * @description Default off; non-production and booking simulation required. Explicit TEST_SCENARIO only. B1 has no payment, refund or settlement authority. Quotes last at most 5 minutes and do not hold capacity; unpaid orders hold at most 10 minutes, bounded by slot start. Read/close owned orders remains available for hidden stores. UUID pagination. Separate service permissions and action-bound proof for terms review.
+         */
+        get: operations["v313b1_get__merchant_stores_store_id_service_trade_terms"];
+        put?: never;
+        /**
+         * Synthetic unpaid service trade post /merchant/stores/{store_id}/service-trade-terms
+         * @description Default off; non-production and booking simulation required. Explicit TEST_SCENARIO only. B1 has no payment, refund or settlement authority. Quotes last at most 5 minutes and do not hold capacity; unpaid orders hold at most 10 minutes, bounded by slot start. Read/close owned orders remains available for hidden stores. UUID pagination. Separate service permissions and action-bound proof for terms review.
+         */
+        post: operations["v313b1_post__merchant_stores_store_id_service_trade_terms"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/service-trade-terms/{id}/review": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Synthetic unpaid service trade post /admin/service-trade-terms/{id}/review
+         * @description Default off; non-production and booking simulation required. Explicit TEST_SCENARIO only. B1 has no payment, refund or settlement authority. Quotes last at most 5 minutes and do not hold capacity; unpaid orders hold at most 10 minutes, bounded by slot start. Read/close owned orders remains available for hidden stores. UUID pagination. Separate service permissions and action-bound proof for terms review.
+         */
+        post: operations["v313b1_post__admin_service_trade_terms_id_review"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/service-trade-terms/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic unpaid service trade get /consumer/service-trade-terms/{id}
+         * @description Default off; non-production and booking simulation required. Explicit TEST_SCENARIO only. B1 has no payment, refund or settlement authority. Quotes last at most 5 minutes and do not hold capacity; unpaid orders hold at most 10 minutes, bounded by slot start. Read/close owned orders remains available for hidden stores. UUID pagination. Separate service permissions and action-bound proof for terms review.
+         */
+        get: operations["v313b1_get__consumer_service_trade_terms_id"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/service-trade-quotes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Synthetic unpaid service trade post /consumer/service-trade-quotes
+         * @description Default off; non-production and booking simulation required. Explicit TEST_SCENARIO only. B1 has no payment, refund or settlement authority. Quotes last at most 5 minutes and do not hold capacity; unpaid orders hold at most 10 minutes, bounded by slot start. Read/close owned orders remains available for hidden stores. UUID pagination. Separate service permissions and action-bound proof for terms review.
+         */
+        post: operations["v313b1_post__consumer_service_trade_quotes"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/service-trade-orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic unpaid service trade get /consumer/service-trade-orders
+         * @description Default off; non-production and booking simulation required. Explicit TEST_SCENARIO only. B1 has no payment, refund or settlement authority. Quotes last at most 5 minutes and do not hold capacity; unpaid orders hold at most 10 minutes, bounded by slot start. Read/close owned orders remains available for hidden stores. UUID pagination. Separate service permissions and action-bound proof for terms review.
+         */
+        get: operations["v313b1_get__consumer_service_trade_orders"];
+        put?: never;
+        /**
+         * Synthetic unpaid service trade post /consumer/service-trade-orders
+         * @description Default off; non-production and booking simulation required. Explicit TEST_SCENARIO only. B1 has no payment, refund or settlement authority. Quotes last at most 5 minutes and do not hold capacity; unpaid orders hold at most 10 minutes, bounded by slot start. Read/close owned orders remains available for hidden stores. UUID pagination. Separate service permissions and action-bound proof for terms review.
+         */
+        post: operations["v313b1_post__consumer_service_trade_orders"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/service-trade-orders/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic unpaid service trade get /consumer/service-trade-orders/{id}
+         * @description Default off; non-production and booking simulation required. Explicit TEST_SCENARIO only. B1 has no payment, refund or settlement authority. Quotes last at most 5 minutes and do not hold capacity; unpaid orders hold at most 10 minutes, bounded by slot start. Read/close owned orders remains available for hidden stores. UUID pagination. Separate service permissions and action-bound proof for terms review.
+         */
+        get: operations["v313b1_get__consumer_service_trade_orders_id"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/stores/{store_id}/service-trade-orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic unpaid service trade get /merchant/stores/{store_id}/service-trade-orders
+         * @description Default off; non-production and booking simulation required. Explicit TEST_SCENARIO only. B1 has no payment, refund or settlement authority. Quotes last at most 5 minutes and do not hold capacity; unpaid orders hold at most 10 minutes, bounded by slot start. Read/close owned orders remains available for hidden stores. UUID pagination. Separate service permissions and action-bound proof for terms review.
+         */
+        get: operations["v313b1_get__merchant_stores_store_id_service_trade_orders"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/service-trade-terms": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic unpaid service trade get /admin/service-trade-terms
+         * @description Default off; non-production and booking simulation required. Explicit TEST_SCENARIO only. B1 has no payment, refund or settlement authority. Quotes last at most 5 minutes and do not hold capacity; unpaid orders hold at most 10 minutes, bounded by slot start. Read/close owned orders remains available for hidden stores. UUID pagination. Separate service permissions and action-bound proof for terms review.
+         */
+        get: operations["v313b1_get__admin_service_trade_terms"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/booking-services/{id}/trade-terms": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic unpaid service trade get /consumer/booking-services/{id}/trade-terms
+         * @description Default off; non-production and booking simulation required. Explicit TEST_SCENARIO only. B1 has no payment, refund or settlement authority. Quotes last at most 5 minutes and do not hold capacity; unpaid orders hold at most 10 minutes, bounded by slot start. Read/close owned orders remains available for hidden stores. UUID pagination. Separate service permissions and action-bound proof for terms review.
+         */
+        get: operations["v313b1_get__consumer_booking_services_id_trade_terms"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/consumer/service-trade-orders/{id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Synthetic unpaid service trade post /consumer/service-trade-orders/{id}/cancel
+         * @description Default off; non-production and booking simulation required. Explicit TEST_SCENARIO only. B1 has no payment, refund or settlement authority. Quotes last at most 5 minutes and do not hold capacity; unpaid orders hold at most 10 minutes, bounded by slot start. Read/close owned orders remains available for hidden stores. UUID pagination. Separate service permissions and action-bound proof for terms review.
+         */
+        post: operations["v313b1_post__consumer_service_trade_orders_id_cancel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -5610,7 +5818,7 @@ export interface components {
         Proof: {
             reverify_token: string;
             /** @enum {string} */
-            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage";
+            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage" | "service.terms.review";
             /** Format: date-time */
             expires_at: string;
         };
@@ -5694,7 +5902,7 @@ export interface components {
         };
         Reverify: {
             /** @enum {string} */
-            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage";
+            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage" | "service.terms.review";
             password?: string;
             otp_code?: string;
         };
@@ -5940,7 +6148,7 @@ export interface components {
         AllergenEntry: {
             allergen_id: string;
             /** @enum {string} */
-            status: "YES" | "NO" | "UNKNOWN";
+            status: true | false | "UNKNOWN";
             /** @enum {string} */
             source: "OWNER_OBSERVATION" | "VET_DIAGNOSIS";
             note?: string;
@@ -5954,7 +6162,7 @@ export interface components {
             /** @enum {string} */
             sex: "MALE" | "FEMALE" | "UNKNOWN";
             /** @enum {string} */
-            neutered_status: "YES" | "NO" | "UNKNOWN";
+            neutered_status: true | false | "UNKNOWN";
             allergens: components["schemas"]["AllergenEntry"][];
             avoidance_notes: string[];
             /** @description Owner supplied breed/type label, mutually exclusive with breed_id. Not verified taxonomy or medical evidence. */
@@ -5974,7 +6182,7 @@ export interface components {
             /** @enum {string} */
             sex?: "MALE" | "FEMALE" | "UNKNOWN";
             /** @enum {string} */
-            neutered_status?: "YES" | "NO" | "UNKNOWN";
+            neutered_status?: true | false | "UNKNOWN";
             allergens?: components["schemas"]["AllergenEntry"][];
             avoidance_notes?: string[];
             /** @description Owner supplied breed/type label, mutually exclusive with breed_id. Not verified taxonomy or medical evidence. */
@@ -5994,7 +6202,7 @@ export interface components {
             /** @enum {string} */
             sex: "MALE" | "FEMALE" | "UNKNOWN";
             /** @enum {string} */
-            neutered_status: "YES" | "NO" | "UNKNOWN";
+            neutered_status: true | false | "UNKNOWN";
             allergens?: components["schemas"]["AllergenEntry"][];
             avoidance_notes?: string[];
             id: string;
@@ -8659,8 +8867,8 @@ export interface components {
             request_id: string;
             pet_id: string | null;
             pet_version: number;
-            before_value: ("YES" | "NO" | "UNKNOWN") | null;
-            proposed_value: ("YES" | "NO") | null;
+            before_value: (true | false | "UNKNOWN") | null;
+            proposed_value: (true | false) | null;
             /** @enum {string} */
             status: "PENDING" | "ACCEPTED" | "REJECTED" | "EXPIRED";
             /** Format: date-time */
@@ -9146,7 +9354,7 @@ export interface components {
             /** @enum {string} */
             sex: "MALE" | "FEMALE" | "UNKNOWN";
             /** @enum {string} */
-            neutered_status: "YES" | "NO" | "UNKNOWN";
+            neutered_status: true | false | "UNKNOWN";
             allergens: components["schemas"]["AllergenEntry"][];
             avoidance_notes: string[];
             id: string;
@@ -9509,6 +9717,209 @@ export interface components {
             page: components["schemas"]["Page"];
             meta: components["schemas"]["Meta"];
         };
+        Evidence: {
+            /** @enum {string} */
+            kind: "TEST_SCENARIO";
+            reference: string;
+        };
+        ServiceTermsInput: {
+            /** Format: uuid */
+            service_id: string;
+            /** @enum {string} */
+            currency: "CNY";
+            amount_fen: number;
+            /** @enum {string} */
+            billing_unit: "WHOLE_SLOT";
+            cancel_cutoff_minutes: number;
+            /** @enum {string} */
+            consumer_late_cancel: "MANUAL_REVIEW";
+            /** @enum {string} */
+            merchant_cancel: "FULL_REFUND";
+            /** @enum {string} */
+            no_show: "MANUAL_REVIEW";
+            commission_basis_points: number;
+            settlement_buffer_minutes: number;
+            evidence_refs: components["schemas"]["Evidence"][];
+        };
+        ServiceTerms: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            store_id: string;
+            /** Format: uuid */
+            service_id: string;
+            /** @enum {string} */
+            currency: "CNY";
+            amount_fen: number;
+            /** @enum {string} */
+            billing_unit: "WHOLE_SLOT";
+            cancel_cutoff_minutes: number;
+            /** @enum {string} */
+            consumer_late_cancel: "MANUAL_REVIEW";
+            /** @enum {string} */
+            merchant_cancel: "FULL_REFUND";
+            /** @enum {string} */
+            no_show: "MANUAL_REVIEW";
+            commission_basis_points: number;
+            settlement_buffer_minutes: number;
+            evidence_refs: components["schemas"]["Evidence"][];
+            /** @enum {string} */
+            state: "DRAFT" | "REVIEWED" | "REJECTED" | "RETIRED";
+            version: number;
+            terms_sha256: string;
+            /** @enum {string} */
+            authorization_status: "ENGINEERING_SCENARIO_ONLY";
+            /** @constant */
+            simulated: true;
+            policy_snapshot_sha256: string;
+            service_title: string;
+            /** @enum {string} */
+            service_kind: "GROOMING" | "BOARDING";
+        };
+        ConsumerServiceTerms: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            store_id: string;
+            /** Format: uuid */
+            service_id: string;
+            service_title: string;
+            /** @enum {string} */
+            service_kind: "GROOMING" | "BOARDING";
+            /** @enum {string} */
+            currency: "CNY";
+            amount_fen: number;
+            /** @enum {string} */
+            billing_unit: "WHOLE_SLOT";
+            cancel_cutoff_minutes: number;
+            /** @enum {string} */
+            consumer_late_cancel: "MANUAL_REVIEW";
+            /** @enum {string} */
+            merchant_cancel: "FULL_REFUND";
+            /** @enum {string} */
+            no_show: "MANUAL_REVIEW";
+            version: number;
+            terms_sha256: string;
+            /** @constant */
+            simulated: true;
+        };
+        TermsReviewInput: {
+            /** @enum {string} */
+            decision: "APPROVE_SIMULATION" | "REJECT";
+            /** @enum {string} */
+            reason_code: "TEST_SCENARIO_REVIEWED" | "RULES_INCOMPLETE";
+        };
+        ServiceQuoteInput: {
+            /** Format: uuid */
+            terms_id: string;
+            /** Format: uuid */
+            slot_id: string;
+        };
+        ServiceQuote: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            store_id: string;
+            /** Format: uuid */
+            service_id: string;
+            /** Format: uuid */
+            slot_id: string;
+            /** Format: uuid */
+            terms_id: string;
+            terms_version: number;
+            terms_sha256: string;
+            /** @enum {string} */
+            currency: "CNY";
+            payable_fen: number;
+            /** Format: date-time */
+            starts_at: string;
+            /** Format: date-time */
+            ends_at: string;
+            /** Format: date-time */
+            expires_at: string;
+            /** @constant */
+            capacity_held: false;
+            /** @constant */
+            simulated: true;
+        };
+        CreateServiceTrade: {
+            /** Format: uuid */
+            quote_id: string;
+            accepted_terms_sha256: string;
+        };
+        ServiceTrade: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            store_id: string;
+            /** Format: uuid */
+            service_id: string;
+            /** Format: uuid */
+            slot_id: string;
+            /** Format: uuid */
+            terms_id: string;
+            terms_sha256: string;
+            /** @enum {string} */
+            currency: "CNY";
+            payable_fen: number;
+            paid_fen: number;
+            refunded_fen: number;
+            refund_reserved_fen: number;
+            commission_fen: number;
+            commission_reversed_fen: number;
+            merchant_net_fen: number;
+            /** @enum {string} */
+            order_state: "AWAITING_PAYMENT" | "CANCELLED" | "EXPIRED";
+            /** @enum {string} */
+            payment_state: "PENDING" | "CLOSED";
+            /** @enum {string} */
+            capacity_state: "HELD" | "RELEASED";
+            /** @enum {string} */
+            fulfillment_state: "NOT_STARTED";
+            /** @enum {string} */
+            settlement_state: "NOT_PAYABLE";
+            /** Format: date-time */
+            hold_expires_at: string;
+            /** Format: date-time */
+            starts_at: string;
+            receipt_id: string | null;
+            confirmed_at: string | null;
+            /** Format: date-time */
+            as_of: string;
+            settlement_buffer_ends_at: string | null;
+            open_dispute: boolean;
+            unresolved_collection_case: boolean;
+            version: number;
+            /** @constant */
+            simulated: true;
+        };
+        ServiceTermsEnvelope: {
+            data: components["schemas"]["ServiceTerms"];
+            meta: components["schemas"]["Meta"];
+        };
+        ServiceTermsListEnvelope: {
+            data: components["schemas"]["ServiceTerms"][];
+            page: components["schemas"]["Page"];
+            meta: components["schemas"]["Meta"];
+        };
+        ConsumerServiceTermsEnvelope: {
+            data: components["schemas"]["ConsumerServiceTerms"];
+            meta: components["schemas"]["Meta"];
+        };
+        ServiceQuoteEnvelope: {
+            data: components["schemas"]["ServiceQuote"];
+            meta: components["schemas"]["Meta"];
+        };
+        ServiceTradeEnvelope: {
+            data: components["schemas"]["ServiceTrade"];
+            meta: components["schemas"]["Meta"];
+        };
+        ServiceTradeListEnvelope: {
+            data: components["schemas"]["ServiceTrade"][];
+            page: components["schemas"]["Page"];
+            meta: components["schemas"]["Meta"];
+        };
+        ServiceTradeEmpty: Record<string, never>;
     };
     responses: never;
     parameters: never;
@@ -50963,6 +51374,1063 @@ export interface operations {
                 };
             };
             /** @description Validation, scope, version, credential or fulfillment window rejected */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b1_get__merchant_stores_store_id_service_trade_terms: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                store_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Proposed synthetic response; not runtime evidence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTermsListEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b1_post__merchant_stores_store_id_service_trade_terms: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                store_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceTermsInput"];
+            };
+        };
+        responses: {
+            /** @description Proposed synthetic response; not runtime evidence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTermsEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b1_post__admin_service_trade_terms_id_review: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+                "X-Reverify-Token": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TermsReviewInput"];
+            };
+        };
+        responses: {
+            /** @description Proposed synthetic response; not runtime evidence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTermsEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b1_get__consumer_service_trade_terms_id: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Proposed synthetic response; not runtime evidence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConsumerServiceTermsEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b1_post__consumer_service_trade_quotes: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceQuoteInput"];
+            };
+        };
+        responses: {
+            /** @description Proposed synthetic response; not runtime evidence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceQuoteEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b1_get__consumer_service_trade_orders: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Proposed synthetic response; not runtime evidence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeListEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b1_post__consumer_service_trade_orders: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateServiceTrade"];
+            };
+        };
+        responses: {
+            /** @description Proposed synthetic response; not runtime evidence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b1_get__consumer_service_trade_orders_id: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Proposed synthetic response; not runtime evidence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b1_get__merchant_stores_store_id_service_trade_orders: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                store_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Proposed synthetic response; not runtime evidence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeListEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b1_get__admin_service_trade_terms: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Proposed synthetic response; not runtime evidence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTermsListEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b1_get__consumer_booking_services_id_trade_terms: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Proposed synthetic response; not runtime evidence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ConsumerServiceTermsEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b1_post__consumer_service_trade_orders_id_cancel: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+            };
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ServiceTradeEmpty"];
+            };
+        };
+        responses: {
+            /** @description Proposed synthetic response; not runtime evidence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
             503: {
                 headers: {
                     [name: string]: unknown;

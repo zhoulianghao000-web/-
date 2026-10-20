@@ -64,6 +64,8 @@ jobs:
           python openapi/validate_m32_contract.py --samples backend/target/m32-contract-samples.json --report openapi/catalog-response-report.json
           python openapi/validate_v31_contract.py --samples backend/target/v31-contract-samples.json --report openapi/booking-response-report.json
           python openapi/validate_v312_contract.py --samples backend/target/v312-contract-samples.json --report openapi/booking-fulfillment-response-report.json
+          python scripts/compose-v313-b1-contract.py --check
+          python openapi/validate_v313_b1_contract.py --samples backend/target/v313-b1-contract-samples.json --report backend/target/readiness-evidence/v313-b1-contract.json
           python openapi/validate_m33_contract.py --samples backend/target/m33-contract-samples.json --report openapi/offer-response-report.json
           python openapi/validate_m34_contract.py --samples backend/target/m34-contract-samples.json --report openapi/consumer-catalog-response-report.json
           # BusinessSearchIT now also captures reverify for current publishing actions.

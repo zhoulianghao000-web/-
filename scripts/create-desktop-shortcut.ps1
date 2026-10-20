@@ -3,7 +3,9 @@ $ErrorActionPreference='Stop'
 $taskRoot=(Resolve-Path -LiteralPath $DeliveryRoot).Path
 $entry=Join-Path $taskRoot 'scripts/launch-desktop.ps1';if(-not(Test-Path -LiteralPath $entry)){throw 'Extract the complete delivery first.'}
 $desktop=[Environment]::GetFolderPath('DesktopDirectory')
-$icon=Join-Path $taskRoot 'desktop/pawday.ico'
+$icon=Join-Path $taskRoot 'desktop/pawday-hd.ico'
+if(-not(Test-Path -LiteralPath $icon)){$icon=Join-Path $taskRoot 'desktop/pawday.ico'}
+if(-not(Test-Path -LiteralPath $icon)){
 Add-Type -AssemblyName System.Drawing
 $bitmap=New-Object Drawing.Bitmap(128,128);$graphics=[Drawing.Graphics]::FromImage($bitmap)
 $graphics.SmoothingMode=[Drawing.Drawing2D.SmoothingMode]::AntiAlias
@@ -14,6 +16,7 @@ try{
  $bitmap.Save($memory,[Drawing.Imaging.ImageFormat]::Png);$bytes=$memory.ToArray();$stream=[IO.File]::Create($icon);$writer=New-Object IO.BinaryWriter($stream)
  try{$writer.Write([uint16]0);$writer.Write([uint16]1);$writer.Write([uint16]1);$writer.Write([byte]128);$writer.Write([byte]128);$writer.Write([byte]0);$writer.Write([byte]0);$writer.Write([uint16]1);$writer.Write([uint16]32);$writer.Write([uint32]$bytes.Length);$writer.Write([uint32]22);$writer.Write($bytes)}finally{$writer.Dispose();$stream.Dispose()}
 }finally{$memory.Dispose();$brush.Dispose();$graphics.Dispose();$bitmap.Dispose()}
+}
 $shell=New-Object -ComObject WScript.Shell
 $linkPath=Join-Path $desktop 'PawdayV1.lnk'
 if(Test-Path -LiteralPath $linkPath){
