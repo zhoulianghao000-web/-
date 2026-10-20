@@ -1,0 +1,610 @@
+{
+  "result": "PASS",
+  "stage": "V3.1.3-B1",
+  "evidence_kind": "ENGINEERING_SYNTHETIC_ONLY",
+  "tested_commit": "e7c6fdc54d8dcd061b94a4aee04beac2a66269ce",
+  "ci_runs": [
+    {
+      "id": 39380764377,
+      "url": "https://github.com/zhoulianghao000-web/-/actions/runs/39380764377",
+      "conclusion": "success"
+    },
+    {
+      "id": 39380764376,
+      "url": "https://github.com/zhoulianghao000-web/-/actions/runs/39380764376",
+      "conclusion": "success"
+    }
+  ],
+  "ci_jobs": 9,
+  "backend_tests": {
+    "surefire": {
+      "totals": {
+        "tests": 591,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "classes": [
+        {
+          "tests": 27,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.AfterSaleRefundIntegrationTests"
+        },
+        {
+          "tests": 27,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.AiIntegrationTests"
+        },
+        {
+          "tests": 24,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.CatalogIntegrationTests"
+        },
+        {
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.CheckoutIntegrationTests"
+        },
+        {
+          "tests": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.ConsumerCareIntegrationTests"
+        },
+        {
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.ConsumerCatalogIntegrationTests"
+        },
+        {
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.ConsumerTestPasswordIntegrationTests"
+        },
+        {
+          "tests": 19,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.DataEncryptionKeyRingTests"
+        },
+        {
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.FulfillmentIntegrationTests"
+        },
+        {
+          "tests": 42,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.IdentitySecurityIntegrationTests"
+        },
+        {
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.MembershipPointsIntegrationTests"
+        },
+        {
+          "tests": 19,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.NearbyIntegrationTests"
+        },
+        {
+          "tests": 24,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.OfferIntegrationTests"
+        },
+        {
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.OperationsIntegrationTests"
+        },
+        {
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.OrderIntegrationTests"
+        },
+        {
+          "tests": 21,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.PaymentIntegrationTests"
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.PaymentProductionBoundaryTests"
+        },
+        {
+          "tests": 26,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.PetIntegrationTests"
+        },
+        {
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.PilotBaselineIntegrationTests"
+        },
+        {
+          "tests": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.PilotBoundaryIntegrationTests"
+        },
+        {
+          "tests": 22,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.PilotConfigurationTests"
+        },
+        {
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.PricingEngineTests"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.PrivacyInventoryTests"
+        },
+        {
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.PrivacyJournalTests"
+        },
+        {
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.ProductionAdmissionTests"
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.PrometheusAvailabilityTests"
+        },
+        {
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.PurchaseRequestsIntegrationTests"
+        },
+        {
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.RecoveryStartupTests"
+        },
+        {
+          "tests": 25,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.ReviewContentIntegrationTests"
+        },
+        {
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.security.RequestSizeFilterTests"
+        },
+        {
+          "tests": 17,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.SettlementIntegrationTests"
+        },
+        {
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.storage.VideoContentValidatorTests"
+        },
+        {
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.StorageMediaIntegrationTests"
+        },
+        {
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.SupportMessagesIntegrationTests"
+        },
+        {
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.V21PriceHistoryIntegrationTests"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.V21PriceHistoryMigrationTests"
+        },
+        {
+          "tests": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.V22HouseholdIntegrationTests"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.V22HouseholdMigrationTests"
+        },
+        {
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.V23BusinessAnalyticsIntegrationTests"
+        },
+        {
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.V312FulfillmentIntegrationTests"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.V312FulfillmentMigrationTests"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.V313TradeGateTests"
+        },
+        {
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.V313TradeIntegrationTests"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.V313TradeMigrationTests"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.V31BookingGateTests"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.V31BookingMigrationTests"
+        },
+        {
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.V31ServiceBookingIntegrationTests"
+        }
+      ]
+    },
+    "failsafe": {
+      "totals": {
+        "tests": 84,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "classes": [
+        {
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.BusinessSearchIT"
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.NearbyDeliveryIT"
+        },
+        {
+          "tests": 28,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.RabbitOutboxIT"
+        },
+        {
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.RedisInfrastructureIT"
+        },
+        {
+          "tests": 19,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.SearchInfrastructureIT"
+        },
+        {
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "name": "cn.pawday.SupportDeliveryIT"
+        }
+      ]
+    }
+  },
+  "runtime_contract": {
+    "result": "PASS",
+    "stage": "V3.1.3-B1",
+    "evidence_kind": "REAL_HTTP_SYNTHETIC_BUSINESS",
+    "runtime_verified": true,
+    "payments_implemented": false,
+    "operations": 12,
+    "actual_responses": 102,
+    "coverage": [
+      [
+        "/admin/service-trade-terms",
+        "get",
+        "200"
+      ],
+      [
+        "/admin/service-trade-terms/{id}/review",
+        "post",
+        "200"
+      ],
+      [
+        "/admin/service-trade-terms/{id}/review",
+        "post",
+        "403"
+      ],
+      [
+        "/admin/service-trade-terms/{id}/review",
+        "post",
+        "503"
+      ],
+      [
+        "/consumer/booking-services/{id}/trade-terms",
+        "get",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "get",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "get",
+        "400"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "get",
+        "401"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "get",
+        "403"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "post",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "post",
+        "400"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "post",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "post",
+        "409"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}",
+        "get",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}",
+        "get",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/cancel",
+        "post",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/cancel",
+        "post",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/cancel",
+        "post",
+        "409"
+      ],
+      [
+        "/consumer/service-trade-quotes",
+        "post",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-quotes",
+        "post",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-quotes",
+        "post",
+        "409"
+      ],
+      [
+        "/consumer/service-trade-terms/{id}",
+        "get",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-terms/{id}",
+        "get",
+        "409"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders",
+        "get",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders",
+        "get",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders",
+        "get",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "get",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "get",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "post",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "post",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "post",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "post",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "post",
+        "409"
+      ]
+    ]
+  },
+  "new_service_ui_implemented": false,
+  "service_payments_implemented": false,
+  "consumer_apk": {
+    "path": "C:\\Users\\zl\\Desktop\\PawdayV1\\.maintenance\\v313-b1-cloud\\m24-flutter-evidence\\build\\app\\outputs\\flutter-apk\\app-debug.apk",
+    "bytes": 190589795,
+    "sha256": "8151da6bb27504b30e75631c75865220e83e81b650e9124fe0e68e9ed37fdfdc",
+    "delivery_status": "CI_REGRESSION_ARTIFACT_NOT_FINAL_V3_APK",
+    "package": "cn.pawday.pawday_consumer",
+    "version": "3.0.2+25",
+    "certificate_sha256": "422ea750ef924d66a87f472a87c568aa0f7bb0186f75b25e519f93ce06be5118"
+  },
+  "phone_operations_performed": false,
+  "desktop_program_updated": false,
+  "final_v3_package_delivered": false,
+  "v3_complete": false,
+  "production_ready": false,
+  "web_tests": 102,
+  "consumer_tests": 134,
+  "consumer_pilot_tests": 16,
+  "legacy_real_browser_scenarios": 3,
+  "consumer_real_http_tests": 2,
+  "legacy_browser_note": "Existing V3.1.1/2 and older frontend regression, not new B1 service trade UI acceptance"
+}
