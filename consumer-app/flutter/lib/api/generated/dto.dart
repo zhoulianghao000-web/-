@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 78ee4d022ff042c35303f554d99bd38e03cd94ce78b753cff0cd18099d0953d0
+// Generated from Pawday runtime OpenAPI; SHA256 079a65e464c9f3798ea6bb382503dee197946273ef24b5b1ce9faac64753b92c
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {

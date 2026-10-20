@@ -1,10 +1,14 @@
 """Compose only implemented B1 operations; the A draft remains an unimplemented design archive."""
-import argparse,copy,json
+import argparse,copy,json,re
 from pathlib import Path
 import yaml
 ROOT=Path(__file__).resolve().parents[1]
+class RuntimeLoader(yaml.SafeLoader):
+ """Match the existing runtime's YAML 1.2 boolean semantics (YES/NO are strings)."""
+ yaml_implicit_resolvers={k:[(tag,pattern) for tag,pattern in values if tag!='tag:yaml.org,2002:bool'] for k,values in yaml.SafeLoader.yaml_implicit_resolvers.items()}
+RuntimeLoader.add_implicit_resolver('tag:yaml.org,2002:bool',re.compile(r'^(?:true|True|TRUE|false|False|FALSE)$'),list('tTfF'))
 def build():
- doc=yaml.safe_load((ROOT/'openapi/pawday-v3.1.2.yaml').read_text(encoding='utf-8'))
+ doc=yaml.load((ROOT/'openapi/pawday-v3.1.2.yaml').read_text(encoding='utf-8'),Loader=RuntimeLoader)
  draft=json.loads((ROOT/'openapi/design/pawday-v3.1.3-draft.json').read_text(encoding='utf-8'))
  doc['info'].update(title='Pawday V3.1.3-B1 Synthetic Service Terms Quotes and Unpaid Holds',version='3.1.3-B1')
  schemas=doc['components']['schemas'];ref=lambda n:{'$ref':'#/components/schemas/'+n}

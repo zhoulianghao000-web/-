@@ -57688,8 +57688,8 @@
           "status": {
             "type": "string",
             "enum": [
-              true,
-              false,
+              "YES",
+              "NO",
               "UNKNOWN"
             ]
           },
@@ -57772,8 +57772,8 @@
           "neutered_status": {
             "type": "string",
             "enum": [
-              true,
-              false,
+              "YES",
+              "NO",
               "UNKNOWN"
             ]
           },
@@ -57882,8 +57882,8 @@
           "neutered_status": {
             "type": "string",
             "enum": [
-              true,
-              false,
+              "YES",
+              "NO",
               "UNKNOWN"
             ]
           },
@@ -57986,8 +57986,8 @@
           "neutered_status": {
             "type": "string",
             "enum": [
-              true,
-              false,
+              "YES",
+              "NO",
               "UNKNOWN"
             ]
           },
@@ -70553,8 +70553,8 @@
               {
                 "type": "string",
                 "enum": [
-                  true,
-                  false,
+                  "YES",
+                  "NO",
                   "UNKNOWN"
                 ]
               },
@@ -70568,8 +70568,8 @@
               {
                 "type": "string",
                 "enum": [
-                  true,
-                  false
+                  "YES",
+                  "NO"
                 ]
               },
               {
@@ -72713,8 +72713,8 @@
           "neutered_status": {
             "type": "string",
             "enum": [
-              true,
-              false,
+              "YES",
+              "NO",
               "UNKNOWN"
             ]
           },

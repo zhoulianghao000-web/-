@@ -133,12 +133,28 @@ class RabbitOutboxIT {
     @Test void lostBrokerConfirmCausesSafeRetryAgainstRealQueue() throws Exception {
         UUID id=event(1);var claim=repo.claim("TEST-confirm-loss").orElseThrow();
         try(var proxy=new ConfirmDroppingProxy(HOST,PORT)) {
-            var cf=new CachingConnectionFactory("127.0.0.1",proxy.port());cf.setUsername(USER);cf.setPassword(PASSWORD);cf.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.CORRELATED);cf.setPublisherReturns(true);var template=new RabbitTemplate(cf);template.setMandatory(true);
-            try {var failure=assertThrows(RabbitPublisher.PublishFailure.class,()->new RabbitPublisher(template,policy).publish(claim));assertEquals("CONFIRM_TIMEOUT",failure.code);assertTrue(proxy.discarded.get()>0);repo.failed(claim,failure.code);}finally{cf.destroy();}
+            // Own and join the fault connection's channel-close worker. Its expected clean
+            // shutdown must not race the next Awaitility condition's global error handler.
+            var closeErrors=new java.util.concurrent.CopyOnWriteArrayList<Throwable>();
+            var closeThreads=new java.util.concurrent.CopyOnWriteArrayList<Thread>();
+            var closeWorker=Executors.newSingleThreadExecutor(task->{var thread=new Thread(task,"TEST-confirm-close");thread.setUncaughtExceptionHandler((t,error)->closeErrors.add(error));closeThreads.add(thread);return thread;});
+            var cf=new CachingConnectionFactory("127.0.0.1",proxy.port()){
+                @Override protected java.util.concurrent.ExecutorService getChannelsExecutor(){return closeWorker;}
+            };cf.setUsername(USER);cf.setPassword(PASSWORD);cf.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.CORRELATED);cf.setPublisherReturns(true);var template=new RabbitTemplate(cf);template.setMandatory(true);
+            try {var failure=assertThrows(RabbitPublisher.PublishFailure.class,()->new RabbitPublisher(template,policy).publish(claim));assertEquals("CONFIRM_TIMEOUT",failure.code);assertTrue(proxy.discarded.get()>0);repo.failed(claim,failure.code);}finally{
+                cf.destroy();closeWorker.shutdown();assertTrue(closeWorker.awaitTermination(5,TimeUnit.SECONDS));
+                for(var thread:closeThreads){thread.join(5000);assertFalse(thread.isAlive());}
+                for(var error:closeErrors){
+                    assertInstanceOf(org.springframework.amqp.AmqpIOException.class,error);
+                    Throwable root=error;while(root.getCause()!=null)root=root.getCause();
+                    var signal=assertInstanceOf(com.rabbitmq.client.ShutdownSignalException.class,root);
+                    var reason=assertInstanceOf(AMQP.Connection.Close.class,signal.getReason());assertEquals(200,reason.getReplyCode());
+                }
+            }
         }
         // Closing the fault-injected connection can produce an expected background channel-close exception.
         // State, real queue redelivery and side effects remain explicit assertions below.
-        assertEquals("FAILED_RETRYABLE",state(id));receive();await().dontCatchUncaughtExceptions().atMost(Duration.ofSeconds(5)).until(()->{publisher.publishOne();return state(id).equals("PUBLISHED");});receive();assertEquals(1,count("sms_delivery"));sms.sendOne();assertEquals(1,provider.deliveries.size());
+        assertEquals("FAILED_RETRYABLE",state(id));receive();await().atMost(Duration.ofSeconds(5)).until(()->{publisher.publishOne();return state(id).equals("PUBLISHED");});receive();assertEquals(1,count("sms_delivery"));sms.sendOne();assertEquals(1,provider.deliveries.size());
     }
     @Test void expiredLeaseFencesOldWorkerAndRedeliveryIsDeduplicated() throws Exception {
         UUID id=event(1);var old=repo.claim("OLD").orElseThrow();db.update("UPDATE outbox_event SET lease_expires_at=clock_timestamp()-interval '1 second' WHERE id=?",id);

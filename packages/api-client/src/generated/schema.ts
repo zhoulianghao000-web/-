@@ -1,4 +1,4 @@
-// Generated from pawday-v3.1.3-b1.json; SHA256 78ee4d022ff042c35303f554d99bd38e03cd94ce78b753cff0cd18099d0953d0
+// Generated from pawday-v3.1.3-b1.json; SHA256 079a65e464c9f3798ea6bb382503dee197946273ef24b5b1ce9faac64753b92c
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -6148,7 +6148,7 @@ export interface components {
         AllergenEntry: {
             allergen_id: string;
             /** @enum {string} */
-            status: true | false | "UNKNOWN";
+            status: "YES" | "NO" | "UNKNOWN";
             /** @enum {string} */
             source: "OWNER_OBSERVATION" | "VET_DIAGNOSIS";
             note?: string;
@@ -6162,7 +6162,7 @@ export interface components {
             /** @enum {string} */
             sex: "MALE" | "FEMALE" | "UNKNOWN";
             /** @enum {string} */
-            neutered_status: true | false | "UNKNOWN";
+            neutered_status: "YES" | "NO" | "UNKNOWN";
             allergens: components["schemas"]["AllergenEntry"][];
             avoidance_notes: string[];
             /** @description Owner supplied breed/type label, mutually exclusive with breed_id. Not verified taxonomy or medical evidence. */
@@ -6182,7 +6182,7 @@ export interface components {
             /** @enum {string} */
             sex?: "MALE" | "FEMALE" | "UNKNOWN";
             /** @enum {string} */
-            neutered_status?: true | false | "UNKNOWN";
+            neutered_status?: "YES" | "NO" | "UNKNOWN";
             allergens?: components["schemas"]["AllergenEntry"][];
             avoidance_notes?: string[];
             /** @description Owner supplied breed/type label, mutually exclusive with breed_id. Not verified taxonomy or medical evidence. */
@@ -6202,7 +6202,7 @@ export interface components {
             /** @enum {string} */
             sex: "MALE" | "FEMALE" | "UNKNOWN";
             /** @enum {string} */
-            neutered_status: true | false | "UNKNOWN";
+            neutered_status: "YES" | "NO" | "UNKNOWN";
             allergens?: components["schemas"]["AllergenEntry"][];
             avoidance_notes?: string[];
             id: string;
@@ -8867,8 +8867,8 @@ export interface components {
             request_id: string;
             pet_id: string | null;
             pet_version: number;
-            before_value: (true | false | "UNKNOWN") | null;
-            proposed_value: (true | false) | null;
+            before_value: ("YES" | "NO" | "UNKNOWN") | null;
+            proposed_value: ("YES" | "NO") | null;
             /** @enum {string} */
             status: "PENDING" | "ACCEPTED" | "REJECTED" | "EXPIRED";
             /** Format: date-time */
@@ -9354,7 +9354,7 @@ export interface components {
             /** @enum {string} */
             sex: "MALE" | "FEMALE" | "UNKNOWN";
             /** @enum {string} */
-            neutered_status: true | false | "UNKNOWN";
+            neutered_status: "YES" | "NO" | "UNKNOWN";
             allergens: components["schemas"]["AllergenEntry"][];
             avoidance_notes: string[];
             id: string;
