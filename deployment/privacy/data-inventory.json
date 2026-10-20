@@ -34,7 +34,7 @@
     "V028__simulated_service_booking.sql": "88ae7a48e8efeebfa6969f53689e3d90c9557c4e46a17ed7ed17e6b565a96ac9",
     "V029__simulated_booking_fulfillment.sql": "4b74812cf045a6fb423e928efa78190bf878af7cc891e658bb7b9c230edab6c6",
     "V030__simulated_service_trade_holds.sql": "2dec4ca0c128d23e5d51f8d7bd4690893a97eda8a37940d194fefbb30ae59fa0",
-    "V031__simulated_service_trade_finance.sql": "1d3bcef6200c9a71744c6f3e3aaad490719e7662ec68ef06a812565aa787d459"
+    "V031__simulated_service_trade_finance.sql": "46f0229e6019cf434c01dd205a33f01b9e7f43da9661e739437af0a6c5b3f9ae"
   },
   "tables": [
     {

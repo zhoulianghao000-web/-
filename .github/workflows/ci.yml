@@ -195,6 +195,7 @@ jobs:
             backend/target/surefire-reports/
             backend/target/failsafe-reports/
             backend/target/*contract-samples.json
+            backend/target/v313-b2-restart-process.log
             backend/target/*binary-samples.json
             backend/target/m23-infrastructure-evidence.json
             backend/target/infrastructure-evidence/
