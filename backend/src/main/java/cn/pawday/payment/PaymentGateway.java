@@ -13,4 +13,6 @@ public interface PaymentGateway {
  Result close(Request request);
  RefundOutcome refund(RefundInstruction instruction);
  RefundOutcome queryRefund(String refundNo);
+ /** Bound queries for service refunds; adapters can validate the immutable original instruction. */
+ default RefundOutcome queryRefund(RefundInstruction instruction){return queryRefund(instruction.refundNo());}
 }

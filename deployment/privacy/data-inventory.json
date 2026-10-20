@@ -1,6 +1,6 @@
 {
   "schema_version": "pawday-privacy-inventory/v1",
-  "source_baseline": "31597f01a5be72e177c1a0650325b91900ab2831",
+  "source_baseline": "86574893fcd6d140177fbb81cc2d15f078665d38",
   "retention_authority": "PENDING_OWNER_POLICY",
   "deletion_authorized": false,
   "migrations": {
@@ -33,7 +33,8 @@
     "V027__pet_household_care.sql": "7bfdece2676c541159636d1d3cc61f4ad2e9ee70c61dbc6867b3cd752f545643",
     "V028__simulated_service_booking.sql": "88ae7a48e8efeebfa6969f53689e3d90c9557c4e46a17ed7ed17e6b565a96ac9",
     "V029__simulated_booking_fulfillment.sql": "4b74812cf045a6fb423e928efa78190bf878af7cc891e658bb7b9c230edab6c6",
-    "V030__simulated_service_trade_holds.sql": "2dec4ca0c128d23e5d51f8d7bd4690893a97eda8a37940d194fefbb30ae59fa0"
+    "V030__simulated_service_trade_holds.sql": "2dec4ca0c128d23e5d51f8d7bd4690893a97eda8a37940d194fefbb30ae59fa0",
+    "V031__simulated_service_trade_finance.sql": "a5a8d4ffeef87732040dffc432ee7c21eba5f1f5a7fa9f7e4759e955b2711768"
   },
   "tables": [
     {
@@ -1505,7 +1506,8 @@
         "successful_attempt_id",
         "successful_receipt_id",
         "paid_at",
-        "membership_order_id"
+        "membership_order_id",
+        "service_trade_id"
       ]
     },
     {
@@ -2280,6 +2282,23 @@
       ]
     },
     {
+      "name": "service_trade_money_events",
+      "domain": "service_booking",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "trade_id",
+        "payment_id",
+        "receipt_id",
+        "refund_id",
+        "entry_type",
+        "amount_fen",
+        "currency",
+        "occurred_at"
+      ]
+    },
+    {
       "name": "service_trade_orders",
       "domain": "service_booking",
       "retention_status": "PENDING_OWNER_POLICY",
@@ -2302,7 +2321,11 @@
         "version",
         "created_at",
         "hold_expires_at",
-        "closed_at"
+        "closed_at",
+        "receipt_id",
+        "confirmed_at",
+        "fulfillment_state",
+        "cancel_reason"
       ]
     },
     {
@@ -2324,6 +2347,70 @@
         "payable_fen",
         "created_at",
         "expires_at"
+      ]
+    },
+    {
+      "name": "service_trade_refund_assessments",
+      "domain": "service_booking",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "trade_id",
+        "trade_version",
+        "terms_sha256",
+        "receipt_id",
+        "proposed_refund_fen",
+        "basis_code",
+        "eligible_for_approval",
+        "created_by",
+        "created_at",
+        "expires_at"
+      ]
+    },
+    {
+      "name": "service_trade_refund_decisions",
+      "domain": "service_booking",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "trade_id",
+        "assessment_id",
+        "decision",
+        "reason_code",
+        "refund_id",
+        "version",
+        "created_by",
+        "decided_at"
+      ]
+    },
+    {
+      "name": "service_trade_refunds",
+      "domain": "service_booking",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "trade_id",
+        "payment_id",
+        "receipt_id",
+        "payment_case_id",
+        "business_key",
+        "refund_no",
+        "source_kind",
+        "amount_fen",
+        "currency",
+        "state",
+        "attempt_count",
+        "version",
+        "lease_token",
+        "lease_until",
+        "next_retry_at",
+        "last_error_code",
+        "channel_refund_no",
+        "created_at",
+        "decided_at"
       ]
     },
     {
@@ -2688,7 +2775,7 @@
       ]
     }
   ],
-  "schema_sha256": "eb175e33fc7d208c40b31d9ddba3d2ae31ecfe52169d9d8ff819da62bb87b4ab",
+  "schema_sha256": "49fb5cd910864e21544bad5ce1e27b6807244467c1e6ca8c9fa34c1f3c82a212",
   "policies": [
     {
       "domain": "aftersale_refunds",

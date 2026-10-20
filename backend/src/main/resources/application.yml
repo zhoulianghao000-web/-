@@ -58,6 +58,7 @@ pawday:
     simulation-enabled: ${PAWDAY_BOOKING_SIMULATION_ENABLED:false}
   service-trade:
     simulation-enabled: ${PAWDAY_SERVICE_TRADE_SIMULATION_ENABLED:false}
+    finance-recovery-enabled: ${PAWDAY_SERVICE_TRADE_FINANCE_RECOVERY_ENABLED:true}
   operations:
     scrape-token: ${PAWDAY_METRICS_SCRAPE_TOKEN:}
   data-encryption:

@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 079a65e464c9f3798ea6bb382503dee197946273ef24b5b1ce9faac64753b92c
+// Generated from Pawday runtime OpenAPI; SHA256 b80fa4c957ce764a57e74406fac6c4c86d3317dead93743933abe795fbbd15d5
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -3861,7 +3861,8 @@ class PaymentIntent {
   final int version;
   final String created_at;
   final String? membership_order_id;
-  const PaymentIntent({required this.id, required this.payment_no, this.order_id, required this.amount_fen, required this.currency, required this.status, required this.expires_at, required this.version, required this.created_at, this.membership_order_id});
+  final String? service_trade_id;
+  const PaymentIntent({required this.id, required this.payment_no, this.order_id, required this.amount_fen, required this.currency, required this.status, required this.expires_at, required this.version, required this.created_at, this.membership_order_id, this.service_trade_id});
   factory PaymentIntent.fromJson(Map<String,dynamic> json) => PaymentIntent(
     id: json['id'] as String,
     payment_no: json['payment_no'] as String,
@@ -3873,6 +3874,7 @@ class PaymentIntent {
     version: (json['version'] as num).toInt(),
     created_at: json['created_at'] as String,
     membership_order_id: json['membership_order_id'] == null ? null : json['membership_order_id'] as String,
+    service_trade_id: json['service_trade_id'] == null ? null : json['service_trade_id'] as String,
   );
   Map<String,dynamic> toJson() => {
     'id': id,
@@ -3885,6 +3887,7 @@ class PaymentIntent {
     'version': version,
     'created_at': created_at,
     if (membership_order_id != null) 'membership_order_id': membership_order_id == null ? null : membership_order_id!,
+    if (service_trade_id != null) 'service_trade_id': service_trade_id == null ? null : service_trade_id!,
   };
 }
 
@@ -4198,7 +4201,8 @@ class PaymentDetail {
   final bool simulation;
   final List<PaymentAttempt> attempts;
   final List<PaymentCase> cases;
-  const PaymentDetail({required this.id, required this.payment_no, this.order_id, required this.amount_fen, required this.currency, required this.status, required this.expires_at, required this.version, required this.created_at, required this.membership_order_id, required this.successful_attempt_id, required this.successful_receipt_id, required this.paid_at, required this.final_channel, required this.simulation, required this.attempts, required this.cases});
+  final String? service_trade_id;
+  const PaymentDetail({required this.id, required this.payment_no, this.order_id, required this.amount_fen, required this.currency, required this.status, required this.expires_at, required this.version, required this.created_at, required this.membership_order_id, required this.successful_attempt_id, required this.successful_receipt_id, required this.paid_at, required this.final_channel, required this.simulation, required this.attempts, required this.cases, this.service_trade_id});
   factory PaymentDetail.fromJson(Map<String,dynamic> json) => PaymentDetail(
     id: json['id'] as String,
     payment_no: json['payment_no'] as String,
@@ -4217,6 +4221,7 @@ class PaymentDetail {
     simulation: json['simulation'] as bool,
     attempts: (json['attempts'] as List).map((value) => PaymentAttempt.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
     cases: (json['cases'] as List).map((value) => PaymentCase.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    service_trade_id: json['service_trade_id'] == null ? null : json['service_trade_id'] as String,
   );
   Map<String,dynamic> toJson() => {
     'id': id,
@@ -4236,6 +4241,7 @@ class PaymentDetail {
     'simulation': simulation,
     'attempts': attempts.map((value) => value.toJson()).toList(),
     'cases': cases.map((value) => value.toJson()).toList(),
+    if (service_trade_id != null) 'service_trade_id': service_trade_id == null ? null : service_trade_id!,
   };
 }
 
@@ -10772,9 +10778,9 @@ class ServiceTrade {
   final int paid_fen;
   final int refunded_fen;
   final int refund_reserved_fen;
-  final int commission_fen;
-  final int commission_reversed_fen;
-  final int merchant_net_fen;
+  final int? commission_fen;
+  final int? commission_reversed_fen;
+  final int? merchant_net_fen;
   final String order_state;
   final String payment_state;
   final String capacity_state;
@@ -10803,9 +10809,9 @@ class ServiceTrade {
     paid_fen: (json['paid_fen'] as num).toInt(),
     refunded_fen: (json['refunded_fen'] as num).toInt(),
     refund_reserved_fen: (json['refund_reserved_fen'] as num).toInt(),
-    commission_fen: (json['commission_fen'] as num).toInt(),
-    commission_reversed_fen: (json['commission_reversed_fen'] as num).toInt(),
-    merchant_net_fen: (json['merchant_net_fen'] as num).toInt(),
+    commission_fen: json['commission_fen'] == null ? null : (json['commission_fen'] as num).toInt(),
+    commission_reversed_fen: json['commission_reversed_fen'] == null ? null : (json['commission_reversed_fen'] as num).toInt(),
+    merchant_net_fen: json['merchant_net_fen'] == null ? null : (json['merchant_net_fen'] as num).toInt(),
     order_state: json['order_state'] as String,
     payment_state: json['payment_state'] as String,
     capacity_state: json['capacity_state'] as String,
@@ -10834,9 +10840,9 @@ class ServiceTrade {
     'paid_fen': paid_fen,
     'refunded_fen': refunded_fen,
     'refund_reserved_fen': refund_reserved_fen,
-    'commission_fen': commission_fen,
-    'commission_reversed_fen': commission_reversed_fen,
-    'merchant_net_fen': merchant_net_fen,
+    'commission_fen': commission_fen == null ? null : commission_fen!,
+    'commission_reversed_fen': commission_reversed_fen == null ? null : commission_reversed_fen!,
+    'merchant_net_fen': merchant_net_fen == null ? null : merchant_net_fen!,
     'order_state': order_state,
     'payment_state': payment_state,
     'capacity_state': capacity_state,
@@ -10953,6 +10959,243 @@ class ServiceTradeEmpty {
   );
   Map<String,dynamic> toJson() => {
 
+  };
+}
+
+class ServiceAttemptInput {
+  final String channel;
+  final String client_platform;
+  const ServiceAttemptInput({required this.channel, required this.client_platform});
+  factory ServiceAttemptInput.fromJson(Map<String,dynamic> json) => ServiceAttemptInput(
+    channel: json['channel'] as String,
+    client_platform: json['client_platform'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'channel': channel,
+    'client_platform': client_platform,
+  };
+}
+
+class ServicePayment {
+  final String id;
+  final String trade_id;
+  final String state;
+  final String? attempt_id;
+  final String? receipt_id;
+  final int collected_fen;
+  final String currency;
+  final int version;
+  final bool simulated;
+  const ServicePayment({required this.id, required this.trade_id, required this.state, required this.attempt_id, required this.receipt_id, required this.collected_fen, required this.currency, required this.version, required this.simulated});
+  factory ServicePayment.fromJson(Map<String,dynamic> json) => ServicePayment(
+    id: json['id'] as String,
+    trade_id: json['trade_id'] as String,
+    state: json['state'] as String,
+    attempt_id: json['attempt_id'] == null ? null : json['attempt_id'] as String,
+    receipt_id: json['receipt_id'] == null ? null : json['receipt_id'] as String,
+    collected_fen: (json['collected_fen'] as num).toInt(),
+    currency: json['currency'] as String,
+    version: (json['version'] as num).toInt(),
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'trade_id': trade_id,
+    'state': state,
+    'attempt_id': attempt_id == null ? null : attempt_id!,
+    'receipt_id': receipt_id == null ? null : receipt_id!,
+    'collected_fen': collected_fen,
+    'currency': currency,
+    'version': version,
+    'simulated': simulated,
+  };
+}
+
+class ConsumerCancelInput {
+  final String reason_code;
+  const ConsumerCancelInput({required this.reason_code});
+  factory ConsumerCancelInput.fromJson(Map<String,dynamic> json) => ConsumerCancelInput(
+    reason_code: json['reason_code'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'reason_code': reason_code,
+  };
+}
+
+class MerchantCancelInput {
+  final String reason_code;
+  const MerchantCancelInput({required this.reason_code});
+  factory MerchantCancelInput.fromJson(Map<String,dynamic> json) => MerchantCancelInput(
+    reason_code: json['reason_code'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'reason_code': reason_code,
+  };
+}
+
+class RefundAssessment {
+  final String id;
+  final String trade_id;
+  final String terms_sha256;
+  final int proposed_refund_fen;
+  final String basis_code;
+  final bool eligible_for_approval;
+  final String expires_at;
+  final int trade_version;
+  final bool simulated;
+  const RefundAssessment({required this.id, required this.trade_id, required this.terms_sha256, required this.proposed_refund_fen, required this.basis_code, required this.eligible_for_approval, required this.expires_at, required this.trade_version, required this.simulated});
+  factory RefundAssessment.fromJson(Map<String,dynamic> json) => RefundAssessment(
+    id: json['id'] as String,
+    trade_id: json['trade_id'] as String,
+    terms_sha256: json['terms_sha256'] as String,
+    proposed_refund_fen: (json['proposed_refund_fen'] as num).toInt(),
+    basis_code: json['basis_code'] as String,
+    eligible_for_approval: json['eligible_for_approval'] as bool,
+    expires_at: json['expires_at'] as String,
+    trade_version: (json['trade_version'] as num).toInt(),
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'trade_id': trade_id,
+    'terms_sha256': terms_sha256,
+    'proposed_refund_fen': proposed_refund_fen,
+    'basis_code': basis_code,
+    'eligible_for_approval': eligible_for_approval,
+    'expires_at': expires_at,
+    'trade_version': trade_version,
+    'simulated': simulated,
+  };
+}
+
+class RefundDecisionInput {
+  final String assessment_id;
+  final String decision;
+  final String reason_code;
+  const RefundDecisionInput({required this.assessment_id, required this.decision, required this.reason_code});
+  factory RefundDecisionInput.fromJson(Map<String,dynamic> json) => RefundDecisionInput(
+    assessment_id: json['assessment_id'] as String,
+    decision: json['decision'] as String,
+    reason_code: json['reason_code'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'assessment_id': assessment_id,
+    'decision': decision,
+    'reason_code': reason_code,
+  };
+}
+
+class ServiceRefund {
+  final String id;
+  final String trade_id;
+  final int amount_fen;
+  final String state;
+  final int version;
+  final bool simulated;
+  const ServiceRefund({required this.id, required this.trade_id, required this.amount_fen, required this.state, required this.version, required this.simulated});
+  factory ServiceRefund.fromJson(Map<String,dynamic> json) => ServiceRefund(
+    id: json['id'] as String,
+    trade_id: json['trade_id'] as String,
+    amount_fen: (json['amount_fen'] as num).toInt(),
+    state: json['state'] as String,
+    version: (json['version'] as num).toInt(),
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'trade_id': trade_id,
+    'amount_fen': amount_fen,
+    'state': state,
+    'version': version,
+    'simulated': simulated,
+  };
+}
+
+class RefundDecision {
+  final String id;
+  final String trade_id;
+  final String assessment_id;
+  final String decision;
+  final String? refund_id;
+  final int version;
+  final bool simulated;
+  const RefundDecision({required this.id, required this.trade_id, required this.assessment_id, required this.decision, required this.refund_id, required this.version, required this.simulated});
+  factory RefundDecision.fromJson(Map<String,dynamic> json) => RefundDecision(
+    id: json['id'] as String,
+    trade_id: json['trade_id'] as String,
+    assessment_id: json['assessment_id'] as String,
+    decision: json['decision'] as String,
+    refund_id: json['refund_id'] == null ? null : json['refund_id'] as String,
+    version: (json['version'] as num).toInt(),
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'trade_id': trade_id,
+    'assessment_id': assessment_id,
+    'decision': decision,
+    'refund_id': refund_id == null ? null : refund_id!,
+    'version': version,
+    'simulated': simulated,
+  };
+}
+
+class ServicePaymentEnvelope {
+  final ServicePayment data;
+  final Meta meta;
+  const ServicePaymentEnvelope({required this.data, required this.meta});
+  factory ServicePaymentEnvelope.fromJson(Map<String,dynamic> json) => ServicePaymentEnvelope(
+    data: ServicePayment.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class ServiceRefundListEnvelope {
+  final List<ServiceRefund> data;
+  final Page page;
+  final Meta meta;
+  const ServiceRefundListEnvelope({required this.data, required this.page, required this.meta});
+  factory ServiceRefundListEnvelope.fromJson(Map<String,dynamic> json) => ServiceRefundListEnvelope(
+    data: (json['data'] as List).map((value) => ServiceRefund.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'page': page.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class RefundAssessmentEnvelope {
+  final RefundAssessment data;
+  final Meta meta;
+  const RefundAssessmentEnvelope({required this.data, required this.meta});
+  factory RefundAssessmentEnvelope.fromJson(Map<String,dynamic> json) => RefundAssessmentEnvelope(
+    data: RefundAssessment.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class RefundDecisionEnvelope {
+  final RefundDecision data;
+  final Meta meta;
+  const RefundDecisionEnvelope({required this.data, required this.meta});
+  factory RefundDecisionEnvelope.fromJson(Map<String,dynamic> json) => RefundDecisionEnvelope(
+    data: RefundDecision.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
   };
 }
 
@@ -11333,4 +11576,11 @@ class ApiRoutes {
   static const v313b1_get__admin_service_trade_terms = '/admin/service-trade-terms';
   static const v313b1_get__consumer_booking_services_id_trade_terms = '/consumer/booking-services/{id}/trade-terms';
   static const v313b1_post__consumer_service_trade_orders_id_cancel = '/consumer/service-trade-orders/{id}/cancel';
+  static const v313b2_post__consumer_service_trade_orders_id_payment_attempts = '/consumer/service-trade-orders/{id}/payment-attempts';
+  static const v313b2_post__consumer_service_trade_orders_id_payment_requery = '/consumer/service-trade-orders/{id}/payment-requery';
+  static const v313b2_get__consumer_service_trade_orders_id_payment = '/consumer/service-trade-orders/{id}/payment';
+  static const v313b2_post__merchant_stores_store_id_service_trade_orders_id_cancel = '/merchant/stores/{store_id}/service-trade-orders/{id}/cancel';
+  static const v313b2_get__consumer_service_trade_orders_id_refunds = '/consumer/service-trade-orders/{id}/refunds';
+  static const v313b2_post__admin_service_trade_orders_id_refund_assessments = '/admin/service-trade-orders/{id}/refund-assessments';
+  static const v313b2_post__admin_service_trade_orders_id_refund_decisions = '/admin/service-trade-orders/{id}/refund-decisions';
 }

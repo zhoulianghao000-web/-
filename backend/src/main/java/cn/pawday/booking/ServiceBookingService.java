@@ -64,7 +64,7 @@ public class ServiceBookingService {
    UUID id=UUID.randomUUID();p.db.update("INSERT INTO booking_slots(id,service_id,starts_at,ends_at,capacity) VALUES (?,?,?,?,?)",id,service,Timestamp.from(start),Timestamp.from(end),capacity);audit(a,"booking.slot.create",id,r);return slotView(id);
   });
  }
- private static final String SLOTS="SELECT s.*,s.capacity-(SELECT count(*) FROM service_bookings b WHERE b.slot_id=s.id AND b.status='BOOKED')-(SELECT count(*) FROM service_trade_orders o WHERE o.slot_id=s.id AND o.capacity_state='HELD') AS remaining FROM booking_slots s ";
+ private static final String SLOTS="SELECT s.*,s.capacity-(SELECT count(*) FROM service_bookings b WHERE b.slot_id=s.id AND b.status='BOOKED')-(SELECT count(*) FROM service_trade_orders o WHERE o.slot_id=s.id AND o.capacity_state IN ('HELD','CONFIRMED')) AS remaining FROM booking_slots s ";
  private Map<String,Object> slotView(UUID id){return view(p.one(SLOTS+"WHERE s.id=?",id));}
  public List<Map<String,Object>> slots(Actor a,UUID id,boolean merchant,UUID after,int limit){gate();var s=service(id);UUID store=(UUID)s.get("store_id");if(merchant)staff(a,store,false);else{consumer(a);visible(store);if(!s.get("status").equals("ACTIVE"))throw new Failure(404,"RESOURCE_NOT_FOUND");}limit(limit);
   return p.db.queryForList(SLOTS+"WHERE s.service_id=? AND s.starts_at>? AND s.id>? ORDER BY s.id LIMIT ?",id,Timestamp.from(clock.instant()),after,limit+1).stream().map(this::view).toList();
@@ -74,8 +74,8 @@ public class ServiceBookingService {
    // All capacity changes lock the same slot; no count/check race or denormalized counter drift.
    var row=p.one("SELECT * FROM booking_slots WHERE id=? FOR UPDATE",slot);var s=p.one("SELECT * FROM booking_services WHERE id=? FOR SHARE",row.get("service_id"));UUID store=(UUID)s.get("store_id");visible(store);
    if(!s.get("status").equals("ACTIVE")||!((Timestamp)row.get("starts_at")).toInstant().isAfter(clock.instant()))throw new Failure(409,"BOOKING_NOT_AVAILABLE");
-   if(p.db.queryForObject("SELECT (SELECT count(*) FROM service_bookings WHERE slot_id=? AND user_id=? AND status='BOOKED')+(SELECT count(*) FROM service_trade_orders WHERE slot_id=? AND user_id=? AND capacity_state='HELD')",Integer.class,slot,a.userId(),slot,a.userId())>0)throw new Failure(409,"BOOKING_ALREADY_EXISTS");
-   if(p.db.queryForObject("SELECT (SELECT count(*) FROM service_bookings WHERE slot_id=? AND status='BOOKED')+(SELECT count(*) FROM service_trade_orders WHERE slot_id=? AND capacity_state='HELD')",Integer.class,slot,slot)>=number(row.get("capacity")))throw new Failure(409,"BOOKING_SLOT_FULL");
+   if(p.db.queryForObject("SELECT (SELECT count(*) FROM service_bookings WHERE slot_id=? AND user_id=? AND status='BOOKED')+(SELECT count(*) FROM service_trade_orders WHERE slot_id=? AND user_id=? AND capacity_state IN ('HELD','CONFIRMED'))",Integer.class,slot,a.userId(),slot,a.userId())>0)throw new Failure(409,"BOOKING_ALREADY_EXISTS");
+   if(p.db.queryForObject("SELECT (SELECT count(*) FROM service_bookings WHERE slot_id=? AND status='BOOKED')+(SELECT count(*) FROM service_trade_orders WHERE slot_id=? AND capacity_state IN ('HELD','CONFIRMED'))",Integer.class,slot,slot)>=number(row.get("capacity")))throw new Failure(409,"BOOKING_SLOT_FULL");
    UUID id=UUID.randomUUID();p.db.update("INSERT INTO service_bookings(id,slot_id,service_id,store_id,user_id,service_title) VALUES (?,?,?,?,?,?)",id,slot,s.get("id"),store,a.userId(),s.get("title"));audit(a,"booking.reserve",id,r);return bookingView(id);
   });
  }

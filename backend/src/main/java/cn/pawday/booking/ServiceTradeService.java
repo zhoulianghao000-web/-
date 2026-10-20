@@ -16,9 +16,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
-/** B1 only: synthetic terms and unpaid holds. No payment, refund or settlement instructions. */
+/** Synthetic terms and shared holds; service finance is explicitly dispatched to the B2 adapter. */
 @Service
 public class ServiceTradeService {
+ @org.springframework.beans.factory.annotation.Autowired private cn.pawday.payment.ServiceTradeFinance finance;
  private final PublishingSupport p; private final AccessGuard guard; private final IdempotentCommandExecutor commands;
  private final AuditWriter audit; private final AuthService auth; private final Crypto crypto; private final Clock clock;
  private final PilotPolicy pilot; private final TransactionTemplate tx; private final boolean enabled;
@@ -83,23 +84,22 @@ public class ServiceTradeService {
    if(!((Timestamp)q.get("expires_at")).toInstant().isAfter(clock.instant())||number(q.get("terms_version"))!=number(t.get("version"))||number(q.get("service_version"))!=number(s.get("version")))throw new Failure(409,"SERVICE_QUOTE_EXPIRED");
    if(!hash.equals(q.get("terms_sha256")))throw new Failure(409,"SERVICE_TERMS_CONFIRMATION_REQUIRED");
    if(!p.db.queryForList("SELECT id FROM service_trade_orders WHERE quote_id=?",qid).isEmpty())throw new Failure(409,"SERVICE_QUOTE_ALREADY_USED");
-   if(p.db.queryForObject("SELECT (SELECT count(*) FROM service_bookings WHERE slot_id=? AND user_id=? AND status='BOOKED')+(SELECT count(*) FROM service_trade_orders WHERE slot_id=? AND user_id=? AND capacity_state='HELD')",Integer.class,q.get("slot_id"),a.userId(),q.get("slot_id"),a.userId())>0)throw new Failure(409,"BOOKING_ALREADY_EXISTS");
+   if(p.db.queryForObject("SELECT (SELECT count(*) FROM service_bookings WHERE slot_id=? AND user_id=? AND status='BOOKED')+(SELECT count(*) FROM service_trade_orders WHERE slot_id=? AND user_id=? AND capacity_state IN ('HELD','CONFIRMED'))",Integer.class,q.get("slot_id"),a.userId(),q.get("slot_id"),a.userId())>0)throw new Failure(409,"BOOKING_ALREADY_EXISTS");
    if(occupied((UUID)q.get("slot_id"))>=number(slot.get("capacity")))throw new Failure(409,"BOOKING_SLOT_FULL");
    Instant expiry=earlier(clock.instant().plusSeconds(600),((Timestamp)slot.get("starts_at")).toInstant());UUID trade=UUID.randomUUID();
-   p.db.update("INSERT INTO service_trade_orders(id,quote_id,slot_id,service_id,store_id,terms_id,user_id,snapshot,terms_sha256,policy_snapshot_sha256,payable_fen,created_at,hold_expires_at) VALUES (?,?,?,?,?,?,?,?::jsonb,?,?,?,?,?)",trade,qid,q.get("slot_id"),q.get("service_id"),q.get("store_id"),q.get("terms_id"),a.userId(),t.get("snapshot").toString(),q.get("terms_sha256"),q.get("policy_snapshot_sha256"),q.get("payable_fen"),now(),Timestamp.from(expiry));record(a,"service.trade.reserve",trade,r);return tradeView(trade);
+   p.db.update("INSERT INTO service_trade_orders(id,quote_id,slot_id,service_id,store_id,terms_id,user_id,snapshot,terms_sha256,policy_snapshot_sha256,payable_fen,created_at,hold_expires_at) VALUES (?,?,?,?,?,?,?,?::jsonb,?,?,?,?,?)",trade,qid,q.get("slot_id"),q.get("service_id"),q.get("store_id"),q.get("terms_id"),a.userId(),t.get("snapshot").toString(),q.get("terms_sha256"),q.get("policy_snapshot_sha256"),q.get("payable_fen"),now(),Timestamp.from(expiry));finance.createIntent(trade);record(a,"service.trade.reserve",trade,r);return tradeView(trade);
   });
  }
  private Map<String,Object> ownedQuote(Actor a,UUID id){return p.one("SELECT * FROM service_trade_quotes WHERE id=? AND user_id=?",id,a.userId());}
- private int occupied(UUID slot){return p.db.queryForObject("SELECT (SELECT count(*) FROM service_bookings WHERE slot_id=? AND status='BOOKED')+(SELECT count(*) FROM service_trade_orders WHERE slot_id=? AND capacity_state='HELD')",Integer.class,slot,slot);}
+ private int occupied(UUID slot){return p.db.queryForObject("SELECT (SELECT count(*) FROM service_bookings WHERE slot_id=? AND status='BOOKED')+(SELECT count(*) FROM service_trade_orders WHERE slot_id=? AND capacity_state IN ('HELD','CONFIRMED'))",Integer.class,slot,slot);}
  private Map<String,Object> owned(Actor a,UUID id){consumer(a);return p.one("SELECT * FROM service_trade_orders WHERE id=? AND user_id=?",id,a.userId());}
  public Map<String,Object> read(Actor a,UUID id){owned(a,id);return tradeView(id);}
  public List<Map<String,Object>> trades(Actor a,UUID store,UUID after,int size){if(store==null)consumer(a);else staff(a,store,"service.trade.read");limit(size);return p.db.queryForList("SELECT id FROM service_trade_orders WHERE "+(store==null?"user_id":"store_id")+"=? AND id>? ORDER BY id LIMIT ?",store==null?a.userId():store,after,size+1).stream().map(row->tradeView((UUID)row.get("id"))).toList();}
- private Map<String,Object> tradeView(UUID id){var row=p.one("SELECT o.id,o.store_id,o.service_id,o.slot_id,o.terms_id,o.terms_sha256,'CNY' AS currency,o.payable_fen,o.order_state,o.payment_state,o.capacity_state,o.hold_expires_at,s.starts_at,o.version FROM service_trade_orders o JOIN booking_slots s ON s.id=o.slot_id WHERE o.id=?",id);var v=p.view(row);for(String f:List.of("paid_fen","refunded_fen","refund_reserved_fen","commission_fen","commission_reversed_fen","merchant_net_fen"))v.put(f,0);v.put("fulfillment_state","NOT_STARTED");v.put("settlement_state","NOT_PAYABLE");for(String f:List.of("receipt_id","confirmed_at","settlement_buffer_ends_at"))v.put(f,null);v.put("as_of",clock.instant().toString());v.put("open_dispute",false);v.put("unresolved_collection_case",false);v.put("simulated",true);return v;}
- public Map<String,Object> cancel(Actor a,UUID id,String match,String key,HttpServletRequest r){var original=owned(a,id);long v=version(match);return commands.command(a,"service.trade.cancel:"+id,key,Map.of("version",v),()->{consumer(a);p.one("SELECT id FROM booking_slots WHERE id=? FOR UPDATE",original.get("slot_id"));var row=p.one("SELECT * FROM service_trade_orders WHERE id=? FOR UPDATE",id);sameVersion(row,v);if(!"AWAITING_PAYMENT".equals(row.get("order_state")))throw new Failure(409,"SERVICE_TRADE_ALREADY_CLOSED");close(id,"CANCELLED");record(a,"service.trade.cancel",id,r);return tradeView(id);});}
- private void close(UUID id,String state){p.db.update("UPDATE service_trade_orders SET order_state=?,payment_state='CLOSED',capacity_state='RELEASED',closed_at=?,version=version+1 WHERE id=?",state,now(),id);}
+ private Map<String,Object> tradeView(UUID id){return finance.tradeView(id);}
+ public Map<String,Object> cancel(Actor a,UUID id,String match,String key,HttpServletRequest r){return finance.cancel(a,id,null,"CONSUMER_CANCELLED",match,key,r);}
  @Scheduled(fixedDelayString="${pawday.service-trade.expiry-delay-ms:30000}") public void expire(){if(!enabled||pilot.paused())return;expireBatch();}
  public int expireBatch(){gate();int count=0;for(var candidate:p.db.queryForList("SELECT id,slot_id FROM service_trade_orders WHERE order_state='AWAITING_PAYMENT' AND hold_expires_at<=? ORDER BY hold_expires_at,id LIMIT 100",now())){
-  Boolean changed=tx.execute(status->{p.one("SELECT id FROM booking_slots WHERE id=? FOR UPDATE",candidate.get("slot_id"));var row=p.one("SELECT * FROM service_trade_orders WHERE id=? FOR UPDATE",candidate.get("id"));if(!"AWAITING_PAYMENT".equals(row.get("order_state"))||((Timestamp)row.get("hold_expires_at")).toInstant().isAfter(clock.instant()))return false;close((UUID)row.get("id"),"EXPIRED");record(null,"service.trade.expire",(UUID)row.get("id"),null);return true;});if(Boolean.TRUE.equals(changed))count++;
+  if(finance.expire((UUID)candidate.get("id")))count++;
  }return count;}
  private Timestamp now(){return Timestamp.from(clock.instant());}private static Instant earlier(Instant a,Instant b){return a.isBefore(b)?a:b;}
  private void record(Actor a,String action,UUID id,HttpServletRequest r){audit.write(a,action,"SERVICE_TRADE",id.toString(),Map.of(),Map.of("simulated",true),r);}

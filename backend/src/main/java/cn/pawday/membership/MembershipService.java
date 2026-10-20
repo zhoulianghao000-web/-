@@ -56,7 +56,7 @@ import tools.jackson.databind.json.JsonMapper;
  public Map<String,Object> getOrder(Actor a,UUID id){
   consumer(a);var order=one("SELECT * FROM membership_orders WHERE id=? AND user_id=?",id,a.userId());
   var result=view(order);
-  if(order.get("payment_id")!=null)result.put("payment",view(one("SELECT * FROM payments WHERE id=?",order.get("payment_id"))));
+  if(order.get("payment_id")!=null){var payment=view(one("SELECT * FROM payments WHERE id=?",order.get("payment_id")));payment.remove("service_trade_id");result.put("payment",payment);}
   return result;
  }
 
