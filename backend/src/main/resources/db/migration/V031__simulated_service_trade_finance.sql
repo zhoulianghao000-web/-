@@ -179,7 +179,7 @@ DECLARE t service_trade_orders;p payments; start_time timestamptz; used bigint;B
  SELECT coalesce(sum(amount_fen),0) INTO used FROM service_trade_refunds WHERE receipt_id=p.successful_receipt_id;
  IF NEW.trade_version<>t.version OR NEW.terms_sha256<>t.terms_sha256 OR NEW.receipt_id IS DISTINCT FROM p.successful_receipt_id
  OR (NOT NEW.eligible_for_approval AND NEW.proposed_refund_fen<>0)
- OR (NEW.eligible_for_approval AND (p.status<>'SUCCEEDED' OR t.fulfillment_state<>'NOT_STARTED' OR NEW.proposed_refund_fen<>p.amount_fen-used
+ OR (NEW.eligible_for_approval AND (NOT coalesce(t.snapshot->>'currency'='CNY' AND t.snapshot->>'billing_unit'='WHOLE_SLOT' AND t.snapshot->>'merchant_cancel'='FULL_REFUND' AND t.snapshot->>'consumer_late_cancel'='MANUAL_REVIEW' AND t.snapshot->>'no_show'='MANUAL_REVIEW' AND jsonb_typeof(t.snapshot->'cancel_cutoff_minutes')='number',false) OR p.status<>'SUCCEEDED' OR t.fulfillment_state<>'NOT_STARTED' OR NEW.proposed_refund_fen<>p.amount_fen-used
  OR NOT ((NEW.basis_code='BEFORE_CUTOFF' AND NEW.created_at<start_time-make_interval(mins=>(t.snapshot->>'cancel_cutoff_minutes')::integer))
  OR (NEW.basis_code='MERCHANT_CANCEL' AND t.cancel_reason='SERVICE_UNAVAILABLE'))))
  THEN RAISE EXCEPTION 'service assessment source'; END IF;RETURN NEW;
