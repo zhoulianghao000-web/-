@@ -179,7 +179,7 @@ DECLARE t service_trade_orders;p payments; start_time timestamptz; used bigint;B
  SELECT coalesce(sum(amount_fen),0) INTO used FROM service_trade_refunds WHERE receipt_id=p.successful_receipt_id;
  IF NEW.trade_version<>t.version OR NEW.terms_sha256<>t.terms_sha256 OR NEW.receipt_id IS DISTINCT FROM p.successful_receipt_id
  OR (NOT NEW.eligible_for_approval AND NEW.proposed_refund_fen<>0)
- OR (NEW.eligible_for_approval AND (NOT coalesce(t.snapshot->>'currency'='CNY' AND t.snapshot->>'billing_unit'='WHOLE_SLOT' AND t.snapshot->>'merchant_cancel'='FULL_REFUND' AND t.snapshot->>'consumer_late_cancel'='MANUAL_REVIEW' AND t.snapshot->>'no_show'='MANUAL_REVIEW' AND jsonb_typeof(t.snapshot->'cancel_cutoff_minutes')='number',false) OR p.status<>'SUCCEEDED' OR t.fulfillment_state<>'NOT_STARTED' OR NEW.proposed_refund_fen<>p.amount_fen-used
+ OR (NEW.eligible_for_approval AND (NOT coalesce(t.snapshot->>'currency'='CNY' AND t.snapshot->>'billing_unit'='WHOLE_SLOT' AND t.snapshot->>'merchant_cancel'='FULL_REFUND' AND t.snapshot->>'consumer_late_cancel'='MANUAL_REVIEW' AND t.snapshot->>'no_show'='MANUAL_REVIEW' AND jsonb_typeof(t.snapshot->'cancel_cutoff_minutes')='number',false) OR NEW.created_at>=start_time OR p.status<>'SUCCEEDED' OR t.fulfillment_state<>'NOT_STARTED' OR NEW.proposed_refund_fen<>p.amount_fen-used
  OR NOT ((NEW.basis_code='BEFORE_CUTOFF' AND NEW.created_at<start_time-make_interval(mins=>(t.snapshot->>'cancel_cutoff_minutes')::integer))
  OR (NEW.basis_code='MERCHANT_CANCEL' AND t.cancel_reason='SERVICE_UNAVAILABLE'))))
  THEN RAISE EXCEPTION 'service assessment source'; END IF;RETURN NEW;
@@ -191,7 +191,7 @@ DECLARE a service_trade_refund_assessments;t service_trade_orders;start_time tim
  SELECT starts_at INTO STRICT start_time FROM booking_slots WHERE id=t.slot_id;
  IF a.trade_id<>t.id OR a.terms_sha256<>t.terms_sha256 OR NEW.decided_at<a.created_at OR NEW.decided_at>=a.expires_at
  OR NEW.version<>t.version OR t.version<>a.trade_version+(CASE WHEN NEW.decision='APPROVE' THEN 1 ELSE 0 END)
- OR (NEW.decision='APPROVE' AND (NOT a.eligible_for_approval OR t.fulfillment_state<>'NOT_STARTED'
+ OR (NEW.decision='APPROVE' AND (NOT a.eligible_for_approval OR NEW.decided_at>=start_time OR t.fulfillment_state<>'NOT_STARTED'
  OR (a.basis_code='BEFORE_CUTOFF' AND NEW.decided_at>=start_time-make_interval(mins=>(t.snapshot->>'cancel_cutoff_minutes')::integer))
  OR NOT EXISTS(SELECT 1 FROM service_trade_refunds f WHERE f.id=NEW.refund_id AND f.trade_id=t.id AND f.receipt_id=a.receipt_id AND f.amount_fen=a.proposed_refund_fen AND f.source_kind='ADMIN' AND f.business_key='assessment:'||a.id::text)))
  THEN RAISE EXCEPTION 'service refund decision source'; END IF;RETURN NEW;
