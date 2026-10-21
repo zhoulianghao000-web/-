@@ -497,7 +497,10 @@ class _ServiceTradeScreenState extends ConsumerState<ServiceTradeScreen> {
                               ],
                             ),
                             if (credentials[t.id] case final c?) ...[
-                              SelectableText('到店凭证 ${c.credential}'),
+                              Semantics(
+                                label: '到店凭证 ${c.credential}',
+                                child: SelectableText('到店凭证 ${c.credential}'),
+                              ),
                               Text(
                                 '使用时间 ${time(c.valid_from)} — ${time(c.expires_at)}，请仅向授权门店出示。',
                               ),
