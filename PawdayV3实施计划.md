@@ -307,3 +307,7 @@ V034 与新平台详情/模拟夹具/争议退款冻结已通过 52 项真实数
 前端 39536211532 / 实际联调作业 119013338482 已越过付款、凭证、核销和争议冻结，在退款评估返回 503，未将本批记为通过。排查数据库原有“到期时间严格等于创建时间加 5 分钟”约束：服务退款评估与结算预览分别读取两次真实时钟，产生微秒差；原固定测试时钟隐藏了此问题。现改为只捕获一次创建时刻，同时派生到期时刻，不修改或放宽数据库约束；补每次读取前进 1 毫秒时钟的真实 PostgreSQL/HTTP 回归，分别验证评估和结算预览严格 300 秒。浏览器评估断言先检查状态及错误正文，避免只显示 data 未定义。失败日志与 trace 存 .maintenance/v313-b3-third-ci-real-failure.log / v313-b3-third-real-failure。修复待本地和同提交完整 CI 复验；B3 尚未完成。
 
 时钟修复本地复验：B3 21 项实际 PostgreSQL/HTTP 全通过，包含推进时钟的两种快照严格 300 秒回归；Vue 项目类型检查 pnpm typecheck 与新增联调 ESLint 通过。一次误用普通 tsc 无法识别 Vue SFC，改回仓库既定 vue-tsc 命令后通过，未增加类型豁免。日志 .maintenance/v313-b3-clock-regression.log / v313-b3-clock-typecheck.log。修复即将提交并重跑同一 SHA 全部门禁，受测数量预期普通 666+基础设施 84，以最终 XML 为准。
+
+### 流式请求观测修复（e311c06，2026-10-21）
+
+工作流 39537191414 / 实际联调 119016449751 的评估已返回 200，争议处理也已成功返回 RESOLVED；后续测试因读取 postDataJSON().decision 时为空而失败。trace 显示商家/平台 JSON 流式 Request 的 Content-Length 非零、服务端正确处理，但浏览器调试记录未捕获 postData（同批 Flutter 请求仍能捕获）。不修改客户端传输或伪造请求正文：保留实际 POST 200，改核对实际响应的争议 ID/RESOLVED，并以独立同身份 GET 回读持久争议状态及零退款。结算同样保留真实点击/POST、响应商家/金额/状态、独立交易和余额回读，新增持久结算流水 settlement_id 与响应 ID 精确关联；消费者同意 SHA、付款仅渠道/平台的真实请求正文断言原样保留。原失败证据 .maintenance/v313-b3-fourth-ci-real-failure.log / v313-b3-fourth-real-failure。未降低后端规则或使用网络模拟，B3 尚待完整复验。
