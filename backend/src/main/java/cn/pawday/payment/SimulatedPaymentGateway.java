@@ -8,10 +8,15 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 @org.springframework.context.annotation.Profile("!production")
 @Component @ConditionalOnProperty(name="pawday.payment.simulation-enabled",havingValue="true")
 public class SimulatedPaymentGateway implements PaymentGateway {
- private final JdbcTemplate db;
- public SimulatedPaymentGateway(JdbcTemplate db){this.db=db;}
+ private final JdbcTemplate db;private final String serviceFixtureOutcome;
+ public SimulatedPaymentGateway(JdbcTemplate db,org.springframework.core.env.Environment env){this.db=db;
+  serviceFixtureOutcome=env.getProperty("pawday.service-trade.fixture-outcome","PENDING");
+  if(!Set.of("PENDING","SUCCEEDED","FAILED","UNKNOWN").contains(serviceFixtureOutcome))throw new IllegalStateException("INVALID_SERVICE_PAYMENT_FIXTURE");
+  boolean production=Arrays.stream(env.getActiveProfiles()).anyMatch(s->Set.of("prod","production").contains(s.toLowerCase(Locale.ROOT)))||!Set.of("development","test","pilot").contains(env.getProperty("pawday.deployment-mode","development"));
+  if(!"PENDING".equals(serviceFixtureOutcome)&&(production||!env.getProperty("pawday.booking.simulation-enabled",Boolean.class,false)||!env.getProperty("pawday.service-trade.simulation-enabled",Boolean.class,false)))throw new IllegalStateException("SERVICE_PAYMENT_FIXTURE_REQUIRES_EXPLICIT_SIMULATION");
+ }
  private void outside(){if(TransactionSynchronizationManager.isActualTransactionActive())throw new IllegalStateException("Payment I/O inside business transaction");}
- public Result start(Request r){outside();db.update("INSERT INTO simulated_payment_transactions(attempt_no,channel,amount_fen,currency,status) VALUES (?,?,?,?,'PENDING') ON CONFLICT DO NOTHING",r.attemptNo(),r.channel(),r.amountFen(),r.currency());return query(r);}
+ public Result start(Request r){outside();String status="SIMULATED_TEST".equals(r.channel())?serviceFixtureOutcome:"PENDING";db.update("INSERT INTO simulated_payment_transactions(attempt_no,channel,amount_fen,currency,status,transaction_id) VALUES (?,?,?,?,?,?) ON CONFLICT DO NOTHING",r.attemptNo(),r.channel(),r.amountFen(),r.currency(),status,"SUCCEEDED".equals(status)?"SIM-"+r.attemptNo():null);return query(r);}
  public Result query(Request r){outside();var rows=db.queryForList("SELECT * FROM simulated_payment_transactions WHERE attempt_no=?",r.attemptNo());if(rows.isEmpty())return new Result("NOT_FOUND","SIMULATED_"+r.channel(),null,0,r.currency());var x=rows.getFirst();return new Result(x.get("status").toString(),"SIMULATED_"+x.get("channel"),(String)x.get("transaction_id"),((Number)x.get("amount_fen")).longValue(),x.get("currency").toString());}
  public Result close(Request r){outside();db.update("INSERT INTO simulated_payment_transactions(attempt_no,channel,amount_fen,currency,status) VALUES (?,?,?,?,'CLOSED') ON CONFLICT DO NOTHING",r.attemptNo(),r.channel(),r.amountFen(),r.currency());db.update("UPDATE simulated_payment_transactions SET status='CLOSED',updated_at=clock_timestamp() WHERE attempt_no=? AND status='PENDING'",r.attemptNo());return query(r);}
  /** Development channel controls; callers still confirm by server query. */

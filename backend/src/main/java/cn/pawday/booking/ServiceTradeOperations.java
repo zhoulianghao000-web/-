@@ -32,6 +32,7 @@ public class ServiceTradeOperations {
   this.p=p;this.finance=finance;this.tx=tx;this.commands=commands;this.guard=guard;this.auth=auth;this.crypto=crypto;this.audit=audit;this.outbox=outbox;this.clock=clock;
  }
  private Timestamp now(){return Timestamp.from(clock.instant());}
+ public Map<String,Object> adminTrade(Actor a,UUID trade){finance.gate();permission(a,Actor.Realm.ADMIN,"service.trade.admin.read");return finance.staffTradeView(trade);}
  private Map<String,Object> owned(Actor a,UUID trade){
   finance.gate();if(a.realm()!=Actor.Realm.CONSUMER)throw new Failure(403,"PERMISSION_DENIED");
   return p.one("SELECT * FROM service_trade_orders WHERE id=? AND user_id=?",trade,a.userId());

@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 1adb09fbf429d8df637a28a9b94769735728ee8e967b77526aa818e8c8d8adcc
+// Generated from Pawday runtime OpenAPI; SHA256 aa3637435e96153b5e55a175cf3e6415708f938ce8be76441645320ec2e6e880
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -11984,6 +11984,7 @@ class ApiRoutes {
   static const v313b2_get__consumer_service_trade_orders_id_refunds = '/consumer/service-trade-orders/{id}/refunds';
   static const v313b2_post__admin_service_trade_orders_id_refund_assessments = '/admin/service-trade-orders/{id}/refund-assessments';
   static const v313b2_post__admin_service_trade_orders_id_refund_decisions = '/admin/service-trade-orders/{id}/refund-decisions';
+  static const v313b3_get__admin_service_trade_orders_id = '/admin/service-trade-orders/{id}';
   static const v313b3_get__consumer_service_trade_orders_id_credential = '/consumer/service-trade-orders/{id}/credential';
   static const v313b3_get__consumer_service_trade_orders_id_fulfillment = '/consumer/service-trade-orders/{id}/fulfillment';
   static const v313b3_get__merchant_stores_store_id_service_trade_orders_id_fulfillment = '/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment';

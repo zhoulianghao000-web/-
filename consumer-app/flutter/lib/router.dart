@@ -7,6 +7,7 @@ import 'pilot.dart';
 import 'screens.dart';
 import 'nearby_screen.dart';
 import 'service_booking_screen.dart';
+import 'service_trade_screen.dart';
 import 'checkout_screen.dart';
 import 'membership_screen.dart';
 import 'order_screen.dart';
@@ -28,6 +29,7 @@ String safeReturnTo(String? value) {
     '/pets',
     '/nearby',
     '/service-bookings',
+    '/service-trades',
     '/me',
     '/sessions',
     '/household',
@@ -107,6 +109,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                 '/sessions',
                 '/household',
                 '/service-bookings',
+                '/service-trades',
                 '/pet-food',
                 '/favorites',
                 '/invoices',
@@ -131,6 +134,12 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
+      GoRoute(
+        path: '/service-trades',
+        builder: (_, state) => ServiceTradeScreen(
+          serviceId: state.uri.queryParameters['service_id'],
+        ),
+      ),
       GoRoute(
         path: '/service-bookings',
         builder: (_, state) => ServiceBookingScreen(

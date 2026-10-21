@@ -1,4 +1,4 @@
-// Generated from pawday-v3.1.3-b3.json; SHA256 1adb09fbf429d8df637a28a9b94769735728ee8e967b77526aa818e8c8d8adcc
+// Generated from pawday-v3.1.3-b3.json; SHA256 aa3637435e96153b5e55a175cf3e6415708f938ce8be76441645320ec2e6e880
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -5910,6 +5910,26 @@ export interface paths {
          * @description Default off, non-production, both service simulation flags and an actual simulated payment adapter required. Client outcomes/amounts/receipts forbidden. Writes use idempotency and trade If-Match. UNKNOWN retains capacity and refund budget. Assessments expire after 5 minutes; review requires service.trade.refund.review and action-bound reverify. No goods side effects, real payment or settlement.
          */
         post: operations["v313b2_post__admin_service_trade_orders_id_refund_decisions"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/service-trade-orders/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic paid service get /admin/service-trade-orders/{id}
+         * @description Default off and non-production only. Separate paid credentials and immutable operational facts. Disputes resolve with no financial award. Settlement uses original frozen terms, cumulative half-up reversal, five-minute version/ledger snapshots and action-bound reverify. Database simulator only; no real payment or payout. Adjustment evidence with affects_balance=false must not be summed into balance.
+         */
+        get: operations["v313b3_get__admin_service_trade_orders_id"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -53700,6 +53720,91 @@ export interface operations {
                 };
             };
             /** @description Validation, scope, unavailable terms, stale quote/version, capacity/payment/refund/settlement conflict or disabled feature */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v313b3_get__admin_service_trade_orders_id: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceTradeEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
             503: {
                 headers: {
                     [name: string]: unknown;

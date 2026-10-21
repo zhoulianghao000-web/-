@@ -2,6 +2,7 @@ import {readdir,readFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {test,expect,type Page,type Locator} from '@playwright/test';
+import {verifyPaidServiceFlow} from './service-trade-flow';
 test.skip(!process.env.PAWDAY_REAL_E2E,'Run in the mandatory real-infrastructure CI job');
 test.use({actionTimeout:15000});
 async function editFlutterText(page:Page,name:string|RegExp,value:string){
@@ -50,7 +51,7 @@ test('real Flutter Web focus survives decoration hint and foreground page change
 });
 
 test('real administrator password login, catalog publication, merchant correction and review',async({page,browser})=>{
-  test.setTimeout(720000);
+  test.setTimeout(960000);
   const password=process.env.PAWDAY_DEMO_ADMIN_PASSWORD;if(!password)throw new Error('Real admin fixture required');
   const verificationRequests:number[]=[];
   page.on('request',request=>{if(request.method()==='POST'&&request.url().endsWith('/admin/auth/reverify'))verificationRequests.push(Date.now());});
@@ -242,6 +243,7 @@ test('real administrator password login, catalog publication, merchant correctio
   const fulfillmentPersisted=await aiPage.request.get(api+'/consumer/service-bookings/'+fulfillmentBooking.id+'/fulfillment',{headers:{Authorization:bookingHeaders.authorization!}});expect(fulfillmentPersisted.status()).toBe(200);expect((await fulfillmentPersisted.json()).data.map((e:{status:string})=>e.status).sort()).toEqual(['CHECKED_IN','EXCEPTION']);
   await aiPage.getByRole('button',{name:'刷新服务与预约',exact:true}).click();await expect(aiPage.getByRole('textbox',{name:/异常待人工处理/})).toBeVisible();
   await aiPage.screenshot({path:'frontend-evidence/v312-real-consumer-fulfillment.png',fullPage:true});await merchantPage.screenshot({path:'frontend-evidence/v312-real-merchant-fulfillment.png',fullPage:true});
+  await verifyPaidServiceFlow({admin:page,merchant:merchantPage,consumer:aiPage,api,merchantId:createdOffer.merchant_id,fresh});
   await aiContext.close();
   await context.close();
 });

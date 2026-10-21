@@ -41,7 +41,7 @@ class V313OperationsMigrationTests {
    });
    assertEquals(31,db.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success",Integer.class));
    Flyway.configure().dataSource(data).load().migrate();
-   assertEquals(33,db.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success",Integer.class));
+   assertEquals(34,db.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success",Integer.class));
    assertEquals(1,db.queryForObject("SELECT count(*) FROM service_trade_allocations",Integer.class));
    assertEquals(3,db.queryForObject("SELECT commission_fen FROM service_trade_allocations WHERE trade_id=?",Long.class,trade));
    assertEquals(98,db.queryForObject("SELECT service_trade_balance(?)",Long.class,trade));

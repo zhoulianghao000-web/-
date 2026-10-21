@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
+import 'package:go_router/go_router.dart';
 
 import 'api/client.dart';
 import 'api/generated/dto.dart';
@@ -310,6 +311,17 @@ class _ServiceBookingScreenState extends ConsumerState<ServiceBookingScreen> {
                     '仅模拟预约，不收费，不代表真实门店承诺。每份预约占所选服务时段一个名额，开始前可取消。时间按本机时区展示。',
                   ),
                   const SizedBox(height: 16),
+                  TextButton(
+                    onPressed: busy
+                        ? null
+                        : () => context.push(
+                            Uri(
+                              path: '/service-trades',
+                              queryParameters: {'service_id': ?selected},
+                            ).toString(),
+                          ),
+                    child: const Text('查看付费服务演练与交易'),
+                  ),
                   if (error != null)
                     Semantics(
                       liveRegion: true,

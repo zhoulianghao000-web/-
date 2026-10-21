@@ -23,13 +23,13 @@ import tools.jackson.databind.json.JsonMapper;
 class AfterSaleRefundIntegrationTests {
  static final java.util.concurrent.atomic.AtomicLong OFFSET=new java.util.concurrent.atomic.AtomicLong();
  @org.springframework.boot.test.context.TestConfiguration static class TimeConfiguration {
-  @org.springframework.context.annotation.Bean @org.springframework.context.annotation.Primary BlockingRefundGateway blockingRefundGateway(JdbcTemplate db){return new BlockingRefundGateway(db);}
+  @org.springframework.context.annotation.Bean @org.springframework.context.annotation.Primary BlockingRefundGateway blockingRefundGateway(JdbcTemplate db,org.springframework.core.env.Environment env){return new BlockingRefundGateway(db,env);}
   @org.springframework.context.annotation.Bean @org.springframework.context.annotation.Primary Clock checkoutTestClock(){return new Clock(){public ZoneId getZone(){return ZoneOffset.UTC;}public Clock withZone(ZoneId zone){return this;}public Instant instant(){return Instant.now().plusSeconds(OFFSET.get());}};}
  }
  static class BlockingRefundGateway extends cn.pawday.payment.SimulatedPaymentGateway {
   volatile String blocked,forcedOutcome;volatile CountDownLatch entered=new CountDownLatch(1),release=new CountDownLatch(1);
   final java.util.concurrent.atomic.AtomicInteger calls=new java.util.concurrent.atomic.AtomicInteger();
-  BlockingRefundGateway(JdbcTemplate db){super(db);}
+  BlockingRefundGateway(JdbcTemplate db,org.springframework.core.env.Environment env){super(db,env);}
   @Override public RefundOutcome refund(RefundInstruction i){
    if(forcedOutcome!=null)return new RefundOutcome(forcedOutcome,null,"TEST_PROVIDER_OUTAGE");
    if(i.refundNo().equals(blocked)&&calls.incrementAndGet()==1){entered.countDown();try{if(!release.await(10,TimeUnit.SECONDS))throw new AssertionError("blocked gateway timeout");}catch(InterruptedException e){Thread.currentThread().interrupt();throw new AssertionError(e);}return new RefundOutcome("FAILED",null,"STALE_RESPONSE");}

@@ -1,6 +1,6 @@
 {
   "schema_version": "pawday-privacy-inventory/v1",
-  "source_baseline": "0e2f42a464de351346a32476954722b0b881038a",
+  "source_baseline": "cfbb6ec42fd261ee75339fa85bb4f98258c461e0",
   "retention_authority": "PENDING_OWNER_POLICY",
   "deletion_authorized": false,
   "migrations": {
@@ -36,7 +36,8 @@
     "V030__simulated_service_trade_holds.sql": "2dec4ca0c128d23e5d51f8d7bd4690893a97eda8a37940d194fefbb30ae59fa0",
     "V031__simulated_service_trade_finance.sql": "e431fc7c7b41287a3b26808bd558ab7e271615c54f0d96832e579089ea7452cc",
     "V032__paid_service_fulfillment_and_disputes.sql": "f79f3c8d241b7ff5a3abe9971a2ffa1cd1c4e304fa49e57d1ac4cc411edf824b",
-    "V033__service_commission_and_settlement.sql": "f8883f7af8eff453b7a1fd987f68c9fda38c549e56ec668dec7aed88146616df"
+    "V033__service_commission_and_settlement.sql": "f8883f7af8eff453b7a1fd987f68c9fda38c549e56ec668dec7aed88146616df",
+    "V034__service_trade_staff_detail_permission.sql": "49f69c4b09e2b81603d12849e67a269047c310a54ade1b0bb8ae1c8999e485de"
   },
   "tables": [
     {

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 public class ServiceTradeOperationsController {
  private final ServiceTradeOperations operations;private final AccessGuard guard;
  public ServiceTradeOperationsController(ServiceTradeOperations operations,AccessGuard guard){this.operations=operations;this.guard=guard;}
+ @GetMapping("/admin/service-trade-orders/{id}")
+ Object adminTrade(@PathVariable String id,HttpServletRequest r){return Api.ok(operations.adminTrade(guard.actor(),id(id)),r);}
  @GetMapping("/consumer/service-trade-orders/{id}/credential")
  Object credential(@PathVariable String id,HttpServletRequest r,HttpServletResponse response){response.setHeader("Cache-Control","no-store");return Api.ok(operations.credential(guard.actor(),id(id)),r);}
  @GetMapping("/consumer/service-trade-orders/{id}/fulfillment")
