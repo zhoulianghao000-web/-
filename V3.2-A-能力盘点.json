@@ -1,0 +1,138 @@
+{
+  "stage": "V3.2-A-CAPABILITY-INVENTORY",
+  "status": "INVENTORY_REVIEWED_DESIGN_PENDING",
+  "reviewed_source_commit": "3e90a4f22a03918ad73c82e1fb8b78634ec98750",
+  "evidence_kind": "SOURCE_AND_EXISTING_DOCUMENT_REVIEW",
+  "new_runtime_routes": 0,
+  "new_migrations": 0,
+  "new_integration_http_responses": 0,
+  "supplier_protocol_confirmed": false,
+  "production_integration_verified": false,
+  "v32_a_complete": false,
+  "v32_development_complete": false,
+  "final_acceptance_executed": false,
+  "source_files": [
+    {
+      "path": "backend/src/main/java/cn/pawday/offer/OfferService.java",
+      "sha256": "225d56ef44d50de351215350cd2a3873355dbde8613ae3f8f7dd730f5fa66b43"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ordering/OrderService.java",
+      "sha256": "a8b90d283388fb02756034a4be2e2e3fb0bd5f2c2981abba0fb909090c896275"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ordering/FulfillmentService.java",
+      "sha256": "02681139e82c8a09fd421508f7de14458dc0366b8a368ed99479b4a088c676cc"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ordering/LogisticsProvider.java",
+      "sha256": "ec2c2b2fa1d72109c4060b8190bf3f9335932a0946d0d389b091ce02661a279a"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ordering/UnavailableLogisticsProvider.java",
+      "sha256": "57ec371b78844a2ea0cd7629d72753359490b9d64d07270e7d5197dbe6e1b9c2"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/OutboxRepository.java",
+      "sha256": "7ef63337d473484323aa84d6ef6de52ed83e3ae7bebb50eb1441862d6b2a5bf9"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/OutboxPublisher.java",
+      "sha256": "c93d422c7a7c8a19dc8c367fa52f4f2b128427e34748ac8dded8b90095f17b32"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/InboxConsumer.java",
+      "sha256": "dade093cfc1c77ad3013c3eca1b55d0bcd7c5e4e318010d4d57af786d76c2849"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/payment/PaymentService.java",
+      "sha256": "8d2dbe267fc53ea045bfb212f4e8555d51fe4147231ae488042573ada80f3ee9"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V008__offers_inventory_adjustments.sql",
+      "sha256": "794a99a8255711b9d21cebda32372f5efc15000f9674ebe145c27f7d7fb8ca0e"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V010__orders_inventory_reservations.sql",
+      "sha256": "36caa84f6d3097e79d172ffc7065ecadc168ef2442b349dc5fc157558d347b17"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V011__payment_attempts_and_confirmation.sql",
+      "sha256": "12f2d3c5e28231d903b32a2b0d0d549f238b4c404a980cbbb21925eb7f878c37"
+    }
+  ],
+  "gaps": [
+    {
+      "id": "actual_merchant_and_system",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "official_api_and_sandbox",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "credential_and_network_scope",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "warehouse_store_ownership",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "external_sku_mapping_and_units",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "inventory_authority_and_sales_watermark",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "paid_order_export_and_cancellation",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "shipment_event_identity_and_semantics",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "idempotency_query_and_unknown_recovery",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "callback_signature_and_replay_protection",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "data_minimization_and_retention",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "real_reconciliation_and_rollback",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    }
+  ]
+}
