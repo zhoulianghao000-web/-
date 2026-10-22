@@ -1,0 +1,3658 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Pawday V3.2 isolated ERP/WMS engineering design",
+    "version": "3.2.0-DRAFT"
+  },
+  "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+  "x-runtime-implemented": false,
+  "x-supplier-status": "PENDING_REAL_SYSTEM",
+  "servers": [
+    {
+      "url": "https://design.invalid/api/v1",
+      "description": "Reserved invalid domain; no deployed service."
+    }
+  ],
+  "paths": {
+    "/merchant/stores/{store_id}/integration-connections": {
+      "get": {
+        "operationId": "v32design_get__merchant_stores_store_id_integration_connections",
+        "summary": "Proposed synthetic ERP/WMS get /merchant/stores/{store_id}/integration-connections",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B1",
+        "x-proposed-permissions": [
+          "integration.read"
+        ],
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "store_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConnectionListEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "v32design_post__merchant_stores_store_id_integration_connections",
+        "summary": "Proposed synthetic ERP/WMS post /merchant/stores/{store_id}/integration-connections",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B1",
+        "x-proposed-permissions": [
+          "integration.manage"
+        ],
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "store_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-Reverify-Token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConnectionEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectionInput"
+              }
+            }
+          }
+        },
+        "x-reverify-action": "integration.manage"
+      }
+    },
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/state": {
+      "put": {
+        "operationId": "v32design_put__merchant_stores_store_id_integration_connections_connection_id_state",
+        "summary": "Proposed synthetic ERP/WMS put /merchant/stores/{store_id}/integration-connections/{connection_id}/state",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B1",
+        "x-proposed-permissions": [
+          "integration.manage"
+        ],
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "store_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "connection_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "header",
+            "name": "If-Match",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[0-9]{1,16}\"$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-Reverify-Token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConnectionEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectionStateInput"
+              }
+            }
+          }
+        },
+        "x-version-resource": "Connection",
+        "x-reverify-action": "integration.manage"
+      }
+    },
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings": {
+      "get": {
+        "operationId": "v32design_get__merchant_stores_store_id_integration_connections_connection_id_mappings",
+        "summary": "Proposed synthetic ERP/WMS get /merchant/stores/{store_id}/integration-connections/{connection_id}/mappings",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B1",
+        "x-proposed-permissions": [
+          "integration.read"
+        ],
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "store_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "connection_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MappingListEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "v32design_post__merchant_stores_store_id_integration_connections_connection_id_mappings",
+        "summary": "Proposed synthetic ERP/WMS post /merchant/stores/{store_id}/integration-connections/{connection_id}/mappings",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B1",
+        "x-proposed-permissions": [
+          "integration.mapping.write"
+        ],
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "store_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "connection_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "header",
+            "name": "If-Match",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[0-9]{1,16}\"$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-Reverify-Token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MappingEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MappingInput"
+              }
+            }
+          }
+        },
+        "x-version-resource": "Connection",
+        "x-reverify-action": "integration.mapping.write"
+      }
+    },
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings/{mapping_id}/state": {
+      "put": {
+        "operationId": "v32design_put__merchant_stores_store_id_integration_connections_connection_id_mappings_mapping_id_state",
+        "summary": "Proposed synthetic ERP/WMS put /merchant/stores/{store_id}/integration-connections/{connection_id}/mappings/{mapping_id}/state",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B1",
+        "x-proposed-permissions": [
+          "integration.mapping.write"
+        ],
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "store_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "connection_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "mapping_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "header",
+            "name": "If-Match",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[0-9]{1,16}\"$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-Reverify-Token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MappingEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MappingStateInput"
+              }
+            }
+          }
+        },
+        "x-version-resource": "Mapping",
+        "x-reverify-action": "integration.mapping.write"
+      }
+    },
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events": {
+      "get": {
+        "operationId": "v32design_get__merchant_stores_store_id_integration_connections_connection_id_inventory_events",
+        "summary": "Proposed synthetic ERP/WMS get /merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B1",
+        "x-proposed-permissions": [
+          "integration.read"
+        ],
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "store_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "connection_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventoryEventListEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events/{event_id}/previews": {
+      "post": {
+        "operationId": "v32design_post__merchant_stores_store_id_integration_connections_connection_id_inventory_events_event_id_previews",
+        "summary": "Proposed synthetic ERP/WMS post /merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events/{event_id}/previews",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B1",
+        "x-proposed-permissions": [
+          "integration.stock.assess"
+        ],
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "store_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "connection_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "event_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockPreviewEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Empty"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-previews/{preview_id}/apply": {
+      "post": {
+        "operationId": "v32design_post__merchant_stores_store_id_integration_connections_connection_id_inventory_previews_preview_id_apply",
+        "summary": "Proposed synthetic ERP/WMS post /merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-previews/{preview_id}/apply",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B1",
+        "x-proposed-permissions": [
+          "integration.stock.apply"
+        ],
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "store_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "connection_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "preview_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-Reverify-Token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockApplicationEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StockApplyInput"
+              }
+            }
+          }
+        },
+        "x-reverify-action": "integration.stock.apply"
+      }
+    },
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-applications": {
+      "get": {
+        "operationId": "v32design_get__merchant_stores_store_id_integration_connections_connection_id_inventory_applications",
+        "summary": "Proposed synthetic ERP/WMS get /merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-applications",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B1",
+        "x-proposed-permissions": [
+          "integration.read"
+        ],
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "store_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "connection_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockApplicationListEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/order-deliveries": {
+      "get": {
+        "operationId": "v32design_get__merchant_stores_store_id_integration_connections_connection_id_order_deliveries",
+        "summary": "Proposed synthetic ERP/WMS get /merchant/stores/{store_id}/integration-connections/{connection_id}/order-deliveries",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B2",
+        "x-proposed-permissions": [
+          "integration.read"
+        ],
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "store_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "connection_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeliveryListEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/order-deliveries/{delivery_id}/requery": {
+      "post": {
+        "operationId": "v32design_post__merchant_stores_store_id_integration_connections_connection_id_order_deliveries_delivery_id_requery",
+        "summary": "Proposed synthetic ERP/WMS post /merchant/stores/{store_id}/integration-connections/{connection_id}/order-deliveries/{delivery_id}/requery",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B2",
+        "x-proposed-permissions": [
+          "integration.delivery.requery"
+        ],
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "store_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "connection_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "delivery_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "header",
+            "name": "If-Match",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[0-9]{1,16}\"$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeliveryEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Empty"
+              }
+            }
+          }
+        },
+        "x-version-resource": "Delivery"
+      }
+    },
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/order-deliveries/{delivery_id}/retry": {
+      "post": {
+        "operationId": "v32design_post__merchant_stores_store_id_integration_connections_connection_id_order_deliveries_delivery_id_retry",
+        "summary": "Proposed synthetic ERP/WMS post /merchant/stores/{store_id}/integration-connections/{connection_id}/order-deliveries/{delivery_id}/retry",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B2",
+        "x-proposed-permissions": [
+          "integration.delivery.retry"
+        ],
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "store_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "connection_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "delivery_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "header",
+            "name": "If-Match",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[0-9]{1,16}\"$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-Reverify-Token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeliveryEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetryInput"
+              }
+            }
+          }
+        },
+        "x-version-resource": "Delivery",
+        "x-reverify-action": "integration.delivery.retry"
+      }
+    },
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/shipment-events": {
+      "get": {
+        "operationId": "v32design_get__merchant_stores_store_id_integration_connections_connection_id_shipment_events",
+        "summary": "Proposed synthetic ERP/WMS get /merchant/stores/{store_id}/integration-connections/{connection_id}/shipment-events",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B3",
+        "x-proposed-permissions": [
+          "integration.read"
+        ],
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "store_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "connection_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShipmentEventListEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/shipment-events/{event_id}/apply": {
+      "post": {
+        "operationId": "v32design_post__merchant_stores_store_id_integration_connections_connection_id_shipment_events_event_id_apply",
+        "summary": "Proposed synthetic ERP/WMS post /merchant/stores/{store_id}/integration-connections/{connection_id}/shipment-events/{event_id}/apply",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B3",
+        "x-proposed-permissions": [
+          "integration.shipment.apply",
+          "order.ship"
+        ],
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "store_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "connection_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "event_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "header",
+            "name": "If-Match",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[0-9]{1,16}\"$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-Reverify-Token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShipmentApplicationEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Empty"
+              }
+            }
+          }
+        },
+        "x-version-resource": "ShipmentEvent",
+        "x-reverify-action": "integration.shipment.apply"
+      }
+    },
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/reconciliation": {
+      "get": {
+        "operationId": "v32design_get__merchant_stores_store_id_integration_connections_connection_id_reconciliation",
+        "summary": "Proposed synthetic ERP/WMS get /merchant/stores/{store_id}/integration-connections/{connection_id}/reconciliation",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B3",
+        "x-proposed-permissions": [
+          "integration.read"
+        ],
+        "security": [
+          {
+            "merchantBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "store_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "connection_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReconciliationEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/merchants/{merchant_id}/integration-connections": {
+      "get": {
+        "operationId": "v32design_get__admin_merchants_merchant_id_integration_connections",
+        "summary": "Proposed synthetic ERP/WMS get /admin/merchants/{merchant_id}/integration-connections",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B3",
+        "x-proposed-permissions": [
+          "integration.admin.read"
+        ],
+        "security": [
+          {
+            "adminBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "merchant_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConnectionListEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/integration-responsibilities/{responsibility_id}/review": {
+      "post": {
+        "operationId": "v32design_post__admin_integration_responsibilities_responsibility_id_review",
+        "summary": "Proposed synthetic ERP/WMS post /admin/integration-responsibilities/{responsibility_id}/review",
+        "x-design-status": "DRAFT_NOT_IMPLEMENTED",
+        "x-runtime-implemented": false,
+        "x-proposed-phase": "V3.2-B3",
+        "x-proposed-permissions": [
+          "integration.responsibility.review"
+        ],
+        "security": [
+          {
+            "adminBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "responsibility_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 128
+            }
+          },
+          {
+            "in": "header",
+            "name": "If-Match",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^\"[0-9]{1,16}\"$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-Reverify-Token",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Proposed synthetic result, not deployed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsibilityEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Proposed failure; actual coverage required in implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResponsibilityInput"
+              }
+            }
+          }
+        },
+        "x-version-resource": "Responsibility",
+        "x-reverify-action": "integration.responsibility.review"
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "merchantBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "adminBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "Evidence": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "const": "TEST_SCENARIO"
+          },
+          "reference": {
+            "type": "string",
+            "pattern": "^TEST_ONLY_[A-Za-z0-9_.:-]{1,100}$"
+          }
+        },
+        "required": [
+          "kind",
+          "reference"
+        ]
+      },
+      "Empty": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      },
+      "ConnectionInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "type": "string",
+            "pattern": "^TEST_ONLY_[A-Za-z0-9_.:-]{1,100}$"
+          },
+          "mode": {
+            "const": "SIMULATED_TEST"
+          },
+          "inventory_basis": {
+            "const": "DEDICATED_REMAINING_AFTER_WATERMARK"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "minItems": 1,
+            "maxItems": 10
+          }
+        },
+        "required": [
+          "label",
+          "mode",
+          "inventory_basis",
+          "evidence_refs"
+        ]
+      },
+      "ConnectionStateInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "state": {
+            "enum": [
+              "ACTIVE",
+              "PAUSED"
+            ]
+          },
+          "reason_code": {
+            "enum": [
+              "TEST_SCENARIO_START",
+              "OPERATOR_PAUSE"
+            ]
+          }
+        },
+        "required": [
+          "state",
+          "reason_code"
+        ]
+      },
+      "Connection": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "merchant_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "store_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "label": {
+            "type": "string",
+            "pattern": "^TEST_ONLY_[A-Za-z0-9_.:-]{1,100}$"
+          },
+          "mode": {
+            "const": "SIMULATED_TEST"
+          },
+          "inventory_basis": {
+            "const": "DEDICATED_REMAINING_AFTER_WATERMARK"
+          },
+          "state": {
+            "enum": [
+              "PAUSED",
+              "ACTIVE"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "simulated": {
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "merchant_id",
+          "store_id",
+          "label",
+          "mode",
+          "inventory_basis",
+          "state",
+          "version",
+          "simulated"
+        ]
+      },
+      "MappingInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "offer_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "external_sku": {
+            "type": "string",
+            "pattern": "^TEST_ONLY_[A-Za-z0-9_.:-]{1,100}$"
+          },
+          "external_warehouse": {
+            "type": "string",
+            "pattern": "^TEST_ONLY_[A-Za-z0-9_.:-]{1,100}$"
+          },
+          "unit": {
+            "const": "PIECE"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "minItems": 1,
+            "maxItems": 10
+          }
+        },
+        "required": [
+          "offer_id",
+          "external_sku",
+          "external_warehouse",
+          "unit",
+          "evidence_refs"
+        ]
+      },
+      "MappingStateInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "state": {
+            "const": "RETIRED"
+          },
+          "reason_code": {
+            "const": "TEST_SCENARIO_RETIRED"
+          }
+        },
+        "required": [
+          "state",
+          "reason_code"
+        ]
+      },
+      "Mapping": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "connection_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "offer_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "external_sku": {
+            "type": "string",
+            "pattern": "^TEST_ONLY_[A-Za-z0-9_.:-]{1,100}$"
+          },
+          "external_warehouse": {
+            "type": "string",
+            "pattern": "^TEST_ONLY_[A-Za-z0-9_.:-]{1,100}$"
+          },
+          "unit": {
+            "const": "PIECE"
+          },
+          "state": {
+            "enum": [
+              "ACTIVE",
+              "RETIRED"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "simulated": {
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "connection_id",
+          "offer_id",
+          "external_sku",
+          "external_warehouse",
+          "unit",
+          "state",
+          "version",
+          "simulated"
+        ]
+      },
+      "InventoryEvent": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "connection_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mapping_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mapping_version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "external_event_id": {
+            "type": "string",
+            "pattern": "^TEST_ONLY_[A-Za-z0-9_.:-]{1,100}$"
+          },
+          "external_version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000000
+          },
+          "external_remaining_qty": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "acknowledged_local_sequence": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "acknowledgement_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "payload_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "simulated": {
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "connection_id",
+          "mapping_id",
+          "mapping_version",
+          "external_event_id",
+          "external_version",
+          "external_remaining_qty",
+          "acknowledged_local_sequence",
+          "acknowledgement_id",
+          "payload_sha256",
+          "observed_at",
+          "simulated"
+        ]
+      },
+      "StockPreview": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "event_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mapping_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "inventory_version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "local_sequence": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "on_hand_qty": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "reserved_qty": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "target_on_hand_qty": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "delta_qty": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": -1000000000,
+                "maximum": 1000000000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "snapshot_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "eligible": {
+            "type": "boolean"
+          },
+          "blocked_reasons": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "simulated": {
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "event_id",
+          "mapping_id",
+          "inventory_version",
+          "local_sequence",
+          "on_hand_qty",
+          "reserved_qty",
+          "target_on_hand_qty",
+          "delta_qty",
+          "snapshot_sha256",
+          "eligible",
+          "blocked_reasons",
+          "created_at",
+          "expires_at",
+          "simulated"
+        ]
+      },
+      "StockApplyInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "accepted_snapshot_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "accepted_snapshot_sha256"
+        ]
+      },
+      "StockApplication": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "preview_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "event_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "offer_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "before_on_hand_qty": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "resulting_on_hand_qty": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "reserved_qty": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "resulting_inventory_version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "simulated": {
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "preview_id",
+          "event_id",
+          "offer_id",
+          "before_on_hand_qty",
+          "resulting_on_hand_qty",
+          "reserved_qty",
+          "resulting_inventory_version",
+          "simulated"
+        ]
+      },
+      "Delivery": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "connection_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "suborder_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "business_key": {
+            "type": "string",
+            "pattern": "^TEST_ONLY_[A-Za-z0-9_.:-]{1,100}$"
+          },
+          "payload_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "state": {
+            "enum": [
+              "READY",
+              "PROCESSING",
+              "UNKNOWN",
+              "ACCEPTED",
+              "REJECTED",
+              "NEEDS_REVIEW"
+            ]
+          },
+          "attempt_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8
+          },
+          "responsibility_open": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "simulated": {
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "connection_id",
+          "suborder_id",
+          "business_key",
+          "payload_sha256",
+          "state",
+          "attempt_count",
+          "responsibility_open",
+          "version",
+          "simulated"
+        ]
+      },
+      "RetryInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "reason_code": {
+            "const": "TEST_SCENARIO_RETRY"
+          }
+        },
+        "required": [
+          "reason_code"
+        ]
+      },
+      "ShipmentLine": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "order_item_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000
+          }
+        },
+        "required": [
+          "order_item_id",
+          "quantity"
+        ]
+      },
+      "ShipmentEvent": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "connection_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "delivery_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "external_event_id": {
+            "type": "string",
+            "pattern": "^TEST_ONLY_[A-Za-z0-9_.:-]{1,100}$"
+          },
+          "carrier_code": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]{2,24}$"
+          },
+          "tracking_no": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9-]{6,80}$"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShipmentLine"
+            },
+            "minItems": 1,
+            "maxItems": 100
+          },
+          "payload_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "state": {
+            "enum": [
+              "RECEIVED",
+              "APPLIED",
+              "CONFLICT",
+              "NEEDS_REVIEW"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "simulated": {
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "connection_id",
+          "delivery_id",
+          "external_event_id",
+          "carrier_code",
+          "tracking_no",
+          "items",
+          "payload_sha256",
+          "state",
+          "version",
+          "simulated"
+        ]
+      },
+      "ShipmentApplication": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "event_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "shipment_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "suborder_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "simulated": {
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "event_id",
+          "shipment_id",
+          "suborder_id",
+          "version",
+          "simulated"
+        ]
+      },
+      "Reconciliation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "connection_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mapping_conflicts": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "stock_conflicts": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "unknown_deliveries": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "shipment_conflicts": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "as_of": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "simulated": {
+            "const": true
+          }
+        },
+        "required": [
+          "connection_id",
+          "mapping_conflicts",
+          "stock_conflicts",
+          "unknown_deliveries",
+          "shipment_conflicts",
+          "as_of",
+          "simulated"
+        ]
+      },
+      "ResponsibilityInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "decision": {
+            "const": "ACKNOWLEDGE_FOR_MANUAL_REVIEW"
+          },
+          "reason_code": {
+            "const": "TEST_SCENARIO_REVIEWED"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "minItems": 1,
+            "maxItems": 10
+          }
+        },
+        "required": [
+          "decision",
+          "reason_code",
+          "evidence_refs"
+        ]
+      },
+      "Responsibility": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "connection_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "state": {
+            "const": "NEEDS_REVIEW"
+          },
+          "responsibility_open": {
+            "const": true
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "simulated": {
+            "const": true
+          }
+        },
+        "required": [
+          "id",
+          "connection_id",
+          "state",
+          "responsibility_open",
+          "version",
+          "simulated"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "request_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "code",
+          "request_id"
+        ]
+      },
+      "Page": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "has_more": {
+            "type": "boolean"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "has_more",
+          "next_cursor"
+        ]
+      },
+      "ConnectionEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Connection"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "ConnectionListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Connection"
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "MappingEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Mapping"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "MappingListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Mapping"
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "InventoryEventEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/InventoryEvent"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "InventoryEventListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InventoryEvent"
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "StockPreviewEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/StockPreview"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "StockPreviewListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StockPreview"
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "StockApplicationEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/StockApplication"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "StockApplicationListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StockApplication"
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "DeliveryEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Delivery"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "DeliveryListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Delivery"
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "ShipmentEventEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ShipmentEvent"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "ShipmentEventListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShipmentEvent"
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "ShipmentApplicationEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ShipmentApplication"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "ShipmentApplicationListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShipmentApplication"
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "ReconciliationEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Reconciliation"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "ReconciliationListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Reconciliation"
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "ResponsibilityEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Responsibility"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "ResponsibilityListEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Responsibility"
+            },
+            "minItems": 0,
+            "maxItems": 100
+          },
+          "page": {
+            "$ref": "#/components/schemas/Page"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      }
+    }
+  }
+}

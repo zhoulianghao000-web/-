@@ -1,0 +1,78 @@
+{
+  "status": "PENDING_REAL_SYSTEM",
+  "production_ready": false,
+  "gaps": [
+    {
+      "id": "actual_merchant_and_system",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "official_api_and_sandbox",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "credential_and_network_scope",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "warehouse_store_ownership",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "external_sku_mapping_and_units",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "inventory_authority_and_sales_watermark",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "paid_order_export_and_cancellation",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "shipment_event_identity_and_semantics",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "idempotency_query_and_unknown_recovery",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "callback_signature_and_replay_protection",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "data_minimization_and_retention",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    },
+    {
+      "id": "real_reconciliation_and_rollback",
+      "status": "PENDING",
+      "confirmed_value": null,
+      "evidence_ref": null
+    }
+  ]
+}

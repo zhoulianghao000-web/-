@@ -293,6 +293,17 @@ jobs:
           node-version: "22"
       - name: Compile all contract validators before integration
         run: python -m compileall -q openapi
+      - name: V3.2 isolated ERP WMS design gate (no runtime or HTTP claims)
+        run: |
+          python -m pip install -r openapi/requirements-validation-lock.txt
+          python scripts/compose-v32-design.py --check
+          python -m unittest discover -s scripts/tests -p test_erp_wms_design.py -v
+          python openapi/validate_v32_design.py --report backend/target/v32-design-evidence/report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v32-design-evidence
+          path: backend/target/v32-design-evidence/
       - name: Validate and bundle contracts
         run: |
           python -m pip install -r openapi/requirements-validation-lock.txt

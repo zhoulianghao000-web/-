@@ -1,0 +1,2465 @@
+{
+  "evidence_kind": "DESIGN_ONLY_SYNTHETIC",
+  "actual_http_responses": 0,
+  "runtime_verified": false,
+  "cases": [
+    {
+      "name": "TEST_ONLY_STOCK_SALE_AND_RETURN_WATERMARK",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": {
+        "target_on_hand_qty": 16,
+        "delta_qty": 0,
+        "available_qty": 11
+      },
+      "expected_error": null
+    },
+    {
+      "name": "TEST_ONLY_STOCK_EXTERNAL_REPLENISHMENT",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 22,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": {
+        "target_on_hand_qty": 21,
+        "delta_qty": 5,
+        "available_qty": 16
+      },
+      "expected_error": null
+    },
+    {
+      "name": "TEST_ONLY_STOCK_ALL_LOCAL_MOVEMENTS_ACKED",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 3,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "0bfdef96b62e046164692d7b6c5b05b65de7a9745b9f027eae61cfc17493bbad",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": {
+        "target_on_hand_qty": 17,
+        "delta_qty": 1,
+        "available_qty": 12
+      },
+      "expected_error": null
+    },
+    {
+      "name": "TEST_ONLY_STOCK_WRONG_SCOPE",
+      "model": "stock",
+      "input": {
+        "scope_matches": false,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "SCOPE_MISMATCH"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_PAUSED",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": false,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "INTEGRATION_INACTIVE"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_RETIRED_MAPPING",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": false,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "INTEGRATION_INACTIVE"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_SHARED_STOCK",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "PHYSICAL_WAREHOUSE_TOTAL",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "STOCK_BASIS_UNSUPPORTED"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_UNIT_CONVERSION",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "BOX",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "STOCK_BASIS_UNSUPPORTED"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_OLD_MAPPING",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 1,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "MAPPING_STALE"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_CONCURRENT_RESERVATION",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 9,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "INVENTORY_STALE"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_OLD_EXTERNAL_EVENT",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 1,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "EXTERNAL_VERSION_STALE"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_BOOLEAN_QUANTITY",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": true,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "QUANTITY_INVALID"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_NEGATIVE_QUANTITY",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": -1,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "QUANTITY_INVALID"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_UNPROVEN_WATERMARK",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": false,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "WATERMARK_UNPROVEN"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_WRONG_PREFIX",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "WATERMARK_UNPROVEN"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_FUTURE_WATERMARK",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 4,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "WATERMARK_INVALID"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_REGRESSED_WATERMARK",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 2,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "WATERMARK_INVALID"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_NEW_LOCAL_SALE",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 2,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "MOVEMENT_CHAIN_CHANGED"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_BELOW_RESERVATIONS",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 2,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "RESERVED_STOCK_CONFLICT"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_NEGATIVE_TARGET",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 0,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "PROJECTED_STOCK_OUT_OF_RANGE"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_OVERFLOW_TARGET",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 1000000000,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_ADJUST_1",
+            "delta_qty": 1
+          }
+        ],
+        "expected_local_sequence": 1,
+        "acknowledged_local_sequence": 0,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "PROJECTED_STOCK_OUT_OF_RANGE"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_EXPIRED_AT_BOUNDARY",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1300,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "PREVIEW_EXPIRED"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_NON_EXACT_FIVE_MINUTES",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1301,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "PREVIEW_EXPIRED"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_FOREIGN_PREVIEW",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": false,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "PREVIEW_SNAPSHOT_CHANGED"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_REUSED_PREVIEW",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": true,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "PREVIEW_SNAPSHOT_CHANGED"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_WRONG_ACCEPTED_HASH",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 17,
+        "on_hand_qty": 16,
+        "reserved_qty": 5,
+        "movements": [
+          {
+            "sequence": 1,
+            "kind": "SALE",
+            "source_id": "TEST_ONLY_SALE_1",
+            "delta_qty": -3
+          },
+          {
+            "sequence": 2,
+            "kind": "RESTOCK",
+            "source_id": "TEST_ONLY_RETURN_1",
+            "delta_qty": 1
+          },
+          {
+            "sequence": 3,
+            "kind": "ADJUSTMENT",
+            "source_id": "TEST_ONLY_DAMAGE_1",
+            "delta_qty": -2
+          }
+        ],
+        "expected_local_sequence": 3,
+        "acknowledged_local_sequence": 1,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "5da108d65d67c9762cb4a3ebce71ffb170796d2a3c3ad661c9063d170986977c",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": null,
+      "expected_error": "PREVIEW_SNAPSHOT_CHANGED"
+    },
+    {
+      "name": "TEST_ONLY_STOCK_EMPTY_MAPPING_NO_INVENTORY_FACT",
+      "model": "stock",
+      "input": {
+        "scope_matches": true,
+        "connection_active": true,
+        "mapping_active": true,
+        "basis": "DEDICATED_REMAINING_AFTER_WATERMARK",
+        "unit": "PIECE",
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "inventory_version": 8,
+        "expected_inventory_version": 8,
+        "external_version": 2,
+        "applied_external_version": 1,
+        "external_remaining_qty": 0,
+        "on_hand_qty": 0,
+        "reserved_qty": 0,
+        "movements": [],
+        "expected_local_sequence": 0,
+        "acknowledged_local_sequence": 0,
+        "previous_acknowledged_sequence": 0,
+        "acknowledgement_proven": true,
+        "acknowledged_prefix_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "preview_created_epoch": 1000,
+        "preview_expires_epoch": 1300,
+        "as_of_epoch": 1001,
+        "preview_owned": true,
+        "preview_used": false,
+        "accepted_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current_snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": {
+        "target_on_hand_qty": 0,
+        "delta_qty": 0,
+        "available_qty": 0
+      },
+      "expected_error": null
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_ACCEPTED",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "external_hold_installed": true,
+        "prior_state": "PROCESSING",
+        "attempt_count": 1,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_NEW_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1060,
+        "as_of_epoch": 1001,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ORDER_1",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "outcome": "ACCEPTED",
+        "receipt_proven": true
+      },
+      "expected": {
+        "state": "ACCEPTED",
+        "responsibility_open": false,
+        "business_key": "TEST_ONLY_ORDER_1"
+      },
+      "expected_error": null
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_REJECTED",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "external_hold_installed": true,
+        "prior_state": "PROCESSING",
+        "attempt_count": 1,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_NEW_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1060,
+        "as_of_epoch": 1001,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ORDER_1",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "outcome": "REJECTED",
+        "receipt_proven": true
+      },
+      "expected": {
+        "state": "REJECTED",
+        "responsibility_open": false,
+        "business_key": "TEST_ONLY_ORDER_1"
+      },
+      "expected_error": null
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_UNKNOWN",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "external_hold_installed": true,
+        "prior_state": "PROCESSING",
+        "attempt_count": 1,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_NEW_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1060,
+        "as_of_epoch": 1001,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ORDER_1",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "outcome": "UNKNOWN",
+        "receipt_proven": true
+      },
+      "expected": {
+        "state": "UNKNOWN",
+        "responsibility_open": true,
+        "business_key": "TEST_ONLY_ORDER_1"
+      },
+      "expected_error": null
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_NOT_FOUND",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "external_hold_installed": true,
+        "prior_state": "PROCESSING",
+        "attempt_count": 1,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_NEW_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1060,
+        "as_of_epoch": 1001,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ORDER_1",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "outcome": "NOT_FOUND",
+        "receipt_proven": true
+      },
+      "expected": {
+        "state": "READY",
+        "responsibility_open": true,
+        "business_key": "TEST_ONLY_ORDER_1"
+      },
+      "expected_error": null
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_EXHAUSTED_RETAINS_RESPONSIBILITY",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "external_hold_installed": true,
+        "prior_state": "PROCESSING",
+        "attempt_count": 8,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_NEW_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1060,
+        "as_of_epoch": 1001,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ORDER_1",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "outcome": "UNKNOWN",
+        "receipt_proven": true
+      },
+      "expected": {
+        "state": "NEEDS_REVIEW",
+        "responsibility_open": true,
+        "business_key": "TEST_ONLY_ORDER_1"
+      },
+      "expected_error": null
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_OLD_LEASE_TOKEN",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "external_hold_installed": true,
+        "prior_state": "PROCESSING",
+        "attempt_count": 1,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_OLD_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1060,
+        "as_of_epoch": 1001,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ORDER_1",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "outcome": "ACCEPTED",
+        "receipt_proven": true
+      },
+      "expected": null,
+      "expected_error": "LEASE_LOST"
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_EXPIRED_LEASE",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "external_hold_installed": true,
+        "prior_state": "PROCESSING",
+        "attempt_count": 1,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_NEW_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1060,
+        "as_of_epoch": 1060,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ORDER_1",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "outcome": "ACCEPTED",
+        "receipt_proven": true
+      },
+      "expected": null,
+      "expected_error": "LEASE_LOST"
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_WRONG_LEASE_LENGTH",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "external_hold_installed": true,
+        "prior_state": "PROCESSING",
+        "attempt_count": 1,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_NEW_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1061,
+        "as_of_epoch": 1001,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ORDER_1",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "outcome": "ACCEPTED",
+        "receipt_proven": true
+      },
+      "expected": null,
+      "expected_error": "LEASE_DURATION_INVALID"
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_REVOKED_PERMISSION",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": false,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "external_hold_installed": true,
+        "prior_state": "PROCESSING",
+        "attempt_count": 1,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_NEW_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1060,
+        "as_of_epoch": 1001,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ORDER_1",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "outcome": "ACCEPTED",
+        "receipt_proven": true
+      },
+      "expected": null,
+      "expected_error": "DELIVERY_SCOPE_REVOKED"
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_MEMBERSHIP",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "kind": "MEMBERSHIP",
+        "paid": true,
+        "cancelled": false,
+        "external_hold_installed": true,
+        "prior_state": "PROCESSING",
+        "attempt_count": 1,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_NEW_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1060,
+        "as_of_epoch": 1001,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ORDER_1",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "outcome": "ACCEPTED",
+        "receipt_proven": true
+      },
+      "expected": null,
+      "expected_error": "GOODS_ONLY"
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_SERVICE_TRADE",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "kind": "SERVICE_TRADE",
+        "paid": true,
+        "cancelled": false,
+        "external_hold_installed": true,
+        "prior_state": "PROCESSING",
+        "attempt_count": 1,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_NEW_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1060,
+        "as_of_epoch": 1001,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ORDER_1",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "outcome": "ACCEPTED",
+        "receipt_proven": true
+      },
+      "expected": null,
+      "expected_error": "GOODS_ONLY"
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_UNPAID",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "kind": "GOODS",
+        "paid": false,
+        "cancelled": false,
+        "external_hold_installed": true,
+        "prior_state": "PROCESSING",
+        "attempt_count": 1,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_NEW_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1060,
+        "as_of_epoch": 1001,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ORDER_1",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "outcome": "ACCEPTED",
+        "receipt_proven": true
+      },
+      "expected": null,
+      "expected_error": "LOCAL_ORDER_NOT_EXPORTABLE"
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_CANCELLED",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": true,
+        "external_hold_installed": true,
+        "prior_state": "PROCESSING",
+        "attempt_count": 1,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_NEW_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1060,
+        "as_of_epoch": 1001,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ORDER_1",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "outcome": "ACCEPTED",
+        "receipt_proven": true
+      },
+      "expected": null,
+      "expected_error": "LOCAL_ORDER_NOT_EXPORTABLE"
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_NO_LOCAL_FENCE",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "external_hold_installed": false,
+        "prior_state": "PROCESSING",
+        "attempt_count": 1,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_NEW_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1060,
+        "as_of_epoch": 1001,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ORDER_1",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "outcome": "ACCEPTED",
+        "receipt_proven": true
+      },
+      "expected": null,
+      "expected_error": "LOCAL_ORDER_NOT_EXPORTABLE"
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_WRONG_ORDER_RECEIPT",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "external_hold_installed": true,
+        "prior_state": "PROCESSING",
+        "attempt_count": 1,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_NEW_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1060,
+        "as_of_epoch": 1001,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ANOTHER_ORDER",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "outcome": "ACCEPTED",
+        "receipt_proven": true
+      },
+      "expected": null,
+      "expected_error": "EXTERNAL_RECEIPT_MISMATCH"
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_WRONG_PAYLOAD_RECEIPT",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "external_hold_installed": true,
+        "prior_state": "PROCESSING",
+        "attempt_count": 1,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_NEW_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1060,
+        "as_of_epoch": 1001,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ORDER_1",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "outcome": "ACCEPTED",
+        "receipt_proven": true
+      },
+      "expected": null,
+      "expected_error": "EXTERNAL_RECEIPT_MISMATCH"
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_UNPROVEN_ACCEPTANCE",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "external_hold_installed": true,
+        "prior_state": "PROCESSING",
+        "attempt_count": 1,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_NEW_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1060,
+        "as_of_epoch": 1001,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ORDER_1",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "outcome": "ACCEPTED",
+        "receipt_proven": false
+      },
+      "expected": null,
+      "expected_error": "EXTERNAL_RECEIPT_UNPROVEN"
+    },
+    {
+      "name": "TEST_ONLY_DELIVERY_NINTH_ATTEMPT",
+      "model": "delivery",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "external_hold_installed": true,
+        "prior_state": "PROCESSING",
+        "attempt_count": 9,
+        "lease_token": "TEST_ONLY_NEW_LEASE",
+        "submitted_token": "TEST_ONLY_NEW_LEASE",
+        "lease_created_epoch": 1000,
+        "lease_expires_epoch": 1060,
+        "as_of_epoch": 1001,
+        "business_key": "TEST_ONLY_ORDER_1",
+        "reply_business_key": "TEST_ONLY_ORDER_1",
+        "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "outcome": "ACCEPTED",
+        "receipt_proven": true
+      },
+      "expected": null,
+      "expected_error": "DELIVERY_STATE_INVALID"
+    },
+    {
+      "name": "TEST_ONLY_CANCEL_BEFORE_EXTERNAL_CLAIM",
+      "model": "cancel",
+      "input": {
+        "kind": "GOODS",
+        "paid": true,
+        "already_shipped": false,
+        "ever_attempted": false,
+        "external_hold_installed": false,
+        "external_state": "READY",
+        "rejection_proven_no_external_order": false
+      },
+      "expected": "LOCAL_RULES_MAY_CONTINUE",
+      "expected_error": null
+    },
+    {
+      "name": "TEST_ONLY_CANCEL_PROVEN_REJECTION",
+      "model": "cancel",
+      "input": {
+        "kind": "GOODS",
+        "paid": true,
+        "already_shipped": false,
+        "ever_attempted": true,
+        "external_hold_installed": true,
+        "external_state": "REJECTED",
+        "rejection_proven_no_external_order": true
+      },
+      "expected": "LOCAL_RULES_MAY_CONTINUE",
+      "expected_error": null
+    },
+    {
+      "name": "TEST_ONLY_CANCEL_UNKNOWN_MUST_NOT_REFUND",
+      "model": "cancel",
+      "input": {
+        "kind": "GOODS",
+        "paid": true,
+        "already_shipped": false,
+        "ever_attempted": true,
+        "external_hold_installed": true,
+        "external_state": "UNKNOWN",
+        "rejection_proven_no_external_order": false
+      },
+      "expected": null,
+      "expected_error": "EXTERNAL_FULFILLMENT_REVIEW_REQUIRED"
+    },
+    {
+      "name": "TEST_ONLY_CANCEL_ACCEPTED_MUST_NOT_REFUND",
+      "model": "cancel",
+      "input": {
+        "kind": "GOODS",
+        "paid": true,
+        "already_shipped": false,
+        "ever_attempted": true,
+        "external_hold_installed": true,
+        "external_state": "ACCEPTED",
+        "rejection_proven_no_external_order": false
+      },
+      "expected": null,
+      "expected_error": "EXTERNAL_FULFILLMENT_REVIEW_REQUIRED"
+    },
+    {
+      "name": "TEST_ONLY_SHIP_PARTIAL_NO_RECEIPT_OR_MONEY",
+      "model": "shipment",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "connection_active": true,
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "delivery_accepted": true,
+        "suborder_version": 4,
+        "expected_suborder_version": 4,
+        "tracking_already_used": false,
+        "items": [
+          {
+            "order_item_id": "TEST_ONLY_LINE_1",
+            "quantity": 2
+          }
+        ],
+        "remaining": {
+          "TEST_ONLY_LINE_1": 3
+        },
+        "native_fulfillment_checks_passed": true
+      },
+      "expected": {
+        "shipment_created": true,
+        "consumer_receipt_confirmed": false,
+        "money_changed": false
+      },
+      "expected_error": null
+    },
+    {
+      "name": "TEST_ONLY_SHIP_WRONG_SCOPE",
+      "model": "shipment",
+      "input": {
+        "scope_matches": false,
+        "actor_authorized": true,
+        "connection_active": true,
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "delivery_accepted": true,
+        "suborder_version": 4,
+        "expected_suborder_version": 4,
+        "tracking_already_used": false,
+        "items": [
+          {
+            "order_item_id": "TEST_ONLY_LINE_1",
+            "quantity": 2
+          }
+        ],
+        "remaining": {
+          "TEST_ONLY_LINE_1": 3
+        },
+        "native_fulfillment_checks_passed": true
+      },
+      "expected": null,
+      "expected_error": "SHIPMENT_SCOPE_REVOKED"
+    },
+    {
+      "name": "TEST_ONLY_SHIP_REVOKED_PERMISSION",
+      "model": "shipment",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": false,
+        "connection_active": true,
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "delivery_accepted": true,
+        "suborder_version": 4,
+        "expected_suborder_version": 4,
+        "tracking_already_used": false,
+        "items": [
+          {
+            "order_item_id": "TEST_ONLY_LINE_1",
+            "quantity": 2
+          }
+        ],
+        "remaining": {
+          "TEST_ONLY_LINE_1": 3
+        },
+        "native_fulfillment_checks_passed": true
+      },
+      "expected": null,
+      "expected_error": "SHIPMENT_SCOPE_REVOKED"
+    },
+    {
+      "name": "TEST_ONLY_SHIP_OLD_MAPPING",
+      "model": "shipment",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "connection_active": true,
+        "mapping_version": 2,
+        "event_mapping_version": 1,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "delivery_accepted": true,
+        "suborder_version": 4,
+        "expected_suborder_version": 4,
+        "tracking_already_used": false,
+        "items": [
+          {
+            "order_item_id": "TEST_ONLY_LINE_1",
+            "quantity": 2
+          }
+        ],
+        "remaining": {
+          "TEST_ONLY_LINE_1": 3
+        },
+        "native_fulfillment_checks_passed": true
+      },
+      "expected": null,
+      "expected_error": "SHIPMENT_MAPPING_STALE"
+    },
+    {
+      "name": "TEST_ONLY_SHIP_PAUSED",
+      "model": "shipment",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "connection_active": false,
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "delivery_accepted": true,
+        "suborder_version": 4,
+        "expected_suborder_version": 4,
+        "tracking_already_used": false,
+        "items": [
+          {
+            "order_item_id": "TEST_ONLY_LINE_1",
+            "quantity": 2
+          }
+        ],
+        "remaining": {
+          "TEST_ONLY_LINE_1": 3
+        },
+        "native_fulfillment_checks_passed": true
+      },
+      "expected": null,
+      "expected_error": "SHIPMENT_MAPPING_STALE"
+    },
+    {
+      "name": "TEST_ONLY_SHIP_UNPAID",
+      "model": "shipment",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "connection_active": true,
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "kind": "GOODS",
+        "paid": false,
+        "cancelled": false,
+        "delivery_accepted": true,
+        "suborder_version": 4,
+        "expected_suborder_version": 4,
+        "tracking_already_used": false,
+        "items": [
+          {
+            "order_item_id": "TEST_ONLY_LINE_1",
+            "quantity": 2
+          }
+        ],
+        "remaining": {
+          "TEST_ONLY_LINE_1": 3
+        },
+        "native_fulfillment_checks_passed": true
+      },
+      "expected": null,
+      "expected_error": "SUBORDER_NOT_SHIPPABLE"
+    },
+    {
+      "name": "TEST_ONLY_SHIP_CANCELLED",
+      "model": "shipment",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "connection_active": true,
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": true,
+        "delivery_accepted": true,
+        "suborder_version": 4,
+        "expected_suborder_version": 4,
+        "tracking_already_used": false,
+        "items": [
+          {
+            "order_item_id": "TEST_ONLY_LINE_1",
+            "quantity": 2
+          }
+        ],
+        "remaining": {
+          "TEST_ONLY_LINE_1": 3
+        },
+        "native_fulfillment_checks_passed": true
+      },
+      "expected": null,
+      "expected_error": "SUBORDER_NOT_SHIPPABLE"
+    },
+    {
+      "name": "TEST_ONLY_SHIP_UNKNOWN_EXPORT",
+      "model": "shipment",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "connection_active": true,
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "delivery_accepted": false,
+        "suborder_version": 4,
+        "expected_suborder_version": 4,
+        "tracking_already_used": false,
+        "items": [
+          {
+            "order_item_id": "TEST_ONLY_LINE_1",
+            "quantity": 2
+          }
+        ],
+        "remaining": {
+          "TEST_ONLY_LINE_1": 3
+        },
+        "native_fulfillment_checks_passed": true
+      },
+      "expected": null,
+      "expected_error": "SUBORDER_NOT_SHIPPABLE"
+    },
+    {
+      "name": "TEST_ONLY_SHIP_CONCURRENT_NATIVE_SHIPMENT",
+      "model": "shipment",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "connection_active": true,
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "delivery_accepted": true,
+        "suborder_version": 5,
+        "expected_suborder_version": 4,
+        "tracking_already_used": false,
+        "items": [
+          {
+            "order_item_id": "TEST_ONLY_LINE_1",
+            "quantity": 2
+          }
+        ],
+        "remaining": {
+          "TEST_ONLY_LINE_1": 3
+        },
+        "native_fulfillment_checks_passed": true
+      },
+      "expected": null,
+      "expected_error": "SUBORDER_STALE"
+    },
+    {
+      "name": "TEST_ONLY_SHIP_DUPLICATE_TRACKING",
+      "model": "shipment",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "connection_active": true,
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "delivery_accepted": true,
+        "suborder_version": 4,
+        "expected_suborder_version": 4,
+        "tracking_already_used": true,
+        "items": [
+          {
+            "order_item_id": "TEST_ONLY_LINE_1",
+            "quantity": 2
+          }
+        ],
+        "remaining": {
+          "TEST_ONLY_LINE_1": 3
+        },
+        "native_fulfillment_checks_passed": true
+      },
+      "expected": null,
+      "expected_error": "TRACKING_NUMBER_IN_USE"
+    },
+    {
+      "name": "TEST_ONLY_SHIP_EMPTY_ITEMS",
+      "model": "shipment",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "connection_active": true,
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "delivery_accepted": true,
+        "suborder_version": 4,
+        "expected_suborder_version": 4,
+        "tracking_already_used": false,
+        "items": [],
+        "remaining": {
+          "TEST_ONLY_LINE_1": 3
+        },
+        "native_fulfillment_checks_passed": true
+      },
+      "expected": null,
+      "expected_error": "SHIPMENT_ITEMS_INVALID"
+    },
+    {
+      "name": "TEST_ONLY_SHIP_OVER_SHIPMENT",
+      "model": "shipment",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "connection_active": true,
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "delivery_accepted": true,
+        "suborder_version": 4,
+        "expected_suborder_version": 4,
+        "tracking_already_used": false,
+        "items": [
+          {
+            "order_item_id": "TEST_ONLY_LINE_1",
+            "quantity": 4
+          }
+        ],
+        "remaining": {
+          "TEST_ONLY_LINE_1": 3
+        },
+        "native_fulfillment_checks_passed": true
+      },
+      "expected": null,
+      "expected_error": "SHIPMENT_QUANTITY_EXCEEDED"
+    },
+    {
+      "name": "TEST_ONLY_SHIP_WRONG_ORDER_LINE",
+      "model": "shipment",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "connection_active": true,
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "delivery_accepted": true,
+        "suborder_version": 4,
+        "expected_suborder_version": 4,
+        "tracking_already_used": false,
+        "items": [
+          {
+            "order_item_id": "TEST_ONLY_FOREIGN_LINE",
+            "quantity": 1
+          }
+        ],
+        "remaining": {
+          "TEST_ONLY_LINE_1": 3
+        },
+        "native_fulfillment_checks_passed": true
+      },
+      "expected": null,
+      "expected_error": "SHIPMENT_ITEMS_INVALID"
+    },
+    {
+      "name": "TEST_ONLY_SHIP_BYPASS_NATIVE_RULES",
+      "model": "shipment",
+      "input": {
+        "scope_matches": true,
+        "actor_authorized": true,
+        "connection_active": true,
+        "mapping_version": 2,
+        "event_mapping_version": 2,
+        "kind": "GOODS",
+        "paid": true,
+        "cancelled": false,
+        "delivery_accepted": true,
+        "suborder_version": 4,
+        "expected_suborder_version": 4,
+        "tracking_already_used": false,
+        "items": [
+          {
+            "order_item_id": "TEST_ONLY_LINE_1",
+            "quantity": 2
+          }
+        ],
+        "remaining": {
+          "TEST_ONLY_LINE_1": 3
+        },
+        "native_fulfillment_checks_passed": false
+      },
+      "expected": null,
+      "expected_error": "NATIVE_FULFILLMENT_REQUIRED"
+    },
+    {
+      "name": "TEST_ONLY_EVENT_NEW",
+      "model": "identity",
+      "input": {
+        "previous": null,
+        "current": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": "NEW",
+      "expected_error": null
+    },
+    {
+      "name": "TEST_ONLY_EVENT_REPLAY",
+      "model": "identity",
+      "input": {
+        "previous": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": "DUPLICATE_NO_SIDE_EFFECT",
+      "expected_error": null
+    },
+    {
+      "name": "TEST_ONLY_EVENT_CONFLICT",
+      "model": "identity",
+      "input": {
+        "previous": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "current": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "expected": null,
+      "expected_error": "EVENT_IDENTITY_CONFLICT"
+    }
+  ]
+}

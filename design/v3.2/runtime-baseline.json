@@ -1,0 +1,2245 @@
+{
+  "source_commit": "e024c322001e8267df6958a9dbcf6dc182f64000",
+  "business_commit": "3e90a4f22a03918ad73c82e1fb8b78634ec98750",
+  "runtime_contract": "openapi/pawday-v3.1.3-b3.json",
+  "evidence_kind": "A_CURRENT_RUNTIME_SOURCE_MANIFEST",
+  "rows": [
+    {
+      "path": "admin-web/README.md",
+      "sha256": "744b42dc19150f9736b526acd6a01dceec99782f721b2ed0f4ec4b68bf07c2eb"
+    },
+    {
+      "path": "admin-web/index.html",
+      "sha256": "bc2df6a4f6f754c9e04031784a3320cd968413109552ca3ffb310dfd236c6252"
+    },
+    {
+      "path": "admin-web/src/main.ts",
+      "sha256": "01edb0265b0487a26b326d0c181390fc734c6c99bfdd258b3a21c4d325f6de36"
+    },
+    {
+      "path": "admin-web/vite.config.ts",
+      "sha256": "2b967d65bee09600c9131c5679539af78210a6c6fd86056221213f24926f202f"
+    },
+    {
+      "path": "backend/pom.xml",
+      "sha256": "e7652fa2541a11e48b4e909ea2011cdcac27b7d8ecd2214fa6421862e7dd05c3"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/PawdayApplication.java",
+      "sha256": "4f257c5e5f8f5071875a51da960d8d5935377970ea1c505eef9dc6af37588ac9"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ai/AiConfigService.java",
+      "sha256": "2321ed8383c408654b40c1e2510521454d717f7b53d120b52673fd269eba091b"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ai/AiController.java",
+      "sha256": "fb0da202d876c9e4ba00c6a75ccfd916bcef645d3df35d05f010ee060537732a"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ai/AiEvidenceService.java",
+      "sha256": "bbb51d7b61f03a3b6136f16edc8fed283422a914290958821aec82441e521b43"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ai/AiMetrics.java",
+      "sha256": "b1afe6b278b7bd2985f4404f996a314a536cd6486c6dc600461c19b8dd7af747"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ai/AiQuotaService.java",
+      "sha256": "c744cd1624e7f88f085064dfff0f1ecd75c9a39e7c76d983b91ddf068ff65b7a"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ai/AiRecoveryWorker.java",
+      "sha256": "095de7092531c89e33995c27522738e533dc62fe04da2be863058807b5309634"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ai/AiService.java",
+      "sha256": "37aee4511616d18cad4e89c3227fb45da219963807c842c8907205332e4f067b"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ai/DeepSeekExplanationProvider.java",
+      "sha256": "33a9c0179026ce636135299754c697dcd3426e1a8312e6e56dba180d3ed97d4b"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ai/ExplanationProvider.java",
+      "sha256": "03aa4803b7050a74ce5c9ffd25052b66480322653e683b223e6b2816b00cac8a"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/analytics/BusinessAnalyticsController.java",
+      "sha256": "1289d8366278049e441e39a37498f98930ef6097438e7ee3e4ce2f7f1d3130f8"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/analytics/BusinessAnalyticsService.java",
+      "sha256": "fae27fa9d73f56d44936205c950526711f20871fd5cb36829edce76835f6cd2c"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/audit/AuditController.java",
+      "sha256": "a89bf2724bf8ddec87531838e8e592b60927da44fe4703942d167b80464173ac"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/audit/AuditWriter.java",
+      "sha256": "9df3cb316fcc3b2cf9cbb4eac17b14f855343943768dcf07fe3cf9d1987e900e"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/audit/package-info.java",
+      "sha256": "f00683e0bc2fae063473b073f46660080b2b1b672f461ccb8e36bfab0f05eb34"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/booking/ServiceBookingController.java",
+      "sha256": "008b07c0c4bed3cf5a59e9470f54926c4651d00c370ff9af0ad57a161409cc96"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/booking/ServiceBookingService.java",
+      "sha256": "47605d70ee5768a1904d33724faeefb3b2877799ab24de7d33e071d6d50338ad"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/booking/ServiceTradeController.java",
+      "sha256": "b30bcc6c694f6d55b4636c8a73f67187efa501ba30a71adc1367c8f0bbb10083"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/booking/ServiceTradeOperations.java",
+      "sha256": "ed9ac70b64f82735922ebdf40b580970702af7abcd5217b0d5eddcdbf8eaa0e0"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/booking/ServiceTradeOperationsController.java",
+      "sha256": "58518ea04a333de65372400a0d6b7821c3b124baf11d555fd53a07be04acd309"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/booking/ServiceTradeService.java",
+      "sha256": "f3ed23e7db0417c8cb76ec4059a24bef5481cc6e002728770da6f8252a380e52"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/booking/ServiceTradeSettlement.java",
+      "sha256": "9ca4741a045977f86207e8459c6d9c7705c906eb37dc7b18259dcb1a445658c2"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/booking/ServiceTradeSettlementController.java",
+      "sha256": "e33e1de97c9c161c4a327fa0f7b87c90459b34b4b5396e987327007eb4b1e74d"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/care/FavoriteController.java",
+      "sha256": "d12cfa67c1df04c70999f99ca802d88cd2b4c656e0a0fa1a45b41bde535eb6a1"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/care/FavoriteService.java",
+      "sha256": "1d63f5be6ee734b657df03f6802a54db52027f1cd99f83b6b0a404beb83aaa45"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/care/InvoiceController.java",
+      "sha256": "59504ca696cf9f56d7cdb9059a24d6a0c903fcdcc8f35dbfe5e888e1868dc690"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/care/InvoiceService.java",
+      "sha256": "023181fa355637fbbd98d778af26f349106d545467cf0c4c74ed2ba2e0211e60"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/care/PetFoodController.java",
+      "sha256": "444bb6bf3a386b035120e9c59d38fddeb77e438998e8eac43965fed5effa3201"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/care/PetFoodService.java",
+      "sha256": "36211cbaa38dfe82cd0f652d4d5849efcfbdecae542100fe35873ed1c8f9b43d"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/care/PetFoodWorker.java",
+      "sha256": "a0608f0fb886329326db1058eece4a6e3d3985b32fe68eb6d2fd2628d38368a8"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/care/PurchaseRequestController.java",
+      "sha256": "b78a22f0b9e210867816e2ef61ab28e7897773bed55e59f48c7f4a3e65e947bf"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/care/PurchaseRequestService.java",
+      "sha256": "a8c96ceabe57f2cb120c0e3bfa9220783a9c07c1d3afa6f996fe547bdce09b90"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/catalog/CatalogController.java",
+      "sha256": "71ed03a65d9c1d612efb1f3998e6b2f358bc494e2176496c2f35ec8cdad12092"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/catalog/CatalogImportParser.java",
+      "sha256": "0a807d6b02e506d6c3b2c916b3bb072a781d55380cf1dfe3cdd663ef43ae69a5"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/catalog/CatalogService.java",
+      "sha256": "c6205f833b5b6aad01ca79404675c9cc89fa4ab8524856a9087b6862fb53b7f9"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/catalog/ConsumerCatalogController.java",
+      "sha256": "5778183c51a4a9b9d7ff24b5214af35a41700a4fbd52774e0b5fdc1a801211e7"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/catalog/ConsumerCatalogService.java",
+      "sha256": "de1a5b4c188c2782318a7ae0d5f0071a5c3b73fdcf6c7e9664bc7a2b616b5ea9"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/checkout/CheckoutController.java",
+      "sha256": "a5de592577bb227e349a94990a90b978833b9e144843c9ebfb196af5329725fc"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/checkout/CheckoutService.java",
+      "sha256": "c40ce50637db6b81562ad75157013a1ad1e541cbdcb5b91a0fbbab2a7af8825f"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/checkout/PricingEngine.java",
+      "sha256": "0b30d114750e312a922abc67b3838b22db18c2a8082ee6ced9c7ae4b7ce0108a"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/checkout/QuoteExpiryWorker.java",
+      "sha256": "07530718f4b0987a93f83b07ed8062260af5805224b6bdd52da7ae9236647230"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/common/Api.java",
+      "sha256": "80b1f9e61eacda9977f8dd1c90b811b18a4e97e905817b48d0f779ed620b1a95"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/common/IdempotentCommandExecutor.java",
+      "sha256": "c580472afb109116e9ee289c4d158d7ad0000aa236af5e72395bc0b9731cb8ce"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/content/ContentController.java",
+      "sha256": "351f09169b92e631c53e7a344a657093ac023b151ee0ce56bec53a8143209fec"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/content/ContentService.java",
+      "sha256": "4e9a4710a72cb0c2c5aa9030e16273b932a12bbdd8ffba5696597b5a52bc7f39"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/identity/AccessGuard.java",
+      "sha256": "3526f2930a5ad7cde998f46df315f3946713d6458549f0a0ea4f038d79a3f8f3"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/identity/Actor.java",
+      "sha256": "b9ce73bde6127af3add0b79c7d7bdc0b477f0c6efea1bb9490c6f8c07ecab63b"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/identity/AuthController.java",
+      "sha256": "f3c5f834435fa9f3793a6e20d776c37541741498b30370bce0bcab34541b97f0"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/identity/AuthInfrastructure.java",
+      "sha256": "3757ce358f867576db7ae25cc1cb6d56a54f93b078a62b87201041374416125a"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/identity/AuthService.java",
+      "sha256": "1a75ca3056e0d89db6611e37af914134a987134792f3e85526f860dc86f97d5a"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/identity/Crypto.java",
+      "sha256": "777840f138264d0feda4b6135ccdb417074018310d9ffd643448d1a6b47f6f8a"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/identity/DataEncryptionKeyRing.java",
+      "sha256": "36f03ec4ce4673d4e91ba6c239eb05e4e5dc8c504169a74b8fe0a15016e26d32"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/identity/LocalDemoInitializer.java",
+      "sha256": "5a15e4799812900208249eb580b048362121667a1fd0e4621ae7be2ecc236ae9"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/identity/RoleController.java",
+      "sha256": "a6ab86e6c76f04fb93765be172a032bde5dc6d4a987094f194e38281196ea0f2"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/identity/RoleService.java",
+      "sha256": "76d0c3ae36f0942933f9a752577cf04b668c7481b3e915cf092c1a45c02fab12"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/identity/ScopeController.java",
+      "sha256": "9a0f345b2ce9f33196c31d916b67a49d683de4ff9ea3807697e0c92fdee8d280"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/identity/SmsGateway.java",
+      "sha256": "83620ac40e93e06482b54d683238566fecea12e0d06d69a5be495619f64ae0ed"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/identity/package-info.java",
+      "sha256": "9f3583082a372dd02aee1193a7841d3254dadf7427037576350c866f5aeae30d"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/membership/MembershipController.java",
+      "sha256": "f63712a5dd1a0788668305a46f825a65cce539207b7d8674d11f0b8617951730"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/membership/MembershipService.java",
+      "sha256": "d704dc94d9c5bb55877cb8f5e73ae429d5bc9395ab345ab93e654117e02f66b7"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/membership/MembershipWorker.java",
+      "sha256": "fa2546cf05fc343e474c4f523110cde1e994e4f3e32fb02b1899e3eaa6f41fd9"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/nearby/AmapNavigationProvider.java",
+      "sha256": "d7d65ac58a9446112ffa33f19abe660392ffce7a2ce314fba72c33e9a73a32a3"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/nearby/NavigationProvider.java",
+      "sha256": "20ed58a6a45c96bceca1d770da16f5dd96cdb27aa25c021236fdaed127e0f9d3"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/nearby/NearbyController.java",
+      "sha256": "060390fa492276c330c3aee73c0700b5b363bee55f6b78a725c223538651d195"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/nearby/NearbyService.java",
+      "sha256": "e87f937e7237d3b1c8f4cd8cc68666fe1e3a15be76f32d344893d5d5125b19c6"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/offer/OfferController.java",
+      "sha256": "23d8b0920af4883eff42806fa36991e29cd354ce16af14b6487ed29b0de504a8"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/offer/OfferService.java",
+      "sha256": "225d56ef44d50de351215350cd2a3873355dbde8613ae3f8f7dd730f5fa66b43"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/offer/PriceHistoryController.java",
+      "sha256": "643a0a526cb59236b8c2638175ea5135d663a0b5c9f55e17c1f10b7db6e048bf"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/offer/PriceHistoryService.java",
+      "sha256": "7159df0ae4ef4fdc3be7c1f008b1a678eb879508cff1a4a24beaa5e464fe4781"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/operations/DataKeyAvailabilityCheck.java",
+      "sha256": "ed6e0b728fa008ad47c7d2c5e5d848e37cf5575ffa1f5f6c92bdc1b68caf5f59"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/operations/OperationsMetrics.java",
+      "sha256": "331ec678a4286e55f90475452be4130f7a3d97726a83eb3b520838377cd16a29"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/operations/PrometheusAvailabilityFilter.java",
+      "sha256": "a3aa50789d5fea869fbf6b7dcf3bdbfd1c2942038b0592507cb461a531a52b53"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/operations/ScrapeCredential.java",
+      "sha256": "2de6921ac71a74810f4fd07e6a715740a2f1ba6b4f902a18614d7aca308ae3e4"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ordering/AfterSaleController.java",
+      "sha256": "a23f46d7106f6b1212956e39b03e19044186231a8f7c91bb9b447704f31f4296"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ordering/AfterSaleService.java",
+      "sha256": "47a65331479478de747d6be9ab3b2ba899fe310184e414f656b16725cba73afc"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ordering/CancellationController.java",
+      "sha256": "4d14b1054a0455bcddb850eee84e7d2e1841a7d6c7d14dfe72525e8518a4cb44"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ordering/CancellationService.java",
+      "sha256": "68d34094d2664abcecb8e7e07f64131f8613c75aa40e6d9205a4efe052ea2dd1"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ordering/FulfillmentController.java",
+      "sha256": "5551870b2162b1cfeaa440a4f9fddcc441d796a9798c34ee1c7f46c5af7410bd"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ordering/FulfillmentService.java",
+      "sha256": "02681139e82c8a09fd421508f7de14458dc0366b8a368ed99479b4a088c676cc"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ordering/LogisticsProvider.java",
+      "sha256": "ec2c2b2fa1d72109c4060b8190bf3f9335932a0946d0d389b091ce02661a279a"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ordering/OrderController.java",
+      "sha256": "86d71be13c297599be1ad61a13668c04d8b6b33b82674f27fb095ed74bbc9bd4"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ordering/OrderExpiryWorker.java",
+      "sha256": "b5b083d3db09a5858ce9ea6199627b4f5c827fbb4c54eb28477959f1d5cc09dc"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ordering/OrderService.java",
+      "sha256": "a8b90d283388fb02756034a4be2e2e3fb0bd5f2c2981abba0fb909090c896275"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/ordering/UnavailableLogisticsProvider.java",
+      "sha256": "57ec371b78844a2ea0cd7629d72753359490b9d64d07270e7d5197dbe6e1b9c2"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/DeliveryPolicy.java",
+      "sha256": "91acb55136782e7822ba9389b52c8b4adc018bc50c49347df4cb5fec357972c1"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/DeliveryScheduler.java",
+      "sha256": "15db05a1122b8e6c7e2eadd012dfc93527008b4e58f3540b107d8164200336d2"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/EventEnvelope.java",
+      "sha256": "b52a4bd138b3510630cbb6607ef5b2168c58084c8850c226a874d48bba0d6c3d"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/InboxConsumer.java",
+      "sha256": "dade093cfc1c77ad3013c3eca1b55d0bcd7c5e4e318010d4d57af786d76c2849"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/OutboxController.java",
+      "sha256": "b1dce61b4148203988b96dc1666a38c837ecbd02811d5debaf07b3a53ed330ef"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/OutboxMetrics.java",
+      "sha256": "98432f4cb37b2a2df7229bf65a008994364fedec1c01f7116d883e71f1b46026"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/OutboxOperations.java",
+      "sha256": "4fff526d5c368acd28e1a9b9be4bf1073409d16241f87d7eef9633baab140510"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/OutboxPublisher.java",
+      "sha256": "c93d422c7a7c8a19dc8c367fa52f4f2b128427e34748ac8dded8b90095f17b32"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/OutboxReplayParticipant.java",
+      "sha256": "82a5d97ad6dfa06ead7d1946dfe50b26b620adb050edfe09d7cb2185d0f18ffd"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/OutboxRepository.java",
+      "sha256": "7ef63337d473484323aa84d6ef6de52ed83e3ae7bebb50eb1441862d6b2a5bf9"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/OutboxWriter.java",
+      "sha256": "e722330ae1fb825213b39836f33714aad4af01813684ac6975f63c18d6b17d43"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/RabbitInboxListener.java",
+      "sha256": "a42efbd7369722aa5c6e7caabbe948daeb3744143f7c0227e4a85beea40109d8"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/RabbitPublisher.java",
+      "sha256": "f40edc4a61ab7d46049fc1d7f700ac91d877c1300187e5e6f610584617459643"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/RabbitTopology.java",
+      "sha256": "92cc3c1904546afa797f269e493107ed435a63996f190f674d696b0ff6d3b422"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/SmsDeliveryWorker.java",
+      "sha256": "43b94fa45b838d9f81f11e183ac49ef659769c94aa43b7c76ce4905690dcae91"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/outbox/package-info.java",
+      "sha256": "35e18cf2f3eb993a96656d42224416668c3a8fa57c98248d90811d575b8eb9eb"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/payment/PaymentController.java",
+      "sha256": "221360554d4d1941f6665795601c25fa460e2303e94d8cade8b66a6634c647be"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/payment/PaymentGateway.java",
+      "sha256": "98985ffb87fd2582da3a0e9c03d74713fa0c8e5067876c4ea77b4e9b21e13833"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/payment/PaymentOwnership.java",
+      "sha256": "3b682c751b137dc43bdb7fb6e61a4aa636e4ec7231dd7c6ee5562e2b4ed9d33f"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/payment/PaymentRecoveryWorker.java",
+      "sha256": "03b350ec1a0f76b1b4aacec371d7e0464a987a081bf64277338b011833928063"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/payment/PaymentService.java",
+      "sha256": "8d2dbe267fc53ea045bfb212f4e8555d51fe4147231ae488042573ada80f3ee9"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/payment/RefundController.java",
+      "sha256": "36502f2a04314cedc177560fd2dc5cd400acb38c5b88621590ee0580652a14bf"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/payment/RefundRecoveryWorker.java",
+      "sha256": "0ebe675366eec6049a744cb160ae06a1c96b18a317bcfe14148bb51b7a2812f7"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/payment/RefundService.java",
+      "sha256": "98abafd9bd069227176f1d3f57c809a3058318bd6c8fda242adeb32d98f1a527"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/payment/ServiceTradeFinance.java",
+      "sha256": "4b56758e66e8bec81df8f884b0d6ff6addbbb1a0b22157742aa2a452eb94af6d"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/payment/ServiceTradeFinanceController.java",
+      "sha256": "04faf571467214dc89d90a7e0ac9a2ee429e54e4826ffeaa5dcf1040bfe9e474"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/payment/ServiceTradeFinanceScheduling.java",
+      "sha256": "6e74033a9e0089858674715a73e775a20a57e4c9238151cc3fce107d97daf953"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/payment/SimulatedPaymentGateway.java",
+      "sha256": "b4b6933d3c89bbd11555e3a62acc4713f27f55f303d3060d7d776912956a92ef"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/payment/SimulationController.java",
+      "sha256": "c0facf3b5d06fbf1645bbc0748a37702609a41bf7e86bd3cecad23078091d392"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/pet/HouseholdController.java",
+      "sha256": "fd44ad5ff491c03d297bd7592327f046e507ee7be59e8572441d063a23acb1de"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/pet/HouseholdService.java",
+      "sha256": "2a724cadeffdc0bc96d8c35ecb442a134826880e9694d60235fa6251192f79d9"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/pet/PetController.java",
+      "sha256": "b6e571b1409b7aa97d250076f14f91038116f7d79e8f35bee1fc039d8d6e6d8f"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/pet/PetService.java",
+      "sha256": "747b92722bf091c907cf7732884f8a66b93e3648ca9d163ed098410a51c4253d"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/pet/TaxonomyController.java",
+      "sha256": "8bf6153722723f4c194bbff219d9d7799cc039f3e3dbc1153347f6ae41cc21fa"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/pet/TaxonomyService.java",
+      "sha256": "9f9ce7a21cd2114c27b59bd3c5acfe2c65956f1237bfc7628eb9b8dcae1e0dd6"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/pilot/PilotBaselineInitializer.java",
+      "sha256": "2640f5f13b2dff36b477967f51fa40efbbc0040f598c2654c7d35240991a25ce"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/pilot/PilotExplanationProvider.java",
+      "sha256": "035614db573b7a2bb37aa28f7a8bee329f78e8cd5896288e15de1aa999996b11"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/pilot/PilotMaterials.java",
+      "sha256": "590958db68ddd57fa7e5d9c27f2d4208ab1caaaeb23f973281f2bf9d9a6993cb"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/pilot/PilotMediaController.java",
+      "sha256": "30be6de00185214ab0cf85c3027fbfb10ac96c9b5ec0a8c1b562cd212f4c988e"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/pilot/PilotPolicy.java",
+      "sha256": "0644d675c9c6a5896cc4ff8d7fe62d89c3b25ed7a1976562be9765d18b4317c9"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/points/PointsController.java",
+      "sha256": "991b5b6698a0c1842777df6fc72f0f9eeab45a703524fc334becd570dcd411b9"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/points/PointsService.java",
+      "sha256": "63939d92ef6b3dfa6d3d6279aae729a5753a92c3150112550959868cb6532442"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/privacy/LocalPrivacyExportProvider.java",
+      "sha256": "a60478597e4fcdaa8cc9a52b729058e79fe83c818ea950ef700e4e5ca95233e4"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/privacy/PrivacyExportProvider.java",
+      "sha256": "53dee5ad07a1254ef323403a1d39118ad2a04953a224f6047864880bf7a92e2e"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/privacy/PrivacyExportScheduler.java",
+      "sha256": "5b07cea6d84c4e8fa6a164ba09e7c0a57722b6bccdced6969b4dc2b4dd3a2858"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/privacy/PrivacyExportService.java",
+      "sha256": "1190eb8d026d7405aa109e420aca054919e8de797dfa2723c26f03e2400c0b61"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/publishing/PublishingMedia.java",
+      "sha256": "dfe6258f63052227d55e58b7e72f71efcbe23905c4a1fb9a4d8b719c8020ad09"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/publishing/PublishingSupport.java",
+      "sha256": "ff7cf720a2665515f57b31ad5bf9292d0f554a2d13d013104886e8ee54e182b6"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/readiness/ProductionAdmissionGuard.java",
+      "sha256": "58a1c00ccee313fecfa651cfe3cdada065596f6742f1346ca7e3c3edfa0a3fd3"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/readiness/RecoveryStartupGuard.java",
+      "sha256": "4b1f54770b0a81deae511e83cf70957f5f2d9b308c7ab11f3d59552483ef4ee9"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/review/ReviewController.java",
+      "sha256": "d3d2555a4cff8b6152e756d7817a77c7e4d8067fe85062a110a971a6cf6e28a7"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/review/ReviewService.java",
+      "sha256": "6d3dd6a0e686c9f17be08945ab0dbfeaecd844fedfed27914be29755efbaf3b5"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/AliasManager.java",
+      "sha256": "d3fc4e9b04bc20a5ac6145e36cc4a7ba31718fec71e7caba51e1037cd8399b4e"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/BusinessFactConsumer.java",
+      "sha256": "4dcb3f23df67fca586184d34455d28330bac451096906ca98280e9aabdd518bf"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/BusinessFactRabbitListener.java",
+      "sha256": "f73268606ecabe75e4a3097c765c5da2b28e4f2c6acf52387453e4ff4fb8d2fd"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/BusinessProjectionReconciler.java",
+      "sha256": "413b9881c99856274e7f1ff0714bde003adb00061572d5b0fe6b2efdfcb89890"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/BusinessSearchProjection.java",
+      "sha256": "6e70bd7ff2c5c8aad1f08618c9dcc4e4de956abd495735868637920eb34a81d8"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/CatalogSearchSource.java",
+      "sha256": "9afc36bc8cf92c8426ff277817f2ed1b5a0b206845f865d17d79201f26e4d0b2"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/ConsumerSearchController.java",
+      "sha256": "2333f6abb80d8bec653fcc7e82d5a7a65df5a1e4a4df9499e000a4df1b5868e5"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/IndexBootstrap.java",
+      "sha256": "d169706ba093ad3c30dc164a60a3d365d0cc2402dc2e8ab84683cc1b235fe58d"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/IndexVersion.java",
+      "sha256": "1ab953ca118200515638c7790127e551a0318f333e883e3cc59859597e690a57"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/OpenSearchClient.java",
+      "sha256": "e02c021349c26dcc19bfcf13fd17a845c254b7eabdb3cf61588d3ed63014272e"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/ProductSearchFilter.java",
+      "sha256": "bc47a266b70f457e6d30adc26a23ee2e84a7c37d2b132a0d7a552035b9f7845e"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/ProductSearchService.java",
+      "sha256": "c4a6196ae22760031cb7a9d2246789cbfb82c71c8a2dc895843860de5fe89318"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/SearchBootstrapRunner.java",
+      "sha256": "3812e4b425aafb2fe5fe254947d7c7b14b0bf6f854faccd698f94d7ad6d9df08"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/SearchController.java",
+      "sha256": "bfb479882b554bc9030e0b3b7f109d381147bc4b2d8a9fcb5769ab9ce1da33d3"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/SearchDeliveryPolicy.java",
+      "sha256": "4d74a447c330f6da2afebbab4a9d651813a574078c57e373268677cbe963c3ea"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/SearchHealthIndicator.java",
+      "sha256": "d275559b8dabca408ecb9915e14bbb3d1b82eb25691e5381aaf370f697fd3738"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/SearchInboxConsumer.java",
+      "sha256": "c6158b362808d9512db14d1301954cb266a95c80d0e7610fbc4b3ca724a938d0"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/SearchOperations.java",
+      "sha256": "78199de2b8d7d3e34795388893964aad862a8b7fa66bd9ec8496f109ea3b5adf"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/SearchRabbitListener.java",
+      "sha256": "d922b49663631edb50943c3fbdbac6ff28796c5f7b1d7cb6b7b5c08f7ddeaa01"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/SearchRebuildWorker.java",
+      "sha256": "b5fc09bb8138c09536ebea06edf0084c9ce2c9813bb451f92e155b6d14cdb3ca"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/SearchScheduler.java",
+      "sha256": "6b2c13bc8e35d60639fff68d94dae513b2e85983f1971de71a36e2b6c900f500"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/SearchSyncWorker.java",
+      "sha256": "df7b5250c322677db9ee864640aa136315c1c9a6a9b7ad933c54736b90d4fde2"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/SearchTasks.java",
+      "sha256": "5fc757a7f072f6bcd7ba089cefb509faa3423aa4ca89af02a9a1873576692240"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/search/SearchTopologyLock.java",
+      "sha256": "7ec31791dbddc03aaee6388471c85922ee1a7ac90b28d67d8818ab90400f98a8"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/security/RequestSizeFilter.java",
+      "sha256": "f928d70c4c8f0f77449e7e54e20ffa3973c44cca9a1e97627a3ea91d00f7ec17"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/security/SecurityConfiguration.java",
+      "sha256": "ed3fe62a603faa9b1f80e1c30f76b5965105e5a459bc9ddbdf91818aebac79e6"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/settlement/DevelopmentDisbursementPolicy.java",
+      "sha256": "815a86a5b79d5d83afa9d628c93a517b2d1651d27f1ccfd05e6fe0ed77197e29"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/settlement/SettlementController.java",
+      "sha256": "1b052a8bb6f5046c5901c5e91ccfcd7dafd77652acd0f7296b216b0d2e552551"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/settlement/SettlementService.java",
+      "sha256": "94f55ed92fa8cb0a73b1fdf14e6b3268344313c1ca4081c9a9668dedacef3ddd"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/settlement/SettlementWorker.java",
+      "sha256": "1ff69751725129f61f72ced755df167179efd1d151eb3fb955076fc5b7ba1c6f"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/storage/LocalObjectStorageProvider.java",
+      "sha256": "ce5cdd7de4e9355ecfa84dfbfb416989b9e5cc002718b8f7c2df884c12106c3c"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/storage/MediaController.java",
+      "sha256": "652dac3273f26e9e2e1833907474e2fea625b66a1ec18c8e10566b2bad91f1db"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/storage/MediaRecoveryScheduler.java",
+      "sha256": "525504b6f2aedf8cefa9ca8fe60b5f708e59b07f63904c08c8b9ea7039b16be9"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/storage/MediaService.java",
+      "sha256": "ae12a48602244b182fa77bde086598d9968b00bec2ca72b313670753416f8248"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/storage/ObjectStorageProvider.java",
+      "sha256": "74b8cda780a531d4e09bca33795fe2f6c648c08088b1b297680d7fa41f37437b"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/storage/StorageConfiguration.java",
+      "sha256": "39389953c4692335450dcbb9be462d178fbbb461846c80ed33afd7b7827f1e73"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/storage/VideoContentValidator.java",
+      "sha256": "05939f6ffd22c088a9ddcd0bcddb57b673de1dd096761bd02c1377a867ec33e4"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/storage/package-info.java",
+      "sha256": "18467e74e04fa229bdca8eaa8363055a1630083609282c5e972afedf7e560ec6"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/support/NotificationService.java",
+      "sha256": "7bba906dcbe9e7fa9bde42517a8a60efccabdc2c9157a9429ba8270dcca4733a"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/support/SupportAssistant.java",
+      "sha256": "a4fa8697809c195b4c3aae5db53d2a6eb757d57be15c1896dbc3790eebf0448d"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/support/SupportController.java",
+      "sha256": "ecaee2132d080fad4805ff2ba196462985640b50f35c9598af5f40d904f907bc"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/support/SupportInboxConsumer.java",
+      "sha256": "c824a057626fea1fbe0b5dbb473cb91746894747db069f4d84fb8777cbadf74b"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/support/SupportRabbitListener.java",
+      "sha256": "9530aa602a20b5c1855ef15daa2a1c59f470ac5dcc63878abb6038e040703998"
+    },
+    {
+      "path": "backend/src/main/java/cn/pawday/support/SupportService.java",
+      "sha256": "3447def61c96414c6ae08a3b2d44b166c5c34be7743dbea0abcb5d05e75f1385"
+    },
+    {
+      "path": "backend/src/main/resources/META-INF/spring.factories",
+      "sha256": "3d5765d92b0101ad5ef579f9b2d471d1ac96520da10fe0bf7b5a51c2db8cc7ef"
+    },
+    {
+      "path": "backend/src/main/resources/application-pilot.yml",
+      "sha256": "9040651794ca19ddbdc55dd87a21a38fb65bfdac0fd2b0cf959894634140cf98"
+    },
+    {
+      "path": "backend/src/main/resources/application.yml",
+      "sha256": "e2c872e812a86dd7ea420e058ac59d3d1adfc224adcda577a1e89df247876663"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V001__m2_foundation.sql",
+      "sha256": "4ae66a5938bdd2971eae57a32ff7f22c29635bb6f06af88c8d07c478e2bc81a0"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V002__identity_sessions_rbac_reverify.sql",
+      "sha256": "97fae117f12471ea2b2e92c2a140c8e41dca38872033953fbfce330fed7253a1"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V003__outbox_inbox_delivery.sql",
+      "sha256": "1c5362354c00983a967c22e89a24e3fd1c325ba9ee308ae9aa01d118e2cda604"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V004__media_assets.sql",
+      "sha256": "c7d7a4baf70b776e615ebe762600a3ac695456c6cdd235be4d86f1ed7443ee3d"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V005__search_projection.sql",
+      "sha256": "9087288bb37a77daea4be33287855c07055c72814fefce0547e22cef1455fa72"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V006__pet_taxonomy_profiles.sql",
+      "sha256": "2f54959c94259683609ed8203c2e1e5a16d150766d2483cd5b87f89f4352b3ef"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V007__catalog_standards_and_review.sql",
+      "sha256": "cbdd43c591d36198861ad659a6de79d80b820c1adba6aad4140fc612a1ccdbc4"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V008__offers_inventory_adjustments.sql",
+      "sha256": "794a99a8255711b9d21cebda32372f5efc15000f9674ebe145c27f7d7fb8ca0e"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V009__cart_pricing_quotes.sql",
+      "sha256": "0e652caefed086ec69df199508ea69da79f9d5601312767dbfdeeea8edaf2b54"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V010__orders_inventory_reservations.sql",
+      "sha256": "36caa84f6d3097e79d172ffc7065ecadc168ef2442b349dc5fc157558d347b17"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V011__payment_attempts_and_confirmation.sql",
+      "sha256": "12f2d3c5e28231d903b32a2b0d0d549f238b4c404a980cbbb21925eb7f878c37"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V012__shipment_and_receipt_facts.sql",
+      "sha256": "7c9f026c0cab895c0d103b90050fee0344bfa0d27717c836ed6196300fd2abc4"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V013__paid_cancellation_aftersale_refunds.sql",
+      "sha256": "323b76dc1e05615b64567dcc0adafdcbc557cf2859c6119e3b3a0917d2f68fbb"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V014__settlement_ledger.sql",
+      "sha256": "f256a33ae2e8b856cf978e03f9acde151818fd4a7200b3f396ce529a759dae30"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V015__membership_points.sql",
+      "sha256": "d4703704feec436bfe4da633de046e41b69225ce392e7550f22cfdd0910f1271"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V016__review_refund_leases_and_points_versions.sql",
+      "sha256": "b6f3bd9a3f5c21bac9f55abde6d17f30d7ead5c5cde2a7abf67c753a1c0b4d36"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V017__reviews_content_and_reward_facts.sql",
+      "sha256": "7641760fe274eb74cf8ef511987f059287cc0d7886dbdf11a57d27a74c9e2b06"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V018__support_messages.sql",
+      "sha256": "e8724a902d80c192d5540ac29cc17de1a3acf48c7e60d038ab2218609bd954ef"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V019__nearby_store_profiles.sql",
+      "sha256": "9e1e56570aed7852fcb7b5b74ebf17a37f62e4349f73b767b8c2a256a499003e"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V020__ai_explanations.sql",
+      "sha256": "3378234de207b063357c4c58f07acc78dfdc7b2aafefb077be981ec45ef76021"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V021__privacy_fact_journal.sql",
+      "sha256": "7a932e5c6376605d79b993e90a97a0f2c43e81a05c48d877792bbaad68e2aab3"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V022__staff_password_credentials.sql",
+      "sha256": "e9987822342d3b0838692396d4f73f715888d5409bb8b4ac72a5a3c2fc06759f"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V023__pet_profile_photo_and_owner_breed.sql",
+      "sha256": "a31d1066fb42b47d107d7bd7b51eaf05e85e5afa26adf18b4c0e67be40dd6f3a"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V024__consumer_care_and_favorites.sql",
+      "sha256": "38262cef9e325e6f8e54a6f1625f75f34afb50e5fc3bfface8df5bd2eba7ea75"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V025__purchase_requests.sql",
+      "sha256": "39f85fe56dbaa3adac0b69681ded2fdda409d2de3ff8d6c2611ed255aaca1561"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V026__offer_price_history.sql",
+      "sha256": "b1076dddb328154f25d777689e94bc8c6c30d662cc55c141723fed73cc7a3cc4"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V027__pet_household_care.sql",
+      "sha256": "7bfdece2676c541159636d1d3cc61f4ad2e9ee70c61dbc6867b3cd752f545643"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V028__simulated_service_booking.sql",
+      "sha256": "88ae7a48e8efeebfa6969f53689e3d90c9557c4e46a17ed7ed17e6b565a96ac9"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V029__simulated_booking_fulfillment.sql",
+      "sha256": "4b74812cf045a6fb423e928efa78190bf878af7cc891e658bb7b9c230edab6c6"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V030__simulated_service_trade_holds.sql",
+      "sha256": "2dec4ca0c128d23e5d51f8d7bd4690893a97eda8a37940d194fefbb30ae59fa0"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V031__simulated_service_trade_finance.sql",
+      "sha256": "e431fc7c7b41287a3b26808bd558ab7e271615c54f0d96832e579089ea7452cc"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V032__paid_service_fulfillment_and_disputes.sql",
+      "sha256": "f79f3c8d241b7ff5a3abe9971a2ffa1cd1c4e304fa49e57d1ac4cc411edf824b"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V033__service_commission_and_settlement.sql",
+      "sha256": "f8883f7af8eff453b7a1fd987f68c9fda38c549e56ec668dec7aed88146616df"
+    },
+    {
+      "path": "backend/src/main/resources/db/migration/V034__service_trade_staff_detail_permission.sql",
+      "sha256": "49f69c4b09e2b81603d12849e67a269047c310a54ade1b0bb8ae1c8999e485de"
+    },
+    {
+      "path": "backend/src/main/resources/pilot/cq-v1.json",
+      "sha256": "044f4c5c6b56c1b2f9b8379efd5d28980e43e7cfb23c39759eada0981b30a529"
+    },
+    {
+      "path": "backend/src/main/resources/pilot/cq-v1.sql",
+      "sha256": "cad327a30194a57a2920c92bc8044cf8848ffbec36d5afa9fdc6b2322e459809"
+    },
+    {
+      "path": "backend/src/main/resources/pilot/synthetic.png",
+      "sha256": "a9a539e098b571babf0dbf4e3e8c5198f300596684f86f1139b036832c5ed6ac"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/AfterSaleRefundIntegrationTests.java",
+      "sha256": "71d9d7caef71e1b7bc9ac20393a8d0d0f9f57c285aa3bd4bf870a6c0f48125b8"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/AiIntegrationTests.java",
+      "sha256": "951102ef8be8d093549bd17dae1531833891578cb476e72cca659a0ce8ecb90a"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/BusinessSearchIT.java",
+      "sha256": "bd9b0195b3bee07469b609e2f6d4b3cc03180383234075e394bb4c7b260cc78a"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/CatalogIntegrationTests.java",
+      "sha256": "4a133832190eadc71759e0c442b8f065b1e726ce3a7d30de37d3fce15b765ca5"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/CheckoutIntegrationTests.java",
+      "sha256": "cb72fa51cac46d3fdbed8d4a2fc1cce8701db75d18df6c043e7e53a4873bd878"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/CipherRestoreProbe.java",
+      "sha256": "35989076c3e8c0fac38773c5365c33bf987b970822fe2b8c0eb6d647c89d40c1"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/ConfirmDroppingProxy.java",
+      "sha256": "b0b4e6e2c330569c035f58dd0974fa42da7c3c73f918648e05e14d1e280523b4"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/ConsumerCareIntegrationTests.java",
+      "sha256": "8fa78f75c56240cb762e360c2388b6e95f563915a209f212d8ad1b4c3c71b58c"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/ConsumerCatalogIntegrationTests.java",
+      "sha256": "e503f2426ef9c49b91ddad077831e13c27145828e907705040abf795f2a34b6c"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/ConsumerTestPasswordIntegrationTests.java",
+      "sha256": "2eb76c8a875f8ff6a4cdbf0e0eace95b3e02f4b24d184927a975366643f7c5c0"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/DataEncryptionKeyRingTests.java",
+      "sha256": "ae066ab1dd876ec27abae152f16fa8df7649f46fff90f59375bbc1f4fe36d051"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/FulfillmentIntegrationTests.java",
+      "sha256": "6f79563ae39b7fd51491874c1e52c718830398eec95b106c1e6e9d5505d33e83"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/IdentitySecurityIntegrationTests.java",
+      "sha256": "8ae35b048bbbdcd558b64490915319fda8626845e229c6fe93b70fdfdd442886"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/MembershipPointsIntegrationTests.java",
+      "sha256": "9e404f8317a11ad4b30216527948b313b92e3fbdc8047e6b6f00668545039ce5"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/NearbyDeliveryIT.java",
+      "sha256": "0a2302fc3410b30ed82e4a23237b09cae25301bea8df765c9abef4bdd20aaa93"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/NearbyIntegrationTests.java",
+      "sha256": "940784308c61716ab2f1d93754810e6320e2e7d19ae2ffcb87a0620dfd4e2c5e"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/OfferIntegrationTests.java",
+      "sha256": "07e5c74d0d81edefa4c2b7325a3340933160145b3af5197d752cd7fa9027c0a4"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/OperationsIntegrationTests.java",
+      "sha256": "37afeb74f7af0fd1d8ab35f7b2a732ff51d070677d6f2d71b4aa18e4efcb78c5"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/OrderIntegrationTests.java",
+      "sha256": "4378ea5d846058b110128dfa7679d92447934aecd48542c4817e775f92e78694"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/PaymentIntegrationTests.java",
+      "sha256": "05af45367e500136cd662ea96f4c2747c72ba2d74deb5a0945617804cf40d9fd"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/PaymentProductionBoundaryTests.java",
+      "sha256": "11d87274ed18ded12dc7bc05e7764115fe544a8212bb1a4982078884ad96abc6"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/PetIntegrationTests.java",
+      "sha256": "a601d5325223b8bf34fdf02ea4dc0f96c5a4ea5cf70b7b2177d621a4bda26623"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/PilotBaselineIntegrationTests.java",
+      "sha256": "6042232a6f8e4101e506b47cbeb8a9a7ab2f55e0d85adb49cee6d092bcb2b49a"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/PilotBoundaryIntegrationTests.java",
+      "sha256": "b17819c675b6a809f4afe8519eb9b43d76060a5f17d32225d0b853fdcf7b62f9"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/PilotConfigurationTests.java",
+      "sha256": "4db826d3c18756e502a9c691a8a4d5ba5baf6b02fcc9f5e55b88918ef64297e7"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/PricingEngineTests.java",
+      "sha256": "dc8e1f48c16744b00ddcda334c3c583209fe14967dab6f778638650a0222230a"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/PrivacyInventoryTests.java",
+      "sha256": "b9fa08118e0566b3a4d9009073ed7c3f7632773ed9618ace4cea52e808ad4945"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/PrivacyJournalTests.java",
+      "sha256": "041c189742bfd848218594ad68f82d06810c4bd767e6b51588fcf8d3b85b82b2"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/ProductionAdmissionTests.java",
+      "sha256": "280cdd3cb964fb6bad4d28a72e1da72c8ef633a7f4fb5c2bd01ed8b86c099147"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/PrometheusAvailabilityTests.java",
+      "sha256": "187ffd087e19be2d44d4c781d860fc13b21be436cf27e287e28b706ad6ad098a"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/PurchaseRequestsIntegrationTests.java",
+      "sha256": "228d3676453b873a411f7e19c794ce90277812beb4fc239132b2645021ed90fc"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/RabbitOutboxIT.java",
+      "sha256": "1fedb1f3a20f21537e393e165e7fd49b0d1bda987277568ef5905f19a9155d0a"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/RecoverySearchProbe.java",
+      "sha256": "3dc404c69c91596faa7c143234d75116cc278fada8c4619e7c5dc0f154ec230a"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/RecoveryStartupTests.java",
+      "sha256": "26405af15d3ec8d22b732d8da0691c21754e4ece9c4b2f63cb254c8f61af728c"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/RedisInfrastructureIT.java",
+      "sha256": "1e24ebdb4e752578a2141294e32914014065bef1394342c96e1fdfcb204e027c"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/ReviewContentIntegrationTests.java",
+      "sha256": "09e49a4e1826b4afe08deeb4b137b1ad308d993cf0390d947a9fccd2af227951"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/SearchInfrastructureIT.java",
+      "sha256": "31353953a0a9b68773e85750c5670e3ff5b03d3eb4e9d61a6114a9da396343ac"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/SettlementIntegrationTests.java",
+      "sha256": "5f510e4e6fbe317683661ed55e0026930ef6162705c07e3659ad542b77bca086"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/StorageMediaIntegrationTests.java",
+      "sha256": "6a40bac8fd7c06afce203857d8384efaf1cea1cf42acf6aaa2051334210a1096"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/SupportDeliveryIT.java",
+      "sha256": "795480ff0540290cb9cf202d234c1e7b574eec00ee9abdd8c8bed4697a529560"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/SupportMessagesIntegrationTests.java",
+      "sha256": "697a94182556ee575bf458a28211c46eabc2597860737119d017b8593da26fa1"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/TcpAvailabilityProxy.java",
+      "sha256": "9a571e380e1e077bbefe352083819a4033df7fa4c61ab2aaa45dbe3ef029a793"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/V21PriceHistoryIntegrationTests.java",
+      "sha256": "956e2fde556b74740b605cb3c76bdc47e95f7818fa26bd15ccf3b23ae7f6f7e0"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/V21PriceHistoryMigrationTests.java",
+      "sha256": "01c5214a66165bd0822f5fcabd08d469aff3caa6001203c57a5eefde40b38cc4"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/V22HouseholdIntegrationTests.java",
+      "sha256": "60a49a03d3ee239976c8b3bda4e82671eecbae97abea5d309d0206724d009b83"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/V22HouseholdMigrationTests.java",
+      "sha256": "1dc0c3680709bf507a2fad1f75a504cd716cd7f1ba0326ed33284cc34c16d200"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/V23BusinessAnalyticsIntegrationTests.java",
+      "sha256": "77275055989a5e33c996a5b5075ca91310f8ef278ff1c731389ff2b8ee990686"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/V312FulfillmentIntegrationTests.java",
+      "sha256": "bc4c321f244a40d6a8e37951ddb9fae2c105ec43200310d93eb66db6b4053b8f"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/V312FulfillmentMigrationTests.java",
+      "sha256": "d0f8a730fcdca563eabcb56657563ae908e63e448ac18b3e96ac1269b2ee8034"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/V313FinanceIntegrationTests.java",
+      "sha256": "8cabaffc2eb640e075a11b9292572fad3d3990478aa86967d78b3c69599cfc99"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/V313FinanceMigrationTests.java",
+      "sha256": "b0e39300524367ed3eccb852aed9d6eb3ec69e2c9eae3550270c5b496952f7db"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/V313OperationsIntegrationTests.java",
+      "sha256": "56b064ccd3bbae9e308c3724b1f6c6dcdd1cbcd984657412ad1d0f00a5528d64"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/V313OperationsMigrationTests.java",
+      "sha256": "e9c0a912d09c59532ed4685f311697ca5c104b628a1173babe48025928b4f800"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/V313TradeGateTests.java",
+      "sha256": "afd15719bba292aef995bc9ba002cb4fe0a542f83949437e00f92bd0765bf09f"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/V313TradeIntegrationTests.java",
+      "sha256": "069423725483f7839e6507d70bfbe3d4257492ef6a87e34bec1f89a01995421b"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/V313TradeMigrationTests.java",
+      "sha256": "2345b884e21958478ea0c69333d7cb60b3fdb7eb945d3d8a351f535b3e673d10"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/V31BookingGateTests.java",
+      "sha256": "e224e2d0a8ad289e8bbb62ed8fc71232b6c1926272fb908ff7f098ef40c1daf8"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/V31BookingMigrationTests.java",
+      "sha256": "2241824e0061785e0b63a1b9bba9e9e80e693e6f8cbed1b047a6e55b013c0f38"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/V31ServiceBookingIntegrationTests.java",
+      "sha256": "e1e3f5edd67e28d2128e2cd5b2f8ac5bada1a74e9ebddd58948110681528dd9c"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/payment/PaymentOwnershipTests.java",
+      "sha256": "418143ae490fc2703703a4bae193d34c0ca1d68c8ba5441e2954ff0ff0fd7569"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/payment/ServiceTradeFinanceGateTests.java",
+      "sha256": "c2b2b560f0a98b6dd1bee455779267bddbcbde0792ea2df4a8a4c8e9794cfcd8"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/payment/ServiceTradeFixtureGateTests.java",
+      "sha256": "481c52e81bbc16a00efcfb608947eb8f722066c7c46e50ef6fc879940c1dae13"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/security/RequestSizeFilterTests.java",
+      "sha256": "e75203f663455ae93af5979b94631e1f03a43bce728e666510690b3596ff20bd"
+    },
+    {
+      "path": "backend/src/test/java/cn/pawday/storage/VideoContentValidatorTests.java",
+      "sha256": "9dcc27602d7cc6d4139fcb8034238e5d8569d4114673b0ec2a5bd16664039486"
+    },
+    {
+      "path": "backend/src/test/resources/review-video-attribution.md",
+      "sha256": "af1f255d5f99d510325afc016b437542c05156ffde47f87619f969fc4598c9e8"
+    },
+    {
+      "path": "backend/src/test/resources/review-video.base64",
+      "sha256": "8f2b68c97a26d1efda8a1157dcb5cddcd9b10a0e352ef08a5ef94f73cf9bbdaa"
+    },
+    {
+      "path": "consumer-app/flutter/.gitignore",
+      "sha256": "441eaa1de5b3db9fae056e7503567e9f8dd94173e1389c60f76956abf729015a"
+    },
+    {
+      "path": "consumer-app/flutter/.metadata",
+      "sha256": "b3cf6fe8bc075d01439e65ca6df0563d740202b9ed382301fe69d6b3a0daff10"
+    },
+    {
+      "path": "consumer-app/flutter/README.md",
+      "sha256": "9a3c4f6492c31b757f61e761a93b1eef0bdfe94fc985e9b884e0b5fee5dc9304"
+    },
+    {
+      "path": "consumer-app/flutter/analysis_options.yaml",
+      "sha256": "2965e15dbd3bf9fb18ad236b84975481c4adbbd629c4af97ebdbd5ac630782e8"
+    },
+    {
+      "path": "consumer-app/flutter/android/.gitignore",
+      "sha256": "b027c9de1011765c015e5819bf857c0d75bfcd0886fb01721c091159012e50f1"
+    },
+    {
+      "path": "consumer-app/flutter/android/app/build.gradle.kts",
+      "sha256": "0af23d931f190563fb851c48300c285795a8474781dfe8aaa2a8dfcd0e3a3bdc"
+    },
+    {
+      "path": "consumer-app/flutter/android/app/src/debug/AndroidManifest.xml",
+      "sha256": "4e4a0e0726baf45d2d878ea5d0e0666e08ea6e9dbdc33ecd2a74a3525cf5ba51"
+    },
+    {
+      "path": "consumer-app/flutter/android/app/src/main/AndroidManifest.xml",
+      "sha256": "3f40a8c32533cdc8f4ef379701010c22f861dbd7a18affe847b443e6ee0a31d3"
+    },
+    {
+      "path": "consumer-app/flutter/android/app/src/main/kotlin/cn/pawday/pawday_consumer/MainActivity.kt",
+      "sha256": "2402937d66be6da33e5f8fe8ac87e609a825e5dde365c523ef34fa7133eb6a6e"
+    },
+    {
+      "path": "consumer-app/flutter/android/app/src/main/res/drawable-v21/launch_background.xml",
+      "sha256": "7ca6d5cec2169c5a98661a119db23a6f3399c8fef2256ff04f3a642831282478"
+    },
+    {
+      "path": "consumer-app/flutter/android/app/src/main/res/drawable/launch_background.xml",
+      "sha256": "94433756fe10005ddd6fc55cc5c0b1e9f3c10b66a08ceac795ece6713d34e28a"
+    },
+    {
+      "path": "consumer-app/flutter/android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
+      "sha256": "0f8ba640389248ef1042f6ad5e1d227a9cb2289bd806d15deb84889096ecd7ce"
+    },
+    {
+      "path": "consumer-app/flutter/android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
+      "sha256": "12bc7f24da8e062aa53882dfa05f1d47cb89977e1e6f37dbc62354c2efd09550"
+    },
+    {
+      "path": "consumer-app/flutter/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+      "sha256": "e72cd68c4fc86130aa94f3cfa3e5a84afad6ff5a365b25a279ed56059cc3e26a"
+    },
+    {
+      "path": "consumer-app/flutter/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+      "sha256": "b247895d5083646dfd6a8039e990a59d9cd2ee2476540d0b780e7f0be00f9b72"
+    },
+    {
+      "path": "consumer-app/flutter/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "sha256": "ac28999aa0f66c0855654e8a0a462a8dcbf0255e0ece057ff63865007aa4513e"
+    },
+    {
+      "path": "consumer-app/flutter/android/app/src/main/res/values-night/styles.xml",
+      "sha256": "8c5bad5152f217e837519f9c15211d19f39bd45f5f67faf6dd81cb4b299e518f"
+    },
+    {
+      "path": "consumer-app/flutter/android/app/src/main/res/values/styles.xml",
+      "sha256": "937d7c82f539c72eb94fd3a3773f29b3d3fef1997213c92cb632298cedf4bda9"
+    },
+    {
+      "path": "consumer-app/flutter/android/app/src/profile/AndroidManifest.xml",
+      "sha256": "30b0832ed8b92dfbd6ae2abfa939ccf26333d37600056b1572bd4a397a18a74b"
+    },
+    {
+      "path": "consumer-app/flutter/android/build.gradle.kts",
+      "sha256": "6a26dba2cb8dfba1e74f540b0d17a89d96c1301d3c3bfda14348bed257fddcba"
+    },
+    {
+      "path": "consumer-app/flutter/android/gradle.properties",
+      "sha256": "0f82b18017fba6bb5ce3aa4b2d1a00c9382fc8aae7b1d9326e44b18abd66d80b"
+    },
+    {
+      "path": "consumer-app/flutter/android/gradle/wrapper/gradle-wrapper.properties",
+      "sha256": "b690d26223576fe4e63889fad9a00df81945cb870b9476cc5a563152a1a88a74"
+    },
+    {
+      "path": "consumer-app/flutter/android/settings.gradle.kts",
+      "sha256": "016759283e88ade6eba92910583feeef88b962839b957aa414296afd2952d122"
+    },
+    {
+      "path": "consumer-app/flutter/assets/fonts/NotoSansSC.ttf",
+      "sha256": "2a3736a8c43339e314ed55586a8740f651a7b57e6b1cca62ace5686fe1b93b90"
+    },
+    {
+      "path": "consumer-app/flutter/assets/fonts/OFL.txt",
+      "sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9"
+    },
+    {
+      "path": "consumer-app/flutter/assets/fonts/README.md",
+      "sha256": "0877b6fe60c537a70851f1c4853289c62c7599a4a22c66c30cd96b7912ccbcb9"
+    },
+    {
+      "path": "consumer-app/flutter/assets/reference/category-cat.jpg",
+      "sha256": "8a5dcfaea5cee27c029e90f61189469683ac602485002292dbfce2b71966e3ce"
+    },
+    {
+      "path": "consumer-app/flutter/assets/reference/category-dog.jpg",
+      "sha256": "afb06568755a54f3b3386eeba335833a6882131e33941e51c482697bb77c7652"
+    },
+    {
+      "path": "consumer-app/flutter/assets/reference/category-feed.jpg",
+      "sha256": "510684d07f7d371d3a153e3604cda51f28cc532a76a43ba264862b8fc41d0b3b"
+    },
+    {
+      "path": "consumer-app/flutter/assets/reference/category-play.jpg",
+      "sha256": "816ae17db17efab28fbeca79edd1681ef03d0295a1a79fa3c7a3a3ee7ae88e22"
+    },
+    {
+      "path": "consumer-app/flutter/assets/reference/hero-dogs.jpg",
+      "sha256": "ba361f5a23d5a05615a5ef9057360dddff2d4890063b951054485ca55776f7ac"
+    },
+    {
+      "path": "consumer-app/flutter/assets/reference/manifest.json",
+      "sha256": "df59d3c49d323c40949c92ae350e80681f17d0bd54d183d1a427e2d76642c349"
+    },
+    {
+      "path": "consumer-app/flutter/assets/reference/note-cat.jpg",
+      "sha256": "5cd7ebab76879020f2e89718016f6f664648f630594cc03deafc8da977c0bf3a"
+    },
+    {
+      "path": "consumer-app/flutter/assets/reference/product-bowl.jpg",
+      "sha256": "7f03c937d8cb9d58f714f69f05608b1706ed0f3a79f59c76f71229b584af6692"
+    },
+    {
+      "path": "consumer-app/flutter/assets/reference/product-cat.jpg",
+      "sha256": "f1b30a1dd344fb1689d01bb196b18071352384c0b1888b140a59ddea9d3f1352"
+    },
+    {
+      "path": "consumer-app/flutter/assets/reference/product-dog.jpg",
+      "sha256": "cad55ee5448f5baa07937846b1665eaa3bc03b6eea1498bb0c28a622d8cc2a8c"
+    },
+    {
+      "path": "consumer-app/flutter/assets/reference/product-treat.jpg",
+      "sha256": "478fc33b135a81130a5457283e203cf3398fbfe14990cffed8dd1ef06f737b82"
+    },
+    {
+      "path": "consumer-app/flutter/assets/reference/story-dog.jpg",
+      "sha256": "d52770dad14f9e6d5c3c3776c97a0f8a3548962235594c142bedac4277b87d13"
+    },
+    {
+      "path": "consumer-app/flutter/ios/.gitignore",
+      "sha256": "37380775aeb2499662b7aca80f4ac4c95ae827c3ba2bfa179aa3e9af4812c623"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Flutter/AppFrameworkInfo.plist",
+      "sha256": "da12038f9b2688a8a26160fea2609fa8fcb11421448c109f09c0f573efe7698d"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Flutter/Debug.xcconfig",
+      "sha256": "a82d7765b37116ee4821d2cd1d65942febf8032353757ffb0826eabde785b4a6"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Flutter/Release.xcconfig",
+      "sha256": "a82d7765b37116ee4821d2cd1d65942febf8032353757ffb0826eabde785b4a6"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner.xcodeproj/project.pbxproj",
+      "sha256": "7fee0eb448963a26f7b5293a76b91b1d5cd55ba7a9cfa248fc92d698b52ca7c4"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata",
+      "sha256": "7f3b00b5c3fdb45242d7b87e1e5c4e25d1fa8129a16c94295ecc4e8ea2235c5f"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist",
+      "sha256": "dfa0f9bb85b95ccba9c6811adadf8cb407fb5d52088e89db83ebc308ec448542"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings",
+      "sha256": "11b247bc6796892d67c9a821d18604db4dd6a880981b34f38460b9866e6b247f"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme",
+      "sha256": "9fbce429f56243561dd437a527136c9f9ed77165e3b271b923faf236cfcd0484"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner.xcworkspace/contents.xcworkspacedata",
+      "sha256": "46c3c9702ff7c5584e11c954d943cfb6e07fb26e3fbd072ddbc0f388aa352de1"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist",
+      "sha256": "dfa0f9bb85b95ccba9c6811adadf8cb407fb5d52088e89db83ebc308ec448542"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings",
+      "sha256": "11b247bc6796892d67c9a821d18604db4dd6a880981b34f38460b9866e6b247f"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/AppDelegate.swift",
+      "sha256": "451c6d9ba0a2b3ff43092ea349c60fa79a91f1158b915eb29dbdd357cb95d7b8"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json",
+      "sha256": "3b1e214f466ffedff74baa5598ad5c4421130eea6bc8d57b8fe23435e8280ae4"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png",
+      "sha256": "414ed8460b86b24d092c907ad5c9a1ba4819832d9f64f18b74278efb832c11a5"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png",
+      "sha256": "2443daa2a52f2466ac9d37cd589e62ed58a4349e3bab0fe5b97f591629af5806"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png",
+      "sha256": "926830088277d66e347f94339fe609f68a4d13822d64744a4acd05c76a573fb5"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png",
+      "sha256": "7710d7d75106b4063547d0a607fb442a351c2aa88dfca976f156cd147c95b7f3"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png",
+      "sha256": "5cbed6fb0bb8f085c3cba46d522b0640d7892205f01fe3c05ec012d843aa047e"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png",
+      "sha256": "5154e89a53bc7bfae447a456e7d286472e4d96e2c751676c0470295e5c505b66"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png",
+      "sha256": "b80ed9d018a59a4741798862d5ede169292650942f167a6a451bd6ba936afb41"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png",
+      "sha256": "926830088277d66e347f94339fe609f68a4d13822d64744a4acd05c76a573fb5"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png",
+      "sha256": "9c5923f048b86b91ccd30a0d39e925ac6a6dfb202f45f941a4ebe2a50ece939c"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png",
+      "sha256": "1504cbf5c9d9e328ae90bd1e26d736f2685e5b603539e143d5d556567a4fb325"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png",
+      "sha256": "1504cbf5c9d9e328ae90bd1e26d736f2685e5b603539e143d5d556567a4fb325"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png",
+      "sha256": "8d8ddf7f2dcd3fdb9f49d708388e13cd953e4b2cdabc32c27256b87e0ce008e8"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png",
+      "sha256": "6de7e3b4dd9406d573588ccadc0c3330f972f6d4e115b76b1f7d4a5b1e646184"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png",
+      "sha256": "084bf85fb08ad0d82576d69d2d7f57491fab3a735fee66490f376a508c14c098"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png",
+      "sha256": "a51b34dc71ddc7a44d4693979e4ef4c00e5a256aa4e27434ac6f91cba8718573"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json",
+      "sha256": "ccc7950fd5f5b82067c85f667940a9d59189151460761ece8098ca78daa19469"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png",
+      "sha256": "704527a2f52283266843cf46bf0e631c881046e1a88826dde80ff4a2910f7122"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png",
+      "sha256": "704527a2f52283266843cf46bf0e631c881046e1a88826dde80ff4a2910f7122"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png",
+      "sha256": "704527a2f52283266843cf46bf0e631c881046e1a88826dde80ff4a2910f7122"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md",
+      "sha256": "a985b626c4f7546a8ba392d135e9226c3547c8e2b46895f5f2bdf40d7b14ef9f"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Base.lproj/LaunchScreen.storyboard",
+      "sha256": "857e61203b3deafb05766d8fcda898b86a7cb6f3d5e385ecc9926c4d698215e9"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Base.lproj/Main.storyboard",
+      "sha256": "fd367b6c43006d61b730f674970dd48b9f662c8f2264e52ffc1558102a2c9f2d"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Info.plist",
+      "sha256": "31452fb30c5110e4cd1108e6c80606b39642786599dbfc83061eae34f920c079"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/Runner-Bridging-Header.h",
+      "sha256": "1a8d11d01d1cc92c650c9c9ed35299240052d4683a15a719a2315ef44185e074"
+    },
+    {
+      "path": "consumer-app/flutter/ios/Runner/SceneDelegate.swift",
+      "sha256": "add68b905971dedfcc0d0b5b7118030de5925ba8c081ad9815463699e3a444ad"
+    },
+    {
+      "path": "consumer-app/flutter/ios/RunnerTests/RunnerTests.swift",
+      "sha256": "5e8f4908dacea6f29b2a790e4d38bf5fded69096063f9a27a2f21584d62b30c0"
+    },
+    {
+      "path": "consumer-app/flutter/lib/aftersale_card.dart",
+      "sha256": "d295e5c3362de6ca23c362151aca67b57db50b256e5380f59ace9c72910ca6f8"
+    },
+    {
+      "path": "consumer-app/flutter/lib/aftersale_repository.dart",
+      "sha256": "95df1128905f8d0c35abbd0762d570f763be4804e2a95478c9e21949ba47cf08"
+    },
+    {
+      "path": "consumer-app/flutter/lib/ai_repository.dart",
+      "sha256": "87315324cebbe86b8430bd75e19b09b845f6822392e346edfce1b79a8489296d"
+    },
+    {
+      "path": "consumer-app/flutter/lib/ai_screen.dart",
+      "sha256": "83a396b3fc580acf9a4797a31348e134187042c5224094e933457b7019645547"
+    },
+    {
+      "path": "consumer-app/flutter/lib/api/client.dart",
+      "sha256": "10f58229ab287a5f33b55b36d59134d6b3b377be6d7bb728744cba873bdef81a"
+    },
+    {
+      "path": "consumer-app/flutter/lib/api/generated/dto.dart",
+      "sha256": "ba3a8b0aec808256cfc99e4b167bc32bbd028bffce4de90e24ce1b38cf4acdfe"
+    },
+    {
+      "path": "consumer-app/flutter/lib/care_repository.dart",
+      "sha256": "e4b2f8d56ca7426faf3fbc25e41c773bc1e6efe5753def2318abea7b0c511615"
+    },
+    {
+      "path": "consumer-app/flutter/lib/care_screen.dart",
+      "sha256": "4d4f03c6021ff9efad55f98eb3ef6c369d0243e97ae3320f47ad843dcc6b0816"
+    },
+    {
+      "path": "consumer-app/flutter/lib/catalog_repository.dart",
+      "sha256": "a2bef1050db055083160b20f4b539e0aa4a06e24c25354c9662599a2aa2ef305"
+    },
+    {
+      "path": "consumer-app/flutter/lib/catalog_screen.dart",
+      "sha256": "444e0fd02405210bd9cd572d0655d005897097b82003ac41b31a242e0399a94e"
+    },
+    {
+      "path": "consumer-app/flutter/lib/checkout_repository.dart",
+      "sha256": "57aa040f82f61c7684423e58f7032c61413ca926212c649a8ed45ebaf358f5fd"
+    },
+    {
+      "path": "consumer-app/flutter/lib/checkout_screen.dart",
+      "sha256": "89403bd2db62efb060fbc36bdb02325a73943a5e00f2664620a2f60965236c8d"
+    },
+    {
+      "path": "consumer-app/flutter/lib/favorites_screen.dart",
+      "sha256": "f41cfc45b68ec7339a35c25ebde04c913afb8e56dc4699ed0f8d94833f5cb40f"
+    },
+    {
+      "path": "consumer-app/flutter/lib/fulfillment_card.dart",
+      "sha256": "cd56930cfb670c9e2b46573ac067f6030464d08b9e187a16b4451622e473fb88"
+    },
+    {
+      "path": "consumer-app/flutter/lib/home_screen.dart",
+      "sha256": "3899accccee217db335b355a54ea51d77dac225ce4329bb5de4f3acb85c4dafb"
+    },
+    {
+      "path": "consumer-app/flutter/lib/household_repository.dart",
+      "sha256": "80beca1a778f6b1a388bb0f937342c8f28d221139858cc2a66080fdd5cb59dc2"
+    },
+    {
+      "path": "consumer-app/flutter/lib/household_screen.dart",
+      "sha256": "27b458666b1039671a4400fc3c8d30c3d566378eb97b6c0a12d6efab93d86f70"
+    },
+    {
+      "path": "consumer-app/flutter/lib/invoice_screen.dart",
+      "sha256": "7dec2b78af0f02d774fa02d782b2a1152c8c3d1eaf652bfd9a4c83c657124a7a"
+    },
+    {
+      "path": "consumer-app/flutter/lib/main.dart",
+      "sha256": "09413ea13c7a667cd3e5ee1760a42f01a0698b922ec8cd4fd3e6dd9d9681b00a"
+    },
+    {
+      "path": "consumer-app/flutter/lib/membership_repository.dart",
+      "sha256": "50f4b597b89f2dd02ce222556facf80af5f4cecb34b7d48f09df65296d2b4320"
+    },
+    {
+      "path": "consumer-app/flutter/lib/membership_screen.dart",
+      "sha256": "2a5a4c296ed9d7c48f6722b851666090aed6ad5f7fc54b2fbfc6d2a1c3dcc8b1"
+    },
+    {
+      "path": "consumer-app/flutter/lib/nearby_repository.dart",
+      "sha256": "9520490dfb32fa1d0aea395c37ab9827ebeb09b2fca18e5fdf45aa940beb649c"
+    },
+    {
+      "path": "consumer-app/flutter/lib/nearby_screen.dart",
+      "sha256": "84a5fd1987c68361ced7d315fcbf8f11106fe56d62ad4a9e6992ed657a595cca"
+    },
+    {
+      "path": "consumer-app/flutter/lib/order_repository.dart",
+      "sha256": "5212e58ca68a7394586d376b84fa20841002cd274fb200f87f580090f81933b3"
+    },
+    {
+      "path": "consumer-app/flutter/lib/order_screen.dart",
+      "sha256": "b80668d44f8c2c5dc0eb10ede4b56da03402b63c3f46aa8946b84e32451e815a"
+    },
+    {
+      "path": "consumer-app/flutter/lib/payment_repository.dart",
+      "sha256": "cb9f33c616ec1ea8cb2ee64f9aa9ec61d59a7cf510c5f9ddb8b3e2bdbdfa37c6"
+    },
+    {
+      "path": "consumer-app/flutter/lib/payment_screen.dart",
+      "sha256": "2d72b17fe59c78ca46c4c202cf2e538ae96dd45fa4226b5db97642b37a8f249a"
+    },
+    {
+      "path": "consumer-app/flutter/lib/pet_profile_ui.dart",
+      "sha256": "daf0b5da5d55efd42b4b3517046befd48efa2ee592880874206ad41aa8a8fe5e"
+    },
+    {
+      "path": "consumer-app/flutter/lib/pet_repository.dart",
+      "sha256": "15f6897349feb8f2264be55704c8749f39660be747b50180f54db2e817f906a0"
+    },
+    {
+      "path": "consumer-app/flutter/lib/pet_screen.dart",
+      "sha256": "f8d4d975c8e87a02f715027d9e6de35b6ed94aa8f60050e5e5f83f10eea3d11d"
+    },
+    {
+      "path": "consumer-app/flutter/lib/pilot.dart",
+      "sha256": "6959aa6d988c321a1bac69929ea58c375612da6e7c2e6aa964e32b709c4c866b"
+    },
+    {
+      "path": "consumer-app/flutter/lib/pilot_product_media.dart",
+      "sha256": "fb3a4c5312840446e99927bcf82cf4b0fbe95e17a5bd0d22bc737566deb6a78f"
+    },
+    {
+      "path": "consumer-app/flutter/lib/points_repository.dart",
+      "sha256": "676f398e0574e5fda9e864a8593842e526bc29e0bbaaebb5c119263902fea7ff"
+    },
+    {
+      "path": "consumer-app/flutter/lib/points_screen.dart",
+      "sha256": "ee0b1f256adb325b71ea96dc34a043fc1fb6dd28b86ac19384cc6ea53d19c64b"
+    },
+    {
+      "path": "consumer-app/flutter/lib/price_history.dart",
+      "sha256": "03bb965f8e88cda52beea4412a565dc0fcdcebdcf8fa8cdc13fd06bcaa55a770"
+    },
+    {
+      "path": "consumer-app/flutter/lib/publishing_repository.dart",
+      "sha256": "a4bbfefa0ad70b2b39bcdecf8793e3d7a41694bbcae71724b1acff870da1c418"
+    },
+    {
+      "path": "consumer-app/flutter/lib/publishing_screen.dart",
+      "sha256": "acfc394e5300439a0967ca70bcd346600e50941923c3f4de803496b300af6f3d"
+    },
+    {
+      "path": "consumer-app/flutter/lib/purchase_request_screen.dart",
+      "sha256": "62be08b68fbb66c4a4480ac234271cdc5645c07c40cd4899849ac605eb88fbd8"
+    },
+    {
+      "path": "consumer-app/flutter/lib/reference_ui.dart",
+      "sha256": "ef6a61747df7112e35d0a413571d781224a05c8571d89dc67a7248cd4789c003"
+    },
+    {
+      "path": "consumer-app/flutter/lib/repositories.dart",
+      "sha256": "fab64bdcb952e097af0bd3e7d637a0005aec996d70b8f7a3a6bcd0e131d19fbc"
+    },
+    {
+      "path": "consumer-app/flutter/lib/router.dart",
+      "sha256": "685d74674afb5c998c8f52de3914d0aff72b934811cf1ac93b14369bc33f79a1"
+    },
+    {
+      "path": "consumer-app/flutter/lib/screens.dart",
+      "sha256": "e4831cb0b461686e58c2e87ac3b714570b3a46dbeed8572be2e814d152894c06"
+    },
+    {
+      "path": "consumer-app/flutter/lib/service_booking_repository.dart",
+      "sha256": "9f48cd9e82b414373ef15f95968edb4db9c3e4fb1e7d1686a5a7bb5c4d038b1d"
+    },
+    {
+      "path": "consumer-app/flutter/lib/service_booking_screen.dart",
+      "sha256": "5ed5f187928136417fc44cd705a32980ed0a50f91f5446897dfe569405b180db"
+    },
+    {
+      "path": "consumer-app/flutter/lib/service_trade_repository.dart",
+      "sha256": "b87d3104a07c38d6c76bb0e221074d24fa191f2c252c994c23faca8d5eabe310"
+    },
+    {
+      "path": "consumer-app/flutter/lib/service_trade_screen.dart",
+      "sha256": "6f30fcfe1db1286b3f657891ff111763d19220142b05c3e5fd6f34260e091b13"
+    },
+    {
+      "path": "consumer-app/flutter/lib/smart_selection_entry.dart",
+      "sha256": "8fdec83b08bce55ae7d2e76686d47efdb33f6fbead48f16424dc535b82b4b7d1"
+    },
+    {
+      "path": "consumer-app/flutter/lib/support_repository.dart",
+      "sha256": "30f0602e10d2d1760aa70beee7b65074f96c581d6b40cc4b7c1c9885e9da0362"
+    },
+    {
+      "path": "consumer-app/flutter/lib/support_screen.dart",
+      "sha256": "e525265d1c0401387ba60393bbb589acee613e8d3c986f6be023feaa49469b45"
+    },
+    {
+      "path": "consumer-app/flutter/pubspec.lock",
+      "sha256": "677239baf648f5ce2f8a029d332d15d9dc28f9f7355268a6b77a40413a1e83eb"
+    },
+    {
+      "path": "consumer-app/flutter/pubspec.yaml",
+      "sha256": "6d4b2f11226bfac50a013ffee0fa915a342ee2ef91126e759077e0c88bfaa60f"
+    },
+    {
+      "path": "consumer-app/flutter/test/aftersale_test.dart",
+      "sha256": "3e609787de7f3616d4d5b342fed21ce5c605f7f7a00ccbaab4ad2de23c0f525a"
+    },
+    {
+      "path": "consumer-app/flutter/test/ai_test.dart",
+      "sha256": "952c93724c63429402a81062268c018747ca6de228513dc3926c1406916e5c63"
+    },
+    {
+      "path": "consumer-app/flutter/test/api_test.dart",
+      "sha256": "a5ca16d62031341417896b931e92c55c533b929472491a338635445291ece6ce"
+    },
+    {
+      "path": "consumer-app/flutter/test/catalog_test.dart",
+      "sha256": "a7f30c680d1989d8026e6369934c9b880c887aa66606397964a24ac1733df0b5"
+    },
+    {
+      "path": "consumer-app/flutter/test/checkout_test.dart",
+      "sha256": "4e7ffdeb854eb487dbe9b5f42ff58771578b22f44b10b98391bc18fe67764e85"
+    },
+    {
+      "path": "consumer-app/flutter/test/consumer_care_test.dart",
+      "sha256": "313a638c7ce37e813dc03aa0e507a4771d8c3033967e82f6a377e512df96bded"
+    },
+    {
+      "path": "consumer-app/flutter/test/fulfillment_test.dart",
+      "sha256": "2e2982757acfc0f9930ddb2d11d922d5a4d797e934c6eb1f6d32242748bb4aaf"
+    },
+    {
+      "path": "consumer-app/flutter/test/household_test.dart",
+      "sha256": "c9c96dcb85897d74e07607e3e55bbb9281a221bae5af4c9af12c77745f8c0e85"
+    },
+    {
+      "path": "consumer-app/flutter/test/membership_test.dart",
+      "sha256": "b91c5b885dc9d2a2adf67a7e37861edbf8f0b646dcb347a2e306ad331e59393d"
+    },
+    {
+      "path": "consumer-app/flutter/test/navigation_test.dart",
+      "sha256": "f8f983f51f87d95854a80c82af67718008c72ce9fac6ff055bba11a5ba2e3e27"
+    },
+    {
+      "path": "consumer-app/flutter/test/nearby_test.dart",
+      "sha256": "6c687adf17c6790674014ac60e90c0cf04620108479bbc1372e6d405b8ba10f2"
+    },
+    {
+      "path": "consumer-app/flutter/test/order_test.dart",
+      "sha256": "83550789f48d9f59202ba8a853afcdef956f07ba57556a3fc0b07c862e3d009c"
+    },
+    {
+      "path": "consumer-app/flutter/test/payment_test.dart",
+      "sha256": "c020d662872e5d72b0a58d9b19fc1047ab7378e58405028f7a1d0ec3fecfa7e1"
+    },
+    {
+      "path": "consumer-app/flutter/test/pet_profile_experience_test.dart",
+      "sha256": "8ad07e1dc14de338005eb37c7788f8d26f0218f31dea00011be834fee90105ca"
+    },
+    {
+      "path": "consumer-app/flutter/test/pet_test.dart",
+      "sha256": "b9d79a2d206e2597825eece865f9a12a0054422438139a34e60f403df93a2216"
+    },
+    {
+      "path": "consumer-app/flutter/test/pilot_location_test.dart",
+      "sha256": "20e6fe64b95a2a97627bd2ec93f8cced420e70d70b5802175142a48e8074a13d"
+    },
+    {
+      "path": "consumer-app/flutter/test/price_history_test.dart",
+      "sha256": "d36faf593e87b04e1104f8967ba1ea9ec82dc18a3e8bae6a32e76ba5f8baf5d3"
+    },
+    {
+      "path": "consumer-app/flutter/test/publishing_test.dart",
+      "sha256": "5b5366fff36febda86fff5a8eaaf16ac41bb2a24bf3113b3b525841db952f373"
+    },
+    {
+      "path": "consumer-app/flutter/test/reference_design_test.dart",
+      "sha256": "917266b8172a487ddf415c1dfd1c05b1522441bfa79c05e7fdffb45241bcd1f3"
+    },
+    {
+      "path": "consumer-app/flutter/test/search_requests_test.dart",
+      "sha256": "56d55c050f66fb74e42ee63d161d68da69102144c8fab75ddc5188a1b330f2ab"
+    },
+    {
+      "path": "consumer-app/flutter/test/service_booking_test.dart",
+      "sha256": "c373494eb68bea04d6255c7034d47198fdc13bffc307825db9c8b6273d803590"
+    },
+    {
+      "path": "consumer-app/flutter/test/service_trade_test.dart",
+      "sha256": "201921aa628f20111c4946e6ba33f4fcec022a191850f99f55fab02df4ed6b65"
+    },
+    {
+      "path": "consumer-app/flutter/test/support_test.dart",
+      "sha256": "75b78c0eae59a7031b0af5dcf1838d67ddaa48b8ad9dbddc401ba9eef928bf04"
+    },
+    {
+      "path": "consumer-app/flutter/test_pilot/android_guest_test.dart",
+      "sha256": "3b1bad07e4f651edaa2990f2047c7255a9d934a3835f6fd0f90304768738a787"
+    },
+    {
+      "path": "consumer-app/flutter/test_pilot/pilot_material_test.dart",
+      "sha256": "d35e747d9fc20d50a1a7e016160f0744b9877ccecb76d1910649d9d05984cd22"
+    },
+    {
+      "path": "consumer-app/flutter/test_pilot/pilot_mode_test.dart",
+      "sha256": "90a29cd16509442c54fdd327d10c0e8219bf9a62843a17833557fabf8a17cac9"
+    },
+    {
+      "path": "consumer-app/flutter/test_pilot/selection_entry_test.dart",
+      "sha256": "66639a17d92b2d0512e8e92753b17fee73879a24a80db84e65c609c86e468568"
+    },
+    {
+      "path": "consumer-app/flutter/test_real/consumer_http_test.dart",
+      "sha256": "4d4560160907688232f9b249fc36b65167ffc8da8b7cafdee7752751be6d88f5"
+    },
+    {
+      "path": "consumer-app/flutter/web/favicon.png",
+      "sha256": "1b53092d3e4e3878e23a9999512a204f552a8cf25f20fa5639e9121841d39955"
+    },
+    {
+      "path": "consumer-app/flutter/web/icons/Icon-192.png",
+      "sha256": "9930df3807e42c01acea3fb9205ef6c42cfae06c3d182c148a9ba0b5a17fc577"
+    },
+    {
+      "path": "consumer-app/flutter/web/icons/Icon-512.png",
+      "sha256": "66420e17d86a961c85218aa3fa20a9e283bdadc47725b51a9899191a8d65e1d3"
+    },
+    {
+      "path": "consumer-app/flutter/web/icons/Icon-maskable-192.png",
+      "sha256": "0072006adf0aaa6a299be83e4aa8c1c55c70a68d0059ba9eb0c1cdd23061ae48"
+    },
+    {
+      "path": "consumer-app/flutter/web/icons/Icon-maskable-512.png",
+      "sha256": "f71d6ed15df9b97f43a4d2eaf30b048c3483823233f1b093764f9df5dc3e430b"
+    },
+    {
+      "path": "consumer-app/flutter/web/index.html",
+      "sha256": "4954fac2ca6a7157b1b0e1a63c1d8c67cb2280f709e2cf07d0513050a16385b5"
+    },
+    {
+      "path": "consumer-app/flutter/web/manifest.json",
+      "sha256": "80648d1b6a9edf56691700dbfc82eed102d4209564d2c6dc8da0f6ab01a0f675"
+    },
+    {
+      "path": "deployment/images/alpine-runtime.Dockerfile",
+      "sha256": "9496197fa7af61e8550a4fa0add3cdafe3dfe96ec1e10c4cc52e536620a44915"
+    },
+    {
+      "path": "deployment/images/opensearch-library-patches.json",
+      "sha256": "89196533547ddc54db42fa61f18df11c372a356652b29679c42fe95e77129d13"
+    },
+    {
+      "path": "deployment/images/opensearch.Dockerfile",
+      "sha256": "fb830088a1ec5950db5017ea491107fd17c794812250c5d9d04c308091445d1b"
+    },
+    {
+      "path": "deployment/images/patch-opensearch-libraries.py",
+      "sha256": "b4d8466290698971ca51264dc0981595728ccc4e09fe41d7cf9cf4fe2b493e7a"
+    },
+    {
+      "path": "deployment/operations/alertmanager.yml",
+      "sha256": "e3853f55994d6511b17df9ae3112a0270a704b26ce31298644992e54cd33b727"
+    },
+    {
+      "path": "deployment/operations/alerts.yml",
+      "sha256": "e4d707e1d6114614149aa98941132d323ec23dc43b067e18c7b72578b212fc3a"
+    },
+    {
+      "path": "deployment/operations/prometheus.yml",
+      "sha256": "a77492e5c08954770056052c8220ecbc299f16077365c4dd12a0d5044964091a"
+    },
+    {
+      "path": "deployment/operations/rules-test.yml",
+      "sha256": "49ab3a8755a202ff3e85c4597633166015b1bcca77a350ea92c32f56de36d4bf"
+    },
+    {
+      "path": "deployment/privacy/data-inventory.json",
+      "sha256": "2f9596f59e64f6b269d01fde32d4b3ae2475500b85b92f6e097f23a76ad9cea3"
+    },
+    {
+      "path": "deployment/production-admission.json",
+      "sha256": "4389bf216a46d9b0ba1753fc9b6b13c2ec5c4de2e658151b37492263a66f00b0"
+    },
+    {
+      "path": "deployment/production-admission.schema.json",
+      "sha256": "07c00a3d7614556e4e4c74404311587cf3e0df26386df059fbd3593c10ef4424"
+    },
+    {
+      "path": "deployment/recovery/Dockerfile",
+      "sha256": "9258264b48ac63685a01588d56c5c0c250978ebf862857f7ecdaad63d4976367"
+    },
+    {
+      "path": "deployment/recovery/archive-wal.sh",
+      "sha256": "f89a93c1106464cd5772b7a3f98216211a8f7f5e483036ff7b4df5f7861c8a84"
+    },
+    {
+      "path": "merchant-web/README.md",
+      "sha256": "765e5a326ea425aa6331da1d11e3e35b858d3dc3388469227107dcbce2613cdd"
+    },
+    {
+      "path": "merchant-web/index.html",
+      "sha256": "e9ed4de9bb2f81bf25b2ca38522f53e94357aa70cfa4368b43d772d977930219"
+    },
+    {
+      "path": "merchant-web/src/main.ts",
+      "sha256": "310d35f0249bb0452859be717e8019d38f8fda779dd19563e342f27cddffdf1c"
+    },
+    {
+      "path": "merchant-web/vite.config.ts",
+      "sha256": "4db8ed9fe8afd71391be99a040050c298165c026536a82621e00aee59132e464"
+    },
+    {
+      "path": "openapi/pawday-m2.1.bundle.json",
+      "sha256": "cfb7a0e71d59dd0c6bfee20867a774c706605ff9fe3c93ab003c48c30dc0c94c"
+    },
+    {
+      "path": "openapi/pawday-m2.1.redocly-lint.json",
+      "sha256": "23cbe0192894c64b6bfb3cb191156176707b7b2d1f05fe4fa3bac8e13f12bdc1"
+    },
+    {
+      "path": "openapi/pawday-m2.1.redocly.bundle.json",
+      "sha256": "cfb7a0e71d59dd0c6bfee20867a774c706605ff9fe3c93ab003c48c30dc0c94c"
+    },
+    {
+      "path": "openapi/pawday-m2.1.yaml",
+      "sha256": "6b767c7319ff08ecf042df4494464197509520a9c698489d81e21053e6d555fa"
+    },
+    {
+      "path": "openapi/pawday-m2.2.bundle.json",
+      "sha256": "71c77927a075608e9be8a80371a130cf3cc054bc71faea923a433ed53b5a6a36"
+    },
+    {
+      "path": "openapi/pawday-m2.2.redocly-lint.json",
+      "sha256": "23cbe0192894c64b6bfb3cb191156176707b7b2d1f05fe4fa3bac8e13f12bdc1"
+    },
+    {
+      "path": "openapi/pawday-m2.2.redocly.bundle.json",
+      "sha256": "7c2bb0116e88d7c3a27e8a6f0f7d16be901f4480a677436ddab4dff87b7f6c2e"
+    },
+    {
+      "path": "openapi/pawday-m2.2.yaml",
+      "sha256": "f4b9bc12b7136dad436a8b880cb08abde36d2cd22442902f50888eeb83593a9a"
+    },
+    {
+      "path": "openapi/pawday-m2.3.redocly-lint.json",
+      "sha256": "23cbe0192894c64b6bfb3cb191156176707b7b2d1f05fe4fa3bac8e13f12bdc1"
+    },
+    {
+      "path": "openapi/pawday-m2.3.redocly.bundle.json",
+      "sha256": "71c77927a075608e9be8a80371a130cf3cc054bc71faea923a433ed53b5a6a36"
+    },
+    {
+      "path": "openapi/pawday-m2.3.yaml",
+      "sha256": "8cfc09fdca3c47ce22cbc547a41f44434a145e9987c5ef15ac24a37e79f4a019"
+    },
+    {
+      "path": "openapi/pawday-m3.1.yaml",
+      "sha256": "87630a6f28b230e8839f3426e583a6acf299bcfa67ab5d9f8b3ca62557a598b7"
+    },
+    {
+      "path": "openapi/pawday-m3.2.yaml",
+      "sha256": "92ceef00f41b057a5791f82851017430aba9027cb26a09d59467be7ddd30f574"
+    },
+    {
+      "path": "openapi/pawday-m3.3.yaml",
+      "sha256": "fec3e998d79d38ee43479b7d26b783ea49f6335095f6b054d92a67da13f92d44"
+    },
+    {
+      "path": "openapi/pawday-m3.4.yaml",
+      "sha256": "e1eaf536ec5620abdf9c47e1cd5a56057389484358d78b48baea96ff82426dd9"
+    },
+    {
+      "path": "openapi/pawday-m4.1.yaml",
+      "sha256": "0ce0dd535016698359501e035584590658691fe7a545f2fc1934d8c9954367d7"
+    },
+    {
+      "path": "openapi/pawday-m4.2.yaml",
+      "sha256": "de8990a6ec9fe1e4ca4648c098c8d0660bccd8f360110f3b37361d48fa76ac62"
+    },
+    {
+      "path": "openapi/pawday-m4.3.yaml",
+      "sha256": "e487d524394f6e1ec5d796151a01e4486372f70a47c7b110f48dea89247540eb"
+    },
+    {
+      "path": "openapi/pawday-m4.4.yaml",
+      "sha256": "957defa21b69ebb673f7e7bc8a4b64609cad9fd53db67079227c4b7929e4e805"
+    },
+    {
+      "path": "openapi/pawday-m4.5.yaml",
+      "sha256": "bb852a09b24f8cae71dbd3ec2d2e03c5a5a0e03a5860df5680905e5f3b1c1f74"
+    },
+    {
+      "path": "openapi/pawday-m4.6.yaml",
+      "sha256": "42329c2cdd0c8da517c69de6bca9481e4e53e448d86e4f49bfdbd1c03080da55"
+    },
+    {
+      "path": "openapi/pawday-m5.1.yaml",
+      "sha256": "7f07457a02827f20241b8d1a9550663773b3de757c98ad6d0f5f54047a6d1b8b"
+    },
+    {
+      "path": "openapi/pawday-m5.2.yaml",
+      "sha256": "987afa6ec473c7deb82d06622645956dc0bb489d48da2a1ae3695c1218645330"
+    },
+    {
+      "path": "openapi/pawday-m5.3.yaml",
+      "sha256": "e1ea9c8a298760829a2e59478ef39e021ae37a52764f8095fadb82d615f02f4e"
+    },
+    {
+      "path": "openapi/pawday-m5.4.yaml",
+      "sha256": "ba55012d16d2c7941bc4bf0cf802a5b32a0c96a211ce4d0659e871529a4ce1ee"
+    },
+    {
+      "path": "openapi/pawday-m5.5.yaml",
+      "sha256": "05456c0f456439200708449f10e23d97f6cf0eb956d2dd03854ee55fe396ea24"
+    },
+    {
+      "path": "openapi/pawday-m6.6.2.yaml",
+      "sha256": "27d5ea3ff1881567ebfa564f552cbefdd8cb382f56e846e86b6c239089d54be7"
+    },
+    {
+      "path": "openapi/pawday-m6.6.3.yaml",
+      "sha256": "e199ae22046aa30bd765c6799ac75f93d48d066d408abdd52cfb54e7729ed7e9"
+    },
+    {
+      "path": "openapi/pawday-m6.7.yaml",
+      "sha256": "38090f0772262f7a2a87b24e38c5e36236e3c15a92f0c6b49d1fcdfa4d3260c6"
+    },
+    {
+      "path": "openapi/pawday-m6.8.yaml",
+      "sha256": "dc80d98039e3979e92c0a929db15c85155c7cb5fb55502628335af17b087b72a"
+    },
+    {
+      "path": "openapi/pawday-v1.0.7.yaml",
+      "sha256": "9046e89483798b0886e706054e5d120c609d34068d9129a2d292cf92b3f7f41b"
+    },
+    {
+      "path": "openapi/pawday-v1.0.9.yaml",
+      "sha256": "d4a22ff9d021288d13cf403646e1bef65397bcc963d7d38d04806cecb364ff32"
+    },
+    {
+      "path": "openapi/pawday-v1.bundle.json",
+      "sha256": "92d49ece08d86896c9b22df8f101981147ea2b631341ceedd152eca3b1b3c1e2"
+    },
+    {
+      "path": "openapi/pawday-v1.redocly-lint.json",
+      "sha256": "23cbe0192894c64b6bfb3cb191156176707b7b2d1f05fe4fa3bac8e13f12bdc1"
+    },
+    {
+      "path": "openapi/pawday-v1.redocly.bundle.json",
+      "sha256": "7c2de15376300e58c2e34d8c73c15b646d380d4bcd1b7540287e491006a53c74"
+    },
+    {
+      "path": "openapi/pawday-v1.yaml",
+      "sha256": "cb86cd8664391e0d96c392d18bd7182feea9b96286c09e515d4e8eee276da9d7"
+    },
+    {
+      "path": "openapi/pawday-v2.1.yaml",
+      "sha256": "cd036eb21b667232df9cfe236ec0f898556dca1093153c7b3c6a2927ed098703"
+    },
+    {
+      "path": "openapi/pawday-v2.2.yaml",
+      "sha256": "7250253b947f028c18feb2f7b61de0571a60804641886aabbaebbc6c68e2c9d9"
+    },
+    {
+      "path": "openapi/pawday-v2.3.yaml",
+      "sha256": "62f5157037a3ac35fd8f1f32b767a55bce7f8e438d040dc41d0aea8d267885f9"
+    },
+    {
+      "path": "openapi/pawday-v3.1.2.yaml",
+      "sha256": "8bac154f08a4e523ec6a6a116ba565aa28134bd54738f1cce5b91459aa544111"
+    },
+    {
+      "path": "openapi/pawday-v3.1.3-b1.json",
+      "sha256": "079a65e464c9f3798ea6bb382503dee197946273ef24b5b1ce9faac64753b92c"
+    },
+    {
+      "path": "openapi/pawday-v3.1.3-b2.json",
+      "sha256": "b80fa4c957ce764a57e74406fac6c4c86d3317dead93743933abe795fbbd15d5"
+    },
+    {
+      "path": "openapi/pawday-v3.1.3-b3.json",
+      "sha256": "aa3637435e96153b5e55a175cf3e6415708f938ce8be76441645320ec2e6e880"
+    },
+    {
+      "path": "openapi/pawday-v3.1.yaml",
+      "sha256": "8ee2b41a05a438ce32d4073ceaf25a64bdf024d56a30a431014c5180e279b320"
+    },
+    {
+      "path": "package.json",
+      "sha256": "c64e7e67f1705d53de04d2fab1186d8175bab1fd77d53155827a6a5b80a1f047"
+    },
+    {
+      "path": "packages/api-client/src/generated/schema.ts",
+      "sha256": "1e3eb0a0051ee61ee483a5cc93b09f8265f9769ec6bb9e33059420d8d8cc81d0"
+    },
+    {
+      "path": "packages/api-client/src/index.ts",
+      "sha256": "0b08c27d20c01260ca65a8d3789462c6c5b8c4b665329e380bf3c16dfa19f8e0"
+    },
+    {
+      "path": "packages/web-shell/src/AfterSalePanel.vue",
+      "sha256": "9aefa31d6608f43a83737e34436dbb57f008950ec97c8bbd7677c751c3b8f33b"
+    },
+    {
+      "path": "packages/web-shell/src/AiPanel.vue",
+      "sha256": "30a14c2a6ca74d9a150637fccd9380a31c96e45555134b692a72e921dc7cdb59"
+    },
+    {
+      "path": "packages/web-shell/src/BrandLogo.vue",
+      "sha256": "4e1d5157c4e4b916ffd0f8ad9d288dfecc4ac672001b1c8e59d82ee1c06a4a1a"
+    },
+    {
+      "path": "packages/web-shell/src/BusinessAnalyticsPanel.vue",
+      "sha256": "07969af0cb56a9a95fe7f8c9b6548a04fa42b6dc0899ae23bd183e14a92edb67"
+    },
+    {
+      "path": "packages/web-shell/src/CancellationPanel.vue",
+      "sha256": "e65b24554cecf88ff56bcde9eb94c1f466043665d426b5b3cac0d9566efe216f"
+    },
+    {
+      "path": "packages/web-shell/src/CatalogPanel.vue",
+      "sha256": "7c62b0a0d9ec511c9a471531f52083da765f59aefe4cd024208f3fd60fc67658"
+    },
+    {
+      "path": "packages/web-shell/src/ContentPanel.vue",
+      "sha256": "08d560d7c1d27a4fb135443dc02a46593314914f4520f4e25b90c687c82642be"
+    },
+    {
+      "path": "packages/web-shell/src/FinancePanel.vue",
+      "sha256": "897f2360b0f334eb6dd243221554e861b482e7079f5a3334047519a8d79e4b33"
+    },
+    {
+      "path": "packages/web-shell/src/FinancePolicyPanel.vue",
+      "sha256": "057fdb5925154f1dc8a321b278893bf249b9ac9c1d28998ff51a8c14fa2403b3"
+    },
+    {
+      "path": "packages/web-shell/src/FulfillmentPanel.vue",
+      "sha256": "71086946c4d0ffd6d9f05edaa30d8f395d89d3d615385502ad9171788f4e6669"
+    },
+    {
+      "path": "packages/web-shell/src/InvoicePanel.vue",
+      "sha256": "750fb3133f2408051fba503bb9646c35b0cc54ad96d162268f024b4f6feb20dd"
+    },
+    {
+      "path": "packages/web-shell/src/MembershipPanel.vue",
+      "sha256": "c7ea665129573740a7a938522dde00734611f2e14d1449525b4d9ede101e15c1"
+    },
+    {
+      "path": "packages/web-shell/src/NearbyPanel.vue",
+      "sha256": "63fe0756eb85b02b9788329b9076eadd64ea603eccd81bb229d6d2ded30ed44f"
+    },
+    {
+      "path": "packages/web-shell/src/OfferPanel.vue",
+      "sha256": "a6b74c7092caf1dec73765bc49d2eb705841602512f39addfd758fba4ac6b762"
+    },
+    {
+      "path": "packages/web-shell/src/OrderPolicyPanel.vue",
+      "sha256": "609e59e24c03e11f71f0c8ef4280b3abe8aca3739dd56c5edd6f117132ece0da"
+    },
+    {
+      "path": "packages/web-shell/src/OrdersPanel.vue",
+      "sha256": "9ab5642c2949a0317671ce67df13702f2522b35cce8271b2a88489da9409626a"
+    },
+    {
+      "path": "packages/web-shell/src/PaymentPanel.vue",
+      "sha256": "0d4bf3dcfe5a6e7563d11560d75da1ccb535aae40f3303c0e953eb3831fa1233"
+    },
+    {
+      "path": "packages/web-shell/src/PriceHistoryPanel.vue",
+      "sha256": "ec59c609d5f962c3fa931eb4a246624e904be40439341c6d1b8caa1dab5504c2"
+    },
+    {
+      "path": "packages/web-shell/src/PublicationMedia.vue",
+      "sha256": "0104ed24a616d305ea7813d238a699dde35a9c70c2953b0fa16efe11893c3eb6"
+    },
+    {
+      "path": "packages/web-shell/src/PurchaseRequestsPanel.vue",
+      "sha256": "91bf56240654a9e714cb402f3c47986aaca01305812b6dceb8b466b937060679"
+    },
+    {
+      "path": "packages/web-shell/src/ReferenceHero.vue",
+      "sha256": "ca8e784ef27ee9fd6930baa2565a5eed1ca22867a0af6ff3ce8f27f8a934dce1"
+    },
+    {
+      "path": "packages/web-shell/src/RefundsPanel.vue",
+      "sha256": "3612283f5073c40ab56fa8c7ace77eeebef801a59c1d74f2048a02393fdf1f68"
+    },
+    {
+      "path": "packages/web-shell/src/ReviewPanel.vue",
+      "sha256": "a23aebb560895fc2a4f5a5fdab8de4576426bd406f4d341e5ed7d95d544f82e5"
+    },
+    {
+      "path": "packages/web-shell/src/ServiceBookingPanel.vue",
+      "sha256": "c49e882fd969679dfcbd7a88a37267789921b588a783968d75c7ef070599a84f"
+    },
+    {
+      "path": "packages/web-shell/src/ServiceTradePanel.vue",
+      "sha256": "4c1c72928997111a07af1d056b843a148639f58386db0e4051005234380057b0"
+    },
+    {
+      "path": "packages/web-shell/src/SettlementPanel.vue",
+      "sha256": "efce90799ea77734d8deb2211b65b4898b1c1556d185019b0b68bd7d1453d13c"
+    },
+    {
+      "path": "packages/web-shell/src/ShippingPanel.vue",
+      "sha256": "4025c4580bb5fcfa69f9c84de912a998bfbbe5dc22a1c2936c29ba0002df20c2"
+    },
+    {
+      "path": "packages/web-shell/src/SmartSelectionEntry.vue",
+      "sha256": "99412cc42e81b4de99047f633ede8ba6878bf7d62fd11fca105d5f23f301eacd"
+    },
+    {
+      "path": "packages/web-shell/src/StaffApp.vue",
+      "sha256": "3c16ae97ea637f7071742974830cd6f777ba2c654f15051203e3324e2b49be9a"
+    },
+    {
+      "path": "packages/web-shell/src/SupportPanel.vue",
+      "sha256": "6c85bc0dd1785bab72d90ec9ee88bbf09ae7dbc6142f840b01d812f1cfe3cec1"
+    },
+    {
+      "path": "packages/web-shell/src/TaxonomyPanel.vue",
+      "sha256": "7f803c2699a93a70270820a2a8289d898c45b37d7b9814b31c14bc5075ac9d18"
+    },
+    {
+      "path": "packages/web-shell/src/auth.ts",
+      "sha256": "efb5f10c783e9c028605fa32937230f1e46d7a16222057adea18dc9ab8d877e9"
+    },
+    {
+      "path": "packages/web-shell/src/bootstrap.ts",
+      "sha256": "034c3d0d4dd2e38e7ee455e5456364470759e84f029c11a19510f7a2dffdbb68"
+    },
+    {
+      "path": "packages/web-shell/src/business-analytics.ts",
+      "sha256": "45a7c3711d4292128f11d17519a7102aaa484d8712de96e1a04fcd5a4eb54b5a"
+    },
+    {
+      "path": "packages/web-shell/src/motion.ts",
+      "sha256": "05ac0b1011f3f24e52dce6bc8ed720b90e09364b39f7cd22042d228cafd23683"
+    },
+    {
+      "path": "packages/web-shell/src/price-history.ts",
+      "sha256": "c05c59158d1db7df377cb11eab71b86d545413eae0ef1e2d623863eca656e5b3"
+    },
+    {
+      "path": "packages/web-shell/src/reference.css",
+      "sha256": "839c3e2f377a812bf4e5de409391df8b485a021dfe591cdbcb38e6daaff10240"
+    },
+    {
+      "path": "packages/web-shell/src/theme.css",
+      "sha256": "22f89e6561240af918af19a5d446cab9ec450574759a00988096df5b215a4323"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "b65fd9bed959e1f306ea12d7aba9dcd871ea6b1e8fb15bbce313098fb6e0064e"
+    },
+    {
+      "path": "scripts/generate-api.mjs",
+      "sha256": "280577fa32b270b00884916c86df7c9e6903d278a1f6a15aeb0cadd463868339"
+    }
+  ],
+  "rows_sha256": "7e7330ea60c93a5b9ee5dde38340552fd97961d44c53640e2ca72f96e81ac1ac"
+}
