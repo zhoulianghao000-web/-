@@ -1,0 +1,197 @@
+{
+  "result": "PASS",
+  "stage": "V3.2-A-DESIGN-COMPLETE",
+  "tested_commit": "356efee6516abdfa7b557d0cbedefb96970cd985",
+  "ci_jobs": 9,
+  "ci_runs": [
+    {
+      "id": 39719927416,
+      "url": "https://github.com/zhoulianghao000-web/-/actions/runs/39719927416",
+      "conclusion": "success"
+    },
+    {
+      "id": 39719927429,
+      "url": "https://github.com/zhoulianghao000-web/-/actions/runs/39719927429",
+      "conclusion": "success"
+    }
+  ],
+  "design_report": {
+    "result": "PASS",
+    "stage": "V3.2-A-DESIGN",
+    "evidence_kind": "DESIGN_ONLY_SYNTHETIC",
+    "operations": 18,
+    "request_response_schema_examples": 28,
+    "synthetic_model_cases": 66,
+    "positive_cases": 14,
+    "negative_cases": 52,
+    "external_rule_gaps_pending": 12,
+    "baseline_manifest_files": 559,
+    "derived_bundle_files_separately_classified": 7,
+    "runtime_source_files_unchanged": 551,
+    "engineering_image_security_patch_files": 1,
+    "runtime_business_source_unchanged": true,
+    "actual_http_responses": 0,
+    "runtime_implemented": false,
+    "real_supplier_verified": false,
+    "final_end_to_end_acceptance_executed": false,
+    "v32_development_complete": false,
+    "v3_complete": false,
+    "phone_operations_performed": false,
+    "production_ready": false
+  },
+  "design_guard_tests": 14,
+  "v32_a_design_complete": true,
+  "new_v32_runtime_operations": 0,
+  "new_v32_actual_http_responses": 0,
+  "v32_b1_implemented": false,
+  "v32_development_complete": false,
+  "v3_complete": false,
+  "regression_script_tests": 121,
+  "regression_backend": {
+    "surefire": {
+      "tests": 666,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "failsafe": {
+      "tests": 84,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "regression_web_tests": 108,
+  "regression_consumer_tests": 138,
+  "regression_consumer_pilot_tests": 16,
+  "regression_real_browser_scenarios": 3,
+  "regression_consumer_real_http_tests": 2,
+  "existing_business_actual_contract": {
+    "stage": "V3.1.3-B3",
+    "operations": 33,
+    "responses": 791
+  },
+  "existing_service_browser_flow": {
+    "result": "PASS",
+    "stage": "V3.1.3-B3-DEVELOPMENT-REAL-UI",
+    "synthetic_only": true,
+    "independent_final_acceptance": false,
+    "service_id": "81888c63-7d1d-4c10-bae4-2670dcc2eae9",
+    "terms_id": "07538d01-df08-4a60-964a-a3e5a1fce504",
+    "trade_id": "6cd6cbdf-368b-4e9c-93f8-371f6a00fde9",
+    "cancelled_trade_id": "f91483f7-3ca9-45f1-9639-8b7e344e9126",
+    "settlement_id": "8e09c7e1-188a-4088-a232-e73c872e86e2",
+    "collection_fen": 101,
+    "commission_fen": 3,
+    "payout_fen": 98,
+    "refund_fen": 101,
+    "actual_requests_and_persisted_rereads": true,
+    "consumer_commission_hidden": true,
+    "dispute_frozen": true,
+    "dispute_resolved_without_financial_change": true,
+    "rejected_refund_id_null": true,
+    "service_ledger_balance_fen": 0
+  },
+  "image_security_scan": {
+    "result": "PASS",
+    "source_secrets": 0,
+    "images": [
+      {
+        "image": "pawday-postgres:17.11-security20261013",
+        "known_vulnerabilities": 0
+      },
+      {
+        "image": "pawday-redis:8.2.10-security20261013",
+        "known_vulnerabilities": 0
+      },
+      {
+        "image": "pawday-rabbitmq:4.3.6-security20261013",
+        "known_vulnerabilities": 0
+      },
+      {
+        "image": "pawday-opensearch:3.9.0-security20261013",
+        "known_vulnerabilities": 0
+      }
+    ],
+    "tool_versions": {
+      "gitleaks": "8.30.1",
+      "trivy": "0.75.0"
+    },
+    "scanner_release_checksums_verified": true
+  },
+  "postgres_musl_utils_version": "1.2.6-r3",
+  "security_amendment": {
+    "scope": "ENGINEERING_IMAGE_SECURITY_PATCH_ONLY",
+    "runtime_business_source_changed": false,
+    "scan_policy_relaxed": false,
+    "changes": [
+      {
+        "path": "deployment/images/alpine-runtime.Dockerfile",
+        "baseline_sha256": "9496197fa7af61e8550a4fa0add3cdafe3dfe96ec1e10c4cc52e536620a44915",
+        "patched_sha256": "a0b468f8396a343b5a14ad781c1928002b81798248023ea7ab0d65d7515f22df",
+        "reason": "CVE-2026-107891 affects old musl-utils subpackage; keep installed musl family on the vendor-fixed branch version",
+        "observed_job": 119622011125,
+        "installed_version": "1.2.6-r2",
+        "fixed_versions": {
+          "3.22": "1.2.5-r13",
+          "3.23": "1.2.5-r24",
+          "3.24": "1.2.6-r3"
+        },
+        "official_sources": [
+          "https://secdb.alpinelinux.org/v3.22/main.json",
+          "https://secdb.alpinelinux.org/v3.23/main.json",
+          "https://secdb.alpinelinux.org/v3.24/main.json"
+        ],
+        "local_docker_build_verified": false,
+        "cloud_image_scan_required": true
+      }
+    ]
+  },
+  "source_git_blob_sha256": {
+    "openapi/design/pawday-v3.2-draft.json": "cc2aa933667b2d09102ea572d8cbe4cec10dad748ce70856cfeb28cce42f58f3",
+    "openapi/validate_v32_design.py": "f9c14c24264fc7ed8fc7872487b0eb2779e830fa891e9ecfd0ccc8f77ada84fd",
+    "scripts/compose-v32-design.py": "db62588e2e4f843cd72ffca4d752dba211fa542e91e05b846d17e4c56fea292d",
+    "scripts/erp_wms_design_contract.py": "631ddaac6430fd661071fc5035a3e297c4106ebadcabf03076f28ae080f4de2f",
+    "scripts/tests/test_erp_wms_design.py": "42c6ee364331cb3d9461a422fd54d2d574188f18b647be724be129666413b353",
+    "design/v3.2/engineering-policy.json": "360f60d90d5b4336c7ec1c4df5c2f95629bd69a21a714243a4233a45474527cd",
+    "design/v3.2/runtime-baseline.json": "6e1abd4bede126c61796ffa9114427149390036a735a7e38d3ef154b85579a5d",
+    "design/v3.2/external-gaps.json": "3ff68136313a403e7dcd78c0ea35edc20c0c5c17eb236b8ffa648879217783ee",
+    "design/v3.2/security-amendments.json": "f4e7632e335d7c4867406c776b48a51dde0644d5668bce034784f38065972355",
+    "design/v3.2/synthetic-cases.json": "47cc1e19d4c88ec6aea556701f290ef7820c6df40069f3ab6a1eeb6f0ec2cba4",
+    "deployment/images/alpine-runtime.Dockerfile": "a0b468f8396a343b5a14ad781c1928002b81798248023ea7ab0d65d7515f22df",
+    ".github/workflows/ci.yml": "13ea706d208c7d27831df9fd66b87eeaaca4313b0cce7d68ce3ea519efe3295a",
+    "scripts/security-engineering-gate.py": "b3af3181112fffd67986d941427b292aa9c9b633977bbb8757543aa6ecd31908",
+    ".gitleaks.toml": "f802870c9017b5aa49c9d4f320d486197519ca0fd18ab6d52f59e168f0bb6cd3",
+    "compose.integration.yaml": "8f0d12d3c75313c460008202735824b5be2af21ab8fe0afbe7177140341d6953"
+  },
+  "production_ready": false,
+  "real_supplier_verified": false,
+  "independent_final_acceptance_executed": false,
+  "final_apk_delivered": false,
+  "desktop_program_updated": false,
+  "private_data_modified": false,
+  "phone_operations_performed": false,
+  "failure_history": [
+    {
+      "commit": "af32838321a8d0c2f61e65adf61da25d77b67133",
+      "run": 39717192156,
+      "job": 119622011125,
+      "cause": "CVE-2026-107891: musl-utils subpackage remained 1.2.6-r2 while musl itself upgraded",
+      "scan_threshold_unchanged": true
+    },
+    {
+      "commit": "8681e03f9adff921c003410b851648a1472c59ae",
+      "run": 39717429210,
+      "job": 119622995737,
+      "cause": "Same unpatched musl-utils security failure; design openapi gate passed",
+      "scan_threshold_unchanged": true
+    },
+    {
+      "commit": "c02c9c785a694839a4e344811935a6be4363d8c1",
+      "run": 39717848482,
+      "job": 119624590161,
+      "cause": "Late aggregate script tests observed regenerated historical bundle outputs as runtime source drift",
+      "fixed_by": "Protect canonical source inputs, classify derived bundle outputs, and regress genuine source/new-contract drift; 121 script tests required"
+    }
+  ]
+}
