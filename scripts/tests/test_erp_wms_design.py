@@ -41,6 +41,8 @@ class ErpWmsDesignTests(unittest.TestCase):
     with self.assertRaisesRegex(DesignError,'MOVEMENT_CHAIN_INVALID'):stock_projection(state)
  def test_unknown_after_last_attempt_keeps_fixed_key_and_responsibility(self):
   state=self.sample('TEST_ONLY_DELIVERY_EXHAUSTED_RETAINS_RESPONSIBILITY');result=delivery_result(state);self.assertEqual(result,{'state':'NEEDS_REVIEW','responsibility_open':True,'business_key':'TEST_ONLY_ORDER_1'})
+  rejected=self.sample('TEST_ONLY_DELIVERY_REJECTED');rejected['rejection_proven_no_external_order']=False
+  with self.assertRaisesRegex(DesignError,'EXTERNAL_REJECTION_UNPROVEN'):delivery_result(rejected)
  def test_same_event_id_cannot_hide_changed_payload(self):
   self.assertEqual(event_identity('a'*64,'a'*64),'DUPLICATE_NO_SIDE_EFFECT')
   with self.assertRaisesRegex(DesignError,'EVENT_IDENTITY_CONFLICT'):event_identity('a'*64,'b'*64)

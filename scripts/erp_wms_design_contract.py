@@ -52,6 +52,7 @@ def delivery_result(s):
  require(s['outcome'] in ['ACCEPTED','REJECTED','UNKNOWN','NOT_FOUND'],'EXTERNAL_RESULT_INVALID')
  if s['outcome'] in ['ACCEPTED','REJECTED']:
   require(s['receipt_proven'],'EXTERNAL_RECEIPT_UNPROVEN')
+  if s['outcome']=='REJECTED':require(s.get('rejection_proven_no_external_order') is True,'EXTERNAL_REJECTION_UNPROVEN')
   return {'state':s['outcome'],'responsibility_open':False,'business_key':s['business_key']}
  state='NEEDS_REVIEW' if s['attempt_count']==8 else 'UNKNOWN' if s['outcome']=='UNKNOWN' else 'READY'
  return {'state':state,'responsibility_open':True,'business_key':s['business_key']}

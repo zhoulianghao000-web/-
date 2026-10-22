@@ -66,7 +66,11 @@ def validate_artifact(doc,fixtures,gaps,baseline,policy,actual_rows=None):
   if 'enum' in s:return s['enum'][0]
   if 'anyOf' in s:return None if any(t.get('type')=='null' for t in s['anyOf']) else example(s['anyOf'][0])
   kind=s.get('type')
-  if kind=='object':return {k:example(v) for k,v in s['properties'].items()}
+  if kind=='object':
+   result={k:example(v) for k,v in s['properties'].items()}
+   if 'eligible' in result and 'blocked_reasons' in result:result['blocked_reasons']=['TEST_ONLY_BLOCKED']
+   if 'responsibility_open' in result and 'state' in result:result['responsibility_open']=result['state'] not in ['ACCEPTED','REJECTED']
+   return result
   if kind=='array':return [example(s['items']) for _ in range(s.get('minItems',0))]
   if kind=='integer':return s.get('minimum',0)
   if kind=='boolean':return False

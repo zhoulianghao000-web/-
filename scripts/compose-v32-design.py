@@ -31,6 +31,11 @@ def build():
  schemas['Reconciliation']=obj({'connection_id':uid,'mapping_conflicts':integer(),'stock_conflicts':integer(),'unknown_deliveries':integer(),'shipment_conflicts':integer(),'as_of':date,'simulated':sim})
  schemas['ResponsibilityInput']=obj({'decision':{'const':'ACKNOWLEDGE_FOR_MANUAL_REVIEW'},'reason_code':{'const':'TEST_SCENARIO_REVIEWED'},'evidence_refs':array(ref('Evidence'),1,10)})
  schemas['Responsibility']=obj({'id':uid,'connection_id':uid,'state':{'const':'NEEDS_REVIEW'},'responsibility_open':{'const':True},'version':ver,'simulated':sim})
+ # Cross-field constraints keep structural examples from claiming false confirmation.
+ schemas['InventoryEvent']['allOf']=[{'if':{'properties':{'acknowledged_local_sequence':{'minimum':1}}},'then':{'properties':{'acknowledgement_id':uid}},'else':{'properties':{'acknowledgement_id':{'const':None}}}}]
+ schemas['StockPreview']['allOf']=[{'if':{'properties':{'eligible':{'const':True}}},'then':{'properties':{'target_on_hand_qty':integer(),'delta_qty':integer(-1_000_000_000),'blocked_reasons':{'maxItems':0}}},'else':{'properties':{'blocked_reasons':{'minItems':1}}}}]
+ schemas['Delivery']['allOf']=[{'if':{'properties':{'state':{'enum':['ACCEPTED','REJECTED']}}},'then':{'properties':{'responsibility_open':{'const':False}}},'else':{'properties':{'responsibility_open':{'const':True}}}}]
+ schemas['ConnectionStateInput']['allOf']=[{'if':{'properties':{'state':{'const':'ACTIVE'}}},'then':{'properties':{'reason_code':{'const':'TEST_SCENARIO_START'}}},'else':{'properties':{'reason_code':{'const':'OPERATOR_PAUSE'}}}}]
  schemas['Error']=obj({'code':{'type':'string','minLength':1,'maxLength':100},'request_id':uid})
  schemas['Page']=obj({'has_more':boolean,'next_cursor':nullable(uid)})
  for name in ['Connection','Mapping','InventoryEvent','StockPreview','StockApplication','Delivery','ShipmentEvent','ShipmentApplication','Reconciliation','Responsibility']:

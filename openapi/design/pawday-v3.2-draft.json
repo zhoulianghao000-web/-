@@ -2554,6 +2554,31 @@
         "required": [
           "state",
           "reason_code"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "state": {
+                  "const": "ACTIVE"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "reason_code": {
+                  "const": "TEST_SCENARIO_START"
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "reason_code": {
+                  "const": "OPERATOR_PAUSE"
+                }
+              }
+            }
+          }
         ]
       },
       "Connection": {
@@ -2791,6 +2816,32 @@
           "payload_sha256",
           "observed_at",
           "simulated"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "acknowledged_local_sequence": {
+                  "minimum": 1
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "acknowledgement_id": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "acknowledgement_id": {
+                  "const": null
+                }
+              }
+            }
+          }
         ]
       },
       "StockPreview": {
@@ -2898,6 +2949,41 @@
           "created_at",
           "expires_at",
           "simulated"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "eligible": {
+                  "const": true
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "target_on_hand_qty": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000000
+                },
+                "delta_qty": {
+                  "type": "integer",
+                  "minimum": -1000000000,
+                  "maximum": 1000000000
+                },
+                "blocked_reasons": {
+                  "maxItems": 0
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "blocked_reasons": {
+                  "minItems": 1
+                }
+              }
+            }
+          }
         ]
       },
       "StockApplyInput": {
@@ -3031,6 +3117,34 @@
           "responsibility_open",
           "version",
           "simulated"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "state": {
+                  "enum": [
+                    "ACCEPTED",
+                    "REJECTED"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "responsibility_open": {
+                  "const": false
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "responsibility_open": {
+                  "const": true
+                }
+              }
+            }
+          }
         ]
       },
       "RetryInput": {

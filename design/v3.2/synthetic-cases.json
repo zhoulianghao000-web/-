@@ -1499,7 +1499,8 @@
         "payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
         "reply_payload_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
         "outcome": "REJECTED",
-        "receipt_proven": true
+        "receipt_proven": true,
+        "rejection_proven_no_external_order": true
       },
       "expected": {
         "state": "REJECTED",
