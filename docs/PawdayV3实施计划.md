@@ -349,3 +349,11 @@ af32838 已推送并启动 CI；复核进一步要求明确拒绝回执必须证
 这是本批必须完成的工程依赖修复，不能继续声称所有 559 份部署/运行文件都不变：原清单保留，design/v3.2/security-amendments.json 单列唯一 Dockerfile 的前后 SHA-256、官方依据及失败作业；558 份其余基线文件、全部业务源码/运行契约/TS/Dart 不变。验证器只允许该唯一审核过的镜像文件差异，增加防扩大例外/关闭扫描检查。本地 Docker 引擎未运行，没有启动/改动现有桌面服务；镜像实际构建与四镜像零漏洞复验由新提交 CI 执行，本地不冒称已构建。
 
 原失败日志 .maintenance/v32-first-ci-security-failure.log、原扫描 JSON .maintenance/v32-first-security-evidence，官方安全库及 APKINDEX 原文归档 .maintenance/v32-alpine-upstream。官方索引在浏览检索缓存中仍显示旧版，已直接读取同官方域实时安全库/APKINDEX 核对版本；没有凭搜索缓存虚构修复。读取源扫描结果时发现 source-secrets.json 是列表，后续按其实际格式处理，不算漏洞修复通过。本轮 66 模型/28 结构案例及新增 13 项设计守护待末轮复验；同提交 CI 全通过后再关闭 A。
+
+### 构建派生文件的源码检查修复（c02c9c7，2026-10-22）
+
+同提交安全、OpenAPI、前端三项及主要后端测试/响应契约通过，但 39717848482 / 119624590161 在 M6.1 的全量 Python 脚本回归失败：新增 A 守护把此前生成的 bundle JSON 也当作运行源码，导致 11 个断言失败、1 个错误，本轮未关闭 A。已在受控临时目录执行原 validate_contract.py / validate_m23_contract.py，精确复现 pawday-v1.bundle.json 与 pawday-m2.2.bundle.json 被重写而源契约不变。日志 .maintenance/v32-patched-ci-backend-failure.log、复现记录 .maintenance/v32-generated-artifact-reproduction.json。
+
+修复只将 openapi 下明确的 pawday-*.bundle.json / *.redocly.bundle.json 派生产物分开，不改变、重写或放宽实际业务源文件；原 559 份历史清单及其摘要保留，其中 7 份为派生 bundle，552 份为源码/源契约，551 份保持不变、1 份为单列工程安全补丁。代码生成禁止消费这些派生 bundle；真实源文件漂移、未提交的新运行契约仍会拒绝。新增临时目录回归验证三种情况，错误信息也列出实际漂移路径。
+
+本地 14 项 A 守护及全量 scripts/tests 121 项全部通过，18 操作/28 结构/66 模型案例继续通过；新 ERP/WMS 实际 HTTP 仍为 0。本次必须新提交重跑全部 CI，原 c02c9c7 的八项成功不替代新提交最终门禁。桌面/私有数据/手机不变。
