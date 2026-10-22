@@ -9,19 +9,24 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
 from erp_wms_design_contract import DesignError,require,digest,event_identity,stock_projection,delivery_result,paid_cancellation,shipment_application
 PROTECTED=['backend/src/main/','backend/src/test/','consumer-app/flutter/','merchant-web/','admin-web/','packages/','deployment/','openapi/pawday-','scripts/generate-api.mjs','backend/pom.xml','package.json','pnpm-lock.yaml']
 
-def load_inputs():return [json.loads(p.read_text(encoding='utf-8')) for p in [ROOT/'openapi/design/pawday-v3.2-draft.json',ROOT/'design/v3.2/synthetic-cases.json',ROOT/'design/v3.2/external-gaps.json',ROOT/'design/v3.2/runtime-baseline.json',ROOT/'design/v3.2/engineering-policy.json']]
+def load_inputs():return [json.loads(p.read_text(encoding='utf-8')) for p in [ROOT/'openapi/design/pawday-v3.2-draft.json',ROOT/'design/v3.2/synthetic-cases.json',ROOT/'design/v3.2/external-gaps.json',ROOT/'design/v3.2/runtime-baseline.json',ROOT/'design/v3.2/engineering-policy.json',ROOT/'design/v3.2/security-amendments.json']]
 
 def runtime_rows():
  files=subprocess.check_output(['git','ls-files','--cached','--others','--exclude-standard'],cwd=ROOT,text=True,encoding='utf-8').splitlines()
  return [{'path':n,'sha256':hashlib.sha256((ROOT/n).read_bytes().replace(b'\r\n',b'\n')).hexdigest()} for n in sorted(set(n for n in files if any(n.startswith(p) for p in PROTECTED)))]
 
-def validate_artifact(doc,fixtures,gaps,baseline,policy,actual_rows=None):
+def validate_artifact(doc,fixtures,gaps,baseline,policy,security,actual_rows=None):
  validate_spec(doc)
  require(doc.get('x-design-status')=='DRAFT_NOT_IMPLEMENTED' and doc.get('x-runtime-implemented') is False and doc.get('x-supplier-status')=='PENDING_REAL_SYSTEM','DESIGN_BOUNDARY_REQUIRED')
  require(doc['servers']==[{'url':'https://design.invalid/api/v1','description':'Reserved invalid domain; no deployed service.'}],'DESIGN_SERVER_REQUIRED')
  require('openapi/design/' not in (ROOT/'scripts/generate-api.mjs').read_text(encoding='utf-8') and 'v3.2' not in (ROOT/'scripts/generate-api.mjs').read_text(encoding='utf-8'),'DRAFT_RUNTIME_CODEGEN_FORBIDDEN')
  require(baseline['source_commit']=='e024c322001e8267df6958a9dbcf6dc182f64000' and baseline['business_commit']=='3e90a4f22a03918ad73c82e1fb8b78634ec98750' and baseline['runtime_contract']=='openapi/pawday-v3.1.3-b3.json','RUNTIME_BASELINE_SOURCE_CHANGED')
- require(digest(baseline['rows'])==baseline['rows_sha256'] and (runtime_rows() if actual_rows is None else actual_rows)==baseline['rows'],'RUNTIME_SOURCE_CHANGED')
+ require(digest(baseline['rows'])==baseline['rows_sha256'],'RUNTIME_BASELINE_DIGEST_CHANGED')
+ require(security['scope']=='ENGINEERING_IMAGE_SECURITY_PATCH_ONLY' and security['runtime_business_source_changed'] is False and security['scan_policy_relaxed'] is False and [c['path'] for c in security['changes']]==['deployment/images/alpine-runtime.Dockerfile'],'SECURITY_AMENDMENT_SCOPE_INVALID')
+ expected=copy.deepcopy(baseline['rows'])
+ for change in security['changes']:
+  row=next(r for r in expected if r['path']==change['path']);require(row['sha256']==change['baseline_sha256'],'SECURITY_BASELINE_MISMATCH');row['sha256']=change['patched_sha256']
+ require((runtime_rows() if actual_rows is None else actual_rows)==expected,'RUNTIME_SOURCE_CHANGED')
  require(len(gaps['gaps'])==12 and gaps['status']=='PENDING_REAL_SYSTEM' and gaps['production_ready'] is False and len({g['id'] for g in gaps['gaps']})==12 and all(g['status']=='PENDING' and g['confirmed_value'] is None and g['evidence_ref'] is None for g in gaps['gaps']),'EXTERNAL_RULES_NOT_CONFIRMED')
  require(policy['scope']=='SYNTHETIC_ENGINEERING_ONLY' and policy['modes']==['SIMULATED_TEST'] and policy['default_enabled'] is False and policy['production_allowed'] is False,'ENGINEERING_GATE_CHANGED')
  require(policy['stock']['basis']=='DEDICATED_REMAINING_AFTER_WATERMARK' and policy['stock']['preview_seconds']==300 and policy['stock']['invalid_projection_is_null_not_zero'] is True,'STOCK_POLICY_CHANGED')
@@ -86,7 +91,7 @@ def validate_artifact(doc,fixtures,gaps,baseline,policy,actual_rows=None):
   for schema in ([op['requestBody']['content']['application/json']['schema']] if 'requestBody' in op else [])+[op['responses']['200']['content']['application/json']['schema']]:
    validator=Draft202012Validator({'$ref':'urn:pawday:v32-design'+schema['$ref']},registry=registry,format_checker=FormatChecker())
    require(not list(validator.iter_errors(example(schema))),'STRUCTURAL_EXAMPLE_INVALID:'+schema['$ref']);examples+=1
- return {'result':'PASS','stage':'V3.2-A-DESIGN','evidence_kind':'DESIGN_ONLY_SYNTHETIC','operations':len(operations),'request_response_schema_examples':examples,'synthetic_model_cases':len(fixtures['cases']),'positive_cases':positive,'negative_cases':negative,'external_rule_gaps_pending':12,'runtime_source_files_unchanged':len(baseline['rows']),'actual_http_responses':0,'runtime_implemented':False,'real_supplier_verified':False,'final_end_to_end_acceptance_executed':False,'v32_development_complete':False,'v3_complete':False,'phone_operations_performed':False,'production_ready':False}
+ return {'result':'PASS','stage':'V3.2-A-DESIGN','evidence_kind':'DESIGN_ONLY_SYNTHETIC','operations':len(operations),'request_response_schema_examples':examples,'synthetic_model_cases':len(fixtures['cases']),'positive_cases':positive,'negative_cases':negative,'external_rule_gaps_pending':12,'runtime_source_files_unchanged':len(baseline['rows'])-len(security['changes']),'engineering_image_security_patch_files':len(security['changes']),'runtime_business_source_unchanged':True,'actual_http_responses':0,'runtime_implemented':False,'real_supplier_verified':False,'final_end_to_end_acceptance_executed':False,'v32_development_complete':False,'v3_complete':False,'phone_operations_performed':False,'production_ready':False}
 
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('--report',required=True,type=Path);a=p.parse_args()

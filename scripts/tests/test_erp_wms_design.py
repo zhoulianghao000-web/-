@@ -10,7 +10,7 @@ class ErpWmsDesignTests(unittest.TestCase):
  def setUpClass(cls):cls.inputs=validator.load_inputs()
  def inputs_copy(self):return copy.deepcopy(self.inputs)
  def rejected(self,inputs,code):
-  with self.assertRaisesRegex(DesignError,code):validator.validate_artifact(*inputs,actual_rows=self.inputs[3]['rows'])
+  with self.assertRaisesRegex(DesignError,code):validator.validate_artifact(*inputs,actual_rows=validator.runtime_rows())
  def sample(self,name):return copy.deepcopy(next(c['input'] for c in self.inputs[1]['cases'] if c['name']==name))
  def test_all_golden_counterexamples_and_runtime_baseline(self):
   report=validator.validate_artifact(*self.inputs);self.assertEqual((report['positive_cases'],report['negative_cases']),(14,52));self.assertEqual(report['actual_http_responses'],0)
@@ -46,8 +46,11 @@ class ErpWmsDesignTests(unittest.TestCase):
  def test_same_event_id_cannot_hide_changed_payload(self):
   self.assertEqual(event_identity('a'*64,'a'*64),'DUPLICATE_NO_SIDE_EFFECT')
   with self.assertRaisesRegex(DesignError,'EVENT_IDENTITY_CONFLICT'):event_identity('a'*64,'b'*64)
+ def test_security_exception_cannot_expand_or_relax_scanning(self):
+  inputs=self.inputs_copy();inputs[5]['changes'][0]['path']='backend/src/main/java/Unsafe.java';self.rejected(inputs,'SECURITY_AMENDMENT_SCOPE_INVALID')
+  inputs=self.inputs_copy();inputs[5]['scan_policy_relaxed']=True;self.rejected(inputs,'SECURITY_AMENDMENT_SCOPE_INVALID')
  def test_changed_runtime_file_cannot_pass_design_only_claim(self):
-  rows=copy.deepcopy(self.inputs[3]['rows']);rows[0]['sha256']='0'*64
+  rows=validator.runtime_rows();rows[0]['sha256']='0'*64
   with self.assertRaisesRegex(DesignError,'RUNTIME_SOURCE_CHANGED'):validator.validate_artifact(*self.inputs,actual_rows=rows)
 
 if __name__=='__main__':unittest.main()

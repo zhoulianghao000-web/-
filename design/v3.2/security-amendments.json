@@ -1,0 +1,27 @@
+{
+  "scope": "ENGINEERING_IMAGE_SECURITY_PATCH_ONLY",
+  "runtime_business_source_changed": false,
+  "scan_policy_relaxed": false,
+  "changes": [
+    {
+      "path": "deployment/images/alpine-runtime.Dockerfile",
+      "baseline_sha256": "9496197fa7af61e8550a4fa0add3cdafe3dfe96ec1e10c4cc52e536620a44915",
+      "patched_sha256": "a0b468f8396a343b5a14ad781c1928002b81798248023ea7ab0d65d7515f22df",
+      "reason": "CVE-2026-107891 affects old musl-utils subpackage; keep installed musl family on the vendor-fixed branch version",
+      "observed_job": 119622011125,
+      "installed_version": "1.2.6-r2",
+      "fixed_versions": {
+        "3.22": "1.2.5-r13",
+        "3.23": "1.2.5-r24",
+        "3.24": "1.2.6-r3"
+      },
+      "official_sources": [
+        "https://secdb.alpinelinux.org/v3.22/main.json",
+        "https://secdb.alpinelinux.org/v3.23/main.json",
+        "https://secdb.alpinelinux.org/v3.24/main.json"
+      ],
+      "local_docker_build_verified": false,
+      "cloud_image_scan_required": true
+    }
+  ]
+}
