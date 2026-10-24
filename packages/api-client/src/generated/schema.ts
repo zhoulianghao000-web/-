@@ -1,4 +1,4 @@
-// Generated from pawday-v3.1.3-b3.json; SHA256 aa3637435e96153b5e55a175cf3e6415708f938ce8be76441645320ec2e6e880
+// Generated from pawday-v3.2-b1.json; SHA256 86a1c72c80019984d3bf6f7963e067f1e219a17c9fb3a26024a2e5c2d58f69c3
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -6164,6 +6164,174 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/merchant/stores/{store_id}/integration-connections": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic inventory get /merchant/stores/{store_id}/integration-connections
+         * @description Default off, non-production SIMULATED_TEST only. No client stock, watermark, provider endpoint, credential or result authority. Snapshots are owner-bound for exactly five minutes; immutable source and current scope are rechecked under locks.
+         */
+        get: operations["v32b1_get__merchant_stores_store_id_integration_connections"];
+        put?: never;
+        /**
+         * Synthetic inventory post /merchant/stores/{store_id}/integration-connections
+         * @description Default off, non-production SIMULATED_TEST only. No client stock, watermark, provider endpoint, credential or result authority. Snapshots are owner-bound for exactly five minutes; immutable source and current scope are rechecked under locks.
+         */
+        post: operations["v32b1_post__merchant_stores_store_id_integration_connections"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/state": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Synthetic inventory put /merchant/stores/{store_id}/integration-connections/{connection_id}/state
+         * @description Default off, non-production SIMULATED_TEST only. No client stock, watermark, provider endpoint, credential or result authority. Snapshots are owner-bound for exactly five minutes; immutable source and current scope are rechecked under locks.
+         */
+        put: operations["v32b1_put__merchant_stores_store_id_integration_connections_connection_id_state"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic inventory get /merchant/stores/{store_id}/integration-connections/{connection_id}/mappings
+         * @description Default off, non-production SIMULATED_TEST only. No client stock, watermark, provider endpoint, credential or result authority. Snapshots are owner-bound for exactly five minutes; immutable source and current scope are rechecked under locks.
+         */
+        get: operations["v32b1_get__merchant_stores_store_id_integration_connections_connection_id_mappings"];
+        put?: never;
+        /**
+         * Synthetic inventory post /merchant/stores/{store_id}/integration-connections/{connection_id}/mappings
+         * @description Default off, non-production SIMULATED_TEST only. No client stock, watermark, provider endpoint, credential or result authority. Snapshots are owner-bound for exactly five minutes; immutable source and current scope are rechecked under locks.
+         */
+        post: operations["v32b1_post__merchant_stores_store_id_integration_connections_connection_id_mappings"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings/{mapping_id}/state": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Synthetic inventory put /merchant/stores/{store_id}/integration-connections/{connection_id}/mappings/{mapping_id}/state
+         * @description Default off, non-production SIMULATED_TEST only. No client stock, watermark, provider endpoint, credential or result authority. Snapshots are owner-bound for exactly five minutes; immutable source and current scope are rechecked under locks.
+         */
+        put: operations["v32b1_put__merchant_stores_store_id_integration_connections_connection_id_mappings_mapping_id_state"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic inventory get /merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events
+         * @description Default off, non-production SIMULATED_TEST only. No client stock, watermark, provider endpoint, credential or result authority. Snapshots are owner-bound for exactly five minutes; immutable source and current scope are rechecked under locks.
+         */
+        get: operations["v32b1_get__merchant_stores_store_id_integration_connections_connection_id_inventory_events"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events/{event_id}/previews": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Synthetic inventory post /merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events/{event_id}/previews
+         * @description Default off, non-production SIMULATED_TEST only. No client stock, watermark, provider endpoint, credential or result authority. Snapshots are owner-bound for exactly five minutes; immutable source and current scope are rechecked under locks.
+         */
+        post: operations["v32b1_post__merchant_stores_store_id_integration_connections_connection_id_inventory_events_event_id_previews"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-previews/{preview_id}/apply": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Synthetic inventory post /merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-previews/{preview_id}/apply
+         * @description Default off, non-production SIMULATED_TEST only. No client stock, watermark, provider endpoint, credential or result authority. Snapshots are owner-bound for exactly five minutes; immutable source and current scope are rechecked under locks.
+         */
+        post: operations["v32b1_post__merchant_stores_store_id_integration_connections_connection_id_inventory_previews_preview_id_apply"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-applications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic inventory get /merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-applications
+         * @description Default off, non-production SIMULATED_TEST only. No client stock, watermark, provider endpoint, credential or result authority. Snapshots are owner-bound for exactly five minutes; immutable source and current scope are rechecked under locks.
+         */
+        get: operations["v32b1_get__merchant_stores_store_id_integration_connections_connection_id_inventory_applications"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -6206,7 +6374,7 @@ export interface components {
         Proof: {
             reverify_token: string;
             /** @enum {string} */
-            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage" | "service.terms.review" | "service.trade.refund.review" | "service.trade.dispute.review" | "service.trade.settle";
+            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage" | "service.terms.review" | "service.trade.refund.review" | "service.trade.dispute.review" | "service.trade.settle" | "integration.manage" | "integration.mapping.write" | "integration.stock.apply";
             /** Format: date-time */
             expires_at: string;
         };
@@ -6290,7 +6458,7 @@ export interface components {
         };
         Reverify: {
             /** @enum {string} */
-            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage" | "service.terms.review" | "service.trade.refund.review" | "service.trade.dispute.review" | "service.trade.settle";
+            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage" | "service.terms.review" | "service.trade.refund.review" | "service.trade.dispute.review" | "service.trade.settle" | "integration.manage" | "integration.mapping.write" | "integration.stock.apply";
             password?: string;
             otp_code?: string;
         };
@@ -10573,6 +10741,173 @@ export interface components {
         ServiceTradeReconciliationEnvelope: {
             data: components["schemas"]["ServiceTradeReconciliation"];
             meta: components["schemas"]["Meta"];
+        };
+        IntegrationConnection: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            merchant_id: string;
+            /** Format: uuid */
+            store_id: string;
+            label: string;
+            /** @constant */
+            mode: "SIMULATED_TEST";
+            /** @constant */
+            inventory_basis: "DEDICATED_REMAINING_AFTER_WATERMARK";
+            /** @enum {string} */
+            state: "PAUSED" | "ACTIVE";
+            version: number;
+            /** @constant */
+            simulated: true;
+        };
+        IntegrationConnectionListEnvelope: {
+            data: components["schemas"]["IntegrationConnection"][];
+            meta: components["schemas"]["Meta"];
+            page: components["schemas"]["Page"];
+        };
+        IntegrationConnectionEnvelope: {
+            data: components["schemas"]["IntegrationConnection"];
+            meta: components["schemas"]["Meta"];
+        };
+        IntegrationConnectionInput: {
+            label: string;
+            /** @constant */
+            mode: "SIMULATED_TEST";
+            /** @constant */
+            inventory_basis: "DEDICATED_REMAINING_AFTER_WATERMARK";
+            evidence_refs: components["schemas"]["IntegrationEvidence"][];
+        };
+        IntegrationEvidence: {
+            /** @constant */
+            kind: "TEST_SCENARIO";
+            reference: string;
+        };
+        IntegrationConnectionStateInput: {
+            /** @enum {string} */
+            state: "ACTIVE" | "PAUSED";
+            /** @enum {string} */
+            reason_code: "TEST_SCENARIO_START" | "OPERATOR_PAUSE";
+        } & unknown;
+        IntegrationMapping: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            connection_id: string;
+            /** Format: uuid */
+            offer_id: string;
+            external_sku: string;
+            external_warehouse: string;
+            /** @constant */
+            unit: "PIECE";
+            /** @enum {string} */
+            state: "ACTIVE" | "RETIRED";
+            version: number;
+            /** @constant */
+            simulated: true;
+        };
+        IntegrationMappingListEnvelope: {
+            data: components["schemas"]["IntegrationMapping"][];
+            meta: components["schemas"]["Meta"];
+            page: components["schemas"]["Page"];
+        };
+        IntegrationMappingEnvelope: {
+            data: components["schemas"]["IntegrationMapping"];
+            meta: components["schemas"]["Meta"];
+        };
+        IntegrationMappingInput: {
+            /** Format: uuid */
+            offer_id: string;
+            external_sku: string;
+            external_warehouse: string;
+            /** @constant */
+            unit: "PIECE";
+            evidence_refs: components["schemas"]["IntegrationEvidence"][];
+        };
+        IntegrationMappingStateInput: {
+            /** @constant */
+            state: "RETIRED";
+            /** @constant */
+            reason_code: "TEST_SCENARIO_RETIRED";
+        };
+        IntegrationInventoryEvent: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            connection_id: string;
+            /** Format: uuid */
+            mapping_id: string;
+            mapping_version: number;
+            external_event_id: string;
+            external_version: number;
+            external_remaining_qty: number;
+            acknowledged_local_sequence: number;
+            acknowledgement_id: string | null;
+            payload_sha256: string;
+            /** Format: date-time */
+            observed_at: string;
+            /** @constant */
+            simulated: true;
+        } & unknown;
+        IntegrationInventoryEventListEnvelope: {
+            data: components["schemas"]["IntegrationInventoryEvent"][];
+            meta: components["schemas"]["Meta"];
+            page: components["schemas"]["Page"];
+        };
+        IntegrationStockPreview: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            event_id: string;
+            /** Format: uuid */
+            mapping_id: string;
+            inventory_version: number;
+            local_sequence: number;
+            on_hand_qty: number;
+            reserved_qty: number;
+            target_on_hand_qty: number | null;
+            delta_qty: number | null;
+            snapshot_sha256: string;
+            eligible: boolean;
+            blocked_reasons: string[];
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            expires_at: string;
+            /** @constant */
+            simulated: true;
+        } & unknown;
+        IntegrationStockPreviewEnvelope: {
+            data: components["schemas"]["IntegrationStockPreview"];
+            meta: components["schemas"]["Meta"];
+        };
+        IntegrationEmpty: Record<string, never>;
+        IntegrationStockApplication: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            preview_id: string;
+            /** Format: uuid */
+            event_id: string;
+            /** Format: uuid */
+            offer_id: string;
+            before_on_hand_qty: number;
+            resulting_on_hand_qty: number;
+            reserved_qty: number;
+            resulting_inventory_version: number;
+            /** @constant */
+            simulated: true;
+        };
+        IntegrationStockApplicationEnvelope: {
+            data: components["schemas"]["IntegrationStockApplication"];
+            meta: components["schemas"]["Meta"];
+        };
+        IntegrationStockApplyInput: {
+            accepted_snapshot_sha256: string;
+        };
+        IntegrationStockApplicationListEnvelope: {
+            data: components["schemas"]["IntegrationStockApplication"][];
+            meta: components["schemas"]["Meta"];
+            page: components["schemas"]["Page"];
         };
     };
     responses: never;
@@ -54969,6 +55304,923 @@ export interface operations {
                 };
             };
             /** @description Validation, authorization, hidden scope, conflict, pause or unavailable provider */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v32b1_get__merchant_stores_store_id_integration_connections: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                store_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IntegrationConnectionListEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v32b1_post__merchant_stores_store_id_integration_connections: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "X-Reverify-Token": string;
+            };
+            path: {
+                store_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IntegrationConnectionInput"];
+            };
+        };
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IntegrationConnectionEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v32b1_put__merchant_stores_store_id_integration_connections_connection_id_state: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+                "X-Reverify-Token": string;
+            };
+            path: {
+                store_id: string;
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IntegrationConnectionStateInput"];
+            };
+        };
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IntegrationConnectionEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v32b1_get__merchant_stores_store_id_integration_connections_connection_id_mappings: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                store_id: string;
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IntegrationMappingListEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v32b1_post__merchant_stores_store_id_integration_connections_connection_id_mappings: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+                "X-Reverify-Token": string;
+            };
+            path: {
+                store_id: string;
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IntegrationMappingInput"];
+            };
+        };
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IntegrationMappingEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v32b1_put__merchant_stores_store_id_integration_connections_connection_id_mappings_mapping_id_state: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+                "X-Reverify-Token": string;
+            };
+            path: {
+                store_id: string;
+                connection_id: string;
+                mapping_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IntegrationMappingStateInput"];
+            };
+        };
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IntegrationMappingEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v32b1_get__merchant_stores_store_id_integration_connections_connection_id_inventory_events: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                store_id: string;
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IntegrationInventoryEventListEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v32b1_post__merchant_stores_store_id_integration_connections_connection_id_inventory_events_event_id_previews: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
+            path: {
+                store_id: string;
+                connection_id: string;
+                event_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IntegrationEmpty"];
+            };
+        };
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IntegrationStockPreviewEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v32b1_post__merchant_stores_store_id_integration_connections_connection_id_inventory_previews_preview_id_apply: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "X-Reverify-Token": string;
+            };
+            path: {
+                store_id: string;
+                connection_id: string;
+                preview_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IntegrationStockApplyInput"];
+            };
+        };
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IntegrationStockApplicationEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v32b1_get__merchant_stores_store_id_integration_connections_connection_id_inventory_applications: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                store_id: string;
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Implemented synthetic response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IntegrationStockApplicationListEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic response */
             503: {
                 headers: {
                     [name: string]: unknown;

@@ -37,7 +37,8 @@
     "V031__simulated_service_trade_finance.sql": "e431fc7c7b41287a3b26808bd558ab7e271615c54f0d96832e579089ea7452cc",
     "V032__paid_service_fulfillment_and_disputes.sql": "f79f3c8d241b7ff5a3abe9971a2ffa1cd1c4e304fa49e57d1ac4cc411edf824b",
     "V033__service_commission_and_settlement.sql": "f8883f7af8eff453b7a1fd987f68c9fda38c549e56ec668dec7aed88146616df",
-    "V034__service_trade_staff_detail_permission.sql": "49f69c4b09e2b81603d12849e67a269047c310a54ade1b0bb8ae1c8999e485de"
+    "V034__service_trade_staff_detail_permission.sql": "49f69c4b09e2b81603d12849e67a269047c310a54ade1b0bb8ae1c8999e485de",
+    "V035__synthetic_integration_inventory.sql": "5da244396fa0425281c3262deb41b1446761b445374d5099a704285d45ece1cf"
   },
   "tables": [
     {
@@ -791,6 +792,130 @@
         "login_name",
         "password_hash",
         "status"
+      ]
+    },
+    {
+      "name": "integration_connections",
+      "domain": "synthetic_integrations",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "merchant_id",
+        "store_id",
+        "label",
+        "mode",
+        "inventory_basis",
+        "state",
+        "version",
+        "created_by",
+        "created_at"
+      ]
+    },
+    {
+      "name": "integration_inventory_events",
+      "domain": "synthetic_integrations",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "connection_id",
+        "mapping_id",
+        "mapping_version",
+        "external_event_id",
+        "external_version",
+        "external_remaining_qty",
+        "acknowledged_local_sequence",
+        "acknowledgement_id",
+        "payload_sha256",
+        "observed_at"
+      ]
+    },
+    {
+      "name": "integration_mappings",
+      "domain": "synthetic_integrations",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "connection_id",
+        "offer_id",
+        "external_sku",
+        "external_warehouse",
+        "unit",
+        "state",
+        "version",
+        "epoch_sequence",
+        "epoch_inventory_version",
+        "created_by",
+        "created_at"
+      ]
+    },
+    {
+      "name": "integration_stock_acknowledgements",
+      "domain": "synthetic_integrations",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "connection_id",
+        "mapping_id",
+        "acknowledged_local_sequence",
+        "prefix_sha256",
+        "provider",
+        "provider_reference",
+        "received_at"
+      ]
+    },
+    {
+      "name": "integration_stock_applications",
+      "domain": "synthetic_integrations",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "preview_id",
+        "event_id",
+        "offer_id",
+        "before_on_hand_qty",
+        "resulting_on_hand_qty",
+        "reserved_qty",
+        "resulting_inventory_version",
+        "created_by",
+        "applied_at"
+      ]
+    },
+    {
+      "name": "integration_stock_movements",
+      "domain": "synthetic_integrations",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "offer_id",
+        "sequence",
+        "source_kind",
+        "source_id",
+        "delta_qty",
+        "before_on_hand_qty",
+        "resulting_on_hand_qty",
+        "resulting_inventory_version",
+        "occurred_at"
+      ]
+    },
+    {
+      "name": "integration_stock_previews",
+      "domain": "synthetic_integrations",
+      "retention_status": "PENDING_OWNER_POLICY",
+      "disposition": "PRESERVE_FACTS_REVIEW_PII",
+      "columns": [
+        "id",
+        "event_id",
+        "snapshot",
+        "snapshot_sha256",
+        "created_by",
+        "created_at",
+        "expires_at"
       ]
     },
     {
@@ -2922,7 +3047,7 @@
       ]
     }
   ],
-  "schema_sha256": "fa5fcc6f7c095a6b05a2c27aafeb06d85441846f31fb80c2fe2e5689a19b7759",
+  "schema_sha256": "f8c9bfc2d40b54d58960291e316cc4d7d59eaf9604c92482817700f31f78de33",
   "policies": [
     {
       "domain": "aftersale_refunds",
@@ -3046,6 +3171,12 @@
     },
     {
       "domain": "service_trade_operations_and_settlement",
+      "status": "PENDING",
+      "retention_basis": null,
+      "retention_days": null
+    },
+    {
+      "domain": "synthetic_integrations",
       "status": "PENDING",
       "retention_basis": null,
       "retention_days": null

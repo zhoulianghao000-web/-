@@ -1,0 +1,12 @@
+package cn.pawday.integration;
+import org.junit.jupiter.api.Test;
+import org.springframework.mock.env.MockEnvironment;
+import cn.pawday.common.Api.Failure;
+import static org.junit.jupiter.api.Assertions.*;
+class IntegrationPolicyTests {
+ @Test void defaultOff(){var p=new IntegrationPolicy(new MockEnvironment());assertEquals(404,assertThrows(Failure.class,p::requireEnabled).status);assertFalse(p.automaticFixture());}
+ @Test void productionAndProdProfilesNeverEnableSimulation(){for(String profile:new String[]{"production","prod"}){var env=new MockEnvironment().withProperty("pawday.erp-wms.simulation-enabled","true");env.setActiveProfiles(profile);var p=new IntegrationPolicy(env);assertEquals(404,assertThrows(Failure.class,p::requireEnabled).status);}}
+ @Test void deploymentProductionCannotEnableFixture(){var env=new MockEnvironment().withProperty("pawday.erp-wms.simulation-enabled","true").withProperty("pawday.deployment-mode","production");assertThrows(Failure.class,new IntegrationPolicy(env)::requireEnabled);env.setProperty("pawday.erp-wms.fixture-scenario","TEST_REPLENISH_10");assertThrows(IllegalArgumentException.class,()->new IntegrationPolicy(env));}
+ @Test void realProviderAndUnknownOrImplicitFixturesAreRejected(){assertThrows(IllegalArgumentException.class,()->new IntegrationPolicy(new MockEnvironment().withProperty("pawday.erp-wms.simulation-enabled","true").withProperty("pawday.erp-wms.provider","REAL")));for(String fixture:new String[]{"REAL","TEST_REPLENISH_10"})assertThrows(IllegalArgumentException.class,()->new IntegrationPolicy(new MockEnvironment().withProperty("pawday.erp-wms.fixture-scenario",fixture)));}
+ @Test void explicitTestFixtureUsesServerValues(){var p=new IntegrationPolicy(new MockEnvironment().withProperty("pawday.erp-wms.simulation-enabled","true").withProperty("pawday.erp-wms.fixture-scenario","TEST_REPLENISH_10"));assertDoesNotThrow(p::requireEnabled);assertTrue(p.automaticFixture());}
+}

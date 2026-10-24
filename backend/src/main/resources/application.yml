@@ -60,6 +60,10 @@ pawday:
     simulation-enabled: ${PAWDAY_SERVICE_TRADE_SIMULATION_ENABLED:false}
     finance-recovery-enabled: ${PAWDAY_SERVICE_TRADE_FINANCE_RECOVERY_ENABLED:true}
     fixture-outcome: ${PAWDAY_SERVICE_TRADE_FIXTURE_OUTCOME:PENDING}
+  erp-wms:
+    simulation-enabled: ${PAWDAY_ERP_WMS_SIMULATION_ENABLED:false}
+    provider: ${PAWDAY_ERP_WMS_PROVIDER:SIMULATED_TEST}
+    fixture-scenario: ${PAWDAY_ERP_WMS_FIXTURE_SCENARIO:EMPTY}
   operations:
     scrape-token: ${PAWDAY_METRICS_SCRAPE_TOKEN:}
   data-encryption:

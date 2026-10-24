@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 aa3637435e96153b5e55a175cf3e6415708f938ce8be76441645320ec2e6e880
+// Generated from Pawday runtime OpenAPI; SHA256 86a1c72c80019984d3bf6f7963e067f1e219a17c9fb3a26024a2e5c2d58f69c3
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -11600,6 +11600,439 @@ class ServiceTradeReconciliationEnvelope {
   };
 }
 
+class IntegrationConnection {
+  final String id;
+  final String merchant_id;
+  final String store_id;
+  final String label;
+  final String mode;
+  final String inventory_basis;
+  final String state;
+  final int version;
+  final bool simulated;
+  const IntegrationConnection({required this.id, required this.merchant_id, required this.store_id, required this.label, required this.mode, required this.inventory_basis, required this.state, required this.version, required this.simulated});
+  factory IntegrationConnection.fromJson(Map<String,dynamic> json) => IntegrationConnection(
+    id: json['id'] as String,
+    merchant_id: json['merchant_id'] as String,
+    store_id: json['store_id'] as String,
+    label: json['label'] as String,
+    mode: json['mode'] as String,
+    inventory_basis: json['inventory_basis'] as String,
+    state: json['state'] as String,
+    version: (json['version'] as num).toInt(),
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'merchant_id': merchant_id,
+    'store_id': store_id,
+    'label': label,
+    'mode': mode,
+    'inventory_basis': inventory_basis,
+    'state': state,
+    'version': version,
+    'simulated': simulated,
+  };
+}
+
+class IntegrationConnectionListEnvelope {
+  final List<IntegrationConnection> data;
+  final Meta meta;
+  final Page page;
+  const IntegrationConnectionListEnvelope({required this.data, required this.meta, required this.page});
+  factory IntegrationConnectionListEnvelope.fromJson(Map<String,dynamic> json) => IntegrationConnectionListEnvelope(
+    data: (json['data'] as List).map((value) => IntegrationConnection.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'meta': meta.toJson(),
+    'page': page.toJson(),
+  };
+}
+
+class IntegrationConnectionEnvelope {
+  final IntegrationConnection data;
+  final Meta meta;
+  const IntegrationConnectionEnvelope({required this.data, required this.meta});
+  factory IntegrationConnectionEnvelope.fromJson(Map<String,dynamic> json) => IntegrationConnectionEnvelope(
+    data: IntegrationConnection.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class IntegrationConnectionInput {
+  final String label;
+  final String mode;
+  final String inventory_basis;
+  final List<IntegrationEvidence> evidence_refs;
+  const IntegrationConnectionInput({required this.label, required this.mode, required this.inventory_basis, required this.evidence_refs});
+  factory IntegrationConnectionInput.fromJson(Map<String,dynamic> json) => IntegrationConnectionInput(
+    label: json['label'] as String,
+    mode: json['mode'] as String,
+    inventory_basis: json['inventory_basis'] as String,
+    evidence_refs: (json['evidence_refs'] as List).map((value) => IntegrationEvidence.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'label': label,
+    'mode': mode,
+    'inventory_basis': inventory_basis,
+    'evidence_refs': evidence_refs.map((value) => value.toJson()).toList(),
+  };
+}
+
+class IntegrationEvidence {
+  final String kind;
+  final String reference;
+  const IntegrationEvidence({required this.kind, required this.reference});
+  factory IntegrationEvidence.fromJson(Map<String,dynamic> json) => IntegrationEvidence(
+    kind: json['kind'] as String,
+    reference: json['reference'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'kind': kind,
+    'reference': reference,
+  };
+}
+
+class IntegrationConnectionStateInput {
+  final String state;
+  final String reason_code;
+  const IntegrationConnectionStateInput({required this.state, required this.reason_code});
+  factory IntegrationConnectionStateInput.fromJson(Map<String,dynamic> json) => IntegrationConnectionStateInput(
+    state: json['state'] as String,
+    reason_code: json['reason_code'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'state': state,
+    'reason_code': reason_code,
+  };
+}
+
+class IntegrationMapping {
+  final String id;
+  final String connection_id;
+  final String offer_id;
+  final String external_sku;
+  final String external_warehouse;
+  final String unit;
+  final String state;
+  final int version;
+  final bool simulated;
+  const IntegrationMapping({required this.id, required this.connection_id, required this.offer_id, required this.external_sku, required this.external_warehouse, required this.unit, required this.state, required this.version, required this.simulated});
+  factory IntegrationMapping.fromJson(Map<String,dynamic> json) => IntegrationMapping(
+    id: json['id'] as String,
+    connection_id: json['connection_id'] as String,
+    offer_id: json['offer_id'] as String,
+    external_sku: json['external_sku'] as String,
+    external_warehouse: json['external_warehouse'] as String,
+    unit: json['unit'] as String,
+    state: json['state'] as String,
+    version: (json['version'] as num).toInt(),
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'connection_id': connection_id,
+    'offer_id': offer_id,
+    'external_sku': external_sku,
+    'external_warehouse': external_warehouse,
+    'unit': unit,
+    'state': state,
+    'version': version,
+    'simulated': simulated,
+  };
+}
+
+class IntegrationMappingListEnvelope {
+  final List<IntegrationMapping> data;
+  final Meta meta;
+  final Page page;
+  const IntegrationMappingListEnvelope({required this.data, required this.meta, required this.page});
+  factory IntegrationMappingListEnvelope.fromJson(Map<String,dynamic> json) => IntegrationMappingListEnvelope(
+    data: (json['data'] as List).map((value) => IntegrationMapping.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'meta': meta.toJson(),
+    'page': page.toJson(),
+  };
+}
+
+class IntegrationMappingEnvelope {
+  final IntegrationMapping data;
+  final Meta meta;
+  const IntegrationMappingEnvelope({required this.data, required this.meta});
+  factory IntegrationMappingEnvelope.fromJson(Map<String,dynamic> json) => IntegrationMappingEnvelope(
+    data: IntegrationMapping.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class IntegrationMappingInput {
+  final String offer_id;
+  final String external_sku;
+  final String external_warehouse;
+  final String unit;
+  final List<IntegrationEvidence> evidence_refs;
+  const IntegrationMappingInput({required this.offer_id, required this.external_sku, required this.external_warehouse, required this.unit, required this.evidence_refs});
+  factory IntegrationMappingInput.fromJson(Map<String,dynamic> json) => IntegrationMappingInput(
+    offer_id: json['offer_id'] as String,
+    external_sku: json['external_sku'] as String,
+    external_warehouse: json['external_warehouse'] as String,
+    unit: json['unit'] as String,
+    evidence_refs: (json['evidence_refs'] as List).map((value) => IntegrationEvidence.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+  );
+  Map<String,dynamic> toJson() => {
+    'offer_id': offer_id,
+    'external_sku': external_sku,
+    'external_warehouse': external_warehouse,
+    'unit': unit,
+    'evidence_refs': evidence_refs.map((value) => value.toJson()).toList(),
+  };
+}
+
+class IntegrationMappingStateInput {
+  final String state;
+  final String reason_code;
+  const IntegrationMappingStateInput({required this.state, required this.reason_code});
+  factory IntegrationMappingStateInput.fromJson(Map<String,dynamic> json) => IntegrationMappingStateInput(
+    state: json['state'] as String,
+    reason_code: json['reason_code'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'state': state,
+    'reason_code': reason_code,
+  };
+}
+
+class IntegrationInventoryEvent {
+  final String id;
+  final String connection_id;
+  final String mapping_id;
+  final int mapping_version;
+  final String external_event_id;
+  final int external_version;
+  final int external_remaining_qty;
+  final int acknowledged_local_sequence;
+  final String? acknowledgement_id;
+  final String payload_sha256;
+  final String observed_at;
+  final bool simulated;
+  const IntegrationInventoryEvent({required this.id, required this.connection_id, required this.mapping_id, required this.mapping_version, required this.external_event_id, required this.external_version, required this.external_remaining_qty, required this.acknowledged_local_sequence, required this.acknowledgement_id, required this.payload_sha256, required this.observed_at, required this.simulated});
+  factory IntegrationInventoryEvent.fromJson(Map<String,dynamic> json) => IntegrationInventoryEvent(
+    id: json['id'] as String,
+    connection_id: json['connection_id'] as String,
+    mapping_id: json['mapping_id'] as String,
+    mapping_version: (json['mapping_version'] as num).toInt(),
+    external_event_id: json['external_event_id'] as String,
+    external_version: (json['external_version'] as num).toInt(),
+    external_remaining_qty: (json['external_remaining_qty'] as num).toInt(),
+    acknowledged_local_sequence: (json['acknowledged_local_sequence'] as num).toInt(),
+    acknowledgement_id: json['acknowledgement_id'] == null ? null : json['acknowledgement_id'] as String,
+    payload_sha256: json['payload_sha256'] as String,
+    observed_at: json['observed_at'] as String,
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'connection_id': connection_id,
+    'mapping_id': mapping_id,
+    'mapping_version': mapping_version,
+    'external_event_id': external_event_id,
+    'external_version': external_version,
+    'external_remaining_qty': external_remaining_qty,
+    'acknowledged_local_sequence': acknowledged_local_sequence,
+    'acknowledgement_id': acknowledgement_id == null ? null : acknowledgement_id!,
+    'payload_sha256': payload_sha256,
+    'observed_at': observed_at,
+    'simulated': simulated,
+  };
+}
+
+class IntegrationInventoryEventListEnvelope {
+  final List<IntegrationInventoryEvent> data;
+  final Meta meta;
+  final Page page;
+  const IntegrationInventoryEventListEnvelope({required this.data, required this.meta, required this.page});
+  factory IntegrationInventoryEventListEnvelope.fromJson(Map<String,dynamic> json) => IntegrationInventoryEventListEnvelope(
+    data: (json['data'] as List).map((value) => IntegrationInventoryEvent.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'meta': meta.toJson(),
+    'page': page.toJson(),
+  };
+}
+
+class IntegrationStockPreview {
+  final String id;
+  final String event_id;
+  final String mapping_id;
+  final int inventory_version;
+  final int local_sequence;
+  final int on_hand_qty;
+  final int reserved_qty;
+  final int? target_on_hand_qty;
+  final int? delta_qty;
+  final String snapshot_sha256;
+  final bool eligible;
+  final List<String> blocked_reasons;
+  final String created_at;
+  final String expires_at;
+  final bool simulated;
+  const IntegrationStockPreview({required this.id, required this.event_id, required this.mapping_id, required this.inventory_version, required this.local_sequence, required this.on_hand_qty, required this.reserved_qty, required this.target_on_hand_qty, required this.delta_qty, required this.snapshot_sha256, required this.eligible, required this.blocked_reasons, required this.created_at, required this.expires_at, required this.simulated});
+  factory IntegrationStockPreview.fromJson(Map<String,dynamic> json) => IntegrationStockPreview(
+    id: json['id'] as String,
+    event_id: json['event_id'] as String,
+    mapping_id: json['mapping_id'] as String,
+    inventory_version: (json['inventory_version'] as num).toInt(),
+    local_sequence: (json['local_sequence'] as num).toInt(),
+    on_hand_qty: (json['on_hand_qty'] as num).toInt(),
+    reserved_qty: (json['reserved_qty'] as num).toInt(),
+    target_on_hand_qty: json['target_on_hand_qty'] == null ? null : (json['target_on_hand_qty'] as num).toInt(),
+    delta_qty: json['delta_qty'] == null ? null : (json['delta_qty'] as num).toInt(),
+    snapshot_sha256: json['snapshot_sha256'] as String,
+    eligible: json['eligible'] as bool,
+    blocked_reasons: (json['blocked_reasons'] as List).map((value) => value as String).toList(),
+    created_at: json['created_at'] as String,
+    expires_at: json['expires_at'] as String,
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'event_id': event_id,
+    'mapping_id': mapping_id,
+    'inventory_version': inventory_version,
+    'local_sequence': local_sequence,
+    'on_hand_qty': on_hand_qty,
+    'reserved_qty': reserved_qty,
+    'target_on_hand_qty': target_on_hand_qty == null ? null : target_on_hand_qty!,
+    'delta_qty': delta_qty == null ? null : delta_qty!,
+    'snapshot_sha256': snapshot_sha256,
+    'eligible': eligible,
+    'blocked_reasons': blocked_reasons.map((value) => value).toList(),
+    'created_at': created_at,
+    'expires_at': expires_at,
+    'simulated': simulated,
+  };
+}
+
+class IntegrationStockPreviewEnvelope {
+  final IntegrationStockPreview data;
+  final Meta meta;
+  const IntegrationStockPreviewEnvelope({required this.data, required this.meta});
+  factory IntegrationStockPreviewEnvelope.fromJson(Map<String,dynamic> json) => IntegrationStockPreviewEnvelope(
+    data: IntegrationStockPreview.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class IntegrationEmpty {
+
+  const IntegrationEmpty();
+  factory IntegrationEmpty.fromJson(Map<String,dynamic> json) => IntegrationEmpty(
+
+  );
+  Map<String,dynamic> toJson() => {
+
+  };
+}
+
+class IntegrationStockApplication {
+  final String id;
+  final String preview_id;
+  final String event_id;
+  final String offer_id;
+  final int before_on_hand_qty;
+  final int resulting_on_hand_qty;
+  final int reserved_qty;
+  final int resulting_inventory_version;
+  final bool simulated;
+  const IntegrationStockApplication({required this.id, required this.preview_id, required this.event_id, required this.offer_id, required this.before_on_hand_qty, required this.resulting_on_hand_qty, required this.reserved_qty, required this.resulting_inventory_version, required this.simulated});
+  factory IntegrationStockApplication.fromJson(Map<String,dynamic> json) => IntegrationStockApplication(
+    id: json['id'] as String,
+    preview_id: json['preview_id'] as String,
+    event_id: json['event_id'] as String,
+    offer_id: json['offer_id'] as String,
+    before_on_hand_qty: (json['before_on_hand_qty'] as num).toInt(),
+    resulting_on_hand_qty: (json['resulting_on_hand_qty'] as num).toInt(),
+    reserved_qty: (json['reserved_qty'] as num).toInt(),
+    resulting_inventory_version: (json['resulting_inventory_version'] as num).toInt(),
+    simulated: json['simulated'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'preview_id': preview_id,
+    'event_id': event_id,
+    'offer_id': offer_id,
+    'before_on_hand_qty': before_on_hand_qty,
+    'resulting_on_hand_qty': resulting_on_hand_qty,
+    'reserved_qty': reserved_qty,
+    'resulting_inventory_version': resulting_inventory_version,
+    'simulated': simulated,
+  };
+}
+
+class IntegrationStockApplicationEnvelope {
+  final IntegrationStockApplication data;
+  final Meta meta;
+  const IntegrationStockApplicationEnvelope({required this.data, required this.meta});
+  factory IntegrationStockApplicationEnvelope.fromJson(Map<String,dynamic> json) => IntegrationStockApplicationEnvelope(
+    data: IntegrationStockApplication.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class IntegrationStockApplyInput {
+  final String accepted_snapshot_sha256;
+  const IntegrationStockApplyInput({required this.accepted_snapshot_sha256});
+  factory IntegrationStockApplyInput.fromJson(Map<String,dynamic> json) => IntegrationStockApplyInput(
+    accepted_snapshot_sha256: json['accepted_snapshot_sha256'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'accepted_snapshot_sha256': accepted_snapshot_sha256,
+  };
+}
+
+class IntegrationStockApplicationListEnvelope {
+  final List<IntegrationStockApplication> data;
+  final Meta meta;
+  final Page page;
+  const IntegrationStockApplicationListEnvelope({required this.data, required this.meta, required this.page});
+  factory IntegrationStockApplicationListEnvelope.fromJson(Map<String,dynamic> json) => IntegrationStockApplicationListEnvelope(
+    data: (json['data'] as List).map((value) => IntegrationStockApplication.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'meta': meta.toJson(),
+    'page': page.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -11998,4 +12431,14 @@ class ApiRoutes {
   static const v313b3_post__admin_merchants_merchant_id_service_trade_settlement_previews = '/admin/merchants/{merchant_id}/service-trade-settlement-previews';
   static const v313b3_post__admin_merchants_merchant_id_service_trade_settlements = '/admin/merchants/{merchant_id}/service-trade-settlements';
   static const v313b3_get__admin_merchants_merchant_id_service_trade_reconciliation = '/admin/merchants/{merchant_id}/service-trade-reconciliation';
+  static const v32b1_get__merchant_stores_store_id_integration_connections = '/merchant/stores/{store_id}/integration-connections';
+  static const v32b1_post__merchant_stores_store_id_integration_connections = '/merchant/stores/{store_id}/integration-connections';
+  static const v32b1_put__merchant_stores_store_id_integration_connections_connection_id_state = '/merchant/stores/{store_id}/integration-connections/{connection_id}/state';
+  static const v32b1_get__merchant_stores_store_id_integration_connections_connection_id_mappings = '/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings';
+  static const v32b1_post__merchant_stores_store_id_integration_connections_connection_id_mappings = '/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings';
+  static const v32b1_put__merchant_stores_store_id_integration_connections_connection_id_mappings_mapping_id_state = '/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings/{mapping_id}/state';
+  static const v32b1_get__merchant_stores_store_id_integration_connections_connection_id_inventory_events = '/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events';
+  static const v32b1_post__merchant_stores_store_id_integration_connections_connection_id_inventory_events_event_id_previews = '/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events/{event_id}/previews';
+  static const v32b1_post__merchant_stores_store_id_integration_connections_connection_id_inventory_previews_preview_id_apply = '/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-previews/{preview_id}/apply';
+  static const v32b1_get__merchant_stores_store_id_integration_connections_connection_id_inventory_applications = '/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-applications';
 }

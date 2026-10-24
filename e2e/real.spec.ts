@@ -2,6 +2,7 @@ import {readdir,readFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {test,expect,type Page,type Locator} from '@playwright/test';
+import {verifyIntegrationInventory} from './integration-inventory-flow';
 import {verifyPaidServiceFlow} from './service-trade-flow';
 test.skip(!process.env.PAWDAY_REAL_E2E,'Run in the mandatory real-infrastructure CI job');
 test.use({actionTimeout:15000});
@@ -99,6 +100,7 @@ test('real administrator password login, catalog publication, merchant correctio
   await merchantPage.getByRole('link',{name:'报价与库存',exact:true}).click();await expect(merchantPage.getByRole('heading',{name:'报价与库存',exact:true})).toBeVisible();
   const selectedSku=await merchantPage.getByRole('combobox',{name:'标准规格',exact:true}).locator('option').filter({hasText:label}).getAttribute('value');expect(selectedSku).toBeTruthy();
   await merchantPage.getByRole('combobox',{name:'标准规格',exact:true}).selectOption(selectedSku!);await merchantPage.getByLabel('售价（分）',{exact:true}).fill('1250');await merchantPage.getByLabel('会员价（分，可空）',{exact:true}).fill('1150');await merchantPage.getByLabel('履约承诺',{exact:true}).fill('TEST-ONLY 48 hours');const createdOfferResponse=merchantPage.waitForResponse(response=>response.request().method()==='POST'&&response.url().endsWith('/merchant/offers'));await merchantPage.getByRole('button',{name:'创建草稿报价'}).click();const createdOffer=(await (await createdOfferResponse).json()).data;await expect(merchantPage.getByRole('status')).toHaveText('已保存，操作已记录。');
+  await verifyIntegrationInventory({merchant:merchantPage,api:'http://127.0.0.1:8080/api/v1',offer:createdOffer,sku:selectedSku!});
   const offerCard=()=>merchantPage.locator('article').filter({has:merchantPage.getByRole('heading',{name:label,exact:true})});await offerCard().getByRole('button',{name:'查看报价与流水'}).click();await expect(merchantPage.getByText('实物 0 · 预占 0 · 可用 0',{exact:true})).toBeVisible();
   await merchantPage.getByLabel('增减数量').fill('10');await merchantPage.getByRole('button',{name:'提交库存调整'}).click();await expect(merchantPage.getByText('实物 10 · 预占 0 · 可用 10',{exact:true})).toBeVisible();await expect(merchantPage.getByRole('cell',{name:'RESTOCK',exact:true})).toBeVisible();
   await merchantPage.getByLabel('操作原因').fill('TEST-ONLY initial sale');await merchantPage.getByRole('button',{name:'上架报价',exact:true}).click();await expect(merchantPage.getByText('状态 ACTIVE',{exact:true})).toBeVisible();

@@ -10,7 +10,7 @@ class ErpWmsDesignTests(unittest.TestCase):
  def setUpClass(cls):cls.inputs=validator.load_inputs()
  def inputs_copy(self):return copy.deepcopy(self.inputs)
  def rejected(self,inputs,code):
-  with self.assertRaisesRegex(DesignError,code):validator.validate_artifact(*inputs,actual_rows=validator.runtime_rows())
+  with self.assertRaisesRegex(DesignError,code):validator.validate_artifact(*inputs,actual_rows=validator.historical_runtime_rows())
  def sample(self,name):return copy.deepcopy(next(c['input'] for c in self.inputs[1]['cases'] if c['name']==name))
  def test_all_golden_counterexamples_and_runtime_baseline(self):
   report=validator.validate_artifact(*self.inputs);self.assertEqual((report['positive_cases'],report['negative_cases']),(14,52));self.assertEqual(report['actual_http_responses'],0)
@@ -60,7 +60,7 @@ class ErpWmsDesignTests(unittest.TestCase):
    (root/names[-1]).write_text('TEST_ONLY_CHANGED_SOURCE',encoding='utf-8');self.assertNotEqual(validator.source_rows(names,root),original)
    new='openapi/pawday-v3.2-b1.json';(root/new).write_text('TEST_ONLY_NEW_CONTRACT',encoding='utf-8');self.assertEqual(len(validator.source_rows(names+[new],root)),3)
  def test_changed_runtime_file_cannot_pass_design_only_claim(self):
-  rows=validator.runtime_rows();rows[0]['sha256']='0'*64
+  rows=validator.historical_runtime_rows();rows[0]['sha256']='0'*64
   with self.assertRaisesRegex(DesignError,'RUNTIME_SOURCE_CHANGED'):validator.validate_artifact(*self.inputs,actual_rows=rows)
 
 if __name__=='__main__':unittest.main()

@@ -23,11 +23,19 @@ def runtime_rows():
  files=subprocess.check_output(['git','ls-files','--cached','--others','--exclude-standard'],cwd=ROOT,text=True,encoding='utf-8').splitlines()
  return source_rows(files)
 
+def historical_runtime_rows():
+ # A was closed before B1 implementation. Authenticate its canonical Git export,
+ # rather than pretending current B1 sources remain identical to the old tree.
+ archive=json.loads((ROOT/'design/v3.2/a-historical-runtime.json').read_text(encoding='utf-8'))
+ require(archive['scope']=='HISTORICAL_V32_A_ONLY' and archive['verified_commit']=='356efee6516abdfa7b557d0cbedefb96970cd985','HISTORICAL_SOURCE_CHANGED')
+ require(digest(archive['rows'])==archive['rows_sha256']=='aa388ae5a7a3c9116ea074c1939432e842e7fd38fc9b7b1a6997bb9be0d5ba04','HISTORICAL_SOURCE_DIGEST_CHANGED')
+ return archive['rows']
+
 def validate_artifact(doc,fixtures,gaps,baseline,policy,security,actual_rows=None):
  validate_spec(doc)
  require(doc.get('x-design-status')=='DRAFT_NOT_IMPLEMENTED' and doc.get('x-runtime-implemented') is False and doc.get('x-supplier-status')=='PENDING_REAL_SYSTEM','DESIGN_BOUNDARY_REQUIRED')
  require(doc['servers']==[{'url':'https://design.invalid/api/v1','description':'Reserved invalid domain; no deployed service.'}],'DESIGN_SERVER_REQUIRED')
- require('openapi/design/' not in (ROOT/'scripts/generate-api.mjs').read_text(encoding='utf-8') and 'v3.2' not in (ROOT/'scripts/generate-api.mjs').read_text(encoding='utf-8'),'DRAFT_RUNTIME_CODEGEN_FORBIDDEN')
+ require('openapi/design/' not in (ROOT/'scripts/generate-api.mjs').read_text(encoding='utf-8') and 'v3.2-draft' not in (ROOT/'scripts/generate-api.mjs').read_text(encoding='utf-8'),'DRAFT_RUNTIME_CODEGEN_FORBIDDEN')
  require('.bundle.' not in (ROOT/'scripts/generate-api.mjs').read_text(encoding='utf-8'),'DERIVED_BUNDLE_RUNTIME_FORBIDDEN')
  require(baseline['source_commit']=='e024c322001e8267df6958a9dbcf6dc182f64000' and baseline['business_commit']=='3e90a4f22a03918ad73c82e1fb8b78634ec98750' and baseline['runtime_contract']=='openapi/pawday-v3.1.3-b3.json','RUNTIME_BASELINE_SOURCE_CHANGED')
  require(digest(baseline['rows'])==baseline['rows_sha256'],'RUNTIME_BASELINE_DIGEST_CHANGED')
@@ -37,7 +45,7 @@ def validate_artifact(doc,fixtures,gaps,baseline,policy,security,actual_rows=Non
   row=next(r for r in expected if r['path']==change['path']);require(row['sha256']==change['baseline_sha256'],'SECURITY_BASELINE_MISMATCH');row['sha256']=change['patched_sha256']
  derived=[r for r in expected if not is_runtime_input(r['path'])];require(len(derived)==7,'DERIVED_BASELINE_CHANGED')
  expected=[r for r in expected if is_runtime_input(r['path'])]
- actual=runtime_rows() if actual_rows is None else actual_rows
+ actual=historical_runtime_rows() if actual_rows is None else actual_rows
  if actual!=expected:
   old={r['path']:r['sha256'] for r in expected};new={r['path']:r['sha256'] for r in actual};changed=sorted(k for k in set(old)|set(new) if old.get(k)!=new.get(k))
   raise DesignError('RUNTIME_SOURCE_CHANGED:'+','.join(changed[:10]))
@@ -105,7 +113,7 @@ def validate_artifact(doc,fixtures,gaps,baseline,policy,security,actual_rows=Non
   for schema in ([op['requestBody']['content']['application/json']['schema']] if 'requestBody' in op else [])+[op['responses']['200']['content']['application/json']['schema']]:
    validator=Draft202012Validator({'$ref':'urn:pawday:v32-design'+schema['$ref']},registry=registry,format_checker=FormatChecker())
    require(not list(validator.iter_errors(example(schema))),'STRUCTURAL_EXAMPLE_INVALID:'+schema['$ref']);examples+=1
- return {'result':'PASS','stage':'V3.2-A-DESIGN','evidence_kind':'DESIGN_ONLY_SYNTHETIC','operations':len(operations),'request_response_schema_examples':examples,'synthetic_model_cases':len(fixtures['cases']),'positive_cases':positive,'negative_cases':negative,'external_rule_gaps_pending':12,'baseline_manifest_files':len(baseline['rows']),'derived_bundle_files_separately_classified':len(derived),'runtime_source_files_unchanged':len(expected)-len(security['changes']),'engineering_image_security_patch_files':len(security['changes']),'runtime_business_source_unchanged':True,'actual_http_responses':0,'runtime_implemented':False,'real_supplier_verified':False,'final_end_to_end_acceptance_executed':False,'v32_development_complete':False,'v3_complete':False,'phone_operations_performed':False,'production_ready':False}
+ return {'result':'PASS','stage':'V3.2-A-DESIGN','evidence_kind':'DESIGN_ONLY_SYNTHETIC','operations':len(operations),'request_response_schema_examples':examples,'synthetic_model_cases':len(fixtures['cases']),'positive_cases':positive,'negative_cases':negative,'external_rule_gaps_pending':12,'baseline_manifest_files':len(baseline['rows']),'derived_bundle_files_separately_classified':len(derived),'runtime_source_files_unchanged':len(expected)-len(security['changes']),'engineering_image_security_patch_files':len(security['changes']),'historical_a_runtime_business_source_unchanged':True,'historical_a_commit':'356efee6516abdfa7b557d0cbedefb96970cd985','current_runtime_source_equality_claimed':False,'actual_http_responses':0,'runtime_implemented':False,'real_supplier_verified':False,'final_end_to_end_acceptance_executed':False,'v32_development_complete':False,'v3_complete':False,'phone_operations_performed':False,'production_ready':False}
 
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('--report',required=True,type=Path);a=p.parse_args()

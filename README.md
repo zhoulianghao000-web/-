@@ -93,3 +93,11 @@ M6.6.2 受邀模拟试点运行契约为 `openapi/pawday-m6.6.2.yaml`，生成�
 真实浏览器工程联调可在独立非生产环境显式设置 `PAWDAY_SERVICE_TRADE_FIXTURE_OUTCOME=SUCCEEDED`（也支持 FAILED/UNKNOWN，默认 PENDING）。该开关只影响 SIMULATED_TEST 服务渠道，需要同时开启 booking 与 service-trade simulation；不会让商品渠道自动成功，生产环境拒绝非 PENDING 夹具。没有开放客户端 outcome 或退款金额。`local` 演示账号仅在两个服务演练开关明确开启时获相应工程权限。
 
 B3 页面及其真实请求/页面/持久回读仍在开发门禁中；独立最终端到端总验收未开始，最终消费者 APK/桌面整体交付尚未生成。不要将本节状态视作 V3 完成。
+
+## V3.2-B1 合成库存开发
+
+商家 Web 的“库存对账演练”按 integration.read 显示；平台/消费者没有集成配置页面。显式非生产开关 `PAWDAY_ERP_WMS_SIMULATION_ENABLED=true` 才开放，默认 false；供应器只允许 SIMULATED_TEST。`PAWDAY_ERP_WMS_FIXTURE_SCENARIO=EMPTY` 为默认，独立工程联调可设 TEST_REPLENISH_10，由服务器对每份映射生成一次固定事件；客户端不能提交数量、水位、回执结果、URL 或凭证。正式 ERP/WMS 依赖仍 PENDING。
+
+连接先暂停→专用空库存报价映射→启用→读取服务器事件→生成本人五分钟预览→明确确认应用→独立读取应用记录和原报价库存。创建、启停、映射和应用使用各自动作绑定二次验证；既有商品收款、取消和售后返库仍走原业务链，连续日志保留来源，导入不会重复进入本地销售增量。V035 只新增七表和守护，不补造老数据收款或库存。
+
+运行接口/TS/Dart 以 openapi/pawday-v3.2-b1.json 为准（十项）；A 的独立草案仍标记未实现，不把后续订单回传/发货接口提前登记。检查 `pnpm generate:check`、`pnpm typecheck`、`pnpm test`、后端 `mvn test` 及隔离真实基础设施 `mvn -Pinfrastructure-it verify`。B1 当前开发验证中，状态见最新 [V3 开发实施计划](docs/PawdayV3实施计划.md)。V3.1.3-B3 已通过的同提交工程证据见其记录；独立最终总验收、消费者最终 APK 与桌面整体包尚未执行，桌面 2.0.3 和私有数据保留。
