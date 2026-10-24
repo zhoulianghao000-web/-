@@ -3699,16 +3699,6 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
-          "201": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MediaGrantEnvelope"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -3759,6 +3749,26 @@
               }
             }
           },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -3779,22 +3789,12 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
+          "201": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
+                  "$ref": "#/components/schemas/MediaGrantEnvelope"
                 }
               }
             }
@@ -3833,16 +3833,6 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MediaAssetEnvelope"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -3893,6 +3883,26 @@
               }
             }
           },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -3913,22 +3923,12 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
+          "200": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
+                  "$ref": "#/components/schemas/MediaAssetEnvelope"
                 }
               }
             }
@@ -3992,36 +3992,6 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
-          "200": {
-            "description": "Authenticated binary image",
-            "headers": {
-              "X-Content-Type-Options": {
-                "schema": {
-                  "type": "string",
-                  "const": "nosniff"
-                }
-              },
-              "Cache-Control": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "image/png": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              },
-              "image/jpeg": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -4072,6 +4042,26 @@
               }
             }
           },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -4092,22 +4082,32 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
-            "content": {
-              "application/json": {
+          "200": {
+            "description": "Authenticated binary image",
+            "headers": {
+              "X-Content-Type-Options": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
+                  "type": "string",
+                  "const": "nosniff"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
                 }
               }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
+            },
             "content": {
-              "application/json": {
+              "image/png": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/jpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -4147,16 +4147,6 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MediaAssetEnvelope"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -4207,6 +4197,26 @@
               }
             }
           },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -4227,22 +4237,12 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
+          "200": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
+                  "$ref": "#/components/schemas/MediaAssetEnvelope"
                 }
               }
             }
@@ -4280,16 +4280,6 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
-          "202": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MediaAssetEnvelope"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -4340,6 +4330,26 @@
               }
             }
           },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -4360,22 +4370,12 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
+          "202": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
+                  "$ref": "#/components/schemas/MediaAssetEnvelope"
                 }
               }
             }
@@ -4409,16 +4409,6 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SearchStatusEnvelope"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -4469,6 +4459,26 @@
               }
             }
           },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -4489,22 +4499,12 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
+          "200": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
+                  "$ref": "#/components/schemas/SearchStatusEnvelope"
                 }
               }
             }
@@ -4528,16 +4528,6 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
-          "202": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SearchCommandReceiptEnvelope"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -4588,6 +4578,26 @@
               }
             }
           },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -4608,22 +4618,12 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
+          "202": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
+                  "$ref": "#/components/schemas/SearchCommandReceiptEnvelope"
                 }
               }
             }
@@ -4680,16 +4680,6 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
-          "202": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SearchCommandReceiptEnvelope"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -4740,6 +4730,26 @@
               }
             }
           },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -4760,22 +4770,12 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
+          "202": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
+                  "$ref": "#/components/schemas/SearchCommandReceiptEnvelope"
                 }
               }
             }
@@ -4832,16 +4832,6 @@
         ],
         "x-implemented-in": "M2.3",
         "responses": {
-          "202": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SearchCommandReceiptEnvelope"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Invalid request",
             "content": {
@@ -4892,6 +4882,26 @@
               }
             }
           },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependency unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
           "413": {
             "description": "Upload maximum exceeded",
             "content": {
@@ -4912,22 +4922,12 @@
               }
             }
           },
-          "429": {
-            "description": "Rate limited",
+          "202": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Dependency unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorEnvelope"
+                  "$ref": "#/components/schemas/SearchCommandReceiptEnvelope"
                 }
               }
             }

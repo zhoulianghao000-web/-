@@ -84,15 +84,15 @@ M6.6.2 受邀模拟试点运行契约为 `openapi/pawday-m6.6.2.yaml`，生成�
 
 在独立开发环境同时设置 `PAWDAY_BOOKING_SIMULATION_ENABLED=true`、`PAWDAY_SERVICE_TRADE_SIMULATION_ENABLED=true`，并启用现有本地模拟支付配置。`PAWDAY_SERVICE_TRADE_FINANCE_RECOVERY_ENABLED` 只控制退款恢复任务，不能绕过模拟环境、渠道、暂停或生产守护。客户端只提交 `SIMULATED_TEST` 与 ANDROID/WEB，结果由服务端测试夹具产生。接口写入要求 Idempotency-Key/交易 If-Match；平台决定另需 `service.trade.refund.review` 二次验证。
 
-构建类型使用 `pnpm generate`，检查 `pnpm generate:check`；后端运行 `mvn -B test`，完整真实基础设施使用隔离测试配置 `mvn -B -Pinfrastructure-it verify`。V030 升级只补服务支付意图，不补收款；消费者响应中尚未开发的 B3 财务金额为空值，不能作收入或结算依据。
+构建类型使用 `pnpm generate`，检查 `pnpm generate:check`；后端运行 `mvn -B test`，完整真实基础设施使用隔离测试配置 `mvn -B -Pinfrastructure-it verify`。V030 升级只补服务支付意图，不补收款；消费者公开响应不披露内部佣金或净收入，相关空值不能作为收入或结算依据。
 
-## V3.1.3-B3 开发中
+## V3.1.3-B3 合成开发节点完成
 
 已验证的后端增量见 [B3 记录](docs/V3.1.3-B3-实现与验证记录.md)。消费者付费服务页从服务预约页进入；商家/平台 Web 的“付费服务演练”按独立权限显示。消费者先阅读公开条款、取得报价并明确同意，再预占名额；客户端付款只发送渠道和平台，收款事实以服务端回执及持久化回读为准。消费者不展示内部佣金或商家净收入。商家履约、平台争议/退款决定和结算使用不同权限；敏感平台决定须动作绑定二次验证。
 
 真实浏览器工程联调可在独立非生产环境显式设置 `PAWDAY_SERVICE_TRADE_FIXTURE_OUTCOME=SUCCEEDED`（也支持 FAILED/UNKNOWN，默认 PENDING）。该开关只影响 SIMULATED_TEST 服务渠道，需要同时开启 booking 与 service-trade simulation；不会让商品渠道自动成功，生产环境拒绝非 PENDING 夹具。没有开放客户端 outcome 或退款金额。`local` 演示账号仅在两个服务演练开关明确开启时获相应工程权限。
 
-B3 页面及其真实请求/页面/持久回读仍在开发门禁中；独立最终端到端总验收未开始，最终消费者 APK/桌面整体交付尚未生成。不要将本节状态视作 V3 完成。
+B3 页面及真实请求/页面/持久回读已由业务 3e90a4f 同提交开发门禁验证；独立最终端到端总验收未开始，最终消费者 APK/桌面整体交付尚未生成。不要将本节状态视作 V3 完成。
 
 ## V3.2-B1 合成库存开发
 

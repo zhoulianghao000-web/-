@@ -22,6 +22,7 @@ import java.time.*;
 import java.net.URI;
 import java.net.http.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.util.*;
 import java.util.concurrent.*;
 import tools.jackson.databind.JsonNode;
@@ -220,5 +221,6 @@ class IdentitySecurityIntegrationTests {
         try {assertEquals(503,call("GET","/admin/me",null,null).status());assertEquals(503,call("GET","/merchant/stores/"+storeB,null,a.token()).status());}
         finally {db.execute("DROP TRIGGER test_fail_denial ON audit_event");db.execute("DROP FUNCTION test_fail_denial()");}
     }
- @Test void inventoryIntegrationIsDefaultOffOverActualHttp(){var m=staff("merchant","test-merchant-a");var r=call("GET","/merchant/stores/"+UUID.randomUUID()+"/integration-connections",null,m.token());assertEquals(404,r.status());assertEquals("ERP_WMS_SIMULATION_DISABLED",r.body().get("error").get("code").asString());}
+ @Test void inventoryIntegrationIsDefaultOffOverActualHttp()throws Exception{var m=staff("merchant","test-merchant-a");String path="/merchant/stores/"+UUID.randomUUID()+"/integration-connections";var request=HttpRequest.newBuilder(URI.create("http://127.0.0.1:"+port+"/api/v1"+path)).header("Authorization","Bearer "+m.token()).GET().build();var response=client.send(request,HttpResponse.BodyHandlers.ofString());var body=json.readTree(response.body());assertEquals(404,response.statusCode());assertEquals("ERP_WMS_SIMULATION_DISABLED",body.get("error").get("code").asString());Files.writeString(Path.of("target/v32-b1-disabled-contract-samples.json"),json.writeValueAsString(List.of(Map.of("method","get","path",path,"status",response.statusCode(),"response",body))));}
+
 }
