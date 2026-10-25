@@ -38,7 +38,8 @@
     "V032__paid_service_fulfillment_and_disputes.sql": "f79f3c8d241b7ff5a3abe9971a2ffa1cd1c4e304fa49e57d1ac4cc411edf824b",
     "V033__service_commission_and_settlement.sql": "f8883f7af8eff453b7a1fd987f68c9fda38c549e56ec668dec7aed88146616df",
     "V034__service_trade_staff_detail_permission.sql": "49f69c4b09e2b81603d12849e67a269047c310a54ade1b0bb8ae1c8999e485de",
-    "V035__synthetic_integration_inventory.sql": "5da244396fa0425281c3262deb41b1446761b445374d5099a704285d45ece1cf"
+    "V035__synthetic_integration_inventory.sql": "5da244396fa0425281c3262deb41b1446761b445374d5099a704285d45ece1cf",
+    "V036__integration_bootstrap_responsibilities.sql": "4de803e2d164b1d00b7a7713d2eccddf15656b92dae597e8911ff6b45ed3072c"
   },
   "tables": [
     {
