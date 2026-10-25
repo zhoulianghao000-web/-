@@ -19,13 +19,17 @@ import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.JsonNode;
 
 class ConsumerTestPasswordIntegrationTests {
+ // Keep the real fixed-minute limiter inside one window. BCrypt/HTTP may otherwise cross a wall-clock minute in CI.
+ @org.springframework.boot.test.context.TestConfiguration static class StableRateClock {
+  @org.springframework.context.annotation.Bean @org.springframework.context.annotation.Primary Clock consumerPasswordTestClock(){return Clock.fixed(Instant.now().truncatedTo(java.time.temporal.ChronoUnit.MINUTES).plusSeconds(10),ZoneOffset.UTC);}
+ }
  static EmbeddedPostgres pg;static ConfigurableApplicationContext app;static JdbcTemplate db;static Crypto crypto;static Path root;static int port;
  static final JsonMapper JSON=JsonMapper.builder().build();static final HttpClient HTTP=HttpClient.newHttpClient();
  static final List<Map<String,Object>> SAMPLES=new ArrayList<>();
  @BeforeAll static void start() throws Exception {
   pg=EmbeddedPostgres.builder().setPort(0).start();try(var c=pg.getPostgresDatabase().getConnection();var s=c.createStatement()){s.execute("CREATE DATABASE pawday_pilot_password_it");}
   root=Files.createTempDirectory("pawday-pilot-it-");
-  app=new SpringApplicationBuilder(PawdayApplication.class).profiles("local","pilot").run(
+  app=new SpringApplicationBuilder(PawdayApplication.class,StableRateClock.class).profiles("local","pilot").run(
    "--server.port=0","--spring.datasource.url="+("jdbc:postgresql://127.0.0.1:"+pg.getPort()+"/pawday_pilot_password_it"),"--spring.datasource.username=postgres","--spring.datasource.password=postgres",
    "--pawday.pilot.root="+root,"--pawday.storage.local-root="+root.resolve("media"),"--pawday.auth.local-sms-directory="+root.resolve("sms"),
    "--pawday.auth.secret-key=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=","--spring.data.redis.host=127.0.0.1","--spring.rabbitmq.host=127.0.0.1","--pawday.search.url=http://127.0.0.1:9206",
