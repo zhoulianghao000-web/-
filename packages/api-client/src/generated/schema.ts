@@ -1,4 +1,4 @@
-// Generated from pawday-v3.2-b1.json; SHA256 86a1c72c80019984d3bf6f7963e067f1e219a17c9fb3a26024a2e5c2d58f69c3
+// Generated from pawday-v3.2-b2.json; SHA256 d1b5b08adc9927e938014db4973ffb6627b9c0ca429b44e4a7059f085d7a0857
 export interface paths {
     "/consumer/auth/phone/request-code": {
         parameters: {
@@ -6332,6 +6332,66 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/order-deliveries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Synthetic goods order get /merchant/stores/{store_id}/integration-connections/{connection_id}/order-deliveries
+         * @description Default off; non-production SIMULATED_TEST only. Server declaration requires actual goods collection. Clients cannot choose outcomes or amounts. Fixed identity, query before send, 60-second lease, eight attempts; pause, revocation and exhaustion preserve external fulfillment responsibility. No shipment, stock-prefix ACK or consumer receipt is created. Retry replays its original claim and returns the current authorized state.
+         */
+        get: operations["v32b2_get__merchant_stores_store_id_integration_connections_connection_id_order_deliveries"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/order-deliveries/{delivery_id}/requery": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Synthetic goods order post /merchant/stores/{store_id}/integration-connections/{connection_id}/order-deliveries/{delivery_id}/requery
+         * @description Default off; non-production SIMULATED_TEST only. Server declaration requires actual goods collection. Clients cannot choose outcomes or amounts. Fixed identity, query before send, 60-second lease, eight attempts; pause, revocation and exhaustion preserve external fulfillment responsibility. No shipment, stock-prefix ACK or consumer receipt is created. Retry replays its original claim and returns the current authorized state.
+         */
+        post: operations["v32b2_post__merchant_stores_store_id_integration_connections_connection_id_order_deliveries_delivery_id_requery"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/merchant/stores/{store_id}/integration-connections/{connection_id}/order-deliveries/{delivery_id}/retry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Synthetic goods order post /merchant/stores/{store_id}/integration-connections/{connection_id}/order-deliveries/{delivery_id}/retry
+         * @description Default off; non-production SIMULATED_TEST only. Server declaration requires actual goods collection. Clients cannot choose outcomes or amounts. Fixed identity, query before send, 60-second lease, eight attempts; pause, revocation and exhaustion preserve external fulfillment responsibility. No shipment, stock-prefix ACK or consumer receipt is created. Retry replays its original claim and returns the current authorized state.
+         */
+        post: operations["v32b2_post__merchant_stores_store_id_integration_connections_connection_id_order_deliveries_delivery_id_retry"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -6374,7 +6434,7 @@ export interface components {
         Proof: {
             reverify_token: string;
             /** @enum {string} */
-            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage" | "service.terms.review" | "service.trade.refund.review" | "service.trade.dispute.review" | "service.trade.settle" | "integration.manage" | "integration.mapping.write" | "integration.stock.apply";
+            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage" | "service.terms.review" | "service.trade.refund.review" | "service.trade.dispute.review" | "service.trade.settle" | "integration.manage" | "integration.mapping.write" | "integration.stock.apply" | "integration.delivery.retry";
             /** Format: date-time */
             expires_at: string;
         };
@@ -6458,7 +6518,7 @@ export interface components {
         };
         Reverify: {
             /** @enum {string} */
-            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage" | "service.terms.review" | "service.trade.refund.review" | "service.trade.dispute.review" | "service.trade.settle" | "integration.manage" | "integration.mapping.write" | "integration.stock.apply";
+            action: "access.role.write" | "session.revoke-others" | "outbox.replay" | "search.rebuild" | "search.reconcile" | "search.retry" | "pet.taxonomy.write" | "catalog.standard.write" | "offer.admin.manage" | "pricing.shipping.manage" | "order.policy.manage" | "payment.requery" | "aftersale.arbitrate" | "settlement.policy.manage" | "settlement.execute" | "ledger.adjust" | "membership.plan.manage" | "points.policy.manage" | "points.reward.manage" | "points.adjust" | "review.moderate" | "review.policy.manage" | "content.moderate" | "support.assign" | "nearby.moderate" | "ai.manage" | "invoice.handle" | "purchase-request.manage" | "service.terms.review" | "service.trade.refund.review" | "service.trade.dispute.review" | "service.trade.settle" | "integration.manage" | "integration.mapping.write" | "integration.stock.apply" | "integration.delivery.retry";
             password?: string;
             otp_code?: string;
         };
@@ -10906,6 +10966,39 @@ export interface components {
         };
         IntegrationStockApplicationListEnvelope: {
             data: components["schemas"]["IntegrationStockApplication"][];
+            meta: components["schemas"]["Meta"];
+            page: components["schemas"]["Page"];
+        };
+        IntegrationOrderDelivery: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            connection_id: string;
+            /** Format: uuid */
+            suborder_id: string;
+            business_key: string;
+            payload_sha256: string;
+            /** @enum {string} */
+            state: "READY" | "PROCESSING" | "UNKNOWN" | "ACCEPTED" | "REJECTED" | "NEEDS_REVIEW";
+            attempt_count: number;
+            /** @description Unresolved delivery result only. Consult fulfillment_hold_open for the independent native-write protection, including ACCEPTED. */
+            responsibility_open: boolean;
+            version: number;
+            /** @constant */
+            simulated: true;
+            /** @description External fulfillment hold survives ACCEPTED. Only a proven matching REJECTED releases native automatic writes. */
+            fulfillment_hold_open: boolean;
+        } & (unknown & unknown);
+        IntegrationOrderRetryInput: {
+            /** @constant */
+            reason_code: "TEST_SCENARIO_RETRY";
+        };
+        IntegrationOrderDeliveryEnvelope: {
+            data: components["schemas"]["IntegrationOrderDelivery"];
+            meta: components["schemas"]["Meta"];
+        };
+        IntegrationOrderDeliveryListEnvelope: {
+            data: components["schemas"]["IntegrationOrderDelivery"][];
             meta: components["schemas"]["Meta"];
             page: components["schemas"]["Page"];
         };
@@ -56221,6 +56314,284 @@ export interface operations {
                 };
             };
             /** @description Implemented synthetic response */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v32b2_get__merchant_stores_store_id_integration_connections_connection_id_order_deliveries: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                store_id: string;
+                connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Implemented synthetic goods delivery response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IntegrationOrderDeliveryListEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v32b2_post__merchant_stores_store_id_integration_connections_connection_id_order_deliveries_delivery_id_requery: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+            };
+            path: {
+                store_id: string;
+                connection_id: string;
+                delivery_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IntegrationEmpty"];
+            };
+        };
+        responses: {
+            /** @description Implemented synthetic goods delivery response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IntegrationOrderDeliveryEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+        };
+    };
+    v32b2_post__merchant_stores_store_id_integration_connections_connection_id_order_deliveries_delivery_id_retry: {
+        parameters: {
+            query?: never;
+            header: {
+                "Idempotency-Key": string;
+                "If-Match": string;
+                "X-Reverify-Token": string;
+            };
+            path: {
+                store_id: string;
+                connection_id: string;
+                delivery_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IntegrationOrderRetryInput"];
+            };
+        };
+        responses: {
+            /** @description Implemented synthetic goods delivery response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IntegrationOrderDeliveryEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorEnvelope"];
+                };
+            };
+            /** @description Implemented synthetic goods delivery response */
             503: {
                 headers: {
                     [name: string]: unknown;

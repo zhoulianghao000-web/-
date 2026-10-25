@@ -17,6 +17,7 @@ import tools.jackson.databind.json.JsonMapper;
 
 /** Paid cancellation of unshipped quantities: frozen-unit quota occupation, one-time restock, original-route refund intent. */
 @Service public class CancellationService {
+ @org.springframework.beans.factory.annotation.Autowired private cn.pawday.integration.IntegrationDeliveryFence integrationFence;
  private final JdbcTemplate db;private final TransactionTemplate tx;private final IdempotentCommandExecutor commands;private final RefundService refunds;private final OutboxWriter outbox;private final AuditWriter audit;private final cn.pawday.settlement.SettlementService settlement;private final Clock clock;
  private final JsonMapper json=JsonMapper.builder().build();
  public CancellationService(JdbcTemplate db,TransactionTemplate tx,IdempotentCommandExecutor commands,RefundService refunds,OutboxWriter outbox,AuditWriter audit,cn.pawday.settlement.SettlementService settlement,Clock clock){this.db=db;this.tx=tx;this.commands=commands;this.refunds=refunds;this.outbox=outbox;this.audit=audit;this.settlement=settlement;this.clock=clock;}
@@ -76,6 +77,7 @@ import tools.jackson.databind.json.JsonMapper;
    var payment=one("SELECT * FROM payments WHERE order_id=? FOR UPDATE",order);
    if(!payment.get("status").equals("SUCCEEDED"))throw new Failure(409,"ORDER_NOT_PAID");
    UUID cid=UUID.randomUUID();
+   integrationFence.requireNative(sub);
    db.update("INSERT INTO order_cancellations(id,order_id,suborder_id,actor_type,actor_id,reason_code,status) VALUES (?,?,?,?,?,?,'ACCEPTED')",cid,order,sub,merchant?"MERCHANT":"CONSUMER",a.principalId(),reason);
    event(cid,"REQUESTED","ACCEPTED",reason);
    record Item(UUID itemId,UUID cancellationItemId,int qty,long amount){}

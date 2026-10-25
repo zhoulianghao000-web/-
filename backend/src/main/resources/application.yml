@@ -64,6 +64,7 @@ pawday:
     simulation-enabled: ${PAWDAY_ERP_WMS_SIMULATION_ENABLED:false}
     provider: ${PAWDAY_ERP_WMS_PROVIDER:SIMULATED_TEST}
     fixture-scenario: ${PAWDAY_ERP_WMS_FIXTURE_SCENARIO:EMPTY}
+    delivery-scenario: ${PAWDAY_ERP_WMS_DELIVERY_SCENARIO:EMPTY}
   operations:
     scrape-token: ${PAWDAY_METRICS_SCRAPE_TOKEN:}
   data-encryption:

@@ -1,4 +1,4 @@
-// Generated from Pawday runtime OpenAPI; SHA256 86a1c72c80019984d3bf6f7963e067f1e219a17c9fb3a26024a2e5c2d58f69c3
+// Generated from Pawday runtime OpenAPI; SHA256 d1b5b08adc9927e938014db4973ffb6627b9c0ca429b44e4a7059f085d7a0857
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names, use_null_aware_elements, prefer_null_aware_operators
 
 class Meta {
@@ -12033,6 +12033,89 @@ class IntegrationStockApplicationListEnvelope {
   };
 }
 
+class IntegrationOrderDelivery {
+  final String id;
+  final String connection_id;
+  final String suborder_id;
+  final String business_key;
+  final String payload_sha256;
+  final String state;
+  final int attempt_count;
+  final bool responsibility_open;
+  final int version;
+  final bool simulated;
+  final bool fulfillment_hold_open;
+  const IntegrationOrderDelivery({required this.id, required this.connection_id, required this.suborder_id, required this.business_key, required this.payload_sha256, required this.state, required this.attempt_count, required this.responsibility_open, required this.version, required this.simulated, required this.fulfillment_hold_open});
+  factory IntegrationOrderDelivery.fromJson(Map<String,dynamic> json) => IntegrationOrderDelivery(
+    id: json['id'] as String,
+    connection_id: json['connection_id'] as String,
+    suborder_id: json['suborder_id'] as String,
+    business_key: json['business_key'] as String,
+    payload_sha256: json['payload_sha256'] as String,
+    state: json['state'] as String,
+    attempt_count: (json['attempt_count'] as num).toInt(),
+    responsibility_open: json['responsibility_open'] as bool,
+    version: (json['version'] as num).toInt(),
+    simulated: json['simulated'] as bool,
+    fulfillment_hold_open: json['fulfillment_hold_open'] as bool,
+  );
+  Map<String,dynamic> toJson() => {
+    'id': id,
+    'connection_id': connection_id,
+    'suborder_id': suborder_id,
+    'business_key': business_key,
+    'payload_sha256': payload_sha256,
+    'state': state,
+    'attempt_count': attempt_count,
+    'responsibility_open': responsibility_open,
+    'version': version,
+    'simulated': simulated,
+    'fulfillment_hold_open': fulfillment_hold_open,
+  };
+}
+
+class IntegrationOrderRetryInput {
+  final String reason_code;
+  const IntegrationOrderRetryInput({required this.reason_code});
+  factory IntegrationOrderRetryInput.fromJson(Map<String,dynamic> json) => IntegrationOrderRetryInput(
+    reason_code: json['reason_code'] as String,
+  );
+  Map<String,dynamic> toJson() => {
+    'reason_code': reason_code,
+  };
+}
+
+class IntegrationOrderDeliveryEnvelope {
+  final IntegrationOrderDelivery data;
+  final Meta meta;
+  const IntegrationOrderDeliveryEnvelope({required this.data, required this.meta});
+  factory IntegrationOrderDeliveryEnvelope.fromJson(Map<String,dynamic> json) => IntegrationOrderDeliveryEnvelope(
+    data: IntegrationOrderDelivery.fromJson(Map<String,dynamic>.from(json['data'] as Map)),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.toJson(),
+    'meta': meta.toJson(),
+  };
+}
+
+class IntegrationOrderDeliveryListEnvelope {
+  final List<IntegrationOrderDelivery> data;
+  final Meta meta;
+  final Page page;
+  const IntegrationOrderDeliveryListEnvelope({required this.data, required this.meta, required this.page});
+  factory IntegrationOrderDeliveryListEnvelope.fromJson(Map<String,dynamic> json) => IntegrationOrderDeliveryListEnvelope(
+    data: (json['data'] as List).map((value) => IntegrationOrderDelivery.fromJson(Map<String,dynamic>.from(value as Map))).toList(),
+    meta: Meta.fromJson(Map<String,dynamic>.from(json['meta'] as Map)),
+    page: Page.fromJson(Map<String,dynamic>.from(json['page'] as Map)),
+  );
+  Map<String,dynamic> toJson() => {
+    'data': data.map((value) => value.toJson()).toList(),
+    'meta': meta.toJson(),
+    'page': page.toJson(),
+  };
+}
+
 class ApiRoutes {
   static const post_consumer_auth_phone_request_code = '/consumer/auth/phone/request-code';
   static const post_consumer_auth_phone_verify = '/consumer/auth/phone/verify';
@@ -12441,4 +12524,7 @@ class ApiRoutes {
   static const v32b1_post__merchant_stores_store_id_integration_connections_connection_id_inventory_events_event_id_previews = '/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events/{event_id}/previews';
   static const v32b1_post__merchant_stores_store_id_integration_connections_connection_id_inventory_previews_preview_id_apply = '/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-previews/{preview_id}/apply';
   static const v32b1_get__merchant_stores_store_id_integration_connections_connection_id_inventory_applications = '/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-applications';
+  static const v32b2_get__merchant_stores_store_id_integration_connections_connection_id_order_deliveries = '/merchant/stores/{store_id}/integration-connections/{connection_id}/order-deliveries';
+  static const v32b2_post__merchant_stores_store_id_integration_connections_connection_id_order_deliveries_delivery_id_requery = '/merchant/stores/{store_id}/integration-connections/{connection_id}/order-deliveries/{delivery_id}/requery';
+  static const v32b2_post__merchant_stores_store_id_integration_connections_connection_id_order_deliveries_delivery_id_retry = '/merchant/stores/{store_id}/integration-connections/{connection_id}/order-deliveries/{delivery_id}/retry';
 }

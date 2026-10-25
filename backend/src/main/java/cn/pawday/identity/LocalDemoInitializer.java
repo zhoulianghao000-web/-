@@ -34,7 +34,7 @@ public class LocalDemoInitializer implements ApplicationRunner {
                 role("MERCHANT","LOCAL_STORE_READER",List.of("service.terms.write","service.trade.read","service.trade.cancel","service.trade.fulfill","service.trade.dispute.read","service.trade.ledger.read"));
                 role("ADMIN","LOCAL_PLATFORM_ADMIN",List.of("service.terms.review","service.trade.admin.read","service.trade.refund.assess","service.trade.refund.review","service.trade.dispute.review","service.trade.settle"));
             }
-            if(env.getProperty("pawday.erp-wms.simulation-enabled",Boolean.class,false)) role("MERCHANT","LOCAL_STORE_READER",List.of("integration.read","integration.manage","integration.mapping.write","integration.stock.assess","integration.stock.apply"));
+            if(env.getProperty("pawday.erp-wms.simulation-enabled",Boolean.class,false)) role("MERCHANT","LOCAL_STORE_READER",List.of("integration.read","integration.manage","integration.mapping.write","integration.stock.assess","integration.stock.apply","integration.delivery.requery","integration.delivery.retry"));
             for(String label:List.of("a","b")) {
                 UUID merchant=id("merchant-"+label),store=id("store-"+label),principal=id("staff-"+label);
                 db.update("INSERT INTO merchant(id,name,status) VALUES (?,?,'ACTIVE') ON CONFLICT(id) DO NOTHING",merchant,"LOCAL DEMO Merchant "+label);

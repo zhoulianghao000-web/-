@@ -16,6 +16,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 /** After-sale lifecycle: quantity locked through claims, platform arbitration with reverify, restock once on accepted returns. */
 @Service public class AfterSaleService {
+ @org.springframework.beans.factory.annotation.Autowired private cn.pawday.integration.IntegrationDeliveryFence integrationFence;
  private final JdbcTemplate db;private final TransactionTemplate tx;private final IdempotentCommandExecutor commands;private final RefundService refunds;private final OutboxWriter outbox;private final AuditWriter audit;private final AuthService auth;private final cn.pawday.settlement.SettlementService settlement;private final Clock clock;
  private final tools.jackson.databind.json.JsonMapper json=tools.jackson.databind.json.JsonMapper.builder().build();
  public AfterSaleService(JdbcTemplate db,TransactionTemplate tx,IdempotentCommandExecutor commands,RefundService refunds,OutboxWriter outbox,AuditWriter audit,AuthService auth,cn.pawday.settlement.SettlementService settlement,Clock clock){this.db=db;this.tx=tx;this.commands=commands;this.refunds=refunds;this.outbox=outbox;this.audit=audit;this.auth=auth;this.settlement=settlement;this.clock=clock;}
@@ -126,6 +127,7 @@ import org.springframework.transaction.support.TransactionTemplate;
   var held=commands.command(a,action+":"+aid,key,Map.of("body",body,"version",expected),()->{
    var row=authorize(a,aid,true);
    one("SELECT id FROM orders WHERE id=? FOR UPDATE",row.get("order_id"));one("SELECT id FROM suborders WHERE id=? FOR UPDATE",row.get("suborder_id"));
+   if(action.equals("aftersale.decide")&&Set.of("APPROVE_REFUND","APPROVE_RETURN").contains(body.get("action"))||action.equals("aftersale.inspect")&&"ACCEPT".equals(body.get("action"))||action.equals("aftersale.arbitrate")&&"REFUND_APPROVED".equals(body.get("decision"))){one("SELECT id FROM payments WHERE order_id=? FOR UPDATE",row.get("order_id"));integrationFence.requireNative((UUID)row.get("suborder_id"));}
    var locked=one("SELECT * FROM aftersales WHERE id=? FOR UPDATE",aid);
    if(n(locked.get("version"))!=expected)throw new Failure(409,"CONCURRENT_MODIFICATION");
    return Map.of("payment",Optional.ofNullable(work.apply(locked)).map(Object::toString).orElse(""),"id",aid.toString());
