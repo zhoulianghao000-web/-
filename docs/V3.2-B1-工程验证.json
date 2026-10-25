@@ -1,0 +1,1421 @@
+{
+  "result": "PASS",
+  "stage": "V3.2-B1-DEVELOPMENT-COMPLETE",
+  "tested_commit": "cefe6fa8d8a6cc12994287c3cea3ad1a23d566eb",
+  "ci_jobs": 9,
+  "ci_runs": [
+    {
+      "id": 40153089776,
+      "url": "https://github.com/zhoulianghao000-web/-/actions/runs/40153089776",
+      "conclusion": "success"
+    },
+    {
+      "id": 40153089715,
+      "url": "https://github.com/zhoulianghao000-web/-/actions/runs/40153089715",
+      "conclusion": "success"
+    }
+  ],
+  "backend": {
+    "surefire": {
+      "tests": 710,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "failsafe": {
+      "tests": 85,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "critical_test_classes": {
+    "cn.pawday.integration.V32InventoryIntegrationTests": 32,
+    "cn.pawday.integration.IntegrationPolicyTests": 5,
+    "cn.pawday.integration.V32MigrationTests": 1,
+    "cn.pawday.AfterSaleRefundIntegrationTests": 32,
+    "cn.pawday.IdentitySecurityIntegrationTests": 43,
+    "cn.pawday.BusinessSearchIT": 21
+  },
+  "web_tests": 116,
+  "consumer_tests": 138,
+  "consumer_pilot_tests": 16,
+  "real_browser_scenarios": 3,
+  "consumer_real_http_tests": 2,
+  "script_tests": 121,
+  "b1_actual_contract": {
+    "result": "PASS",
+    "stage": "V3.2-B1",
+    "evidence_kind": "REAL_HTTP_SYNTHETIC_BUSINESS",
+    "runtime_verified": true,
+    "real_payment_verified": false,
+    "inventory_integration_implemented": true,
+    "real_supplier_verified": false,
+    "real_payout_verified": false,
+    "final_e2e_acceptance": false,
+    "operations": 10,
+    "actual_responses": 264,
+    "coverage": [
+      [
+        "/merchant/stores/{store_id}/integration-connections",
+        "get",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections",
+        "get",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections",
+        "get",
+        "401"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections",
+        "get",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections",
+        "get",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections",
+        "get",
+        "503"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections",
+        "post",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections",
+        "post",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections",
+        "post",
+        "401"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections",
+        "post",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections",
+        "post",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections",
+        "post",
+        "503"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-applications",
+        "get",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-applications",
+        "get",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-applications",
+        "get",
+        "401"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-applications",
+        "get",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-applications",
+        "get",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-applications",
+        "get",
+        "503"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events",
+        "get",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events",
+        "get",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events",
+        "get",
+        "401"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events",
+        "get",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events",
+        "get",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events",
+        "get",
+        "503"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events/{event_id}/previews",
+        "post",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events/{event_id}/previews",
+        "post",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events/{event_id}/previews",
+        "post",
+        "401"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events/{event_id}/previews",
+        "post",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events/{event_id}/previews",
+        "post",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-events/{event_id}/previews",
+        "post",
+        "503"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-previews/{preview_id}/apply",
+        "post",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-previews/{preview_id}/apply",
+        "post",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-previews/{preview_id}/apply",
+        "post",
+        "401"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-previews/{preview_id}/apply",
+        "post",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-previews/{preview_id}/apply",
+        "post",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-previews/{preview_id}/apply",
+        "post",
+        "409"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/inventory-previews/{preview_id}/apply",
+        "post",
+        "503"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings",
+        "get",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings",
+        "get",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings",
+        "get",
+        "401"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings",
+        "get",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings",
+        "get",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings",
+        "get",
+        "503"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings",
+        "post",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings",
+        "post",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings",
+        "post",
+        "401"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings",
+        "post",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings",
+        "post",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings",
+        "post",
+        "409"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings",
+        "post",
+        "503"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings/{mapping_id}/state",
+        "put",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings/{mapping_id}/state",
+        "put",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings/{mapping_id}/state",
+        "put",
+        "401"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings/{mapping_id}/state",
+        "put",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings/{mapping_id}/state",
+        "put",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings/{mapping_id}/state",
+        "put",
+        "409"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/mappings/{mapping_id}/state",
+        "put",
+        "503"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/state",
+        "put",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/state",
+        "put",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/state",
+        "put",
+        "401"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/state",
+        "put",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/state",
+        "put",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/state",
+        "put",
+        "409"
+      ],
+      [
+        "/merchant/stores/{store_id}/integration-connections/{connection_id}/state",
+        "put",
+        "503"
+      ]
+    ]
+  },
+  "legacy_service_actual_contract": {
+    "result": "PASS",
+    "stage": "V3.1.3-B3",
+    "evidence_kind": "REAL_HTTP_SYNTHETIC_BUSINESS",
+    "runtime_verified": true,
+    "real_payment_verified": false,
+    "settlement_implemented": true,
+    "real_payout_verified": false,
+    "final_e2e_acceptance": false,
+    "operations": 33,
+    "actual_responses": 791,
+    "coverage": [
+      [
+        "/admin/merchants/{merchant_id}/service-trade-reconciliation",
+        "get",
+        "200"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-reconciliation",
+        "get",
+        "400"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-reconciliation",
+        "get",
+        "401"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-reconciliation",
+        "get",
+        "403"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-reconciliation",
+        "get",
+        "404"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-reconciliation",
+        "get",
+        "503"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-settlement-previews",
+        "post",
+        "200"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-settlement-previews",
+        "post",
+        "400"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-settlement-previews",
+        "post",
+        "401"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-settlement-previews",
+        "post",
+        "403"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-settlement-previews",
+        "post",
+        "404"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-settlement-previews",
+        "post",
+        "503"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-settlements",
+        "post",
+        "200"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-settlements",
+        "post",
+        "400"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-settlements",
+        "post",
+        "401"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-settlements",
+        "post",
+        "403"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-settlements",
+        "post",
+        "404"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-settlements",
+        "post",
+        "409"
+      ],
+      [
+        "/admin/merchants/{merchant_id}/service-trade-settlements",
+        "post",
+        "503"
+      ],
+      [
+        "/admin/service-trade-orders/{id}",
+        "get",
+        "200"
+      ],
+      [
+        "/admin/service-trade-orders/{id}",
+        "get",
+        "400"
+      ],
+      [
+        "/admin/service-trade-orders/{id}",
+        "get",
+        "401"
+      ],
+      [
+        "/admin/service-trade-orders/{id}",
+        "get",
+        "403"
+      ],
+      [
+        "/admin/service-trade-orders/{id}",
+        "get",
+        "404"
+      ],
+      [
+        "/admin/service-trade-orders/{id}",
+        "get",
+        "503"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/disputes",
+        "get",
+        "200"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/disputes",
+        "get",
+        "400"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/disputes",
+        "get",
+        "401"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/disputes",
+        "get",
+        "403"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/disputes",
+        "get",
+        "404"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/disputes",
+        "get",
+        "503"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/disputes/{dispute_id}/decisions",
+        "post",
+        "200"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/disputes/{dispute_id}/decisions",
+        "post",
+        "400"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/disputes/{dispute_id}/decisions",
+        "post",
+        "401"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/disputes/{dispute_id}/decisions",
+        "post",
+        "403"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/disputes/{dispute_id}/decisions",
+        "post",
+        "404"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/disputes/{dispute_id}/decisions",
+        "post",
+        "409"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/disputes/{dispute_id}/decisions",
+        "post",
+        "503"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/refund-assessments",
+        "post",
+        "200"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/refund-assessments",
+        "post",
+        "400"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/refund-assessments",
+        "post",
+        "401"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/refund-assessments",
+        "post",
+        "403"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/refund-assessments",
+        "post",
+        "404"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/refund-assessments",
+        "post",
+        "409"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/refund-assessments",
+        "post",
+        "503"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/refund-decisions",
+        "post",
+        "200"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/refund-decisions",
+        "post",
+        "400"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/refund-decisions",
+        "post",
+        "401"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/refund-decisions",
+        "post",
+        "403"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/refund-decisions",
+        "post",
+        "404"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/refund-decisions",
+        "post",
+        "409"
+      ],
+      [
+        "/admin/service-trade-orders/{id}/refund-decisions",
+        "post",
+        "503"
+      ],
+      [
+        "/admin/service-trade-terms",
+        "get",
+        "200"
+      ],
+      [
+        "/admin/service-trade-terms/{id}/review",
+        "post",
+        "200"
+      ],
+      [
+        "/admin/service-trade-terms/{id}/review",
+        "post",
+        "403"
+      ],
+      [
+        "/admin/service-trade-terms/{id}/review",
+        "post",
+        "503"
+      ],
+      [
+        "/consumer/booking-services/{id}/trade-terms",
+        "get",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "get",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "get",
+        "400"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "get",
+        "401"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "get",
+        "403"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "post",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "post",
+        "400"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "post",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-orders",
+        "post",
+        "409"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}",
+        "get",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}",
+        "get",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/cancel",
+        "post",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/cancel",
+        "post",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/cancel",
+        "post",
+        "409"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/credential",
+        "get",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/credential",
+        "get",
+        "400"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/credential",
+        "get",
+        "401"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/credential",
+        "get",
+        "403"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/credential",
+        "get",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/credential",
+        "get",
+        "409"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/credential",
+        "get",
+        "503"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/disputes",
+        "get",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/disputes",
+        "get",
+        "400"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/disputes",
+        "get",
+        "401"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/disputes",
+        "get",
+        "403"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/disputes",
+        "get",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/disputes",
+        "get",
+        "503"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/disputes",
+        "post",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/disputes",
+        "post",
+        "400"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/disputes",
+        "post",
+        "401"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/disputes",
+        "post",
+        "403"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/disputes",
+        "post",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/disputes",
+        "post",
+        "409"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/disputes",
+        "post",
+        "503"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/fulfillment",
+        "get",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/fulfillment",
+        "get",
+        "400"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/fulfillment",
+        "get",
+        "401"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/fulfillment",
+        "get",
+        "403"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/fulfillment",
+        "get",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/fulfillment",
+        "get",
+        "503"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment",
+        "get",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment",
+        "get",
+        "400"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment",
+        "get",
+        "401"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment",
+        "get",
+        "403"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment",
+        "get",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment",
+        "get",
+        "503"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment-attempts",
+        "post",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment-attempts",
+        "post",
+        "400"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment-attempts",
+        "post",
+        "401"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment-attempts",
+        "post",
+        "403"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment-attempts",
+        "post",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment-attempts",
+        "post",
+        "409"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment-attempts",
+        "post",
+        "503"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment-requery",
+        "post",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment-requery",
+        "post",
+        "400"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment-requery",
+        "post",
+        "401"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment-requery",
+        "post",
+        "403"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment-requery",
+        "post",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment-requery",
+        "post",
+        "409"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/payment-requery",
+        "post",
+        "503"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/refunds",
+        "get",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/refunds",
+        "get",
+        "400"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/refunds",
+        "get",
+        "401"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/refunds",
+        "get",
+        "403"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/refunds",
+        "get",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-orders/{id}/refunds",
+        "get",
+        "503"
+      ],
+      [
+        "/consumer/service-trade-quotes",
+        "post",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-quotes",
+        "post",
+        "404"
+      ],
+      [
+        "/consumer/service-trade-quotes",
+        "post",
+        "409"
+      ],
+      [
+        "/consumer/service-trade-terms/{id}",
+        "get",
+        "200"
+      ],
+      [
+        "/consumer/service-trade-terms/{id}",
+        "get",
+        "409"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-ledger",
+        "get",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-ledger",
+        "get",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-ledger",
+        "get",
+        "401"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-ledger",
+        "get",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-ledger",
+        "get",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-ledger",
+        "get",
+        "503"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders",
+        "get",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders",
+        "get",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders",
+        "get",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/cancel",
+        "post",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/cancel",
+        "post",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/cancel",
+        "post",
+        "401"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/cancel",
+        "post",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/cancel",
+        "post",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/cancel",
+        "post",
+        "409"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/cancel",
+        "post",
+        "503"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/disputes",
+        "get",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/disputes",
+        "get",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/disputes",
+        "get",
+        "401"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/disputes",
+        "get",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/disputes",
+        "get",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/disputes",
+        "get",
+        "503"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment",
+        "get",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment",
+        "get",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment",
+        "get",
+        "401"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment",
+        "get",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment",
+        "get",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment",
+        "get",
+        "503"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment",
+        "post",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment",
+        "post",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment",
+        "post",
+        "401"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment",
+        "post",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment",
+        "post",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment",
+        "post",
+        "409"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-orders/{id}/fulfillment",
+        "post",
+        "503"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "get",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "get",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "post",
+        "200"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "post",
+        "400"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "post",
+        "403"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "post",
+        "404"
+      ],
+      [
+        "/merchant/stores/{store_id}/service-trade-terms",
+        "post",
+        "409"
+      ]
+    ]
+  },
+  "inventory_schema": {
+    "result": "PASS",
+    "schema_version": "pawday-privacy-review/v1",
+    "scope": "SCHEMA_COVERAGE_ONLY",
+    "tables": 184,
+    "columns": 1533,
+    "schema_sha256": "f8c9bfc2d40b54d58960291e316cc4d7d59eaf9604c92482817700f31f78de33",
+    "domains": {
+      "aftersale_refunds": 12,
+      "ai": 13,
+      "catalog": 11,
+      "checkout": 13,
+      "delivery": 3,
+      "fulfillment": 3,
+      "identity_audit": 18,
+      "media": 1,
+      "membership_points": 8,
+      "nearby": 2,
+      "offers_inventory": 4,
+      "orders": 14,
+      "payments": 8,
+      "pets": 15,
+      "privacy_journal": 3,
+      "reviews_content": 9,
+      "search": 5,
+      "service_booking": 11,
+      "service_trade_operations_and_settlement": 9,
+      "settlement": 9,
+      "support_notifications": 6,
+      "synthetic_integrations": 7
+    },
+    "pending_policy_domains": 22,
+    "pending_external_surfaces": 7,
+    "account_deletion_ready": false,
+    "deletion_authorized": false,
+    "production_ready": false
+  },
+  "inventory_browser_flow": {
+    "stage": "V3.2-B1",
+    "evidence": "REAL_UI_HTTP_POSTGRES_SYNTHETIC_PROVIDER",
+    "connection_id": "38541211-8ce0-4af6-906e-3141e869b0cb",
+    "mapping_id": "727df0f8-8381-44e0-94af-c958938364e0",
+    "event_id": "32ce59da-b219-4fa2-ab5f-05612250c206",
+    "preview_id": "721baa51-49c6-4775-b3b1-bd689aaadad9",
+    "application_id": "819ac234-2f9e-4f1d-b482-7f8d9df5e4d8",
+    "ui_target": 10,
+    "persisted_on_hand": 10,
+    "consumer_available": 10,
+    "actual_requests": [
+      {
+        "operation": "create",
+        "status": 200
+      },
+      {
+        "operation": "bind",
+        "status": 200
+      },
+      {
+        "operation": "preview",
+        "status": 200
+      },
+      {
+        "operation": "apply",
+        "status": 200
+      }
+    ],
+    "baseline_reset": "ORIGINAL_COUNT_CORRECTION_MINUS_10",
+    "final_e2e_acceptance": false,
+    "real_supplier_verified": false
+  },
+  "legacy_service_browser_flow": {
+    "result": "PASS",
+    "stage": "V3.1.3-B3-DEVELOPMENT-REAL-UI",
+    "synthetic_only": true,
+    "independent_final_acceptance": false,
+    "service_id": "bdec0ae3-ad50-413c-8857-e5581f9c9f2b",
+    "terms_id": "f356b9f9-1e97-4c02-911e-eecc4ca6663e",
+    "trade_id": "f71ce5f2-b1f7-4e60-9501-dd9c94dbe88c",
+    "cancelled_trade_id": "806c2ba0-39a1-4b16-a541-fc0f60857da8",
+    "settlement_id": "56058900-826a-40fd-b74b-97be60d244ef",
+    "collection_fen": 101,
+    "commission_fen": 3,
+    "payout_fen": 98,
+    "refund_fen": 101,
+    "actual_requests_and_persisted_rereads": true,
+    "consumer_commission_hidden": true,
+    "dispute_frozen": true,
+    "dispute_resolved_without_financial_change": true,
+    "rejected_refund_id_null": true,
+    "service_ledger_balance_fen": 0
+  },
+  "image_security": {
+    "result": "PASS",
+    "source_secrets": 0,
+    "images": [
+      {
+        "image": "pawday-postgres:17.11-security20261013",
+        "known_vulnerabilities": 0
+      },
+      {
+        "image": "pawday-redis:8.2.10-security20261013",
+        "known_vulnerabilities": 0
+      },
+      {
+        "image": "pawday-rabbitmq:4.3.6-security20261013",
+        "known_vulnerabilities": 0
+      },
+      {
+        "image": "pawday-opensearch:3.9.0-security20261013",
+        "known_vulnerabilities": 0
+      }
+    ],
+    "tool_versions": {
+      "gitleaks": "8.30.1",
+      "trivy": "0.75.0"
+    },
+    "scanner_release_checksums_verified": true
+  },
+  "current_runtime_blob_count": 563,
+  "migration_count": 36,
+  "historical_a_commit": "356efee6516abdfa7b557d0cbedefb96970cd985",
+  "external_gaps_pending": 12,
+  "v32_b1_development_complete": true,
+  "v32_b1_implemented": true,
+  "runtime_implemented": true,
+  "evidence_kind": "REAL_PG_HTTP_UI_SYNTHETIC_PROVIDER",
+  "new_v32_runtime_operations": 10,
+  "new_v32_actual_http_responses": 264,
+  "v32_b2_implemented": false,
+  "v32_b3_implemented": false,
+  "v32_development_complete": false,
+  "v3_complete": false,
+  "real_supplier_verified": false,
+  "real_payment_verified": false,
+  "real_payout_verified": false,
+  "final_end_to_end_acceptance_executed": false,
+  "final_apk_delivered": false,
+  "desktop_program_updated": false,
+  "private_data_modified": false,
+  "phone_operations_performed": false,
+  "production_ready": false,
+  "failure_history": [
+    {
+      "commit": "44a8ec44eadd38542ff29cf2b7fb62805b3b905c",
+      "backend_run": 40057325410,
+      "frontend_run": 40057325384,
+      "jobs": [
+        120763074167,
+        120763073954,
+        120763074052
+      ],
+      "causes": [
+        "undici security advisories, fixed lock-only to 8.12.3",
+        "real request 200 captured at browser proxy 5173; incorrect direct 8080 URL waiter fixed by exact method/path",
+        "current B1 response wrongly stored in historical identity samples; preserved validators and separated current samples with full B1 validation"
+      ]
+    },
+    {
+      "commit": "b563d8b7a7ce97a99035783fe50d389a69556628",
+      "backend_run": 40058299747,
+      "frontend_run": 40058299733,
+      "jobs": [
+        120766068878
+      ],
+      "cause": "Actual paused connection and zero-stock option existed; nested select needed a stable accessible name. Added explicit aria-label and mapping submission regression; all six backend jobs of that round passed, but B1 was not closed."
+    }
+  ],
+  "review_history": [
+    {
+      "commit": "c63e41161e45a9036c4516a2d1754805a204e34d",
+      "backend_run": 40059317257,
+      "frontend_run": 40059317192,
+      "ci_all_passed": true,
+      "b1_closed": false,
+      "reason": "Final requirement review reproduced zero-stock takeover while an old completed-order aftersale remained pending; append V036 and verify original terminal decisions/compensation recovery before closing.",
+      "next_migrations": {
+        "b2": "V037",
+        "b3": "V038"
+      }
+    }
+  ]
+}
